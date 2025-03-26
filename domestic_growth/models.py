@@ -11,7 +11,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
-from domestic_growth import cms_panels, helpers
+from domestic_growth import choices, cms_panels, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -325,3 +325,22 @@ class StartingABusinessTriage(TimeStampedModel):
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
+
+
+class ExistingBusinessTriage(TimeStampedModel):
+    # never assume email is unique in this table as users can complete the triage in different
+    # browsers / incognito mode
+    email = models.CharField(max_length=255, null=True, blank=True)
+    # the session_id is either a django session id from request.session.session_key or
+    # in the case where a user has not accepted cookies a UUIDV4
+    session_id = models.CharField(max_length=40, unique=True)
+    sector_id = models.CharField(max_length=10, null=True, blank=True)
+    cant_find_sector = models.BooleanField(default=False, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)
+    when_set_up = models.CharField(
+        max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_WHEN_SET_UP_CHOICES
+    )
+    turnover = models.CharField(
+        max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
+    )
+    currently_export = models.BooleanField(default=False, null=True, blank=True)

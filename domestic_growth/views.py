@@ -5,11 +5,17 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView
 from pydantic import HttpUrl
 
+from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.forms import (
+    ExistingBusinessCurrentlyExportForm,
+    ExistingBusinessLocationForm,
+    ExistingBusinessSectorForm,
+    ExistingBusinessTurnoverForm,
+    ExistingBusinessWhenSetUpForm,
     StartingABusinessLocationForm,
     StartingABusinessSectorForm,
 )
-from domestic_growth.models import StartingABusinessTriage
+from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 
@@ -38,8 +44,8 @@ class BaseTriageFormView(FormView):
 
     def get_success_url(self, success_url: str, params: dict = {}) -> HttpUrl:
         """
-        Accepts a success view name for example, 'domestic_growth:domestic-growth-starting-a-business-sector`
-        and if we are using a uuid as opposed to a session_key appends a query string parameter
+        Accepts a success url and if we are using a uuid as opposed to a session_key appends a
+        query string parameter
         """
         try:
             if type(self.session_id) is UUID or type(UUID(self.session_id)) is UUID:
@@ -98,3 +104,116 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_success_url('/support-in-uk/pre-start-guide/')
+
+
+class ExistingBusinessLocationFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-location.html'
+    form_class = ExistingBusinessLocationForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'postcode': form.cleaned_data['postcode'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-sector'))
+
+
+class ExistingBusinessSectorFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-sector.html'
+    form_class = ExistingBusinessSectorForm
+
+    def get_context_data(self, **kwargs):
+        dbt_sectors = get_dbt_sectors()
+        autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
+
+        return super().get_context_data(
+            **kwargs,
+            autocomplete_sector_data=autocomplete_sector_data,
+        )
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'sector_id': form.cleaned_data['sector'],
+                    'cant_find_sector': form.cleaned_data['cant_find_sector'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-when-set-up'))
+
+
+class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-when-set-up.html'
+    form_class = ExistingBusinessWhenSetUpForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'when_set_up': form.cleaned_data['when_set_up'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-turnover'))
+
+
+class ExistingBusinessTurnoverFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-turnover.html'
+    form_class = ExistingBusinessTurnoverForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'turnover': form.cleaned_data['turnover'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-exporter'))
+
+
+class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-currently-export.html'
+    form_class = ExistingBusinessCurrentlyExportForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'currently_export': form.cleaned_data['currently_export'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+
+        triage_data = ExistingBusinessTriage.objects.get(session_id=self.session_id)
+
+        success_url = '/established-guide'
+
+        if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
+            success_url = '/start-up-guide'
+
+        return super().get_success_url(success_url)

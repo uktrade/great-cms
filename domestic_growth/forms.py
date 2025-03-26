@@ -8,7 +8,12 @@ from django.forms import (
 )
 from great_components import forms
 
+from contact import widgets as contact_widgets
 from core.validators import is_valid_uk_postcode
+from domestic_growth.choices import (
+    EXISTING_BUSINESS_TURNOVER_CHOICES,
+    EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
+)
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 
@@ -58,8 +63,94 @@ class StartingABusinessSectorForm(forms.Form):
 
         if not (sector or dont_know_sector_yet):
             self.add_error(
-                'sector', 'Enter your sector or industry and select the closest result, or select I don’t know yet'
+                'sector',
+                'Enter your sector or industry and select the closest result, or select I don’t know yet',  # NOQA: E501
             )
+
+
+class ExistingBusinessLocationForm(forms.Form):
+    postcode = CharField(
+        label='Postcode',
+        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        max_length=10,
+        error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
+        validators=[is_valid_uk_postcode],
+    )
+
+
+class ExistingBusinessSectorForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sector_choices = region_sector_helpers.get_sectors_as_choices(sector_data_json)
+        self.fields['sector'].choices = (('', 'Choose a sector or industry'),) + self.sector_choices
+
+    # sector sub choices are set in form constructor to avoid side effects when importing module
+    sector = ChoiceField(
+        label=False,
+        help_text='Enter your sector or industry and select the closest result',
+        required=False,
+        widget=Select(
+            attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
+        ),
+        choices=(('', ''),),
+        error_messages={
+            'required': 'Enter your sector or industry and select the closest result',
+        },
+    )
+    cant_find_sector = BooleanField(
+        required=False,
+        initial=False,
+        label="I cannot find my sector or industry",
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+    )
+
+    def clean(self):
+        # require either sector or explicit, I don't know yet
+        cleaned_data = super().clean()
+        sector = cleaned_data['sector']
+        cant_find_sector = cleaned_data['cant_find_sector']
+
+        if not (sector or cant_find_sector):
+            self.add_error(
+                'sector',
+                "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'",  # NOQA: E501
+            )
+
+
+class ExistingBusinessWhenSetUpForm(forms.Form):
+    when_set_up = ChoiceField(
+        label='',
+        required=True,
+        widget=contact_widgets.GreatRadioSelect,
+        choices=EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
+        error_messages={
+            'required': 'Select when you set up your business',
+        },
+    )
+
+
+class ExistingBusinessTurnoverForm(forms.Form):
+    turnover = ChoiceField(
+        label='',
+        required=True,
+        widget=contact_widgets.GreatRadioSelect,
+        choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
+        error_messages={
+            'required': "Select last financial year’s turnover, or select ‘Prefer not to say’",
+        },
+    )
+
+
+class ExistingBusinessCurrentlyExportForm(forms.Form):
+    currently_export = BooleanField(
+        label='',
+        required=True,
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'Select if you currently export your products or services overseas',
+        },
+    )
 
 
 class StartingABusinessForm(forms.Form):
