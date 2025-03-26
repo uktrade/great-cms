@@ -1253,7 +1253,7 @@ def test_anchor_identifier_entity_element_handler():
 
 @freeze_time('2024-01-01 01:00:00')
 @pytest.mark.django_db
-def test_set_default_expiry_date(rf, domestic_homepage):
+def test_set_microsite_expiry_date(rf, domestic_homepage):
     request = rf.get('/')
     request.user = AnonymousUser()
     now = datetime.datetime.now()
@@ -1282,12 +1282,20 @@ def test_set_default_expiry_date(rf, domestic_homepage):
     assert microsite_page.expire_at is None
     assert microsite_page_with_expire_date.expire_at == expected_date
 
-    wagtail_hooks.set_default_expiry_date(page=microsite_page, request=request)
-    wagtail_hooks.set_default_expiry_date(page=microsite_page_with_expire_date, request=request)
+    wagtail_hooks.set_microsite_expiry_date(page=microsite_page, request=request)
+    wagtail_hooks.set_microsite_expiry_date(page=microsite_page_with_expire_date, request=request)
 
     assert microsite_page.expire_at is not None
     assert microsite_page.expire_at.date() == expected_date.date()
     assert microsite_page_with_expire_date.expire_at == expected_date
+
+    updated_expiry_date = expected_date.replace(month=expected_date.month + 1)
+
+    microsite_page_with_expire_date.expiry_date = updated_expiry_date
+
+    wagtail_hooks.set_microsite_expiry_date(None, microsite_page_with_expire_date)
+
+    assert microsite_page_with_expire_date.expire_at == updated_expiry_date
 
 
 @mock.patch('django.contrib.messages.add_message')

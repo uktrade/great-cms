@@ -1,0 +1,16 @@
+{% load wagtailimages_tags %}
+
+{% if page.related_cta %}
+    {% for block in page.related_cta %}
+        {% for related_cta in block.value %}
+            {% if related_cta.block_type == 'title' %}
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-3">{{ related_cta.value }}</h3>
+            {% endif %}
+
+            {% if related_cta.block_type == 'card' %}
+                {% image related_cta.value.image width-300 as relayed_cta_image %}
+                {% include "_card.html" with metadataIconType="guidance" metaDataIconPath="/static/icons" metadataText=related_cta.value.meta_text imageUrl=relayed_cta_image.url href=related_cta.value.url type="unmounted" title=related_cta.value.title description=related_cta.value.description id=related_cta.value.title classes="great-ds-card--full" hideArrow="true" %}
+            {% endif %}
+        {% endfor %} 
+    {% endfor %}
+{% endif %}

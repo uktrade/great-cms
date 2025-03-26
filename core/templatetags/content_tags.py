@@ -23,7 +23,6 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
-
 from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES
 
 logger = logging.getLogger(__name__)

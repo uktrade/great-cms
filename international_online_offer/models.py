@@ -16,7 +16,6 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
 
-
 from core.blocks import ColumnsBlock
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
@@ -27,10 +26,10 @@ from international_online_offer.core import (
     choices,
     filter_tags,
     helpers,
+    intents,
     professions,
     region_sector_helpers,
     regions,
-    intents,
 )
 from international_online_offer.forms import (
     DynamicGuideBCIRegionSelectForm,

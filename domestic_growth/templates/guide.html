@@ -8,14 +8,11 @@
                     <div class="great-ds-bg-white govuk-!-padding-6">
                         {% if page.hero_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{ page.hero_title }}</h1>{% endif %}
                         {% if page.hero_intro %}<p class="govuk-body govuk-!-margin-bottom-6">{{ page.hero_intro }}</p>{% endif %}
-                        {% if local_support_data.postcode_data.country %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.country type="error" %}
-                        {% endif %}
-                        {% if local_support_data.postcode_data.region %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.region type="information" %}
+                        {% if sector %}
+                            {% include "_tag.html" with text=sector type="success" %}
                         {% endif %}
                         {% if local_support_data.postcode_data.admin_district %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="success" %}
+                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="information" %}
                         {% endif %}
                     </div>
                 </div>
@@ -68,48 +65,84 @@
                     {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
-                        <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Your regional connections</h3>
-                            {% if local_support_data.growth_hubs|length > 0 %}
-                                {% with local_support_data.growth_hubs|first as nearest_growth_hub %}
-                                    <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_growth_hub.name }}</h4>
-                                    <p class="govuk-body">
-                                        Your local Government-backed Growth Hub can provide free advice, funding, and training to help your business succeed.
-                                    </p>
-                                    <address>
-                                        <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_growth_hub.contacts.website }}">{{ nearest_growth_hub.contacts.website }}</a>
-                                        <br />
-                                        {% if nearest_growth_hub.contacts.email %}
-                                            <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_growth_hub.contacts.email }}">{{ nearest_growth_hub.contacts.email }}</a>
-                                            <br />
-                                        {% endif %}
-                                        <strong class="govuk-!-font-weight-bold">Phone</strong> {{ nearest_growth_hub.contacts.phone }}
-                                    </address>
-                                {% endwith %}
+                        {% with country=local_support_data.postcode_data.country|lower %}
+                            <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
+                                {% if country == 'england' %}
+                                    {% if page.primary_regional_support_title_england %}
+                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
+                                    {% endif %}
+
+                                    {% if page.primary_regional_support_intro_england %}
+                                        <p class="govuk-body">{{ page.primary_regional_support_intro_england }}</p>
+                                    {% endif %}
+                                {% elif country == 'scotland' %}
+                                    {% if page.primary_regional_support_title_scotland %}
+                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_scotland }}</h3>
+                                    {% endif %}
+
+                                    {% if page.primary_regional_support_intro_scotland %}
+                                        <p class="govuk-body">{{ page.primary_regional_support_intro_scotland }}</p>
+                                    {% endif %}
+                                {% elif country == 'wales' %}
+                                    {% if page.primary_regional_support_title_wales%}
+                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_wales }}</h3>
+                                    {% endif %}
+
+                                    {% if page.primary_regional_support_intro_wales %}
+                                        <p class="govuk-body">{{ page.primary_regional_support_intro_wales }}</p>
+                                    {% endif %}
+                                {% elif country == 'northern ireland' %}
+                                    {% if page.primary_regional_support_title_ni %}
+                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_ni }}</h3>
+                                    {% endif %}
+
+                                    {% if page.primary_regional_support_intro_ni %}
+                                        <p class="govuk-body">{{ page.primary_regional_support_intro_ni }}</p>
+                                    {% endif %}
+                                {% endif %}
+
                                 <hr />
-                            {% endif %}
-                            {% if local_support_data.chambers_of_commerce|length > 0 %}
-                                {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
-                                    <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_chamber_of_commerce.name }}</h4>
-                                    <p class="govuk-body">
-                                        Joining your local Chamber of Commerce can connect you with businesses, get support with trade, and help with lobbying policies that benefit you.
-                                    </p>
-                                    <address>
+
+                                {% include 'includes/_growth-hub.html' %}
+                            </div>
+                        {% endwith %}
+
+                        {% if local_support_data.chambers_of_commerce|length > 0 %}
+                        <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
+                            {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
+                                <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_chamber_of_commerce.name }}</h4>
+                                
+                                {% if page.chamber_of_commerce_intro %}
+                                    <p class="govuk-body">{{ page.chamber_of_commerce_intro }}</p>
+                                {% endif %}
+                                <address class="great-ds-address">
+                                    <div class="great-ds-address__row">
                                         <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_chamber_of_commerce.contacts.website }}">{{ nearest_chamber_of_commerce.contacts.website }}</a>
-                                        <br />
-                                        {% if nearest_chamber_of_commerce.contacts.email %}
-                                            <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_chamber_of_commerce.contacts.email }}">{{ nearest_chamber_of_commerce.contacts.email }}</a>
-                                            <br />
-                                        {% endif %}
-                                        <strong class="govuk-!-font-weight-bold">Phone</strong> {{ nearest_chamber_of_commerce.contacts.phone }}
-                                    </address>
-                                {% endwith %}
-                            {% endif %}
+                                    </div>
+                                    {% if nearest_chamber_of_commerce.contacts.email %}
+                                    <div class="great-ds-address__row">
+                                        <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_chamber_of_commerce.contacts.email }}">{{ nearest_chamber_of_commerce.contacts.email }}</a>
+                                    </div>
+                                    {% endif %}
+                                    <div class="great-ds-address__row">
+                                        <strong class="govuk-!-font-weight-bold">Phone</strong> <span>{{ nearest_chamber_of_commerce.contacts.phone }}</span>
+                                    </div>
+                                </address>
+                            {% endwith %}
                         </div>
+                        {% endif %}
                     {% endif %}
+
                     {% if trade_associations %}
                         <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Trade associations</h3>
+                            {% if page.trade_associations_title %}
+                                <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
+                            {% endif %}
+
+                            {% if page.trade_associations_intro %}
+                                <p class="govuk-body govuk-!-margin-bottom-4">{{ page.trade_associations_intro }}</p>
+                            {% endif %}
+
                             {% for ta in trade_associations %}
                                 <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
                                     {% include "_card.html" with href=ta.website_link type="unmounted" title=ta.association_name description=ta.brief_description id=ta.association_name classes="great-ds-card--full" hideArrow="true" %}
