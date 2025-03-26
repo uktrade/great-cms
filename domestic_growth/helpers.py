@@ -5,6 +5,7 @@ from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
 )
 from international_online_offer.services import get_dbt_sectors
+from export_academy.models import Event
 
 
 def get_local_support_by_postcode(postcode):
@@ -48,3 +49,9 @@ def get_triage_data(request: HttpRequest, model):
         return {'postcode': triage_data.postcode, 'sector': parent_sector}
     except Exception as e:  # NOQA: F841
         return {'postcode': '', 'sector': ''}
+
+
+def get_events():
+    events = list(Event.objects.all())
+
+    return events[:3]

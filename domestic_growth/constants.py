@@ -8,3 +8,8 @@ DYNAMIC_SNIPPET_NAMES = (
     ('BGS_12_005', 'Talk to an International Trade Adviser'),
     ('BGS_13_001', 'Contracts finder'),
 )
+
+DYNAMIC_CHILD_PAGE_CHOICES = [
+    ('interested_in_exporting', 'Interested in exporting'),
+    ('not_interested_in_exporting', 'Not interested in exporting'),
+]
