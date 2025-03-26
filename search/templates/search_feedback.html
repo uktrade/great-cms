@@ -30,24 +30,4 @@
         </form>
     </div>
 </div>
-<script>
-  // If JS is enabled, initially hide the contact details box
-  contactDetails = document.getElementById("contact-details")
-  radios = document.getElementsByClassName('multiple-choice')
-  contactDetails.style.display = 'none'
-
-  function check_if_checked(){
-    if(document.getElementById("id_contactable_0").checked){
-      contactDetails.style.display = 'block'
-    } else {
-      contactDetails.style.display = 'none'
-    }
-  }
-
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('click', check_if_checked, false);
-  }
-
-  check_if_checked()
-</script>
 {% endblock %}

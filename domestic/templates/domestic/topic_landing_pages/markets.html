@@ -35,8 +35,8 @@
                                     {% endfor %}
                                 </ul>
                                 <div class="filters-sticky-footer" id="filters-sticky-footer">
-                                    <a href="#" class="cancel link">Cancel</a>
-                                    <a href="#" class="button primary-button update" role="button">Update<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                                    {% include '_button.html' with classes='cancel link' href='#' text='Cancel' %}
+                                    {% include '_button.html' with classes='update' href='#' text='Update' %}
                                 </div>
                             </div>
                         </div>
@@ -145,9 +145,7 @@
                                         </p>
                                     {% endif %}
                                     <div class="controls margin-bottom-45-m">
-                                        <a href="#"
-                                           class="button mobile-filter-toggle"
-                                           id="mobile-filter-toggle">Filter</a>
+                                        {% include '_button.html' with id='mobile-filter-toggle' classes='mobile-filter-toggle' href='#' text='Filter' %}
                                         {% if number_of_results %}
                                             {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
                                                 <a href="{% url 'core:compare-countries' %}"
@@ -165,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="button" type="submit" value="Submit form" />
+                    {% include '_button.html' with input=True text='Submit form' type='submit' %}
                 </form>
             </div>
             <div class="margin-top-30">{% render_markets_cta %}</div>
