@@ -301,6 +301,23 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         blank=True,
     )
 
+    related_cta = StreamField(
+        [
+            (
+                'related_cta',
+                StreamBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('card', SnippetChooserBlock('domestic_growth.DomesticGrowthCard')),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
@@ -397,3 +414,44 @@ class StartingABusinessTriage(TimeStampedModel):
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
+
+
+@register_snippet
+class DomesticGrowthCard(index.Indexed, models.Model):
+    title = models.CharField(
+        blank=True,
+    )
+    description = models.CharField(
+        blank=True,
+    )
+    image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    url = models.CharField(
+        blank=True,
+    )
+    meta_text = models.CharField(
+        blank=True,
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('image'),
+        FieldPanel('url'),
+        FieldPanel('meta_text'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
