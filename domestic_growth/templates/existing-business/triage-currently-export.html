@@ -12,13 +12,8 @@
             <p class="govuk-body govuk-!-margin-bottom-4">
                 We’ll show technical support if you’re exporting and introductory information for exporting if you’re not.
             </p>
-            <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
-                <div class="govuk-checkboxes__item">
-                    {{ form.currently_export }}
-                    <label class="govuk-label govuk-checkboxes__label" for="id_cant_find_sector">{{ form.currently_export.label }}</label>
-                </div>
-            </div>
+            <div class="govuk-!-margin-bottom-2">{{ form }}</div>
         </div>
-        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Get Support and Information' %}
     </form>
 {% endblock %}

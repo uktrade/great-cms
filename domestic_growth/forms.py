@@ -143,10 +143,11 @@ class ExistingBusinessTurnoverForm(forms.Form):
 
 
 class ExistingBusinessCurrentlyExportForm(forms.Form):
-    currently_export = BooleanField(
+    currently_export = ChoiceField(
         label='',
         required=True,
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(('YES', 'Yes'), ('NO', 'No')),
         error_messages={
             'required': 'Select if you currently export your products or services overseas',
         },

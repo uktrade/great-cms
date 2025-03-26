@@ -206,7 +206,7 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
             ExistingBusinessTriage.objects.update_or_create(
                 session_id=self.session_id,
                 defaults={
-                    'currently_export': form.cleaned_data['currently_export'],
+                    'currently_export': True if form.cleaned_data['currently_export'] == 'YES' else False,
                 },
             )
 
