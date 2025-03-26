@@ -331,6 +331,12 @@ $text-underline-offset: .3em;
 		align-items: flex-start;
 		gap: 20px;
 
+		&__location {
+			display: flex;
+			gap: 10px;
+			align-items: baseline;
+		}
+
 		&__content {
 			display: flex;
 			flex-direction: column;
