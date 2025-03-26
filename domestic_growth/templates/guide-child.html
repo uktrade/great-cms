@@ -13,14 +13,11 @@
                         {% if page.get_parent.hero_intro %}
                             <p class="govuk-body govuk-!-margin-bottom-6">{{ page.get_parent.hero_intro }}</p>
                         {% endif %}
-                        {% if local_support_data.postcode_data.country %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.country type="error" %}
-                        {% endif %}
-                        {% if local_support_data.postcode_data.region %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.region type="information" %}
+                        {% if sector %}
+                            {% include "_tag.html" with text=sector type="success" %}
                         {% endif %}
                         {% if local_support_data.postcode_data.admin_district %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="success" %}
+                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="information" %}
                         {% endif %}
                     </div>
                 </div>
@@ -84,6 +81,7 @@
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-third">
+                    {% include 'includes/_email-guide-form.html' %}
                     {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                 </div>
             </div>
