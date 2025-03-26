@@ -113,7 +113,7 @@ from domestic_growth.forms import (
             ExistingBusinessTurnoverForm,
             {},
             False,
-            {'turnover': "Select last financial year’s turnover, or select ‘Prefer not to say’"},
+            {'turnover': 'Select last financial year’s turnover, or select ‘Prefer not to say’'},
         ),
         (ExistingBusinessCurrentlyExportForm, {'currently_export': 'YES'}, True, {}),
         (

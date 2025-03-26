@@ -216,9 +216,9 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
         triage_data = ExistingBusinessTriage.objects.get(session_id=self.session_id)
 
-        success_url = '/established-guide'
+        success_url = '/support-in-uk/established-guide'
 
         if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
-            success_url = '/start-up-guide'
+            success_url = '/support-in-uk/start-up-guide'
 
         return super().get_success_url(success_url)

@@ -101,7 +101,7 @@ class ExistingBusinessSectorForm(forms.Form):
     cant_find_sector = BooleanField(
         required=False,
         initial=False,
-        label="I cannot find my sector or industry",
+        label='I cannot find my sector or industry',
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
@@ -137,7 +137,7 @@ class ExistingBusinessTurnoverForm(forms.Form):
         widget=contact_widgets.GreatRadioSelect,
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
         error_messages={
-            'required': "Select last financial year’s turnover, or select ‘Prefer not to say’",
+            'required': 'Select last financial year’s turnover, or select ‘Prefer not to say’',
         },
     )
 

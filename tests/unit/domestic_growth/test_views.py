@@ -26,7 +26,7 @@ from domestic_growth.views import (
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/pre-start/sector/',
+            '/support-in-uk/pre-start/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-pre-start-sector'),
@@ -40,35 +40,35 @@ from domestic_growth.views import (
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/existing/sector/',
+            '/support-in-uk/existing/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-sector'),
             {
                 'sector': 'SL0003',
             },
-            '/existing/setup/',
+            '/support-in-uk/existing/set-up/',
         ),
         (
             reverse('domestic_growth:domestic-growth-when-set-up'),
             {
                 'when_set_up': LESS_THAN_3_YEARS_AGO,
             },
-            '/existing/turnover/',
+            '/support-in-uk/existing/turnover/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-turnover'),
             {
                 'turnover': '2M_TO_5M',
             },
-            '/existing/exporter/',
+            '/support-in-uk/existing/exporter/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-exporter'),
             {
                 'currently_export': 'YES',
             },
-            '/established-guide',
+            '/support-in-uk/established-guide',
         ),
     ),
 )

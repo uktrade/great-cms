@@ -13,8 +13,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
-from domestic_growth import choices, cms_panels, helpers
-from domestic_growth import cms_panels, constants, helpers
+from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -433,6 +432,7 @@ class ExistingBusinessTriage(TimeStampedModel):
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
     currently_export = models.BooleanField(default=False, null=True, blank=True)
+
 
 @register_snippet
 class DomesticGrowthCard(index.Indexed, models.Model):
