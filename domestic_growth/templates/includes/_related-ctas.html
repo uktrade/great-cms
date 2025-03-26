@@ -1,7 +1,7 @@
 {% load wagtailimages_tags %}
 
-{% if page.related_cta %}
-    {% for block in page.related_cta %}
+{% if cta %}
+    {% for block in cta %}
         {% for related_cta in block.value %}
             {% if related_cta.block_type == 'title' %}
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-3">{{ related_cta.value }}</h3>

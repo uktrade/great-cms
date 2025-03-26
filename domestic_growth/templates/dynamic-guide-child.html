@@ -67,25 +67,65 @@
     <section class="great great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
-                    {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.body_intro }}</p>{% endif %}
-                    {% if page.body_sections %}
-                        {% for section in page.body_sections %}
-                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
-                            <p class="govuk-caption">{{ section.value.intro }}</p>
+                {% if page.page_a_type == 'interested_in_exporting' and is_interested_in_exporting %}
+                    <div class="govuk-grid-column-two-thirds">
+                        {% if page.page_a_body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.page_a_body_title }}</h2>{% endif %}
+                        {% if page.page_a_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_a_body_intro }}</p>{% endif %}
+                        {% if page.page_a_body_sections %}
+                            {% for section in page.page_a_body_sections %}
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                                <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
+                                <p class="govuk-caption">{{ section.value.intro }}</p>
 
-                            {% for content in section.value.content %}
-                                {% include "includes/_render-snippet.html" with content=content %}
+                                {% if section.value.content|length == 0 %}
+                                    {% if events %}
+                                        {% for event in events %}
+                                            {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    {% for content in section.value.content %}
+                                        {% include "includes/_render-snippet.html" with content=content %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                             {% endfor %}
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="govuk-grid-column-one-third">
-                    {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
-                </div>
+                        {% endif %}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {% include 'includes/_related-ctas.html' with cta=page.page_a_related_cta %}
+                    </div>
+                {% endif %}
+
+                {% if page.page_b_type == 'not_interested_in_exporting' and not is_interested_in_exporting %}
+                    <div class="govuk-grid-column-two-thirds">
+                        {% if page.page_b_body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.page_b_body_title }}</h2>{% endif %}
+                        {% if page.page_b_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_b_body_intro }}</p>{% endif %}
+                        {% if page.page_b_body_sections %}
+                            {% for section in page.page_b_body_sections %}
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                                <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
+                                <p class="govuk-caption">{{ section.value.intro }}</p>
+
+                                {% if section.value.content|length == 0 %}
+                                    {% if events %}
+                                        {% for event in events %}
+                                            {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    {% for content in section.value.content %}
+                                        {% include "includes/_render-snippet.html" with content=content %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {% include 'includes/_related-ctas.html' with cta=page.page_b_related_cta %}
+                    </div>
+                {% endif %}
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">

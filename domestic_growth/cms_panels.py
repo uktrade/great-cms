@@ -126,6 +126,33 @@ class DomesticGrowthChildGuidePagePanels:
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
 
 
+class DomesticGrowthDynamicChildGuidePagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page A',
+            children=[
+                FieldPanel('page_a_type'),
+                FieldPanel('page_a_body_title'),
+                FieldPanel('page_a_body_intro'),
+                FieldPanel('page_a_body_sections'),
+                FieldPanel('page_a_related_cta'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Page B',
+            children=[
+                FieldPanel('page_b_type'),
+                FieldPanel('page_b_body_title'),
+                FieldPanel('page_b_body_intro'),
+                FieldPanel('page_b_body_sections'),
+                FieldPanel('page_b_related_cta'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
 class DomesticGrowthAboutPagePanels:
     content_panels = [
         MultiFieldPanel(

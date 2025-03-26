@@ -6,6 +6,7 @@ from .factories import (
     DomesticGrowthChildGuidePageFactory,
     DomesticGrowthGuidePageFactory,
     DomesticGrowthHomePageFactory,
+    DomesticGrowthDynamicChildGuidePageFactory,
 )
 
 
@@ -98,6 +99,26 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
         self.assertEqual(page.body_title, 'Test title')
         self.assertEqual(page.body_intro, 'Test intro')
+
+
+class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_can_create_page(self):
+        page = DomesticGrowthDynamicChildGuidePageFactory(
+            page_a_type='interested_in_exporting',
+            page_a_body_title='Test title a',
+            page_a_body_intro='Test intro a',
+            page_b_type='not_interested_in_exporting',
+            page_b_body_title='Test title b',
+            page_b_body_intro='Test intro b',
+        )
+        self.assertEqual(page.title, 'dynamic-child-guidepage')
+
+        self.assertEqual(page.page_a_type, 'interested_in_exporting')
+        self.assertEqual(page.page_a_body_title, 'Test title a')
+        self.assertEqual(page.page_a_body_intro, 'Test intro a')
+        self.assertEqual(page.page_b_type, 'not_interested_in_exporting')
+        self.assertEqual(page.page_b_body_title, 'Test title b')
+        self.assertEqual(page.page_b_body_intro, 'Test intro b')
 
 
 class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
