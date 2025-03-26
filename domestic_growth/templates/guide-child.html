@@ -1,4 +1,5 @@
 {% extends 'includes/base.html' %}
+
 {% block head_title %}Domestic Growth - Guide child page{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
@@ -71,15 +72,24 @@
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.body_intro }}</p>{% endif %}
                     {% if page.body_sections %}
                         {% for section in page.body_sections %}
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
-                                <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
-                                <p class="govuk-caption">{{ section.value.intro }}</p>
-                                {% for content in section.value.content %}
-                                    {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id %}
-                                {% endfor %}
-                            </div>
+                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                            <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
+                            <p class="govuk-caption">{{ section.value.intro }}</p>
+
+                            {% for content in section.value.content %}
+                                {% include "includes/_render-snippet.html" with content=content %}
+                            {% endfor %}
+                        </div>
                         {% endfor %}
                     {% endif %}
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    {% include 'includes/_related-ctas.html' %}
+                </div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    {% include 'includes/_business-support-service.html' with country=country %}
                 </div>
             </div>
         </div>

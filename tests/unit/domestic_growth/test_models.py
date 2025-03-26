@@ -1,12 +1,12 @@
 from wagtail.test.utils import WagtailPageTests
 
+from domestic_growth.models import DomesticGrowthContent, DomesticGrowthCard
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
-    DomesticGrowthHomePageFactory,
-    DomesticGrowthGuidePageFactory,
     DomesticGrowthChildGuidePageFactory,
+    DomesticGrowthGuidePageFactory,
+    DomesticGrowthHomePageFactory,
 )
-from domestic_growth.models import DomesticGrowthContent
 
 
 class DomesticGrowthHomePageTests(SetUpLocaleMixin, WagtailPageTests):
@@ -57,6 +57,17 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             hero_intro='Test intro',
             body_title='Test title',
             body_intro='Test intro',
+            primary_regional_support_title_england='Test title',
+            primary_regional_support_intro_england='Test intro',
+            primary_regional_support_title_scotland='Test title',
+            primary_regional_support_intro_scotland='Test intro',
+            primary_regional_support_title_ni='Test title',
+            primary_regional_support_intro_ni='Test intro',
+            primary_regional_support_title_wales='Test title',
+            primary_regional_support_intro_wales='Test intro',
+            chamber_of_commerce_intro='Test intro',
+            trade_associations_title='Test title',
+            trade_associations_intro='Test intro',
         )
         self.assertEqual(page.title, 'guidepage')
 
@@ -64,6 +75,17 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.hero_intro, 'Test intro')
         self.assertEqual(page.body_title, 'Test title')
         self.assertEqual(page.body_intro, 'Test intro')
+        self.assertEqual(page.primary_regional_support_title_england, 'Test title')
+        self.assertEqual(page.primary_regional_support_intro_england, 'Test intro')
+        self.assertEqual(page.primary_regional_support_title_scotland, 'Test title')
+        self.assertEqual(page.primary_regional_support_intro_scotland, 'Test intro')
+        self.assertEqual(page.primary_regional_support_title_ni, 'Test title')
+        self.assertEqual(page.primary_regional_support_intro_ni, 'Test intro')
+        self.assertEqual(page.primary_regional_support_title_wales, 'Test title')
+        self.assertEqual(page.primary_regional_support_intro_wales, 'Test intro')
+        self.assertEqual(page.chamber_of_commerce_intro, 'Test intro')
+        self.assertEqual(page.trade_associations_title, 'Test title')
+        self.assertEqual(page.trade_associations_intro, 'Test intro')
 
 
 class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
@@ -99,3 +121,15 @@ class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(snippet.sector, 'Aerospace')
         self.assertEqual(snippet.is_dynamic, False)
         self.assertEqual(snippet.show_image, False)
+
+
+class DomesticGrowthCardTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_can_create_snippet(self):
+        snippet = DomesticGrowthCard.objects.create(
+            title='Test title', description='Test description', url='www.url.com', meta_text='Test meta text'
+        )
+
+        self.assertEqual(snippet.title, 'Test title')
+        self.assertEqual(snippet.description, 'Test description')
+        self.assertEqual(snippet.url, 'www.url.com')
+        self.assertEqual(snippet.meta_text, 'Test meta text')

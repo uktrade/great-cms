@@ -1,8 +1,10 @@
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
+from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -12,6 +14,7 @@ from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, helpers
+from domestic_growth import cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -186,10 +189,53 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         null=True,
     )
 
+    primary_regional_support_title_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_england = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_scotland = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_ni = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_title_wales = models.TextField(
+        null=True,
+    )
+
+    primary_regional_support_intro_wales = models.TextField(
+        null=True,
+    )
+
+    chamber_of_commerce_intro = models.TextField(
+        null=True,
+    )
+
+    trade_associations_title = models.TextField(
+        null=True,
+    )
+
+    trade_associations_intro = models.TextField(
+        null=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        # wip
         triage_data = get_triage_data(request, StartingABusinessTriage)
 
         postcode = triage_data['postcode']
@@ -198,14 +244,13 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
-        ###
-
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
             context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
         else:
             context['trade_associations'] = TradeAssociation.objects.all()
 
@@ -256,10 +301,26 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         blank=True,
     )
 
+    related_cta = StreamField(
+        [
+            (
+                'related_cta',
+                StreamBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('card', SnippetChooserBlock('domestic_growth.DomesticGrowthCard')),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        # wip
         triage_data = get_triage_data(request, StartingABusinessTriage)
 
         postcode = triage_data['postcode']
@@ -268,15 +329,43 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
 
-        ###
-
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
             context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
+
+        context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
 
         return context
+
+
+class DomesticGrowthAboutPage(SeoMixin, cms_panels.DomesticGrowthAboutPagePanels, Page):
+    template = 'domestic-growth-about.html'
+
+    class Meta:
+        verbose_name = 'Domestic Growth About page'
+
+    heading = models.TextField(
+        null=True,
+    )
+
+    body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(
+                    template='includes/about/_text.html',
+                    label='Text',
+                ),
+            ),
+            ('image', ImageChooserBlock(required=False, template='includes/about/_image.html', label='Image')),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
 
 
 @register_snippet
@@ -344,3 +433,43 @@ class ExistingBusinessTriage(TimeStampedModel):
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
     currently_export = models.BooleanField(default=False, null=True, blank=True)
+
+@register_snippet
+class DomesticGrowthCard(index.Indexed, models.Model):
+    title = models.CharField(
+        blank=True,
+    )
+    description = models.CharField(
+        blank=True,
+    )
+    image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    url = models.CharField(
+        blank=True,
+    )
+    meta_text = models.CharField(
+        blank=True,
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('image'),
+        FieldPanel('url'),
+        FieldPanel('meta_text'),
+    ]
+
+    search_fields = [
+        index.AutocompleteField('title'),
+    ]
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title

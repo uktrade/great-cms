@@ -23,6 +23,7 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
+from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES
 
 logger = logging.getLogger(__name__)
 
@@ -783,3 +784,12 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def is_a_dynamic_snippet(snippet_id):
+    for snippet in DYNAMIC_SNIPPET_NAMES:
+        if snippet[0] == snippet_id:
+            return True
+
+    return False

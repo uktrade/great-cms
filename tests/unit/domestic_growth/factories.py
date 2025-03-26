@@ -1,9 +1,9 @@
 import wagtail_factories
 
 from domestic_growth.models import (
-    DomesticGrowthHomePage,
-    DomesticGrowthGuidePage,
     DomesticGrowthChildGuidePage,
+    DomesticGrowthGuidePage,
+    DomesticGrowthHomePage,
 )
 
 
