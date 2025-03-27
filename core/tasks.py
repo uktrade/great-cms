@@ -128,3 +128,8 @@ def submit_hcsat_feedback_to_forms_api():
     except ValueError as ve:
         logger.exception(f'Exception in core:tasks:submit_hcsat_feedback {str(ve)}')
         raise ve
+
+
+@app.task
+def obsfucate_personal_details():
+    call_command('obsfucate_personal_details')
