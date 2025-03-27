@@ -4,6 +4,7 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.test import override_settings
 from django.utils import timezone
 from freezegun import freeze_time
 
@@ -165,12 +166,25 @@ def test_submit_hcsat_feedback_to_forms_api_task(mock_hcsat_action):
         assert mock_hcsat_action().save.call_args == expected
 
 
+@override_settings(APP_ENVIRONMENT='dev')
 @mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ukea_registration')
 @mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ioo_user_data')
 @pytest.mark.django_db
-def test_obsfucate_personal_details(mock_mask_ioo_user_data, mock_mask_ukea_registration):
+def test_obsfucate_personal_details_lower_env(mock_mask_ioo_user_data, mock_mask_ukea_registration):
     RegistrationFactory()
     UserDataFactory()
     obsfucate_personal_details()
     assert mock_mask_ukea_registration.call_count == 1
     assert mock_mask_ioo_user_data.call_count == 1
+
+
+@override_settings(APP_ENVIRONMENT='production')
+@mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ukea_registration')
+@mock.patch('core.management.commands.obsfucate_personal_details.Command.mask_ioo_user_data')
+@pytest.mark.django_db
+def test_obsfucate_personal_details_prod_env(mock_mask_ioo_user_data, mock_mask_ukea_registration):
+    RegistrationFactory()
+    UserDataFactory()
+    obsfucate_personal_details()
+    assert mock_mask_ukea_registration.call_count == 0
+    assert mock_mask_ioo_user_data.call_count == 0
