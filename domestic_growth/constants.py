@@ -13,3 +13,9 @@ DYNAMIC_CHILD_PAGE_CHOICES = [
     ('interested_in_exporting', 'Interested in exporting'),
     ('not_interested_in_exporting', 'Not interested in exporting'),
 ]
+
+CARD_META_DATA = (
+    ('www.gov.uk', 'GOV.UK', 'govuk'),
+    ('www.british-business-bank.co.uk', 'british-business-bank.co.uk', 'british-business-bank'),
+    ('smallbusinesscharter.org', 'smallbusinesscharter.org', 'small-business-charter'),
+)

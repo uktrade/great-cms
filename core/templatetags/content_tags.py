@@ -23,7 +23,7 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
-from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES
+from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA
 
 logger = logging.getLogger(__name__)
 
@@ -793,3 +793,18 @@ def is_a_dynamic_snippet(snippet_id):
             return True
 
     return False
+
+
+@register.filter
+def get_card_meta_data_by_url(url):
+    for url_match, text, icon_name in CARD_META_DATA:
+        if url_match in url:
+            return {
+                'text': text,
+                'icon_name': icon_name,
+            }
+
+    return {
+        'text': False,
+        'icon_name': False,
+    }
