@@ -14,12 +14,14 @@
                         {% if local_support_data.postcode_data.admin_district %}
                             {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="information" %}
                         {% endif %}
+
+                        {% include "includes/_change-answers.html" %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="govuk-service-navigation"
+    <div class="govuk-service-navigation great-ds-bg-white"
          data-module="govuk-service-navigation">
         <div class="great-ds-container">
             <div class="govuk-service-navigation__container">
@@ -35,7 +37,7 @@
                                     <a class="govuk-service-navigation__link"
                                        href="{{ page.get_url }}{{ qs }}"
                                        aria-current="true">
-                                        <strong class="govuk-service-navigation__active-fallback">{{ page.hero_title }}</strong>
+                                        <strong class="govuk-service-navigation__active-fallback">{{ page.body_title }}</strong>
                                     </a>
                                 </li>
                             {% else %}
@@ -66,7 +68,7 @@
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
                         {% with country=local_support_data.postcode_data.country|lower %}
-                            <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
+                            <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
                                 {% if country == 'england' %}
                                     {% if page.primary_regional_support_title_england %}
                                         <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
@@ -108,7 +110,7 @@
                         {% endwith %}
 
                         {% if local_support_data.chambers_of_commerce|length > 0 %}
-                        <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
+                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
                             {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                 <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_chamber_of_commerce.name }}</h4>
                                 
@@ -134,7 +136,7 @@
                     {% endif %}
 
                     {% if trade_associations %}
-                        <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
+                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
                             {% if page.trade_associations_title %}
                                 <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
                             {% endif %}

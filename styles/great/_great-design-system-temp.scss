@@ -776,6 +776,15 @@ $great-design-system-mint-green: #8ce2d0;
   background-position: 90% 0;
 }
 
+.bgs-box-shadow {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.bgs-section-logo {
+  background-repeat: no-repeat;
+  background-position: 95% 5%;
+}
+
 .great-ds-address {
   font-style: normal;
 
@@ -789,4 +798,8 @@ $great-design-system-mint-green: #8ce2d0;
       min-width: 105px;
     }
   }
+}
+
+.great-ds-border-top-blue-3 {
+  border-top: 3px solid #1d70b8 !important;
 }
