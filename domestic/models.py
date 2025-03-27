@@ -733,20 +733,20 @@ class MarketsTopicLandingPage(
         append_span = '' if not use_title_span else '</span>'
         object_string = ''
         total_objs = len(selected_objects)
+        object_type = pluralizer.plural(object_type) if total_objs > 1 else pluralizer.singular(object_type)
         for loop_index, obj in enumerate(selected_objects):
             is_last = True if total_objs - 1 == loop_index else False
             one_from_last = True if total_objs - 2 == loop_index else False
             if use_or:
-                message_dict.update({'separator': 'or ' if not is_last else default_separator})
+                message_dict.update({'separator': ' or ' if not is_last else default_separator})
             else:
-                message_dict.update({'object_types': pluralizer.singular(object_type)})
                 if one_from_last:
-                    message_dict.update({'separator': ' and ', 'object_type': pluralizer.plural(object_type)})
+                    message_dict.update({'separator': ' and '})
                 elif not is_last:
                     message_dict.update({'separator': ', '})
             object_string += f'{prepend_span}{obj}{append_span}{message_dict["separator"]} '
             if is_last:
-                object_string += message_dict['object_type']
+                object_string += object_type
         return object_string
 
     def create_message(
@@ -804,7 +804,7 @@ class MarketsTopicLandingPage(
             return ''
 
         message_dict = {
-            'start_string': 'There {0} {1} market guide{2}'.format(
+            'start_string': 'There {0} {1} market guide{2} '.format(
                 self.pluralize_based_on_object_count(results, 'is', 'are'),
                 len(results),
                 self.pluralize_based_on_object_count(results, '', 's'),
