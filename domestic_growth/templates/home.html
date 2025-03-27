@@ -6,12 +6,12 @@
 
 {% block content %}
     {% image page.hero_image width-1600 as hero_image %}
-    <section class="govuk-!-padding-bottom-6 great-ds-bg-dark-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
+    <section class="govuk-!-padding-bottom-6 great-ds-bg-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row govuk-!-margin-bottom-6">
                 <div class="govuk-grid-column-two-thirds">
                     {% if page.hero_title %}
-                    <h1 class="govuk-heading-xxl govuk-!-margin-bottom-6 great-ds-text-white">
+                    <h1 class="great-ds-heading-xxl govuk-!-margin-bottom-6 great-ds-text-white">
                         {{ page.hero_title }}
                     </h1>
                     {% endif %}
@@ -60,7 +60,7 @@
                             {% for block in blocks.value %}
                                 {% if block.block_type == 'benefit_explore_card' %}
                                 <div class="govuk-grid-column-one-third govuk-!-margin-bottom-3">
-                                    <div class="great-ds-border-bottom--white">
+                                    <div class="great-ds-border-bottom-white-3">
                                         <h3 class="govuk-heading-m">{{ block.value.title }}</h3>
                                         <p class="govuk-body">{{ block.value.description }}</p>
                                     </div>

@@ -1,116 +1,224 @@
-import pickle
+from urllib.parse import urlencode
+from uuid import UUID, uuid4
 
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView
+from pydantic import HttpUrl
 
-from domestic_growth.mixins import TriageMixin
-from domestic_growth.forms import StartingABusinessForm, ScalingABusinessForm
-from domestic_growth.helpers import get_postcode_data
-
-
-class StartingABusinessView(TriageMixin, FormView):
-    form_class = StartingABusinessForm
-    template_name = 'starting-a-business.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
-
-    def get_success_url(self):
-        return reverse_lazy('domestic_growth:domestic-growth-starting-a-business-results')
-
-    def form_valid(self, form):
-        self.save_data(form)
-        return super().form_valid(form)
+from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
+from domestic_growth.forms import (
+    ExistingBusinessCurrentlyExportForm,
+    ExistingBusinessLocationForm,
+    ExistingBusinessSectorForm,
+    ExistingBusinessTurnoverForm,
+    ExistingBusinessWhenSetUpForm,
+    StartingABusinessLocationForm,
+    StartingABusinessSectorForm,
+)
+from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
+from international_online_offer.core import region_sector_helpers
+from international_online_offer.services import get_dbt_sectors
 
 
-class StartingABusinessResultsView(TriageMixin, TemplateView):
-    template_name = 'starting-a-business-results.html'
+class BaseTriageFormView(FormView):
 
-    def get_context_data(self, **kwargs):
-        constituency = None
-        council = None
-        sector = None
+    session_id: str = None
 
-        sector_content = {
-            'Advanced manufacturing': [
-                'Advanced manufacturing 1',
-                'Advanced manufacturing 2',
-                'Advanced manufacturing 3',
-            ],
-            'Aerospace': ['Aerospace 1', 'Aerospace 2', 'Aerospace 3'],
-            'Food and drink': ['Food and drink 1', 'Food and drink 2', 'Food and drink 3'],
-        }
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.session_id = self.get_session_id()
 
-        if self.request.session.get('domestic_growth_triage_data'):
-            form_data = pickle.loads(bytes.fromhex(self.request.session.get('domestic_growth_triage_data')))[0]
-            postcode = form_data.get('postcode')
-            sector = form_data.get('sector')
+    def get_session_id(self) -> str:
+        """
+        Returns a string to be used as a unique identifier for Domestic Growth triage records.
+        The return value will either be a django session ID, an existing session ID from QS params
+        or a UUIDv4. This is necessary to facilitate users who have not accepted cookies and
+        therefore do not have a django request.session.session_key
+        """
+        if self.request.session.session_key:
+            return self.request.session.session_key
+        elif self.request.GET.get('session_id', False):
+            return self.request.GET.get('session_id')
+        else:
+            return uuid4()
 
-            data = get_postcode_data(postcode)
+    def get_success_url(self, success_url: str, params: dict = {}) -> HttpUrl:
+        """
+        Accepts a success url and if we are using a uuid as opposed to a session_key appends a
+        query string parameter
+        """
+        try:
+            if type(self.session_id) is UUID or type(UUID(self.session_id)) is UUID:
+                params = {'session_id': self.session_id, **params}
+                return f'{success_url}?{urlencode(params)}'
+        except ValueError as e:  # NOQA:F841
+            # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
+            pass
 
-            constituency = data.get('result').get('parliamentary_constituency_2024')
-            council = data.get('result').get('admin_district')
-
-        return super().get_context_data(
-            **kwargs,
-            constituency=constituency,
-            council=council,
-            growth_hub={'name': 'The Growth Hub'},
-            sector_content=sector_content.get(sector),
-        )
+        return success_url
 
 
-class ScalingABusinessView(TriageMixin, FormView):
-    form_class = ScalingABusinessForm
-    template_name = 'scaling-a-business.html'
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
-
-    def get_success_url(self):
-        return reverse_lazy('domestic_growth:domestic-growth-scaling-a-business-results')
+class StartingABusinessLocationFormView(BaseTriageFormView):
+    template_name = 'starting-a-business/triage-location.html'
+    form_class = StartingABusinessLocationForm
 
     def form_valid(self, form):
-        self.save_data(form)
+        if form.is_valid():
+            StartingABusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'postcode': form.cleaned_data['postcode'],
+                },
+            )
+
         return super().form_valid(form)
 
-
-class ScalingABusinessResultsView(TriageMixin, TemplateView):
-    template_name = 'scaling-a-business-results.html'
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'))
 
     def get_context_data(self, **kwargs):
-        constituency = None
-        council = None
-        sector = None
+        ctx_data = super().get_context_data(**kwargs)
 
-        sector_content = {
-            'Advanced manufacturing': [
-                'Advanced manufacturing 1',
-                'Advanced manufacturing 2',
-                'Advanced manufacturing 3',
-            ],
-            'Aerospace': ['Aerospace 1', 'Aerospace 2', 'Aerospace 3'],
-            'Food and drink': ['Food and drink 1', 'Food and drink 2', 'Food and drink 3'],
-        }
+        return {'back_url': '/', **ctx_data}
 
-        if self.request.session.get('domestic_growth_triage_data'):
-            form_data = pickle.loads(bytes.fromhex(self.request.session.get('domestic_growth_triage_data')))[0]
-            postcode = form_data.get('postcode')
-            sector = form_data.get('sector')
 
-            data = get_postcode_data(postcode)
+class StartingABusinessSectorFormView(BaseTriageFormView):
+    template_name = 'starting-a-business/triage-sector.html'
+    form_class = StartingABusinessSectorForm
 
-            constituency = data.get('result').get('parliamentary_constituency_2024')
-            council = data.get('result').get('admin_district')
+    def get_context_data(self, **kwargs):
+        dbt_sectors = get_dbt_sectors()
+        autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
 
         return super().get_context_data(
             **kwargs,
-            constituency=constituency,
-            council=council,
-            growth_hub={'name': 'The Growth Hub'},
-            sector_content=sector_content.get(sector),
+            autocomplete_sector_data=autocomplete_sector_data,
         )
+
+    def form_valid(self, form):
+        if form.is_valid():
+            StartingABusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'sector_id': form.cleaned_data['sector'],
+                    'dont_know_sector': form.cleaned_data['dont_know_sector_yet'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url('/support-in-uk/pre-start-guide/')
+
+
+class ExistingBusinessLocationFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-location.html'
+    form_class = ExistingBusinessLocationForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'postcode': form.cleaned_data['postcode'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-sector'))
+
+
+class ExistingBusinessSectorFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-sector.html'
+    form_class = ExistingBusinessSectorForm
+
+    def get_context_data(self, **kwargs):
+        dbt_sectors = get_dbt_sectors()
+        autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
+
+        return super().get_context_data(
+            **kwargs,
+            autocomplete_sector_data=autocomplete_sector_data,
+        )
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'sector_id': form.cleaned_data['sector'],
+                    'cant_find_sector': form.cleaned_data['cant_find_sector'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-when-set-up'))
+
+
+class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-when-set-up.html'
+    form_class = ExistingBusinessWhenSetUpForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'when_set_up': form.cleaned_data['when_set_up'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-turnover'))
+
+
+class ExistingBusinessTurnoverFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-turnover.html'
+    form_class = ExistingBusinessTurnoverForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'turnover': form.cleaned_data['turnover'],
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-exporter'))
+
+
+class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
+    template_name = 'existing-business/triage-currently-export.html'
+    form_class = ExistingBusinessCurrentlyExportForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            ExistingBusinessTriage.objects.update_or_create(
+                session_id=self.session_id,
+                defaults={
+                    'currently_export': True if form.cleaned_data['currently_export'] == 'YES' else False,
+                },
+            )
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+
+        triage_data = ExistingBusinessTriage.objects.get(session_id=self.session_id)
+
+        success_url = '/support-in-uk/established-guide'
+
+        if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
+            success_url = '/support-in-uk/start-up-guide'
+
+        return super().get_success_url(success_url)

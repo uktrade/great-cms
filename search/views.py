@@ -2,74 +2,16 @@ import datetime
 import logging
 import urllib
 
-import sentry_sdk
-from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from requests.exceptions import RequestException
 from wagtail.models import Page
 
 from core import helpers as core_helpers
-from search import forms, helpers
+from search import forms
 
 logger = logging.getLogger(__name__)
-
-
-class SearchView(TemplateView):
-    """Search results page.
-
-    URL parameters:
-        q:string - string to be searched
-        page:int - results page number
-    """
-
-    template_name = 'search.html'
-    page_type = 'SearchResultsPage'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-
-        results = {}
-        search_query = self.request.GET.get('q', '')
-        submitted = self.request.GET.get('submitted', '')
-        page = helpers.sanitise_page(self.request.GET.get('page', '1'))
-
-        common = {
-            'submitted': submitted,
-            'search_query': search_query,
-            'current_page': page,
-        }
-
-        try:
-            opensearch_query = helpers.format_query(search_query, page)
-            response = helpers.search_with_activitystream(opensearch_query)
-        except RequestException:
-            logger.error(
-                "Activity Stream connection for Search failed. Query: '{search_query}'".format(
-                    search_query=search_query,
-                )
-            )
-            results = {
-                'error_status_code': 500,
-                'error_message': 'Activity Stream connection failed',
-            }
-        else:
-            if response.status_code != 200:
-                results = {
-                    'error_message': response.content,
-                    'error_status_code': response.status_code,
-                }
-                sentry_sdk.capture_message(
-                    f'/search failed: status code {response.status_code}, message: {response.content}', 'error'
-                )
-            else:
-                results = helpers.parse_results(
-                    response,
-                    search_query,
-                    page,
-                )
-        return {**context, **common, **results}
 
 
 class OpensearchView(TemplateView):
@@ -79,40 +21,6 @@ class OpensearchView(TemplateView):
 
     MAX_PER_PAGE = 10
     template_name = 'search_opensearch.html'
-    page_type = 'SearchResultsPage'
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        search_query = self.request.GET.get('q', None)
-        full_search_results = Page.objects.none()
-
-        if search_query:
-            # Get the full un-paginated listing of search results as a queryset. Live pages only.
-            full_search_results = Page.objects.live().search(search_query)
-            # Show 10 resources per page
-            paginator = Paginator(full_search_results, self.MAX_PER_PAGE)
-            page_obj = paginator.get_page(self.request.GET.get('page', 1))
-            elided_page_range = [
-                page_num
-                for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
-            ]
-            ctx['page_obj'] = page_obj
-            ctx['elided_page_range'] = elided_page_range
-
-        ctx['search_results'] = full_search_results
-        ctx['search_results_count'] = full_search_results.count()
-        ctx['search_query'] = search_query
-
-        return ctx
-
-
-class OpensearchAdminView(TemplateView):
-    """
-    This view is an admin preview of Opensearch on servers where it is not deployed yet.
-    """
-
-    MAX_PER_PAGE = 10
-    template_name = 'search_preview_opensearch.html'
     page_type = 'SearchResultsPage'
 
     def get_context_data(self, *args, **kwargs):

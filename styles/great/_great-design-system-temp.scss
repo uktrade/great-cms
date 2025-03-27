@@ -749,37 +749,44 @@ $great-design-system-mint-green: #8ce2d0;
   }
 }
 
-.govuk-heading-xxl {
-  font-size: 32px;
-  line-height: 40px;
-
-  @include govuk-media-query($from: tablet) {
-    font-size: 76px;
-    line-height: 80px;
-  }
-}
-
-.great-ds-border-bottom--white {
-  border-bottom: 4px solid white;
-}
-
-.great-ds-bg-dark-blue {
-  background: #04043fff;
-}
-
-.great-ds-bg-light-blue {
-  background: #eef2f6ff;
-}
-
-.great-ds-text-white {
-  color: #fff !important;
-}
-
 .bgs-hero {
   background-position: bottom;
   background-repeat: no-repeat;
 
   @include govuk-media-query($until: tablet) {
     background-size: contain;
+  }
+}
+
+.bgs-guide-hero {
+  background-size: cover;
+  width: 100%;
+}
+
+.bgs-about--image {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.bgs-email-guide {
+  background: url(/static/images/send-mail-graphic.svg);
+  background-repeat: no-repeat;
+  background-position: 90% 0;
+}
+
+.great-ds-address {
+  font-style: normal;
+
+  .great-ds-address__row {
+    display: flex;
+    align-items: anchor-center;
+    padding-bottom: 10px;
+
+    > *:first-child {
+      font-weight: bold;
+      min-width: 105px;
+    }
   }
 }

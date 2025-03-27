@@ -13,6 +13,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
+from core.templatetags.bgs_tags import is_bgs_site
 from core.templatetags.content_tags import (
     add_anchor_classes,
     change_country_name_to_include_the,
@@ -46,6 +47,7 @@ from core.templatetags.content_tags import (
     tag_text_mapper,
     url_type,
     val_to_int,
+    get_card_meta_data_by_url,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1251,3 +1253,24 @@ def test_split_title(title, expected_output):
 )
 def test_is_cheg_excluded_country(country_code, expected_output):
     assert is_cheg_excluded_country(country_code) == expected_output
+
+
+def test_is_bgs_site_false():
+    path = 'https://www.hotfix.great.uktrade.digital/'
+    assert is_bgs_site(path) is False
+
+
+def test_is_bgs_site_true():
+    path = 'https://www.hotfix.bgs.uktrade.digital/'
+    assert is_bgs_site(path) is True
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        ('www.gov.uk', {'text': 'GOV.UK', 'icon_name': 'govuk'}),
+        ('www.wrong.uk', {'text': False, 'icon_name': False}),
+    ),
+)
+def test_get_card_meta_data_by_url(input_url, expected_output):
+    assert get_card_meta_data_by_url(input_url) == expected_output

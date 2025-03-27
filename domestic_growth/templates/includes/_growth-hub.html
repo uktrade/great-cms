@@ -1,0 +1,27 @@
+{% if local_support_data.growth_hubs|length > 0 %}
+    {% with local_support_data.growth_hubs|first as nearest_growth_hub %}
+        <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_growth_hub.name }}</h4>
+        <p class="govuk-body">
+            Your local Government-backed Growth Hub can provide free advice, funding, and training to help your business succeed.
+        </p>
+        <address class="great-ds-address">
+            <div class="great-ds-address__row">
+                <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_growth_hub.contacts.website }}">{{ nearest_growth_hub.contacts.website }}</a>
+            </div>
+            
+            {% if nearest_growth_hub.contacts.email %}
+            <div class="great-ds-address__row">
+                <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_growth_hub.contacts.email }}">{{ nearest_growth_hub.contacts.email }}</a>
+            </div>
+            {% endif %}
+
+            <div class="great-ds-address__row">
+                <strong class="govuk-!-font-weight-bold">Phone</strong> <span>{{ nearest_growth_hub.contacts.phone }}</span>
+            </div>
+
+            {% if nearest_growth_hub.boundary_name %}
+                {% include "_tag.html" with text=nearest_growth_hub.boundary_name type="information" %}
+            {% endif %}
+        </address>
+    {% endwith %}
+{% endif %}

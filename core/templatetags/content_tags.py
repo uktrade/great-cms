@@ -18,11 +18,12 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
+from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA
 
 logger = logging.getLogger(__name__)
 
@@ -792,3 +793,27 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def is_a_dynamic_snippet(snippet_id):
+    for snippet in DYNAMIC_SNIPPET_NAMES:
+        if snippet[0] == snippet_id:
+            return True
+
+    return False
+
+
+@register.filter
+def get_card_meta_data_by_url(url):
+    for url_match, text, icon_name in CARD_META_DATA:
+        if url_match in url:
+            return {
+                'text': text,
+                'icon_name': icon_name,
+            }
+
+    return {
+        'text': False,
+        'icon_name': False,
+    }

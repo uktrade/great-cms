@@ -1,0 +1,19 @@
+{% extends 'includes/base_triage.html' %}
+{% block form %}
+    <form method="post" autocomplete="off" data-target-market-form>
+        {% csrf_token %}
+        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business
+            </h2>
+            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
+                <label class="govuk-heading--xl">What was last financial year’s turnover?</label>
+            </h1>
+            <p class="govuk-body govuk-!-margin-bottom-4">
+                You may be eligible for some types of support depending on your turnover.
+            </p>
+            <div class="govuk-!-margin-bottom-2">{{ form }}</div>
+        </div>
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
+    </form>
+{% endblock %}

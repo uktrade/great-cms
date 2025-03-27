@@ -728,6 +728,18 @@ class MarketsTopicLandingPage(
 
         context['number_of_results'] = relevant_markets.count()
 
+        context['markets_sort_form'] = domestic_forms.MarketsSortForm()
+        context['markets_filters_form'] = domestic_forms.MarketsFilterForm(
+            init_data={
+                'sector_list': self.get_sector_list(request),
+                'selected_sectors': self.get_selected_sectors(request),
+                'region_list': self.get_regions_list(request),
+                'selected_regions': self.get_selected_regions(request),
+                'trading_bloc_list': self.get_trading_bloc_list(request),
+                'selected_trading_blocs': self.get_selected_trading_blocs(request),
+            }
+        )
+
         return context
 
 
