@@ -9,7 +9,7 @@
     <div class="rich-link__content">
         {% include link_external|yesno:"./external-link.html,./internal-link.html" with url=link_url text=link_text %}
         {% if location %}
-            <div>
+            <div class="rich-link__location">
                 <i class="fa fa-sm fa-map-marker-alt" aria-hidden="true"></i>
                 <span class="govuk-hint">{{ location }}</span>
             </div>
