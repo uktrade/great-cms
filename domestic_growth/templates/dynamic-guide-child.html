@@ -19,12 +19,14 @@
                         {% if local_support_data.postcode_data.admin_district %}
                             {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="information" %}
                         {% endif %}
+
+                        {% include "includes/_change-answers.html" %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="govuk-service-navigation"
+    <div class="govuk-service-navigation great-ds-bg-white"
          data-module="govuk-service-navigation">
         <div class="great-container">
             <div class="govuk-service-navigation__container">
@@ -36,7 +38,7 @@
                     <ul class="govuk-service-navigation__list" id="navigation">
                         <li class="govuk-service-navigation__item">
                             <a class="govuk-service-navigation__link"
-                               href="{{ page.get_parent.get_url }}{{ qs }}">{{ page.get_parent.hero_title }}</a>
+                               href="{{ page.get_parent.get_url }}{{ qs }}">{{ page.get_parent.body_title }}</a>
                         </li>
                         {% for child_page in page.get_parent.get_children %}
                             {% with page=child_page.specific parent_page_title=page.page_title %}
@@ -70,7 +72,7 @@
                         {% if page.page_a_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_a_body_intro }}</p>{% endif %}
                         {% if page.page_a_body_sections %}
                             {% for section in page.page_a_body_sections %}
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow">
                                 <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                                 <p class="govuk-caption">{{ section.value.intro }}</p>
 
@@ -101,7 +103,7 @@
                         {% if page.page_b_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_b_body_intro }}</p>{% endif %}
                         {% if page.page_b_body_sections %}
                             {% for section in page.page_b_body_sections %}
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-grey-3">
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow">
                                 <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                                 <p class="govuk-caption">{{ section.value.intro }}</p>
 
