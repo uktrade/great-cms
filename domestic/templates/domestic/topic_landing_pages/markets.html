@@ -42,117 +42,21 @@
                         </div>
                         <div id="markets-results column-three-quarters-xl">
                             <div>
-                                {% if number_of_results == 0 %}
-                                    {% if selected_sectors or selected_regions %}
-                                        <p>
-                                            Currently, we don't have any market guides with information&nbsp;
-                                            {% for sector in selected_sectors %}
-                                                {% if forloop.first %}about{% endif %}
-                                                <span class="bold">{{ sector }}</span>
-                                                {% if not forloop.last %}or{% endif %}
-                                                {% if forloop.last and not selected_regions %}.{% endif %}
-                                            {% endfor %}
-                                            {% if selected_regions %}
-                                                in
-                                                {% for region in selected_regions %}
-                                                    <span class="bold">{{ region }}</span>
-                                                    {% if not forloop.last %}or{% endif %}
-                                                    {% if forloop.last %}.  Try searching in another region.{% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                            <p>There are other ways the Department for Business and Trade can help you sell your product in an overseas market.</p>
-                                            <p>
-                                                <a href="{{ services_urls.exopps }}" class="link">Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>
-                                            </p>
-                                            <p>
-                                                <a href="/support/export-support/" class="govuk-link">Access our expert guidance, tools and services 24/7 using our online export support</a>
-                                            </p>
-                                        {% endif %}
-                                    {% elif selected_sectors and not selected_regions and not selected_trading_blocs %}
-                                        <h3 class="margin-bottom-15">
-                                            These markets are looking to work with UK businesses from the
-                                            {% for sector in selected_sectors %}
-                                                {% if forloop.last and not forloop.first %}and{% endif %}
-                                                {# djlint:off #}
-                                                <span class="bold">{{ sector }}{% if forloop.revcounter0 > 1 %},{% endif %}</span>
-                                                {# djlint:on #}
-                                                {% if forloop.last %}sector{{ number_of_sectors|pluralize:",s" }}.{% endif %}
-                                            {% endfor %}
-                                        </h3>
-                                    {% elif not selected_sectors and selected_regions and not selected_trading_blocs %}
-                                        <h3 class="margin-bottom-15">
-                                            There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market guide{{ number_of_results|pluralize:",s" }} in the
-                                            {% for region in selected_regions %}
-                                                <span class="bold">{{ region }}</span>
-                                                {% if not forloop.last %}or{% endif %}
-                                                {% if forloop.last %}region{{ number_of_regions|pluralize:",s" }}.{% endif %}
-                                            {% endfor %}
-                                        </h3>
-                                    {% elif not selected_sectors and not selected_regions and selected_trading_blocs %}
-                                        <h3 class="margin-bottom-15">
-                                            There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market guide{{ number_of_results|pluralize:",s" }} in the
-                                            {% for trading_bloc in selected_trading_blocs %}
-                                                <span class="bold">{{ trading_bloc }}</span>
-                                                {% if not forloop.last %}or{% endif %}
-                                                {% if forloop.last %}trading bloc{{ number_of_trading_blocs|pluralize:",s" }}.{% endif %}
-                                            {% endfor %}
-                                        </h3>
-                                    {% else %}
-                                        {% if selected_sectors or selected_regions or selected_trading_blocs %}
-                                            <h3 class="margin-bottom-15">
-                                                There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
-                                                {% if selected_sectors %}
-                                                    with high potential for UK businesses in
-                                                    {% for sector in selected_sectors %}
-                                                        <span class="bold">{{ sector }}</span>
-                                                        {% if not forloop.last %}or{% endif %}
-                                                        {% if forloop.last and not selected_regions %}.{% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                {% if selected_regions %}
-                                                    in the
-                                                    {% for region in selected_regions %}
-                                                        <span class="bold">{{ region }}</span>
-                                                        {% if not forloop.last %}or{% endif %}
-                                                        {% if forloop.last %}
-                                                            {% if not selected_trading_blocs %}
-                                                                region{{ number_of_regions|pluralize:",s" }}.
-                                                            {% else %}
-                                                                region{{ number_of_regions|pluralize:",s" }}
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                {% if selected_trading_blocs %}
-                                                    {% if selected_regions %}
-                                                        and the
-                                                    {% else %}
-                                                        in the
-                                                    {% endif %}
-                                                    {% for trading_bloc in selected_trading_blocs %}
-                                                        <span class="bold">{{ trading_bloc }}</span>
-                                                        {% if not forloop.last %}or{% endif %}
-                                                        {% if forloop.last %}trading bloc{{ number_of_trading_blocs|pluralize:",s" }}.{% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </h3>
+                                {{markets_message|safe}}  
+                                {% if has_filters %}
+                                    <p class="margin-bottom-45-m">
+                                        <a href="{{ request.path }}"
+                                            class="view-markets link bold margin-top-15">Clear all filters</a>
+                                    </p>
+                                {% endif %}
+                                <div class="controls margin-bottom-45-m">
+                                    {% include '_button.html' with id='mobile-filter-toggle' classes='mobile-filter-toggle' href='#' text='Filter' %}
+                                    {% if results_count %}
+                                        {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
+                                            <a href="{% url 'core:compare-countries' %}"
+                                                class="govuk-link govuk-!-margin-left-6">Find information about your product</a>
                                         {% endif %}
                                     {% endif %}
-                                    {% if selected_sectors or selected_regions or selected_trading_blocs %}
-                                        <p class="margin-bottom-45-m">
-                                            <a href="{{ request.path }}"
-                                               class="view-markets link bold margin-top-15">Clear all filters</a>
-                                        </p>
-                                    {% endif %}
-                                    <div class="controls margin-bottom-45-m">
-                                        {% include '_button.html' with id='mobile-filter-toggle' classes='mobile-filter-toggle' href='#' text='Filter' %}
-                                        {% if number_of_results %}
-                                            {% if features.FEATURE_PRODUCT_EXPERIMENT_LINKS %}
-                                                <a href="{% url 'core:compare-countries' %}"
-                                                   class="govuk-link govuk-!-margin-left-6">Find information about your product</a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
                                 </div>
                             </div>
                             <div class="flex-grid markets-grid">

@@ -254,6 +254,8 @@ googleapis-common-protos==1.69.2
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
+greenlet==3.1.1
+    # via sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==22.0.0
@@ -402,6 +404,8 @@ pillow-heif==0.22.0
     # via willow
 platformdirs==4.3.7
     # via virtualenv
+pluralizer==1.2.0
+    # via -r requirements.in
 polib==1.2.0
     # via wagtail-localize
 pre-commit==3.8.0

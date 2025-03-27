@@ -12,6 +12,7 @@ from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from modelcluster.models import ParentalKey
+from pluralizer import Pluralizer
 from taggit.models import ItemBase
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, ObjectList, TabbedInterface
@@ -60,6 +61,8 @@ from core.models import (
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
+
+pluralizer = Pluralizer()
 
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
@@ -710,29 +713,147 @@ class MarketsTopicLandingPage(
     def get_selected_trading_blocs(self, request) -> list:
         return request.GET.getlist(self.TRADING_BLOC_QUERYSTRING_NAME)
 
+    def pluralize_based_on_object_count(self, objs, singular, plural):
+        if len(objs) > 1:
+            return plural
+        return singular
+
+    def create_object_string_for_user_message(
+        self, selected_objects, object_type, use_or=False, use_title_span=False
+    ) -> str:
+        """
+        Used to loop through selected markets and create a coherent html string
+        to be rendered in the template
+        """
+        default_separator = ''
+        message_dict = {
+            'separator': default_separator,
+        }
+        prepend_span = '' if not use_title_span else '<span class="bold">'
+        append_span = '' if not use_title_span else '</span>'
+        object_string = ''
+        total_objs = len(selected_objects)
+        for loop_index, obj in enumerate(selected_objects):
+            is_last = True if total_objs - 1 == loop_index else False
+            one_from_last = True if total_objs - 2 == loop_index else False
+            if use_or:
+                message_dict.update({'separator': 'or ' if not is_last else default_separator})
+            else:
+                message_dict.update({'object_types': pluralizer.singular(object_type)})
+                if one_from_last:
+                    message_dict.update({'separator': ' and ', 'object_type': pluralizer.plural(object_type)})
+                elif not is_last:
+                    message_dict.update({'separator': ', '})
+            object_string += f'{prepend_span}{obj}{append_span}{message_dict["separator"]} '
+            if is_last:
+                object_string += message_dict['object_type']
+        return object_string
+
+    def create_message(
+        self,
+        start_string='',
+        selected_sectors=[],
+        selected_regions=[],
+        selected_trading_blocs=[],
+        end_string='',
+        prepend_strings=[],
+        append_strings=[],
+        prepend_sector_message_string='',
+        use_title_span=False,
+    ):
+
+        # Handle and html string that should be prepended
+        message = ''
+        for string in prepend_strings:
+            message += string
+        message += start_string
+
+        if selected_sectors:
+            message += '{0}{1}'.format(
+                prepend_sector_message_string,
+                self.create_object_string_for_user_message(
+                    selected_sectors, 'sector', use_or=True, use_title_span=use_title_span
+                ),
+            )
+            message += '.' if not selected_regions else ''
+        if selected_regions:
+            message += ' in the {0}'.format(
+                self.create_object_string_for_user_message(
+                    selected_regions, 'region', use_or=True, use_title_span=use_title_span
+                )
+            )
+            message += '.' if not selected_trading_blocs else ''
+        if selected_trading_blocs:
+            message += ' and the ' if selected_regions else ' in the '
+            message += '{0}.'.format(
+                self.create_object_string_for_user_message(
+                    selected_trading_blocs, 'trading bloc', use_or=True, use_title_span=use_title_span
+                )
+            )
+        message += f' {end_string}'
+
+        # Handle and html string that should be appended
+        for string in append_strings:
+            message += string
+
+        return message
+
+    def create_markets_display_message(self, request, results):
+
+        if not self.has_filters(request):
+            return ''
+
+        message_dict = {
+            'start_string': 'There {0} {1} market guide{2}'.format(
+                self.pluralize_based_on_object_count(results, 'is', 'are'),
+                len(results),
+                self.pluralize_based_on_object_count(results, '', 's'),
+            ),
+            'prepend_sector_message_string': 'with high potential for UK businesses in ',
+            'prepend_strings': ['<h3 class=\"margin-bottom-15\">'],
+            'append_strings': ['</h3>'],
+            'selected_sectors': self.get_selected_sectors(request),
+            'selected_regions': self.get_selected_regions(request),
+            'selected_trading_blocs': self.get_selected_trading_blocs(request),
+        }
+
+        if not results:
+            message_dict.update(
+                {
+                    'start_string': "Currently, we don't have any market guides with information ",
+                    'prepend_sector_message_string': 'about ',
+                    'prepend_strings': ['<p>'],
+                    'append_strings': [
+                        '</p>',
+                        '<p>There are other ways the Department for Business and Trade can help you \
+                        sell your product in an overseas market.</p>',
+                        f'<p><a href="{service_urls.SERVICES_EXOPPS}" class="link">Browse our export opportunities \
+                            service to find opportunities to sell your product in overseas markets</a></p>',
+                        '<p><a href="/support/export-support/" class="govuk-link">Access our expert guidance, tools \
+                            and services 24/7 using our online export support</a></p>',
+                    ],
+                    'use_title_span': True,
+                }
+            )
+        return self.create_message(**message_dict)
+
+    def has_filters(self, request):
+        return (
+            True
+            if list(self.get_selected_sectors(request))
+            or list(self.get_selected_regions(request))
+            or list(self.get_selected_trading_blocs(request))
+            else False
+        )
+
     def get_context(self, request):
         context = super().get_context(request)
         relevant_markets = self.get_relevant_markets(request)
         paginated_results = self.paginate_data(request, relevant_markets)
 
-        context['sortby_options'] = self.sortby_options
-        context[self.SORTBY_QUERYSTRING_NAME] = self._get_sortby(request)
-
-        context['sector_list'] = self.get_sector_list(request)
-        context['region_list'] = self.get_regions_list(request)
-        context['trading_bloc_list'] = self.get_trading_bloc_list(request)
-
-        context['selected_sectors'] = self.get_selected_sectors(request)
-        context['selected_regions'] = self.get_selected_regions(request)
-        context['selected_trading_blocs'] = self.get_selected_trading_blocs(request)
-
-        context['number_of_sectors'] = len(context['selected_sectors'])
-        context['number_of_regions'] = len(context['selected_regions'])
-        context['number_of_trading_blocs'] = len(context['selected_trading_blocs'])
-
+        context['has_filters'] = self.has_filters(request)
         context['paginated_results'] = paginated_results
-        context['number_of_results'] = relevant_markets.count()
-
+        context['results_count'] = len(relevant_markets)
         context['markets_sort_form'] = domestic_forms.MarketsSortForm()
         context['markets_filters_form'] = domestic_forms.MarketsFilterForm(
             init_data={
@@ -746,6 +867,7 @@ class MarketsTopicLandingPage(
                 'selected_sort_by': [self._get_sortby(request)],
             }
         )
+        context['markets_message'] = self.create_markets_display_message(request, relevant_markets)
 
         return context
 
