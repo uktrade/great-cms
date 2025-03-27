@@ -1,33 +1,40 @@
 {% if local_support_data.postcode_data.country %}
     {% with country=local_support_data.postcode_data.country|lower %}
         {% if country == 'england' %}
-        <div class="great-ds-border-top-grey-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
-            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Speak to an expert</h3>
+        <div class="great-ds-border-top-blue-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
+            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h3>
             <div>
-                <p class="govuk-body">Contact our Business Support Service to speak to one of our advisors for free advice.</p>
-                <address class="great-ds-address">
-                    <div class="great-ds-address__row">
-                        <strong>Email</strong> <a href="mailto:enquiries@businesssupportservice.co.uk" class="govuk-link">enquiries@businesssupportservice.co.uk</a>
-                    </div>
+                <p class="govuk-body">The government's Business Support Service can answer your questions on any aspect of<br /> starting, running or growing your business. It's free and you can choose to access it by phone,<br /> email or webchat.</p>
+                <address class="great-ds-address govuk-!-margin-bottom-4">
                     <div class="great-ds-address__row">
                         <strong>Phone</strong> <span>0800 998 1098</span>
                     </div>
+                    <div class="great-ds-address__row">
+                        <strong>Email</strong> <a href="mailto:enquiries@businesssupportservice.co.uk" class="govuk-link">enquiries@businesssupportservice.co.uk</a>
+                    </div>
                 </address>
+
+                {% include "_button.html" with text="Chat with an adviser" %}
             </div>
         </div>
         {% elif country == 'scotland' %}
-        <div class="great-ds-border-top-grey-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
-            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Speak to an expert</h3>
+        <div class="great-ds-border-top-blue-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
+            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h3>
             <div>
-                <p class="govuk-body">Contact our Business Support Service to speak to one of our advisors for free advice.</p>
-                <address class="great-ds-address">
+                <p class="govuk-body">Find Business Support Scotland can answer your questions on any aspect of starting, running<br /> or growing your business. It's free and you can choose to access it by phone<br /> or email.</p>
+                <address class="great-ds-address govuk-!-margin-bottom-4">
                     <div class="great-ds-address__row">
                         <strong>Website</strong> <a href="findbusinesssupport.gov.scot" class="govuk-link">findbusinesssupport.gov.scot</a>
                     </div>
                     <div class="great-ds-address__row">
                         <strong>Phone</strong> <span>0300 303 0660</span>
                     </div>
+                    <div class="great-ds-address__row">
+                        <strong>Textphone</strong> <span>0800 998 1098</span>
+                    </div>
                 </address>
+
+                {% include "_button.html" with text="Chat with an adviser" %}
             </div>
         </div>
         {% endif %}
