@@ -40,6 +40,7 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
 
     hero_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     explore_body = StreamField(
@@ -181,6 +182,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
     hero_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     body_title = models.TextField(
@@ -189,6 +191,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
     body_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     primary_regional_support_title_england = models.TextField(
@@ -277,6 +280,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
     body_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     body_sections = StreamField(
@@ -286,7 +290,30 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
                 blocks.StructBlock(
                     [
                         ('title', blocks.CharBlock()),
-                        ('intro', blocks.CharBlock()),
+                        (
+                            'intro',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_text',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_url',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
                         (
                             'content',
                             blocks.ListBlock(
@@ -367,6 +394,7 @@ class DomesticGrowthDynamicChildGuidePage(
 
     page_a_body_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     page_a_body_sections = StreamField(
@@ -376,7 +404,30 @@ class DomesticGrowthDynamicChildGuidePage(
                 blocks.StructBlock(
                     [
                         ('title', blocks.CharBlock()),
-                        ('intro', blocks.CharBlock()),
+                        (
+                            'intro',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_text',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_url',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
                         (
                             'content',
                             blocks.ListBlock(
@@ -420,6 +471,7 @@ class DomesticGrowthDynamicChildGuidePage(
 
     page_b_body_intro = models.TextField(
         null=True,
+        blank=True,
     )
 
     page_b_body_sections = StreamField(
@@ -429,7 +481,30 @@ class DomesticGrowthDynamicChildGuidePage(
                 blocks.StructBlock(
                     [
                         ('title', blocks.CharBlock()),
-                        ('intro', blocks.CharBlock()),
+                        (
+                            'intro',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_text',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'link_url',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
                         (
                             'content',
                             blocks.ListBlock(

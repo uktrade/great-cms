@@ -72,7 +72,7 @@
                         {% if page.page_a_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_a_body_intro }}</p>{% endif %}
                         {% if page.page_a_body_sections %}
                             {% for section in page.page_a_body_sections %}
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow">
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}" {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
                                 <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                                 <p class="govuk-caption">{{ section.value.intro }}</p>
 
@@ -86,6 +86,12 @@
                                     {% for content in section.value.content %}
                                         {% include "includes/_render-snippet.html" with content=content %}
                                     {% endfor %}
+                                {% endif %}
+
+                                {% if section.value.link_text and section.value.link_url %}
+                                    <div class="great-ds-cta-banner__action-link-container">
+                                        {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                                    </div>
                                 {% endif %}
                             </div>
                             {% endfor %}
@@ -103,7 +109,7 @@
                         {% if page.page_b_body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.page_b_body_intro }}</p>{% endif %}
                         {% if page.page_b_body_sections %}
                             {% for section in page.page_b_body_sections %}
-                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow">
+                            <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}" {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
                                 <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
                                 <p class="govuk-caption">{{ section.value.intro }}</p>
 
@@ -117,6 +123,12 @@
                                     {% for content in section.value.content %}
                                         {% include "includes/_render-snippet.html" with content=content %}
                                     {% endfor %}
+                                {% endif %}
+
+                                {% if section.value.link_text and section.value.link_url %}
+                                    <div class="great-ds-cta-banner__action-link-container">
+                                        {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                                    </div>
                                 {% endif %}
                             </div>
                             {% endfor %}
