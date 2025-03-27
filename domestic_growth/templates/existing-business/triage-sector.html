@@ -17,13 +17,12 @@
             <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
             <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
                 <div class="govuk-checkboxes__item">
-                    {{ form.dont_know_sector_yet }}
-                    <label class="govuk-label govuk-checkboxes__label"
-                           for="id_dont_know_sector_yet">{{ form.dont_know_sector_yet.label }}</label>
+                    {{ form.cant_find_sector }}
+                    <label class="govuk-label govuk-checkboxes__label" for="id_cant_find_sector">{{ form.cant_find_sector.label }}</label>
                 </div>
             </div>
         </div>
-        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Show support and information' %}
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
     </form>
 {% endblock %}
 {% block body_js %}

@@ -13,9 +13,9 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from core.models import TimeStampedModel
-from domestic_growth import cms_panels, constants, helpers
+from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
-from domestic_growth.helpers import get_triage_data
+from domestic_growth.helpers import get_triage_data, get_events
 from international_online_offer.core.helpers import get_hero_image_by_sector
 from international_online_offer.models import TradeAssociation
 
@@ -170,7 +170,10 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     class Meta:
         verbose_name = 'Domestic Growth Guide page'
 
-    subpage_types = ['domestic_growth.DomesticGrowthChildGuidePage']
+    subpage_types = [
+        'domestic_growth.DomesticGrowthChildGuidePage',
+        'domestic_growth.DomesticGrowthDynamicChildGuidePage',
+    ]
 
     hero_title = models.TextField(
         null=True,
@@ -340,6 +343,153 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         return context
 
 
+class DomesticGrowthDynamicChildGuidePage(
+    WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthDynamicChildGuidePagePanels, Page
+):
+    template = 'dynamic-guide-child.html'
+
+    cache_control = 'no-cache'
+
+    class Meta:
+        verbose_name = 'Domestic Growth Dynamic Child Guide page'
+
+    parent_page_types = [
+        'domestic_growth.DomesticGrowthGuidePage',
+    ]
+
+    page_a_type = models.CharField(
+        choices=constants.DYNAMIC_CHILD_PAGE_CHOICES,
+    )
+
+    page_a_body_title = models.TextField(
+        null=True,
+    )
+
+    page_a_body_intro = models.TextField(
+        null=True,
+    )
+
+    page_a_body_sections = StreamField(
+        [
+            (
+                'section',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('intro', blocks.CharBlock()),
+                        (
+                            'content',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                label='Choose snippet',
+                            ),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    page_a_related_cta = StreamField(
+        [
+            (
+                'related_cta',
+                StreamBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('card', SnippetChooserBlock('domestic_growth.DomesticGrowthCard')),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    page_b_type = models.CharField(
+        choices=constants.DYNAMIC_CHILD_PAGE_CHOICES,
+    )
+
+    page_b_body_title = models.TextField(
+        null=True,
+    )
+
+    page_b_body_intro = models.TextField(
+        null=True,
+    )
+
+    page_b_body_sections = StreamField(
+        [
+            (
+                'section',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('intro', blocks.CharBlock()),
+                        (
+                            'content',
+                            blocks.ListBlock(
+                                SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
+                                label='Choose snippet',
+                            ),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    page_b_related_cta = StreamField(
+        [
+            (
+                'related_cta',
+                StreamBlock(
+                    [
+                        ('title', blocks.CharBlock()),
+                        ('card', SnippetChooserBlock('domestic_growth.DomesticGrowthCard')),
+                    ],
+                ),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+
+    def get_context(self, request):
+        context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
+
+        triage_data = get_triage_data(request, ExistingBusinessTriage)
+
+        postcode = triage_data['postcode']
+        sector = triage_data['sector']
+        currently_export = triage_data.get('currently_export', False)
+
+        if postcode and sector:
+            context['qs'] = f'?postcode={postcode}&sector={sector}'
+
+        if postcode:
+            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+
+        if sector:
+            context['hero_image_url'] = get_hero_image_by_sector(sector)
+            context['sector'] = sector
+
+        context['is_interested_in_exporting'] = currently_export
+        context['events'] = get_events()
+
+        context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+
+        return context
+
+
 class DomesticGrowthAboutPage(SeoMixin, cms_panels.DomesticGrowthAboutPagePanels, Page):
     template = 'domestic-growth-about.html'
 
@@ -413,6 +563,25 @@ class StartingABusinessTriage(TimeStampedModel):
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
+
+
+class ExistingBusinessTriage(TimeStampedModel):
+    # never assume email is unique in this table as users can complete the triage in different
+    # browsers / incognito mode
+    email = models.CharField(max_length=255, null=True, blank=True)
+    # the session_id is either a django session id from request.session.session_key or
+    # in the case where a user has not accepted cookies a UUIDV4
+    session_id = models.CharField(max_length=40, unique=True)
+    sector_id = models.CharField(max_length=10, null=True, blank=True)
+    cant_find_sector = models.BooleanField(default=False, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)
+    when_set_up = models.CharField(
+        max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_WHEN_SET_UP_CHOICES
+    )
+    turnover = models.CharField(
+        max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
+    )
+    currently_export = models.BooleanField(default=False, null=True, blank=True)
 
 
 @register_snippet

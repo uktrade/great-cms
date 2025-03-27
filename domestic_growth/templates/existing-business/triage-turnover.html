@@ -4,17 +4,15 @@
         {% csrf_token %}
         <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
             <h2 class="govuk-caption-l">
-                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
             <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading--xl">Where will your business be based?</label>
+                <label class="govuk-heading--xl">What was last financial year’s turnover?</label>
             </h1>
             <p class="govuk-body govuk-!-margin-bottom-4">
-                Enter the postcode and we’ll show you support and information services closest to you.
+                You may be eligible for some types of support depending on your turnover.
             </p>
-            <div class="govuk-!-margin-bottom-2">
-                {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.postcode %}
-            </div>
+            <div class="govuk-!-margin-bottom-2">{{ form }}</div>
         </div>
         {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
     </form>
