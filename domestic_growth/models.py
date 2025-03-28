@@ -371,6 +371,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
             context['sector'] = sector
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
 
         return context
 
