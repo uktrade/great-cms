@@ -6,6 +6,11 @@ from django.views.generic import FormView
 from pydantic import HttpUrl
 
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
+from domestic_growth.constants import (
+    ESTABLISHED_GUIDE_URL,
+    PRE_START_GUIDE_URL,
+    START_UP_GUIDE_URL,
+)
 from domestic_growth.forms import (
     ExistingBusinessCurrentlyExportForm,
     ExistingBusinessLocationForm,
@@ -108,7 +113,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url('/support-in-uk/pre-start-guide/')
+        return super().get_success_url(PRE_START_GUIDE_URL)
 
 
 class ExistingBusinessLocationFormView(BaseTriageFormView):
@@ -216,9 +221,9 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
         triage_data = ExistingBusinessTriage.objects.get(session_id=self.session_id)
 
-        success_url = '/support-in-uk/established-guide'
+        success_url = ESTABLISHED_GUIDE_URL
 
         if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
-            success_url = '/support-in-uk/start-up-guide'
+            success_url = START_UP_GUIDE_URL
 
         return super().get_success_url(success_url)

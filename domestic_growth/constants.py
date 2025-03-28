@@ -20,6 +20,12 @@ CARD_META_DATA = (
     ('smallbusinesscharter.org', 'smallbusinesscharter.org', 'small-business-charter'),
 )
 
+PRE_START_GUIDE_URL = '/support-in-uk/pre-start-guide/'
+START_UP_GUIDE_URL = '/support-in-uk/start-up-guide/'
+ESTABLISHED_GUIDE_URL = '/support-in-uk/established-guide/'
+PRE_START_BUSINESS_TYPE = 'pre_start'
+ESTABLISHED_OR_START_UP_BUSINESS_TYPE = 'established_or_startup'
+
 REGION_IMAGES = (
     ('North East', 'bgs-section-logo--north-east'),
     ('North West', 'bgs-section-logo--north-west'),
