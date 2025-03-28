@@ -19,3 +19,18 @@ CARD_META_DATA = (
     ('www.british-business-bank.co.uk', 'british-business-bank.co.uk', 'british-business-bank'),
     ('smallbusinesscharter.org', 'smallbusinesscharter.org', 'small-business-charter'),
 )
+
+REGION_IMAGES = (
+    ('North East', 'bgs-section-logo--north-east'),
+    ('North West', 'bgs-section-logo--north-west'),
+    ('Yorkshire and The Humber', 'bgs-section-logo--yorkshire'),
+    ('East Midlands', 'bgs-section-logo--east-midlands'),
+    ('West Midlands', 'bgs-section-logo--west-midlands'),
+    ('East of England', 'bgs-section-logo--east-of-england'),
+    ('London', 'bgs-section-logo--london'),
+    ('South East', 'bgs-section-logo--south-east'),
+    ('South West', 'bgs-section-logo--south-west'),
+    ('Scotland', 'bgs-section-logo--scotland'),
+    ('Wales', 'bgs-section-logo--wales'),
+    ('Northern Ireland', 'bgs-section-logo--northern-ireland'),
+)

@@ -1,4 +1,7 @@
 {% extends 'includes/base.html' %}
+
+{% load get_region_bg_class from content_tags %}
+
 {% block head_title %}Domestic Growth - Guide page{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
@@ -67,41 +70,43 @@
                     {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
-                        {% with country=local_support_data.postcode_data.country|lower %}
-                            <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
-                                {% if country == 'england' %}
-                                    {% if page.primary_regional_support_title_england %}
-                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
-                                    {% endif %}
+                        {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
+                            <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-left-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
+                                <div class="{% if region_bg_class %}govuk-!-padding-top-6 bgs-section-logo {{ region_bg_class }}{% endif %}">
+                                    {% if country == 'england' %}
+                                        {% if page.primary_regional_support_title_england %}
+                                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
+                                        {% endif %}
 
-                                    {% if page.primary_regional_support_intro_england %}
-                                        <p class="govuk-body">{{ page.primary_regional_support_intro_england }}</p>
-                                    {% endif %}
-                                {% elif country == 'scotland' %}
-                                    {% if page.primary_regional_support_title_scotland %}
-                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_scotland }}</h3>
-                                    {% endif %}
+                                        {% if page.primary_regional_support_intro_england %}
+                                            <p class="govuk-body great-ds-max-width-70">{{ page.primary_regional_support_intro_england }}</p>
+                                        {% endif %}
+                                    {% elif country == 'scotland' %}
+                                        {% if page.primary_regional_support_title_scotland %}
+                                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_scotland }}</h3>
+                                        {% endif %}
 
-                                    {% if page.primary_regional_support_intro_scotland %}
-                                        <p class="govuk-body">{{ page.primary_regional_support_intro_scotland }}</p>
-                                    {% endif %}
-                                {% elif country == 'wales' %}
-                                    {% if page.primary_regional_support_title_wales%}
-                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_wales }}</h3>
-                                    {% endif %}
+                                        {% if page.primary_regional_support_intro_scotland %}
+                                            <p class="govuk-body great-ds-max-width-70">{{ page.primary_regional_support_intro_scotland }}</p>
+                                        {% endif %}
+                                    {% elif country == 'wales' %}
+                                        {% if page.primary_regional_support_title_wales%}
+                                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_wales }}</h3>
+                                        {% endif %}
 
-                                    {% if page.primary_regional_support_intro_wales %}
-                                        <p class="govuk-body">{{ page.primary_regional_support_intro_wales }}</p>
-                                    {% endif %}
-                                {% elif country == 'northern ireland' %}
-                                    {% if page.primary_regional_support_title_ni %}
-                                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_ni }}</h3>
-                                    {% endif %}
+                                        {% if page.primary_regional_support_intro_wales %}
+                                            <p class="govuk-body great-ds-max-width-70">{{ page.primary_regional_support_intro_wales }}</p>
+                                        {% endif %}
+                                    {% elif country == 'northern ireland' %}
+                                        {% if page.primary_regional_support_title_ni %}
+                                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_ni }}</h3>
+                                        {% endif %}
 
-                                    {% if page.primary_regional_support_intro_ni %}
-                                        <p class="govuk-body">{{ page.primary_regional_support_intro_ni }}</p>
+                                        {% if page.primary_regional_support_intro_ni %}
+                                            <p class="govuk-body great-ds-max-width-70">{{ page.primary_regional_support_intro_ni }}</p>
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
+                                </div>
 
                                 <hr />
 
@@ -135,27 +140,37 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if trade_associations %}
-                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
-                            {% if page.trade_associations_title %}
-                                <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
-                            {% endif %}
+                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
+                        {% if page.trade_associations_title %}
+                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
+                        {% endif %}
 
-                            {% if page.trade_associations_intro %}
-                                <p class="govuk-body govuk-!-margin-bottom-4">{{ page.trade_associations_intro }}</p>
-                            {% endif %}
+                        {% if page.trade_associations_intro %}
+                            <p class="govuk-body govuk-!-margin-bottom-4">{{ page.trade_associations_intro }}</p>
+                        {% endif %}
 
+                        {% if trade_associations %}
                             {% for ta in trade_associations %}
                                 <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
-                                    {% include "_card.html" with href=ta.website_link type="unmounted" title=ta.association_name description=ta.brief_description id=ta.association_name classes="great-ds-card--full" hideArrow="true" %}
+                                    <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                        {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border" hideArrow="true" %}
+                                    
+                                        {% if sub_sector %}
+                                            {% include "_tag.html" with text=sub_sector type="success" %}
+                                        {% elif sector %}
+                                            {% include "_tag.html" with text=sector type="success" %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             {% endfor %}
                             <div class="govuk-!-margin-top-6">
                                 <button data-hidden-ta-trigger
                                         class="great-ds-button great-ds-button--secondary">Show more</button>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% else %}
+                            <p class="govuk-body">Please choose a sector</p>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="govuk-grid-column-one-third">
                     {% include 'includes/_email-guide-form.html' %}
