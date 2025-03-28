@@ -631,3 +631,11 @@
     }
   }
 }
+
+// Custom spacing to align with ukea event list 
+.ukea-events-pagination {
+  padding-left: 5px !important;
+  @include govuk-media-query($until: tablet) {
+    padding-left: 0px !important;
+  }
+}

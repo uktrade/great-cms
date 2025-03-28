@@ -187,18 +187,6 @@ def get_meta_description(page):
     return description if description is not None else ''
 
 
-# TODO? Reimplement, if we can't address this better at the Wagtail level
-# @register.filter
-# def add_href_target(value, request):
-#     soup = BeautifulSoup(value, 'html.parser')
-#     for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-#         if request.META['HTTP_HOST'] not in element.attrs['href']:
-#             element.attrs['target'] = '_blank'
-#             element.attrs['title'] = 'Opens in a new window'
-#             element.attrs['rel'] = 'noopener noreferrer'
-#     return str(soup)
-
-
 def get_pagination_url(request, page_param_name):
     """Remove pagination param from request url"""
     url = request.path
@@ -209,16 +197,47 @@ def get_pagination_url(request, page_param_name):
     return f'{url}?'
 
 
-@register.inclusion_tag('components/pagination/pagination.html', takes_context=True)
-def pagination(context, pagination_page, page_param_name='page'):
-    paginator = pagination_page.paginator
-    pagination_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
-    return {
-        'page_param_name': page_param_name,
-        'pagination': pagination_page,
-        'url': pagination_url,
-        'pages_after_current': paginator.num_pages - pagination_page.number,
+@register.inclusion_tag('_numbered_pagination.html', takes_context=True)
+def pagination(context, page_obj, page_param_name='page', elided_page_range=None, hover_classes=None):
+    current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
+
+    context = {
+        'currentPageURL': current_url,
+        'elidedPageRange': elided_page_range,
+        'elidedPageStr': '…',  # Copied from django pagination output
+        'pageParamName': page_param_name,
+        'hoverClasses': hover_classes,
     }
+
+    context['previousPageNumber'] = page_obj.previous_page_number() if page_obj.has_previous() else None
+    context['currentPageNumber'] = page_obj.number
+    context['nextPageNumber'] = page_obj.next_page_number() if page_obj.has_next() else None
+    context['lastPageNumber'] = page_obj.paginator.num_pages
+
+    return context
+
+
+@register.filter
+def pagination_obj_range_lower_limit(page_obj):
+    current_page_number = page_obj.number
+    per_page = page_obj.paginator.per_page
+
+    lower_limit = per_page * current_page_number
+
+    return lower_limit
+
+
+@register.filter
+def pagination_obj_range_upper_limit(page_obj):
+    total_objects = page_obj.paginator.count
+    current_page_number = page_obj.number
+    per_page = page_obj.paginator.per_page
+
+    upper_limit = per_page * (current_page_number + 1)
+
+    if upper_limit > total_objects:
+        upper_limit = total_objects
+    return upper_limit
 
 
 @register.inclusion_tag('components/message_box.html')
