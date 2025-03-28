@@ -803,3 +803,7 @@ $great-design-system-mint-green: #8ce2d0;
 .great-ds-border-top-blue-3 {
   border-top: 3px solid #1d70b8 !important;
 }
+
+.great-ds-card--no-border .great-ds-card__inner {
+  border-bottom: 0 !important;
+}

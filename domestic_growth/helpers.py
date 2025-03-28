@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpRequest
 
 from directory_api_client import api_client
@@ -44,9 +46,9 @@ def get_triage_data(request: HttpRequest, model):
         dbt_sectors = get_dbt_sectors()
 
         if triage_data:
-            parent_sector, _, _ = get_sectors_by_selected_id(dbt_sectors, triage_data.sector_id)
+            parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data.sector_id)
 
-        return {'postcode': triage_data.postcode, 'sector': parent_sector}
+        return {'postcode': triage_data.postcode, 'sector': parent_sector, 'sub_sector': sub_sector}
     except Exception as e:  # NOQA: F841
         return {'postcode': '', 'sector': ''}
 
@@ -55,3 +57,30 @@ def get_events():
     events = list(Event.objects.all())
 
     return events[:3]
+
+
+def get_trade_associations_file():
+    json_data = open('domestic_growth/fixtures/trade_associations.json')
+    deserialised_data = json.load(json_data)
+    json_data.close()
+    return deserialised_data
+
+
+def get_filtered_trade_associations_by_sector(trade_associations, sector):
+    res = []
+
+    for ta in trade_associations:
+        if sector in ta.get('sectors'):
+            res.append(ta)
+
+    return res
+
+
+def get_filtered_trade_associations_by_sub_sector(trade_associations, sub_sector):
+    res = []
+
+    for ta in trade_associations:
+        if sub_sector in ta.get('sectors'):
+            res.append(ta)
+
+    return res

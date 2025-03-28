@@ -135,27 +135,37 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if trade_associations %}
-                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
-                            {% if page.trade_associations_title %}
-                                <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
-                            {% endif %}
+                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
+                        {% if page.trade_associations_title %}
+                            <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
+                        {% endif %}
 
-                            {% if page.trade_associations_intro %}
-                                <p class="govuk-body govuk-!-margin-bottom-4">{{ page.trade_associations_intro }}</p>
-                            {% endif %}
+                        {% if page.trade_associations_intro %}
+                            <p class="govuk-body govuk-!-margin-bottom-4">{{ page.trade_associations_intro }}</p>
+                        {% endif %}
 
+                        {% if trade_associations %}
                             {% for ta in trade_associations %}
                                 <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
-                                    {% include "_card.html" with href=ta.website_link type="unmounted" title=ta.association_name description=ta.brief_description id=ta.association_name classes="great-ds-card--full" hideArrow="true" %}
+                                    <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                        {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border" hideArrow="true" %}
+                                    
+                                        {% if sub_sector %}
+                                            {% include "_tag.html" with text=sub_sector type="success" %}
+                                        {% elif sector %}
+                                            {% include "_tag.html" with text=sector type="success" %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             {% endfor %}
                             <div class="govuk-!-margin-top-6">
                                 <button data-hidden-ta-trigger
                                         class="great-ds-button great-ds-button--secondary">Show more</button>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% else %}
+                            <p class="govuk-body">Please choose a sector</p>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="govuk-grid-column-one-third">
                     {% include 'includes/_email-guide-form.html' %}
