@@ -19,7 +19,6 @@ from core.templatetags.content_tags import (
     change_country_name_to_include_the,
     extract_domain,
     get_backlinked_url,
-    get_card_meta_data_by_url,
     get_category_title_for_lesson,
     get_exopps_country_slug,
     get_icon_path,
