@@ -255,8 +255,8 @@
     {% endif %}
     {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
         <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
-            <div class="container">
-                {% include '_inset-text.html' with label='Report a trade barrier' insetText='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
+            <div class="great-container">
+                {% include '_inset-text.html' with label='Report a trade barrier' html='<p class="govuk-!-margin-bottom-1">Tell us about trade barriers affecting your ability to trade so we can help fix them.</p><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
             </div>
         </section>
     {% endif %}
