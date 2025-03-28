@@ -2,10 +2,8 @@ from django.forms import (
     CharField,
     CheckboxSelectMultiple,
     MultipleChoiceField,
-    Textarea,
     TextInput,
 )
-from great_components import forms
 
 from core.forms import HCSATForm as DomesticHCSATForm
 from core.models import HCSAT
@@ -20,7 +18,6 @@ class ContactForm(gds_forms.Form):
     error_title = 'There was a problem'
     error_description = 'There was a problem with the form submission'
     error_disable_auto_focus = False
-
 
     how_we_can_help = gds_forms.CharField(
         label='What were you trying to do?',

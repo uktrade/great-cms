@@ -91,7 +91,7 @@ class Form(GDSFormMixin, forms.Form):
 
         if not self.is_bound:  # Stop further processing.
             return
-        
+
         self.cleaned_data = {}
         # If the form is permitted to be empty, and none of the form data has
         # changed from the initial data, short circuit any validation.
