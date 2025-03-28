@@ -207,8 +207,6 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
 
     def form_invalid(self, form):
         super().form_invalid(form)
-        print('test')
-        print(form.errors)
         if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))

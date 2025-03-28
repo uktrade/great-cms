@@ -16,7 +16,6 @@ from django.forms import (
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
-from great_design_system import forms as gds_forms
 
 from core import constants, models
 from core.cms_slugs import (
@@ -108,46 +107,37 @@ class ConsentFieldMixin(forms.Form):
         return super().order_fields(field_order)
 
 
-class HCSATForm(gds_forms.ModelForm):
-    satisfaction_rating = gds_forms.ChoiceField(
+class HCSATForm(ModelForm):
+    satisfaction_rating = ChoiceField(
         label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
-        widget=gds_forms.RadioSelect(),
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         required=False,
     )
-
-    result_found = gds_forms.ChoiceField(
-        label='Did you find what you were looking for on the site today?',
-        widget=gds_forms.RadioSelect(),
-        choices=[('yes', 'Yes'), ('no', 'No')],
-        hide_on_page_load=True
-    )
-    experienced_issues = gds_forms.MultipleChoiceField(
+    experienced_issues = MultipleChoiceField(
         label='Did you experience any of the following issues?',
         help_text='Select all that apply.',
         choices=constants.EXPERIENCE_CHOICES,
-        widget=gds_forms.CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
         required=False,
         error_messages={
             'required': "Select issues you experienced, or select 'I did not experience any issues'",
         },
-        hide_on_page_load=True
     )
-    other_detail = gds_forms.CharField(
+    other_detail = CharField(
         label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
-        widget=gds_forms.TextInput(attrs={'class': 'govuk-input great-font-main'}),
-        hide_on_page_load=True
+        widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
     )
-    service_improvements_feedback = gds_forms.CharField(
+    service_improvements_feedback = CharField(
         label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
         required=False,
         error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
-        widget=gds_forms.Textarea(
+        widget=Textarea(
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 6,
@@ -156,14 +146,12 @@ class HCSATForm(gds_forms.ModelForm):
                 'aria-describedby': 'id_service_improvements_feedback-info id_service_improvements_feedback-hint',
             }
         ),
-        hide_on_page_load=True
     )
-    likelihood_of_return = gds_forms.ChoiceField(
+    likelihood_of_return = ChoiceField(
         label='How likely are you to use this service again?',
         choices=constants.LIKELIHOOD_CHOICES,
-        widget=gds_forms.RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         required=False,
-        hide_on_page_load=True
     )
 
     class Meta:

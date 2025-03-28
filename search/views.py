@@ -129,8 +129,6 @@ class SearchFeedbackFormView(FormView):
                 'q': self.request.GET.get('q', ''),
             }
         )
-
-        form = context['form']
         return context
 
     def get_form_url(self):

@@ -20,7 +20,27 @@
                     <h2 class="govuk-fieldset__legend govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
-            {{hcsat_form.errors}}
+            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not hcsat_form.errors %}great-hidden{% endif %}"
+                 id="error-summary"
+                 aria-labelledby="error-summary-title"
+                 role="alert"
+                 tabindex="-1"
+                 data-module="error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list great-font-main">
+                        {% for field in hcsat_form %}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <li>
+                                        <a href="#{{ field.auto_id }}">{{ error }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="info-message"
              class="govuk-grid-column-two-thirds {% if hcsat_stage != 1 %}great-hidden{% endif %}">
@@ -43,9 +63,30 @@
         <div id="csat-step-1"
              class="govuk-grid-row{% if hcsat_stage == 1 or hcsat_stage == 2 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
-                {% for field in hcsat_form.visible_fields %}
-                    {% include '_field.html' with field=field errors=field.errors %}
-                {% endfor %}
+                <div id="satisfaction_group"
+                     class="govuk-form-group{% if hcsat_form.satisfaction_rating.errors %} govuk-form-group--error{% endif %}">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
+                            <h2 class="govuk-fieldset__heading"
+                                id="{{ hcsat_form.satisfaction_rating.auto_id }}">
+                                {{ hcsat_form.satisfaction_rating.label }}
+                            </h2>
+                        </legend>
+                        <div class="govuk-radios"
+                             data-module="govuk-radios"
+                             id="satisfaction_rating">
+                            {% for satisfaction_rating in hcsat_form.satisfaction_rating %}
+                                <div class="govuk-radios__item">
+                                    {{ satisfaction_rating.tag }}
+                                    <label class="govuk-label govuk-radios__label"
+                                           for="id_satisfaction_rating_{{ forloop.counter0 }}">
+                                        {{ satisfaction_rating.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
             </div>
         </div>
         <div id="csat-step-2"
