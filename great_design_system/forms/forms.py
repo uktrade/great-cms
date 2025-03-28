@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.utils import ErrorList, ErrorDict
+from django.forms.utils import ErrorDict, ErrorList
 from django.template.loader import render_to_string
 from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext as _
@@ -9,27 +9,30 @@ class GDSErrorList(ErrorList):
     """
     This is used to point field error messaging to the gds __error.html file
     """
+
     template_name = '_error.html'
 
     def get_context(self):
         ctx = super().get_context()
         ctx.update({'error_class': 'govuk-error-message'})
         return ctx
-    
+
+
 class GDSErrorDict(ErrorDict):
     """
     This is used to render the the error summary
     """
+
     template_name = '_error-summary.html'
-    
+
     def __init__(
-            self,
-            *args,
-            disable_auto_focus=False,
-            error_title='There was a problem',
-            error_description='There was a problem with the form submission',
-            renderer=None, 
-            **kwargs
+        self,
+        *args,
+        disable_auto_focus=False,
+        error_title='There was a problem',
+        error_description='There was a problem with the form submission',
+        renderer=None,
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.error_title = error_title
@@ -38,11 +41,13 @@ class GDSErrorDict(ErrorDict):
 
     def get_context(self):
         context = super().get_context()
-        context.update({
-            'title': self.error_title,
-            'disable_auto_focus': self.disable_auto_focus,
-            'description': self.error_description
-        })
+        context.update(
+            {
+                'title': self.error_title,
+                'disable_auto_focus': self.disable_auto_focus,
+                'description': self.error_description,
+            }
+        )
         return context
 
 
@@ -56,12 +61,7 @@ class GDSFormMixin:
     error_description = 'There was a problem with the form submission'
     error_disable_auto_focus = False
 
-    def __init__(
-            self,
-            is_gds_form=True,
-            error_class=GDSErrorList,
-            *args,
-            **kwargs):
+    def __init__(self, is_gds_form=True, error_class=GDSErrorList, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.is_gds_form = is_gds_form
         self.error_class = error_class
@@ -77,7 +77,7 @@ class Form(GDSFormMixin, forms.Form):
         if not isinstance(errors_str, SafeString):
             errors_str = mark_safe(errors_str)
         return errors_str
-    
+
     def full_clean(self):
         """
         Clean all of self.data and populate self._errors and self.cleaned_data.
@@ -85,9 +85,9 @@ class Form(GDSFormMixin, forms.Form):
         self._errors = GDSErrorDict(
             renderer=self.renderer,
             disable_auto_focus=self.error_disable_auto_focus,
-            error_title = self.error_title,
-            error_description = self.error_description
-            )
+            error_title=self.error_title,
+            error_description=self.error_description,
+        )
         if not self.is_bound:  # Stop further processing.
             return
         self.cleaned_data = {}
@@ -149,10 +149,11 @@ class Form(GDSFormMixin, forms.Form):
         are not hide_on_page_load.
         The opposite of the hidden_fields() method.
         """
-        return [field for field in self if not field.is_hidden 
-                and not field.field.linked_conditional_reveal
-                and not field.field.hide_on_page_load
-                ]
+        return [
+            field
+            for field in self
+            if not field.is_hidden and not field.field.linked_conditional_reveal and not field.field.hide_on_page_load
+        ]
 
     def is_hidden_reveal_fields(self):
         """
@@ -160,7 +161,7 @@ class Form(GDSFormMixin, forms.Form):
         Useful for manual form layout in templates.
         """
         return [field for field in self if field.field.linked_conditional_reveal]
-    
+
 
 class ModelForm(Form, forms.ModelForm):
     pass

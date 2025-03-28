@@ -15,7 +15,7 @@ from wagtailseo.models import SeoMixin
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
-from domestic_growth.helpers import get_triage_data, get_events
+from domestic_growth.helpers import get_events, get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
 from international_online_offer.models import TradeAssociation
 
