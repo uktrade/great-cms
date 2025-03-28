@@ -49,6 +49,9 @@ from core.templatetags.content_tags import (
     val_to_int,
     get_card_meta_data_by_url,
     get_region_bg_class,
+    get_region_for_finance_and_support_snippet,
+    get_region_name,
+    get_region_for_find_a_grant_snippet,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1287,3 +1290,47 @@ def test_get_card_meta_data_by_url(input_url, expected_output):
 )
 def test_get_region_bg_class(input_data, expected_output):
     assert get_region_bg_class(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London', 'country': 'England'}, 'london'),
+        ({'country': 'Northern Ireland'}, 'northern-ireland'),
+        ({'region': 'Something'}, None),
+    ),
+)
+def test_get_region_for_finance_and_support_snippet(input_data, expected_output):
+    assert get_region_for_finance_and_support_snippet(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London', 'country': 'England'}, 'London'),
+        ({'country': 'Northern Ireland'}, 'Northern Ireland'),
+    ),
+)
+def test_get_region_name(input_data, expected_output):
+    assert get_region_name(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ('North East', '4'),
+        ('North West', '5'),
+        ('Yorkshire and The Humber', '3'),
+        ('East Midlands', '8'),
+        ('West Midlands', '8'),
+        ('East of England', '3'),
+        ('London', '3'),
+        ('South East', '6'),
+        ('South West', '7'),
+        ('Scotland', '9'),
+        ('Wales', '10'),
+        ('Northern Ireland', '11'),
+    ),
+)
+def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
+    assert get_region_for_find_a_grant_snippet(input_data) == expected_output

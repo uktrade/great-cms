@@ -23,7 +23,13 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
-from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA, REGION_IMAGES
+from domestic_growth.constants import (
+    DYNAMIC_SNIPPET_NAMES,
+    CARD_META_DATA,
+    REGION_IMAGES,
+    FINANCE_AND_SUPPORT_REGION_MAPPINGS,
+    FIND_A_GRANT_MAPPINGS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -817,5 +823,32 @@ def get_region_bg_class(postcode_data):
     for region_name, bg_class_name in REGION_IMAGES:
         if region == region_name:
             return bg_class_name
+
+    return None
+
+
+@register.filter
+def get_region_for_finance_and_support_snippet(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    for region_name, mapped_region_name in FINANCE_AND_SUPPORT_REGION_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
+
+    return None
+
+
+@register.filter
+def get_region_name(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    return region
+
+
+@register.filter
+def get_region_for_find_a_grant_snippet(region):
+    for region_name, mapped_region_name in FIND_A_GRANT_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
 
     return None
