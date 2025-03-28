@@ -46,8 +46,8 @@ class DomesticGrowthContentDjangoAdminModel(admin.ModelAdmin):
 
             csv_file_contents = csv_file.read().decode(encoding='ISO-8859-1')
             reader = csv.reader(csv_file_contents.splitlines())
-            num_imported, errored = self.import_domestic_growth_content_snippets(reader)
-            status_message = f'{num_imported} snippets imported or modified. '
+            num_imported_or_changed, errored = self.import_domestic_growth_content_snippets(reader)
+            status_message = f'{num_imported_or_changed} snippets imported or modified. '
             if len(errored) > 0:
                 status_message += f'{len(errored)} errored, IDs = {errored}.'
             self.message_user(request, status_message)
@@ -57,7 +57,7 @@ class DomesticGrowthContentDjangoAdminModel(admin.ModelAdmin):
         return render(request, 'admin/csv-upload-form.html', payload)
 
     def import_domestic_growth_content_snippets(self, domestic_growth_csv_reader: csv.reader):
-        num_imported = 0
+        num_imported_or_changed = 0
         errored_ids = []
         # skip first row as it is headers
         for snippet in list(domestic_growth_csv_reader)[1:]:
@@ -73,8 +73,8 @@ class DomesticGrowthContentDjangoAdminModel(admin.ModelAdmin):
                         'sector': snippet[6],
                     },
                 )
-                num_imported += 1
+                num_imported_or_changed += 1
             except Exception:
                 errored_ids.append(snippet[0])
 
-        return num_imported, errored_ids
+        return num_imported_or_changed, errored_ids
