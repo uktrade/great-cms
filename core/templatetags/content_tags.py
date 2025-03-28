@@ -4,7 +4,7 @@ import logging
 import math
 import re
 from typing import Union
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit
 
 from bs4 import BeautifulSoup
 from django import template
@@ -819,3 +819,12 @@ def get_region_bg_class(postcode_data):
             return bg_class_name
 
     return None
+
+
+@register.filter
+def get_url_favicon_and_domain(url):
+    domain = urlsplit(url).netloc.replace('www.', '')
+
+    domain_parts = domain.split('.')
+
+    return {'filename': domain_parts[0], 'domain': domain}
