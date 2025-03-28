@@ -178,7 +178,6 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
-
         return context
 
     def post(self, request, *args, **kwargs):
@@ -208,6 +207,8 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, HCSATMixin, TemplateView,
 
     def form_invalid(self, form):
         super().form_invalid(form)
+        print('test')
+        print(form.errors)
         if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))

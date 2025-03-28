@@ -4,6 +4,12 @@ from great_design_system import forms
 
 
 class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
+
+    # These are default but can be updated in the form
+    error_title = 'There was a problem'
+    error_description = 'There was a problem with the form submission'
+    error_disable_auto_focus = False
+
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),

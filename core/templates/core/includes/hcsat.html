@@ -63,30 +63,9 @@
         <div id="csat-step-1"
              class="govuk-grid-row{% if hcsat_stage == 1 or hcsat_stage == 2 %} great-hidden{% endif %}">
             <div class="govuk-grid-column-two-thirds">
-                <div id="satisfaction_group"
-                     class="govuk-form-group{% if hcsat_form.satisfaction_rating.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
-                            <h2 class="govuk-fieldset__heading"
-                                id="{{ hcsat_form.satisfaction_rating.auto_id }}">
-                                {{ hcsat_form.satisfaction_rating.label }}
-                            </h2>
-                        </legend>
-                        <div class="govuk-radios"
-                             data-module="govuk-radios"
-                             id="satisfaction_rating">
-                            {% for satisfaction_rating in hcsat_form.satisfaction_rating %}
-                                <div class="govuk-radios__item">
-                                    {{ satisfaction_rating.tag }}
-                                    <label class="govuk-label govuk-radios__label"
-                                           for="id_satisfaction_rating_{{ forloop.counter0 }}">
-                                        {{ satisfaction_rating.choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                </div>
+                {% for field in hcsat_form.visible_fields %}
+                    {% include '_field.html' with field=field errors=field.errors %}
+                {% endfor %}
             </div>
         </div>
         <div id="csat-step-2"
