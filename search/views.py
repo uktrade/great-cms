@@ -131,9 +131,6 @@ class SearchFeedbackFormView(FormView):
         )
 
         form = context['form']
-        print("XXXXXXX error messages XXXXXXX")
-        print(form.errors)
-        print("XXXXXXX end error messages XXXXXXX")
         return context
 
     def get_form_url(self):

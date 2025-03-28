@@ -20,27 +20,7 @@
                     <h2 class="govuk-fieldset__legend govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
-            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not hcsat_form.errors %}great-hidden{% endif %}"
-                 id="error-summary"
-                 aria-labelledby="error-summary-title"
-                 role="alert"
-                 tabindex="-1"
-                 data-module="error-summary">
-                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list great-font-main">
-                        {% for field in hcsat_form %}
-                            {% if field.errors %}
-                                {% for error in field.errors %}
-                                    <li>
-                                        <a href="#{{ field.auto_id }}">{{ error }}</a>
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+            {{hcsat_form.errors}}
         </div>
         <div id="info-message"
              class="govuk-grid-column-two-thirds {% if hcsat_stage != 1 %}great-hidden{% endif %}">
