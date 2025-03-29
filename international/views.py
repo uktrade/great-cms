@@ -112,7 +112,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-I
                 hcsat.save()
             return HttpResponseRedirect(self.get_success_url())
 
-        form = form_class(post_data)
+        form = form_class(data=post_data)
 
         if form.is_valid():
             if self.is_find_a_supplier_submission():

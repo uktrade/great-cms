@@ -1,7 +1,7 @@
 import hashlib
 import mimetypes
-from urllib.parse import unquote, urlparse
 from datetime import datetime
+from urllib.parse import unquote, urlparse
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField

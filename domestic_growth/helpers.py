@@ -3,11 +3,11 @@ import json
 from django.http import HttpRequest
 
 from directory_api_client import api_client
+from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
 )
 from international_online_offer.services import get_dbt_sectors
-from export_academy.models import Event
 
 
 def get_local_support_by_postcode(postcode):

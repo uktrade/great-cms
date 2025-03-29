@@ -46,6 +46,7 @@ class GDSFieldMixin:
         linked_conditional_reveal=None,
         linked_conditional_reveal_fields=[],
         linked_conditional_reveal_choice='yes',
+        hide_on_page_load=False,
         choice_help_text=[],
         container_css_classes='govuk-form-group',
         *args,
@@ -60,6 +61,7 @@ class GDSFieldMixin:
         self.linked_conditional_reveal = linked_conditional_reveal
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
+        self.hide_on_page_load = hide_on_page_load
         self.choice_help_text = choice_help_text
 
     @property
