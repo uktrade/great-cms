@@ -95,7 +95,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         'international_online_offer.EYBTradeShowsPage',
         'international_online_offer.EYBArticlesPage',
     ]
-    template = 'eyb/guide-dynamic.html'
+    template = 'eyb/guide-new.html'
 
     def create_investment_opportunity_cards(self, context):
         investment_opportunity_cards = []
@@ -220,7 +220,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         if tag.name == 'REGULATIONS':
             regulations_section = {
                 'title': 'Regulations',
-                'icon_path': 'svg/icon-regulations.svg',
+                'icon_path': '/static/svg/icon-regulations.svg',
                 'items': [
                     {
                         'title': intent_article.title,
@@ -235,7 +235,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         if tag.name == intents.ONWARD_SALES_AND_EXPORTS_FROM_THE_UK:
             exports_section = {
                 'title': 'Selling from the UK',
-                'icon_path': 'svg/icon-export.svg',
+                'icon_path': '/static/svg/icon-export.svg',
                 'items': [
                     {
                         'title': intent_article.title,
@@ -287,7 +287,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         right_panel_sections = [
             {
                 'title': 'Funding and help for overseas businesses',
-                'icon_path': 'svg/icon-finance.svg',
+                'icon_path': '/static/svg/icon-finance.svg',
                 'items': [],
             }
         ]
@@ -295,6 +295,63 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         base_cards, recruit_and_employ_cards, right_panel_sections = self.add_dynamic_cards(
             context, base_cards, recruit_and_employ_cards, right_panel_sections, triage_data
         )
+
+        # Initialize the rent data
+        rent_data = {
+            'tabs': [],
+            'disclaimer': 'Figures reflect 2023 data. Source: Statista',
+        }
+
+        # Create a list of property types and their explanations
+        property_types = [
+            {
+                'id': 'large-warehouse',
+                'title': 'Large warehouse',
+                'value_key': 'large_warehouse_rent',
+                'explanation': 'A large warehouse is an industrial unit that is 340,000 sq foot on average in the UK.',
+                'icon': 'svg/icon-large-warehouse.svg',
+            },
+            {
+                'id': 'small-warehouse',
+                'title': 'Small warehouse',
+                'value_key': 'small_warehouse_rent',
+                'explanation': 'A small warehouse is an industrial unit. Calculation based on a small warehouse being 5000 sq foot',
+                'icon': 'svg/icon-small-warehouse.svg',
+            },
+            {
+                'id': 'shopping-centre',
+                'title': 'Shopping centre',
+                'value_key': 'shopping_centre',
+                'explanation': 'A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being 204 sq foot',
+                'icon': 'svg/icon-shopping-centre.svg',
+            },
+            {
+                'id': 'high-street-retail',
+                'title': 'High street retail',
+                'value_key': 'high_street_retail',
+                'explanation': 'High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being 2195 sq foot',
+                'icon': 'svg/icon-high-street-retail.svg',
+            },
+            {
+                'id': 'work-office',
+                'title': 'Work office',
+                'value_key': 'work_office',
+                'explanation': 'A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being 16,671 sq foot',
+                'icon': 'svg/icon-work-office.svg',
+            }
+        ]
+
+        # Loop through the property types and add them to the tabs if the value exists in context
+        for property in property_types:
+            value = context.get(property['value_key'])
+            if value is not None:  # Only add the property if the value exists
+                rent_data['tabs'].append({
+                    'id': property['id'],
+                    'title': property['title'],
+                    'value': value,
+                    'explanation': property['explanation'],
+                    'icon': property['icon'],
+                })
 
         context = {
             **context,
@@ -334,92 +391,18 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 initial={'salary_data_location': context['salary_data_location']}
             ),
             'locations': self.create_investment_opportunity_cards(context),
-            'more_locations_link': '/international/investment/',
+            'more_locations_link': '/international/investment/' if len(context['investment_opportunities']) > 2 else '',
             'events': self.create_trade_event_cards(context),
-            'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows',
+            'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows' if len(context['trade_events']) > 2 else '',
             'associations': self.create_trade_association_cards(context),
-            'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations',
+            'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations' if len(context['trade_associations']) > 2 else '',
             'bases': base_cards,
-            'rent_data': {
-                'tabs': [
-                    {
-                        'id': 'large-warehouse',
-                        'label': 'Large warehouse',
-                        'panel': {
-                            'html': render_to_string(
-                                'eyb/includes/dynamic-guide/tab_content.html',
-                                {
-                                    'title': 'Large warehouse',
-                                    'value': context['large_warehouse_rent'],
-                                    'explanation': 'A large warehouse is an industrial unit that is 340,000 sq foot on average in the UK.',  # noqa: E501
-                                },
-                            )
-                        },
-                    },
-                    {
-                        'id': 'small-warehouse',
-                        'label': 'Small warehouse',
-                        'panel': {
-                            'html': render_to_string(
-                                'eyb/includes/dynamic-guide/tab_content.html',
-                                {
-                                    'title': 'Small warehouse',
-                                    'value': context['small_warehouse_rent'],
-                                    'explanation': 'A small warehouse is an industrial unit. Calculation based on a small warehouse being 5000 sq foot',  # noqa: E501
-                                },
-                            )
-                        },
-                    },
-                    {
-                        'id': 'shopping-centre',
-                        'label': 'Shopping centre',
-                        'panel': {
-                            'html': render_to_string(
-                                'eyb/includes/dynamic-guide/tab_content.html',
-                                {
-                                    'title': 'Shopping centre',
-                                    'value': context['shopping_centre'],
-                                    'explanation': ' A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being 204 sq foot',  # noqa: E501
-                                },
-                            )
-                        },
-                    },
-                    {
-                        'id': 'high-street-retail',
-                        'label': 'High street retail',
-                        'panel': {
-                            'html': render_to_string(
-                                'eyb/includes/dynamic-guide/tab_content.html',
-                                {
-                                    'title': 'High street retail',
-                                    'value': context['high_street_retail'],
-                                    'explanation': 'High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being 2195 sq foot',  # noqa: E501
-                                },
-                            )
-                        },
-                    },
-                    {
-                        'id': 'work-office',
-                        'label': 'Work office',
-                        'panel': {
-                            'html': render_to_string(
-                                'eyb/includes/dynamic-guide/tab_content.html',
-                                {
-                                    'title': 'Work office',
-                                    'value': context['work_office'],
-                                    'explanation': 'A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being 16,671 sq foot',  # noqa: E501
-                                },
-                            )
-                        },
-                    },
-                ],
-                'disclaimer': 'Figures reflect 2023 data. Source: Statista',
-            },
+            'rent_data': rent_data,
             'recruit_and_employ': recruit_and_employ_cards,
             'right_panel_sections': right_panel_sections,
         }
 
-        return TemplateResponse(request, 'eyb/guide-dynamic.html', context)
+        return TemplateResponse(request, 'eyb/guide-new.html', context)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)

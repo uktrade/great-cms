@@ -17,14 +17,14 @@
     </form>
     <div class="figures__list" id="market-data-figures">
         <div class="figures__figure">
-            <img class="dynamic-guide__icon figures__icon"
+            <img class="icon figures__icon"
                  alt=""
                  src="{% static 'svg/icon-businesses.svg' %}" />
             <p class="figures__value govuk-heading-l">{{ market_data.total_business_count|intcomma }}</p>
             <p class="figures__description govuk-body">businesses in this sector</p>
         </div>
         <div class="figures__figure">
-            <img class="dynamic-guide__icon figures__icon"
+            <img class="icon figures__icon"
                  alt=""
                  src="{% static 'svg/icon-employees.svg' %}" />
             <p class="figures__value govuk-heading-l">{{ market_data.total_employee_count|intcomma }}</p>
