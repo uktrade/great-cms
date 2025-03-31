@@ -164,6 +164,13 @@ class Form(GDSFormMixin, forms.Form):
         """
         return [field for field in self if field.field.linked_conditional_reveal]
 
+    def is_hide_on_page_load_fields(self):
+        """
+        Return a list of all the BoundField objects that are hide_on_page_load fields.
+        Useful for manual form layout in templates.
+        """
+        return [field for field in self if field.field.hide_on_page_load]
+
 
 class ModelForm(Form, forms.ModelForm):
     pass

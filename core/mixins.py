@@ -235,6 +235,46 @@ class GuidedJourneyMixin:
         )
 
 
+class HCSATFormMixin:
+
+    def __init__(self, stage=HCSatStage.NOT_STARTED.value, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # What hide_on_page_load should be depending on stage
+        init_field_config = {
+            'satisfaction_rating': False,
+            'experienced_issues': True,
+            'other_detail': True,
+            'service_improvements_feedback': True,
+            'likelihood_of_return': True,
+        }
+
+        submitted_config = {
+            'satisfaction_rating': True,
+            'experienced_issues': False,
+            'other_detail': False,
+            'service_improvements_feedback': False,
+            'likelihood_of_return': False,
+        }
+
+        completed_config = {
+            'satisfaction_rating': True,
+            'experienced_issues': True,
+            'other_detail': True,
+            'service_improvements_feedback': True,
+            'likelihood_of_return': True,
+        }
+
+        stage_config = {
+            HCSatStage.NOT_STARTED.value: init_field_config,
+            HCSatStage.SUBMITTED.value: submitted_config,
+            HCSatStage.COMPLETED.value: completed_config,
+        }
+
+        for key, value in self.fields.items():
+            value.hide_on_page_load = stage_config[stage][key]
+
+
 class HCSATMixin:
     is_international_hcsat = False
 

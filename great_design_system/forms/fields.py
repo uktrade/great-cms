@@ -67,7 +67,13 @@ class GDSFieldMixin:
     @property
     def container_css_classes(self):
         widget_class = getattr(self.widget, 'container_css_classes', '')
-        return f'{self._container_css_classes} {widget_class}'
+
+        # This is helpful on forms where we need hide/show logic
+        # show_on_page_load will always be added to form-groups as default
+        # hide_on_page_load will be used on form groups that will not display until criteria is met.
+        page_load_class = 'great-hidden' if self.hide_on_page_load else ''
+
+        return f'{self._container_css_classes} {widget_class} {page_load_class}'
 
     def get_bound_field(self, form, field_name):
         return GDSBoundField(form, self, field_name)
