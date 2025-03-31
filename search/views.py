@@ -2,7 +2,7 @@ import datetime
 import logging
 import urllib
 
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -19,60 +19,33 @@ class OpensearchView(TemplateView):
     This view uses the built-in Wagtail query function to query Opensearch. Returns paginated results.
     """
 
+    MAX_PER_PAGE = 10
     template_name = 'search_opensearch.html'
     page_type = 'SearchResultsPage'
 
     def get_context_data(self, *args, **kwargs):
-        # Get the search query & page
+        ctx = super().get_context_data(**kwargs)
         search_query = self.request.GET.get('q', None)
-        page = self.request.GET.get('page', 1)
-        show_first_page = False
-        show_last_page = False
-        prev_pages = None
-        next_pages = None
-        total_pages = 0
+        full_search_results = Page.objects.none()
 
         if search_query:
             # Get the full un-paginated listing of search results as a queryset. Live pages only.
             full_search_results = Page.objects.live().search(search_query)
             # Show 10 resources per page
-            paginator = Paginator(full_search_results, 10)
-            total_pages = len(paginator.page_range)
-            # Paginate
-            try:
-                paginated_search_results = paginator.page(page)
-            except PageNotAnInteger:
-                # If page is not an integer, deliver first page.
-                paginated_search_results = paginator.page(1)
-            except EmptyPage:
-                # If page is out of range (e.g. 9999), deliver last page of results.
-                paginated_search_results = paginator.page(paginator.num_pages)
+            paginator = Paginator(full_search_results, self.MAX_PER_PAGE)
+            page_obj = paginator.get_page(self.request.GET.get('page', 1))
+            elided_page_range = [
+                page_num
+                for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+            ]
+            ctx['page_obj'] = page_obj
+            ctx['elided_page_range'] = elided_page_range
 
-            # Trunctated Pagination logic
-            prev_pages = list(range(1, int(page)))[-3:]
-            if (len(prev_pages) > 0) and (prev_pages[0] > 2):
-                show_first_page = True
+        ctx['search_results'] = full_search_results
+        ctx['search_results_count'] = full_search_results.count()
+        ctx['search_query'] = search_query
 
-            next_pages = list(range(int(page) + 1, total_pages + 1))[:3]
-            if (len(next_pages) > 0) and (next_pages[-1] + 1 < total_pages):
-                show_last_page = True
-
-        else:
-            # No search query provided
-            full_search_results = Page.objects.none()
-            paginated_search_results = Page.objects.none()
-
-        return {
-            'search_query': search_query,
-            'search_results': paginated_search_results,
-            'search_results_count': len(full_search_results),
-            'current_page': page,
-            'total_pages': total_pages,
-            'show_first_page': show_first_page,
-            'show_last_page': show_last_page,
-            'prev_pages': prev_pages,
-            'next_pages': next_pages,
-        }
+        return ctx
 
 
 class SearchFeedbackFormView(FormView):

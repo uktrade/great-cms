@@ -776,6 +776,87 @@ $great-design-system-mint-green: #8ce2d0;
   background-position: 90% 0;
 }
 
+.bgs-box-shadow {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.bgs-section-logo {
+  background-repeat: no-repeat;
+  background-position: 95% 5%;
+}
+
+.bgs-section-logo--yorkshire {
+  background-image: url('/static/images/yorkshire.svg');
+  background-size: 225px;
+  background-position: 100% -82px;
+}
+
+.bgs-section-logo--west-midlands {
+  background-image: url('/static/images/west-midlands.svg');
+  background-size: 225px;
+  background-position: 100% -118px;
+}
+
+.bgs-section-logo--east-of-england {
+  background-image: url('/static/images/east-of-england.svg');
+  background-size: 225px;
+  background-position: 100% -141px;
+}
+
+.bgs-section-logo--south-east {
+  background-image: url('/static/images/south-east.svg');
+  background-size: 225px;
+  background-position: 100% -172px;
+}
+
+.bgs-section-logo--south-west {
+  background-image: url('/static/images/south-west.svg');
+  background-size: 225px;
+  background-position: 100% -172px;
+}
+
+.bgs-section-logo--scotland {
+  background-image: url('/static/images/scotland.svg');
+  background-size: 259px;
+  background-position: 109% -48px;
+}
+
+.bgs-section-logo--northern-ireland {
+  background-image: url('/static/images/northern-ireland.svg');
+  background-size: 251px;
+  background-position: 109% -98px;
+}
+
+.bgs-section-logo--east-midlands {
+  background-image: url('/static/images/east-midlands.svg');
+  background-size: 225px;
+  background-position: 100% -120px;
+}
+
+.bgs-section-logo--london {
+  background-image: url('/static/images/london.svg');
+  background-size: 225px;
+  background-position: 100% -166px;
+}
+
+.bgs-section-logo--north-west {
+  background-image: url('/static/images/north-west.svg');
+  background-size: 225px;
+  background-position: 100% -91px;
+}
+
+.bgs-section-logo--north-east {
+  background-image: url('/static/images/north-east.svg');
+  background-size: 225px;
+  background-position: 100% -71px;
+}
+
+.bgs-section-logo--wales {
+  background-image: url('/static/images/wales.svg');
+  background-size: 225px;
+  background-position: 100% -159px;
+}
+
 .great-ds-address {
   font-style: normal;
 
@@ -789,4 +870,16 @@ $great-design-system-mint-green: #8ce2d0;
       min-width: 105px;
     }
   }
+}
+
+.great-ds-border-top-blue-3 {
+  border-top: 3px solid #1d70b8 !important;
+}
+
+.great-ds-card--no-border .great-ds-card__inner {
+  border-bottom: 0 !important;
+}
+
+.great-ds-max-width-70 {
+  max-width: 70%;
 }
