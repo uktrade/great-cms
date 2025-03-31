@@ -754,7 +754,20 @@ $great-design-system-mint-green: #8ce2d0;
   background-repeat: no-repeat;
 
   @include govuk-media-query($until: tablet) {
+    background-image: url(/static/images/homepage-mobile.png) !important;
     background-size: contain;
+  }
+
+  .great-ds-card__media {
+    @include govuk-media-query($until: tablet) {
+      display: none;
+    }
+  }
+
+  h1 {
+    @include govuk-media-query($until: tablet) {
+      font-size: 32px;
+    }
   }
 }
 
@@ -855,6 +868,12 @@ $great-design-system-mint-green: #8ce2d0;
   background-image: url('/static/images/wales.svg');
   background-size: 225px;
   background-position: 100% -159px;
+}
+
+.bgs-home-cta-banner {
+  img {
+    max-width: 100%;
+  }
 }
 
 .great-ds-address {
