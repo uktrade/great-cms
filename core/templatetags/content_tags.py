@@ -4,7 +4,7 @@ import logging
 import math
 import re
 from typing import Union
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit
 
 from bs4 import BeautifulSoup
 from django import template
@@ -23,7 +23,7 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
-from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA
+from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA, REGION_IMAGES
 
 logger = logging.getLogger(__name__)
 
@@ -817,3 +817,23 @@ def get_card_meta_data_by_url(url):
         'text': False,
         'icon_name': False,
     }
+
+
+@register.filter
+def get_region_bg_class(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    for region_name, bg_class_name in REGION_IMAGES:
+        if region == region_name:
+            return bg_class_name
+
+    return None
+
+
+@register.filter
+def get_url_favicon_and_domain(url):
+    domain = urlsplit(url).netloc.replace('www.', '')
+
+    domain_parts = domain.split('.')
+
+    return {'filename': domain_parts[0], 'domain': domain}

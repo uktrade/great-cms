@@ -48,6 +48,8 @@ from core.templatetags.content_tags import (
     url_type,
     val_to_int,
     get_card_meta_data_by_url,
+    get_region_bg_class,
+    get_url_favicon_and_domain,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -1274,3 +1276,26 @@ def test_is_bgs_site_true():
 )
 def test_get_card_meta_data_by_url(input_url, expected_output):
     assert get_card_meta_data_by_url(input_url) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London'}, 'bgs-section-logo--london'),
+        ({'country': 'Scotland'}, 'bgs-section-logo--scotland'),
+        ({'region': 'Something'}, None),
+    ),
+)
+def test_get_region_bg_class(input_data, expected_output):
+    assert get_region_bg_class(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        ('https://www.gov.uk', {'filename': 'gov', 'domain': 'gov.uk'}),
+        ('https://www.wrong.uk', {'filename': 'wrong', 'domain': 'wrong.uk'}),
+    ),
+)
+def test_get_url_favicon_and_domain(input_url, expected_output):
+    assert get_url_favicon_and_domain(input_url) == expected_output

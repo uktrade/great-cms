@@ -16,10 +16,10 @@ class Command(BaseCommand):
 
     count = 0
 
-    @classmethod
-    def email_count(cls):
-        cls.count += 1
-        return cls.count
+    @staticmethod
+    def email_count():
+        Command.count += 1
+        return Command.count
 
     def mask_email_data(self, data):
         if not data:
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         address = data.split('@')[1]
         name = self.mask_string_data(name)
         address = self.mask_string_data(address)
-        return f'{name}-{Command.email_count}@{address}'
+        return f'{name}-{Command.email_count()}@{address}'
 
     def mask_string_data(self, data):
         if not data:

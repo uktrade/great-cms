@@ -1,0 +1,36 @@
+{% extends 'admin/change_form.html' %}
+{% block breadcrumbs %}{% endblock %}
+{% block content %}
+    <div>
+        <p id="status"></p>
+        <!-- djlint:off H029-->
+        <form action="." method="POST" enctype="multipart/form-data">
+            <!-- djlint:on -->
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" disabled id="submit-btn">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const input = document.getElementById('id_csv_file')
+            const status = document.getElementById('status')
+            const submitBtn = document.getElementById('submit-btn')
+            const maxFileSize = 1024 * 1024
+
+            input.addEventListener('change', function(){
+                file = input.files[0]
+                if (file.size <= maxFileSize) {
+                    submitBtn.disabled = false
+                } else {
+                    status.innerText=`File size is too large - max. = 1Mb`
+                }
+            })
+
+        })
+    </script>
+{% endblock %}

@@ -15,7 +15,7 @@ from wagtailseo.models import SeoMixin
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
-from domestic_growth.helpers import get_triage_data, get_events
+from domestic_growth.helpers import get_events, get_triage_data
 from international_online_offer.core.helpers import get_hero_image_by_sector
 from international_online_offer.models import TradeAssociation
 
@@ -241,7 +241,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, StartingABusinessTriage)
+        triage_data, business_type = get_triage_data(request)
 
         postcode = triage_data['postcode']
         sector = triage_data['sector']
@@ -350,10 +350,15 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, StartingABusinessTriage)
+        triage_data, business_type = get_triage_data(request)
 
+        # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+
+        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
+            # we have the business type and some additional triage fields
+            pass
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -541,10 +546,16 @@ class DomesticGrowthDynamicChildGuidePage(
     def get_context(self, request):
         context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, ExistingBusinessTriage)
+        triage_data, business_type = get_triage_data(request)
 
+        # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+
+        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
+            # we have the business type and some additional triage fields
+            pass
+
         currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title>The Foodservice Packaging Association</title>
+		<meta name="description" content="The FPA promotes the responsible manufacture, sourcing, distribution, usage and disposal of food and foodservice packaging. " />
+<meta name="rating" content="General" />
+<meta name="language" content="english, EN" />
+<meta name="distribution" content="Global" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<meta name="revisit-after" content="7 Days" />
+
+<!-- ****** faviconit.com favicons ****** -->
+<link rel="shortcut icon" href="/favicon/favicon.ico" />
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon/favicon.ico" />
+<link rel="icon" type="image/png" sizes="196x196" href="/favicon/favicon-192.png" />
+<link rel="icon" type="image/png" sizes="160x160" href="/favicon/favicon-160.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon/favicon-64.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16.png" />
+<link rel="apple-touch-icon" href="/favicon/favicon-57.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon/favicon-114.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon/favicon-72.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon/favicon-144.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon/favicon-60.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon/favicon-120.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon/favicon-76.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon/favicon-152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-180.png" />
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="favicon/favicon-144.png" />
+<meta name="msapplication-config" content="faviconx/browserconfig.xml" />
+<!-- ****** faviconit.com favicons ****** -->
+<!-- ****** faviconit.com favicons ****** -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Nunito+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+<link href="/includes/slick-theme.css" rel="stylesheet" type="text/css" />
+<link href="/includes/slick.css" rel="stylesheet" type="text/css" />
+<link href="/includes/normalize.css" rel="stylesheet" type="text/css" />
+<link href="/includes/default.css" rel="stylesheet" type="text/css" />
+<link href="/includes/flexslider.css" rel="stylesheet" type="text/css" />
+<link href="/includes/main.css?v=1.2" rel="stylesheet" type="text/css" />
+<link href="/includes/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+<script src="https://kit.fontawesome.com/402225c761.js" crossorigin="anonymous"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/lib/custom.js"></script>
+<script src="/lib/functions.js"></script>
+<script src="/js/viewportchecker.js"></script>
+<script src="/js/slick.js"></script>
+<script src="/js/jquery.sidr.min.js"></script>
+<script src="/js/parallax.min.js"></script>
+<script src="/js/jquery.flexslider-min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/sticky-kit.min.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-54718469-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+ 
+  gtag('config', 'UA-54718469-1');
+</script>
+
+<script>
+
+jQuery(document).ready(function() {
+	formReset();	
+});
+</script>
+
+
+</head>
+	<body>	<header>
+	<div class="top">
+		<div class="wrapper">
+			<a href="/login/" class="memberTab">Member Login</a>
+		</div>
+	</div>
+	<div class="main">
+		<div class="wrapper">
+			<div id="mobile-header">
+				<div class="burger">
+					<div class="line one"></div>
+					<div class="line two"></div>
+					<div class="line three"></div>
+				</div>
+			</div>
+			<a href="/" class="logo">
+				<img src="/images/layout/logo.png" alt="FPA" />
+			</a><div class="rightSide">
+				<ul class="menu">
+					<li><a href="/" class=" active">Home</a></li><li><a href="/about-us/" class="parent">About Us</a><ul><li><a href="/about-us/fpa-member-code-of-practice/" class="">Code of Practice</a></li><li><a href="/about-us/members/" class="">Members</a></li><li><a href="/about-us/about-foodservice-packaging/" class="">About Foodservice Packaging</a></li></ul></li><li><a href="/why-join/" class="">Why Join?</a></li><li><a href="/awards/" class="">Awards</a></li><li><a href="/events/" class="">Events</a></li><li><a href="/news/" class="">News</a></li><li><a href="/contact/" class="">Contact</a></li>
+				</ul>
+				<a href="#" class="searchTrigger">
+					<img src="/images/elements/search.png" alt="search" class="primary" />
+					<img src="/images/elements/search-orange.png" alt="search" class="secondary" />
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="searchBar">
+		<div class="wrapper">
+			<div class="holder">
+				<form action="/search/">
+					<div class="submit"><input type="submit" value="Search"></div><input type="text" name="search" placeholder="Search ..">
+				</form>
+				<a href="#" class="close">
+					<div class="line one"></div>
+					<div class="line two"></div>
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+<main>
+<main>
+
+	<div class="promoBanner flexslider"><ul class="slides"><li><div class="image" style="background-image: url(/images/content/about-fpa/about-fpa-1-banner-stagione.jpg);"></div><div class="text clearfix"><div class="textHolder"><h1>Welcome to the<br>Foodservice Packaging Association</h1><p>The FPA is the voice of the foodservice packaging industry, working hard to secure the future of the sector. </p><a href="/about-us/" class="button">Read More</a></div></div></li><li><div class="image" style="background-image: url(/images/content/home/home-side-by-side-1-1000x645.jpg);"></div><div class="text clearfix"><div class="textHolder"><span>Why join the FPA?</span><p>Packaging and the environment are in the news almost every day. If foodservice packaging plays a role in your business, you should join the Foodservice Packaging Association.</p><a href="/why-join/" class="button">Find out more</a></div></div></li><li><div class="image" style="background-image: url(/images/content/home/home-banner-carousel-1-1000x645.jpg);"></div><div class="text clearfix"><div class="textHolder"><span>About foodservice packaging</span><p>The FPA promotes the responsible manufacture, sourcing, distribution, usage and disposal of food and foodservice packaging. It represents the industry with all four UK governments and engages with key government departments and committees. Foodservice packaging is under unprecedented pressure from government legislation (such as plastics tax, EPR, DRS and consistent collections) and from the impact on the industry of the coronavirus pandemic. <br /><br /></p><a href="/about-us/about-foodservice-packaging/" class="button">Find out more</a></div></div></li></ul></div>
+	<div class="section beige">
+		<div class="wrapper center">
+			<h2>Foodservice packaging</h2><p>The FPA promotes the responsible manufacture, sourcing, distribution, usage and disposal of food and foodservice packaging.&nbsp;It represents the industry with all four UK governments and engages with key government departments and committees. Foodservice packaging is under unprecedented pressure from government legislation (such as plastics tax, EPR, DRS and consistent collections) and from the impact on the industry of the coronavirus pandemic.&nbsp;</p>
+
+		</div>
+	</div>
+
+	<div class="textImageSplit imageRight"><div class="image" style="background-image: url(/images/content/home/home-side-by-side-1-1000x645.jpg);"></div><div class="text clearfix"><div class="textHolder"><h2>Why join the FPA?</h2><p>If packaging plays a role in your business at any point in the supply chain, as a manufacturer, distributor or foodservice/hospitality operator (front & back of house) you should join the FPA.</p><a href="/why-join/" class="button">Find out more</a></div></div></div><div class="textImageSplit imageLeft beige"><div class="image" style="background-image: url(/images/content/home/home-fpa-code-of-practice-side-by-sides-1000x645.jpg);"></div><div class="text clearfix"><div class="textHolder"><h2>FPA Code of Practice</h2><p>All FPA members abide by the Code of Practice and the FPA Packaging Charter. This is the cornerstone of membership and signals that a business operates to the highest of standards.<br /><br />Buying from an FPA member is a responsible purchasing decision.</p><a href="/about-us/fpa-member-code-of-practice/" class="button">Code of Practice</a></div></div></div></div></div><div class="section"><div class="wrapper"></div></div><div class="section grey"><div class="wrapper center"><h2>Latest news and information</h2><div class="col-1-3"><a href="/content/?contentID=11300" class="articleStyle"><div class="imageHolder"><div class="image" style="background-image:url(/images/content/11295_268fpa-connect-front-page.jpg);"></div></div><div class="text"><span>05 February 2025</span><span>general</span><h3>Winter 2025 Connect</h3><span class="button">Read more</span></div></a></div><div class="col-1-3"><a href="/content/?contentID=11299" class="articleStyle"><div class="imageHolder"><div class="image" style="background-image:url(/images/content/11299_388finalist-1.jpg);"></div></div><div class="text"><span>5 February 2025</span><span>Press Release</span><h3> FPA 2025 Rising Star Award finalists announced</h3><span class="button">Read more</span></div></a></div><div class="col-1-3"><a href="/news/tomallenfpahost/" class="articleStyle"><div class="imageHolder"><div class="image" style="background-image:url(/images/content/11298_217tom-allen-for-website.png);"></div></div><div class="text"><span>22 November 2024</span><span>Press Release</span><h3>Tom Allen to host the 2025 FPA Awards</h3><span class="button">Read more</span></div></a></div></div></div></div></div><div class="section"><div class="wrapper center"><h2>Our members</h2><p>Members are drawn from across the supply chain, including raw materials suppliers, manufacturers and converters, distributors and wholesalers, foodservice and hospitality operators, and waste collectors and recyclers.<br /></p><div class="membersSlider"><div class="slide"><div class="item"><a href="/about-us/members/compass-group-uk-and-ireland/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_compass-group-ukandi-logo.jpg" alt="Compass Group UK & Ireland Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=116"><img src="/images/content/members/sspp-160x88-bw.jpg" alt="South Staffordshire Paper Products Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/polyco-healthline-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_ph_logo.jpg" alt="Polyco Healthline Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/polaris/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_polaris-by-design-group-logo.jpg" alt="Polaris" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/vegware"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_vegware_logo.jpg" alt="Vegware" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/conglom-international/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_conglom-international-logo.jpg" alt="Conglom International" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/wrapex-limited"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_prowrap_logo.jpg" alt="Wrapex Limited" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/huhtamaki"><img src="/images/content/members/small-greyscale-logos/fpa_member_small_huhtamaki-logo.jpg" alt="Huhtamaki" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/pactiv-evergreen"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_pactivevergreen_logo.jpg" alt="Pactiv Evergreen" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/cater-4-you"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_c4u-logo.jpg" alt="Cater For You Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/dispo-international/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_dispo-logo.jpg" alt="Dispo International" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/welton-bibby-and-baron-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_wbb-logo.jpg" alt="Welton Bibby & Baron Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/graphic-packaging-international"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_gpi-logo.jpg" alt="Graphic Packaging International" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/quality-pack"><img src="/images/content/members/quality_pack_logo-removebg-preview-160x88.png" alt="Quality Pack" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/booker-group/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_booker-ws-logo.jpg" alt="Booker Group" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/cofresco"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_cofresco-logo.jpg" alt="Cofresco" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/sc-johnson-professional/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_scjp-logo.jpg" alt="SC Johnson Professional®" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/novamont"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_novamont.jpg" alt="Novamont" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=114"><img src="/images/content/members/large-logos/packaging-source-web-logo-bw.png" alt="Packaging Source" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/havi"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_havi_logo.jpg" alt="HAVI" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=115"><img src="/images/content/members/comax-logo---160x88-bw.jpg" alt="Comax UK" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/amipak/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_amipak-logo.jpg" alt="amipak Ltd." /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=112"><img src="/images/content/members/small-greyscale-logos/grey_catering.jpg" alt="Select Catering Solutions" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/cafe-connections/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_cafe-connections.jpg" alt="Café Connections" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/bunzl-catering-supplies/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_bunzl-logo.jpg" alt="Bunzl Catering Supplies" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/celebration-packaging-limited/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_celebration-logo.jpg" alt="Celebration Packaging Limited" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/metsa-tissue/"><img src="/images/content/suppliers/53_fpa_members_small_metsa-logo.jpg" alt="Metsä Tissue Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/egreen-international-limited"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_egreen_logo.jpg" alt="eGreen International Limited" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/euro-packaging"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_epuk.jpg" alt="EP Group" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/s-and-j-polythene-and-paper"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_sandj_logo.jpg" alt="S&J Polythene and Paper" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/coveris"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_coveris-logo.jpg" alt="Coveris" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/cromwell-polythene-ltd/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_cromwell-logo.jpg" alt="Cromwell Polythene Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/bidfood/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_bidfood-cs-logo.jpg" alt="Bidfood" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/sabert-europe"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_sabert_logo.jpg" alt="Sabert Europe" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/gafbros-limited/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_gafbros-logo.jpg" alt="Gafbros Limited" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/brakes-foodservice/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_brakes-logo.jpg" alt="Brakes Foodservice" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/dempson"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_dempson-logo.jpg" alt="Dempson" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=1114"><img src="/images/content/members/bonds-logo-160x88.jpg" alt="Bonds Packaging Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/benders-paper-cups/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_benders-logo.jpg" alt="Benders Paper Cups" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/london-bio-packaging"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_lbp-logo.jpg" alt="London Bio Packaging" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=113"><img src="/images/content/members/hpack-logo-160x88-grey.jpg" alt="H-Pack Packaging UK Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/smith-anderson-group-ltd"><img src="/images/content/members/smithanderson_greyscale.png" alt="Smith Anderson Group Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/keco-foodservice-packaging-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_keco-fsp-logo.jpg" alt="KeCo Food Service Packaging Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/stora-enso"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_stora-enso-logo.jpg" alt="Stora Enso" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/reflex-group"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_reflex-logo.jpg" alt="Reflex Group" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/mc-tissue-uk"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_mc-logo.jpg" alt="MC Tissue UK, a division of Cartiere Carrara S.p.A" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/ncco-foodservice-solutions/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_ncco_logo.jpg" alt="NCCO Foodservice Solutions" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/sharpak-aylesham"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_sharpak-aylesham-logo.jpg" alt="Sharpak Aylesham" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/essity-uk-ltd/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_tork-think-ahead-logo.jpg" alt="Essity UK Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/tpbi-paper-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_tpbi-paper-logo.jpg" alt="TPBI Paper Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/just-eat/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_just-eat-logo.jpg" alt="Just Eat Takeaway.com" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/go-pak-uk-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_go-pak-and-scgp-logo.jpg" alt="Go-Pak UK Ltd – a member of SCGP" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/unico"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_unico-logo.jpg" alt="Unico" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/wk-thomas/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_wkt-logo.jpg" alt="WK Thomas" /></a></div></div><div class="slide"><div class="item"><a href="/members/biopak/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_biopak-logo.jpg" alt="BioPak" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/kp"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_kp-logo.jpg" alt="kp" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/socius-network-ltd"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_socius-logo.jpg" alt="SOCIUS NETWORK LTD" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/northwood"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_northwood-logo.jpg" alt="Northwood" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/cedo"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_cedo_logo.jpg" alt="Cedo" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/poppies-europe-ltd/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_poppies-logo.jpg" alt="Poppies Europe Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=2142"><img src="/images/content/members/copy-of-alliance.png" alt="Alliance National" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/proampac-rap"><img src="/images/content/proampac_logo-160x88-grey.png" alt="ProAmpac " /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/faerch-uk-ltd/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_faerch_logo.jpg" alt="Faerch UK Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/content/?supplierID=111"><img src="/images/content/members/small-greyscale-logos/zeus_grayscale.jpg" alt="Zeus" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/swan-mill-paper-company/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_swanmill-logo.jpg" alt="Swan Mill Paper Company" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/nivek-catering-and-hygiene-supplies/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_nivek_logo.jpg" alt="Nivek Catering & Hygiene Supplies" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/caterbar"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_caterbar-logo.jpg" alt="Caterbar" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/rps-and-daymark"><img src="/images/content/members/small-greyscale-logos/rps_greryscale.jpg" alt="Retail Packaging Solutions Ltd" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/regalzone-llp"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_regalzone_logo.jpg" alt="Regalzone LLP" /></a></div></div><div class="slide"><div class="item"><a href="/about-us/members/maxima-trading-ltd/"><img src="/images/content/members/small-greyscale-logos/fpa_members_small_maxima-purple-logo.jpg" alt="Maxima Trading Ltd" /></a></div></div></div><a href="/about-us/members/" class="button">Members Page</a></div></div></div></div><div class="section greyWhiteTop"><div class="wrapper"><img src="/images/content/home/home-member-resources-1250x524.jpg" alt="Member resources" /><div class="featureTextBox"><div class="col-1-2"><h2>Member resources</h2></div><div class="col-1-2"><p>Membership of the FPA gives exclusive access to member-only information and resources, such as government proposals and legislation, current best practice, news, information and trends, our weekly news digest. <br /><br />This essential information keeps our members at the top of their game. <br /></p><a href="/login/" class="button">Log In</a></div></div></div></div>
+
+
+	
+</main>
+
+	<div class="section beige navyBottom formNoOverflow">
+		<div class="wrapper">
+			<div class="col-1-3">
+				<h2>Get in touch</h2>
+				<p>We’d love to hear from you whether it’s about potential membership, a query or question about foodservice packaging or if you’d like to talk to someone. Use our contact form and we’ll get back to you.</p>
+			</div><div class="col-2-3">
+				<div class="formBgHolder">
+					<div class="formHolder formStyle">
+						<form id="contactForm" action="/scripts/send-email/" method="POST">
+							<input type="hidden" name="_subject" value="Contact Form" />
+							<div class="row">
+								<label for="name">Name*</label>
+								<input type="text" name="name" id="name" />
+							</div>
+							<div class="row">
+								<label for="business">Business*</label>
+								<input type="text" name="business" id="business" />
+							</div>
+							<div class="row">
+								<label for="email">Email Address*</label>
+								<input type="text" name="email" id="email" />
+							</div>
+							<div class="row confirmemail">
+								<label for="email2">Confirm Email*</label>
+								<input type="text" name="email2" id="email2" />
+							</div>
+							<div class="row textarea">
+								<label for="message">Message*</label>
+								<textarea name="message" id="message" rows="5"></textarea>
+							</div>
+							<div class="row check">
+								<label for="agree"><div class="toggle"></div><span>I have read and agreed to the <a href="/privacy-policy/">privacy policy</a>.</span></label>
+								<input type="checkbox" name="agree" id="agree" value="yes" />
+							</div>
+							<div class="row errorMessage">
+								<p></p>
+							</div>
+							<div class="row submitHolder">
+								<input type="text" name="addressLine3" id="addressLine3" style="display: none;" />
+								<div class="submit">
+									<input type="submit" value="Send" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</main>
+	<footer>
+		<div class="innerWrapper">
+			<a href="/" class="logo"><img src="/images/layout/logo-wo.png" alt="Foodservice Packaging Assocation" /></a>
+			<div class="col-1-3">
+				<a href="#" class="listHeader">
+					<p>Contact Us</p>
+				</a>
+				<ul class="footerMenu">
+					<li><a href="tel:07533405347">+44 (0) 7533 405347</a></li>
+					<li><a href="mailto:lisa@foodservicepackaging.org.uk">lisa@foodservicepackaging.org.uk</a></li>
+				</ul>
+			</div><div class="col-1-3">
+				<a href="#" class="listHeader">
+					<p>Useful Links</p>
+				</a>
+				<ul class="footerMenu">
+	<li><a href="/about-us/fpa-member-code-of-practice/">FPA Members Code of Practice</a></li>
+	<li><a href="/members/">Members Resources</a></li>
+</ul>
+
+			</div><div class="col-1-3">
+				<a href="#" class="listHeader">
+					<p>Site Map</p>
+				</a>
+				<ul class="footerMenu">
+					<li><a href="/">Home</a></li><li><a href="/about-us/">About Us</a></li><li><a href="/why-join/">Why Join?</a></li><li><a href="/awards/">Awards</a></li><li><a href="/events/">Events</a></li><li><a href="/news/">News</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+			</div>
+			<ul class="socialList">
+				<li><a href="https://twitter.com/UK_FPA"><i class="fab fa-twitter"></i></a></li>
+				<!--<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>-->
+				<li><a href="https://www.linkedin.com/company/fpa-foodservice-packaging-association-"><i class="fab fa-linkedin-in"></i></a></li>
+			</ul>
+			<ul class="legalMenu"><li><a href="/cookie-policy/">Cookie Policy</a></li>
+<li><a href="/privacy-policy/">Privacy Policy</a></li>
+<li><a href="/content/?contentID=88">FPA Code of Practice</a></li>
+</ul>
+			<p class="copyright">&copy; 2025 by Foodservice Packaging Association. Site designed by <a href="https://www.mightycomms.co.uk/" target="_blank">Mighty</a>.</p>
+		</div>
+	</footer>
+
+
+
+	</body>
+</html>
