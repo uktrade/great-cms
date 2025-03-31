@@ -111,6 +111,7 @@ def feature_flags(request):
     retval['features']['FEATURE_UNGUIDED_JOURNEY'] = settings.FEATURE_UNGUIDED_JOURNEY
 
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
+    retval['features']['FEATURE_BGS_FOOTER'] = settings.FEATURE_BGS_FOOTER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
 
@@ -388,4 +389,94 @@ def microsite_footer(request):
                 'text': 'Accessibility',
             },
         ],
+    }
+
+
+def bgs_footer(request):
+    return {
+        'bgs_footer_context': {
+            'currentYear': str(datetime.now().year),
+            'upperFooterSection': [
+                [
+                    {
+                        'href': '#',
+                        'text': 'Starting a business',
+                        'title': 'Export support for UK businesses',
+                        'isHeading': 'true',
+                    }
+                ],
+                [
+                    {
+                        'href': '#',
+                        'text': 'Running and growing my business',
+                        'title': 'Running and growing my business',
+                        'isHeading': 'true',
+                    }
+                ],
+                [
+                    {
+                        'href': '/',
+                        'text': 'Selling overseas from the UK',
+                        'title': 'Selling overseas from the UK',
+                        'isHeading': 'true',
+                    },
+                    {'href': '/markets/', 'text': 'Markets', 'title': 'Markets'},
+                    {'href': '/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {'href': '/export-academy/', 'text': 'UK Export Academy', 'title': 'UK Export Academy'},
+                    {'href': '/learn/categories/', 'text': 'Learn to export', 'title': 'Learn to export'},
+                    {'href': '/services', 'text': 'Export resources', 'title': 'Export resources'},
+                ],
+                [
+                    {
+                        'href': '/international/',
+                        'text': 'Investing and expanding in the UK',
+                        'title': 'Investing and expanding in the UK',
+                        'isHeading': 'true',
+                    },
+                    {
+                        'href': 'international/expand-your-business-in-the-uk/',
+                        'text': 'Expand your business in the UK',
+                        'title': 'Expand your business in the UK',
+                    },
+                    {
+                        'href': 'international/investment/',
+                        'text': 'Investment opportunities',
+                        'title': 'Investment opportunities',
+                    },
+                    {'href': 'international/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
+                ],
+            ],
+            'lowerFooterSection': [
+                [
+                    {'href': '/privacy/', 'text': 'Privacy', 'title': 'Privacy'},
+                    {'href': '/cookies/', 'text': 'Cookies', 'title': 'Cookies'},
+                    {
+                        'href': '/accessibility-statement/',
+                        'text': 'Accessibility statement',
+                        'title': 'Accessibility statement',
+                    },
+                ],
+                [
+                    {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
+                    {'href': '#', 'text': 'Sitemap', 'title': 'Sitemap'},
+                ],
+                [
+                    {'href': '#', 'text': 'About this website', 'title': 'About this website'},
+                    {
+                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'text': 'Help using this website',
+                        'title': 'Help using this website',
+                    },
+                ],
+                [
+                    {
+                        'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+                        'text': 'Department for Business and Trade on GOV.UK',
+                        'title': 'Department for Business and Trade on GOV.UK',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    }
+                ],
+            ],
+        }
     }

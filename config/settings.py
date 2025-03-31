@@ -149,6 +149,7 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'card',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'bgs-footer',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
@@ -193,6 +194,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.domestic_footer',
+                'core.context_processors.bgs_footer',
                 'core.context_processors.international_footer',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
@@ -1074,6 +1076,7 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+FEATURE_BGS_FOOTER = env.feature_bgs_footer
 
 FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
 wagtail_cf = {}
