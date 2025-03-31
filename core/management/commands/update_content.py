@@ -32,9 +32,8 @@ class Command(BaseCommand):
 
     def update_field(self, page, field):
 
-        breakpoint()
-
         value = getattr(page, field)
+
         if isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime):
             return field
         
