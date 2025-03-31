@@ -56,7 +56,7 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             True,
-            {}
+            {},
         ),
         (
             HCSATForm,
@@ -68,7 +68,7 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             True,
-            {}
+            {},
         ),
         (
             HCSATForm,
@@ -80,9 +80,7 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             False,
-            {
-                'service_improvements_feedback': ['Your feedback must be 1200 characters or less']
-            }
+            {'service_improvements_feedback': ['Your feedback must be 1200 characters or less']},
         ),
     ),
 )
