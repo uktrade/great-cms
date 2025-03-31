@@ -155,21 +155,25 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, HCSA
 
         hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = self.request.POST
+        form_data = {'data': post_data}
 
         if 'cancelButton' in post_data:
             """
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = HCSatStage.COMPLETED.value
+                stage = HCSatStage.COMPLETED.value
+                hcsat.stage = stage
                 hcsat.save()
+                form_data.update({'stage': stage})
             return HttpResponseRedirect(self.get_success_url())
 
-        form = form_class(post_data)
+        form = form_class(**form_data)
 
         if form.is_valid():
             if hcsat and 'action' not in form.cleaned_data.keys():
-                form = form_class(post_data, instance=hcsat)
+                form_data.update({'instance': hcsat})
+                form = form_class(**form_data)
                 form.is_valid()
             return self.form_valid(form)
         else:

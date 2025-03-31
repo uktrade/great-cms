@@ -278,6 +278,9 @@ class HCSATFormMixin:
         }
 
         for key, value in self.fields.items():
+            print(key)
+            print(value)
+            print(stage)
             value.hide_on_page_load = stage_config[stage][key]
 
 
@@ -372,9 +375,10 @@ class HCSATNonFormPageMixin(HCSATMixin):
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = HCSatStage.COMPLETED.value
+                stage = HCSatStage.COMPLETED.value
+                hcsat.stage = stage
                 hcsat.save()
-                form_data.update({'stage': HCSatStage.COMPLETED.value})
+                form_data.update({'stage': stage})
             return HttpResponseRedirect(self.get_success_url(request))
 
         form = form_class(**form_data)

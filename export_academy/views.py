@@ -229,9 +229,10 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = HCSatStage.COMPLETED.value
+                stage = HCSatStage.COMPLETED.value
+                hcsat.stage = stage
                 hcsat.save()
-                form_data.update({'stage': HCSatStage.COMPLETED.value})
+                form_data.update({'stage': stage})
             return HttpResponseRedirect(self.get_success_url())
 
         form = form_class(**form_data)
