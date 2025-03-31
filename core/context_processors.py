@@ -6,6 +6,7 @@ from django.utils import translation
 from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
+from core.helpers import get_root_url
 from directory_constants import choices, urls
 
 
@@ -122,12 +123,14 @@ def directory_components_html_lang_attribute(request):
 
 
 def services_home_links(request):
+    root_url = get_root_url(request)
     return {
-        'international_home_link': {'url': reverse_lazy('index'), 'label': _('great.gov.uk international')},
+        'international_home_link': {'url': f"{root_url}{reverse_lazy('index')}", 'label': _('great.gov.uk international')},
     }
 
 
 def domestic_header(request):
+    root_url = get_root_url(request)
     search_icon = (
         '<svg xmlns="http://www.w3.org/2000/svg" class="great-ds-icon-svg" width="20" height="20" '
         'viewBox="0 0 18 18" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" '
@@ -164,30 +167,30 @@ def domestic_header(request):
         'hideSearch': False,
         'hideMenuOnDesktop': False,
         'use_domestic_logo': True,
-        'domesticLink': {'href': '/', 'text': 'Export from the UK'},
-        'internationalLink': {'href': '/international/', 'text': 'Invest in the UK'},
-        'searchFormAction': reverse_lazy('search:search'),
+        'domesticLink': {'href': f'{root_url}/', 'text': 'Export from the UK'},
+        'internationalLink': {'href': f'{root_url}/international/', 'text': 'Invest in the UK'},
+        'searchFormAction': f"{root_url}{reverse_lazy('search:search')}",
         'navItemsList': [
             {
-                'href': '/learn/categories/',
+                'href': f'{root_url}/learn/categories/',
                 'text': 'Learn to export',
                 'isCurrent': '/learn/categories/' in request.path,
             },
             {
-                'href': reverse_lazy('core:compare-countries'),
+                'href': f"{root_url}{reverse_lazy('core:compare-countries')}",
                 'text': 'Where to export',
                 'requiresAuth': True,
                 'isCurrent': '/compare-countries' in request.path,
             },
             {
-                'href': '/export-plan/',
+                'href': f'{root_url}/export-plan/',
                 'text': 'Make an export plan',
                 'requiresAuth': True,
                 'isCurrent': '/export-plan' in request.path,
             },
-            {'href': '/markets/', 'text': 'Markets', 'requiresNoAuth': True, 'isCurrent': '/markets' in request.path},
+            {'href': f'{root_url}/markets/', 'text': 'Markets', 'requiresNoAuth': True, 'isCurrent': '/markets' in request.path},
             {
-                'href': '/services/',
+                'href': f'{root_url}/services/',
                 'text': 'Services',
                 'requiresNoAuth': True,
                 'isCurrent': '/services' in request.path,
@@ -200,39 +203,39 @@ def domestic_header(request):
                 'requiresAuth': True,
             },
             {
-                'href': '/dashboard/',
+                'href': f'{root_url}/dashboard/',
                 'text': 'Dashboard',
                 'requiresAuth': True,
                 'isCurrent': '/dashboard' in request.path,
             },
             {
-                'href': reverse_lazy('core:compare-countries'),
+                'href': f"{root_url}{reverse_lazy('core:compare-countries')}",
                 'text': 'Where to export',
                 'requiresAuth': True,
                 'isCurrent': '/compare-countries' in request.path,
             },
             {
-                'href': '/export-plan/',
+                'href': f'{root_url}/export-plan/',
                 'text': 'Make an export plan',
                 'requiresAuth': True,
                 'isCurrent': '/export-plan' in request.path,
             },
-            {'href': '/profile/', 'text': 'Account', 'requiresAuth': True, 'isCurrent': '/profile' in request.path},
+            {'href': f'{root_url}profile/', 'text': 'Account', 'requiresAuth': True, 'isCurrent': '/profile' in request.path},
             {
-                'href': '/learn/categories/',
+                'href': f'{root_url}/learn/categories/',
                 'text': 'Learn to export',
                 'isCurrent': '/learn/categories/' in request.path,
             },
-            {'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
-            {'href': '/services/', 'text': 'Services', 'isCurrent': '/services' in request.path},
+            {'href': f'{root_url}/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
+            {'href': f'{root_url}/services/', 'text': 'Services', 'isCurrent': '/services' in request.path},
             {'text': 'Sign out', 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True},
-            {'text': 'Sign in', 'href': reverse_lazy('core:login'), 'button': True, 'requiresNoAuth': True},
+            {'text': 'Sign in', 'href': f"{root_url}{reverse_lazy('core:login')}", 'button': True, 'requiresNoAuth': True},
         ],
         'actionLinkList': [
-            {'href': '/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
-            {'href': reverse_lazy('core:login'), 'text': 'Sign in', 'requiresNoAuth': True},
+            {'href': f'{root_url}/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
+            {'href': f"{root_url}{reverse_lazy('core:login')}", 'text': 'Sign in', 'requiresNoAuth': True},
         ],
-        'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
+        'mobileSiteLink': {'href': f'{root_url}/international', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
     }
@@ -244,7 +247,7 @@ def microsite_header(request):
         'include_link_to_great': '',
         'strapline': (
             'Get support for UK export or investment at '
-            '<a class="great-ds-header__link" href="https://great.gov.uk">great.gov.uk</a>'
+            '<a class="great-ds-header__link" href=f"{root_url}">great.gov.uk</a>'
         ),
         'isCampaign': True,
         'use_domestic_logo': True,
@@ -258,6 +261,7 @@ def microsite_header(request):
 
 
 def domestic_footer(request):
+    root_url = get_root_url(request)
     return {
         'domestic_footer_context': {
             'is_international': False,
@@ -265,37 +269,37 @@ def domestic_footer(request):
             'logo_link_href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
             'footer_links': [
                 {
-                    'href': '/support/export-support',
+                    'href': f'{root_url}/support/export-support',
                     'title': 'Export support for UK businesses',
                     'text': 'Export support for UK businesses',
                 },
                 {
-                    'href': '/international',
+                    'href': f'{root_url}/international',
                     'title': 'Invest in the UK',
                     'text': 'Invest in the UK',
                 },
                 {
-                    'href': '/contact/triage/great-account',
+                    'href': f'{root_url}/contact/triage/great-account',
                     'title': 'Get help with your account',
                     'text': 'Get help with your account',
                 },
                 {
-                    'href': '/privacy',
+                    'href': f'{root_url}/privacy',
                     'title': 'Privacy',
                     'text': 'Privacy',
                 },
                 {
-                    'href': '/cookies',
+                    'href': f'{root_url}/cookies',
                     'title': 'Cookies',
                     'text': 'Cookies',
                 },
                 {
-                    'href': '/terms-and-conditions',
+                    'href': f'{root_url}/terms-and-conditions',
                     'title': 'Terms and conditions',
                     'text': 'Terms and conditions',
                 },
                 {
-                    'href': '/accessibility-statement',
+                    'href': f'{root_url}/accessibility-statement',
                     'title': 'Accessibility',
                     'text': 'Accessibility',
                 },
@@ -305,6 +309,7 @@ def domestic_footer(request):
 
 
 def international_footer(request):
+    root_url = get_root_url(request)
     return {
         'international_footer_context': {
             'is_international': True,
@@ -312,32 +317,32 @@ def international_footer(request):
             'logo_link_href': 'https://www.gov.uk/',
             'footer_links': [
                 {
-                    'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                    'href': f'{root_url}/international/site-help/?next=' + request.build_absolute_uri(request.path),
                     'title': 'Help using this site',
                     'text': 'Help using this site',
                 },
                 {
-                    'href': '/privacy',
+                    'href': f'{root_url}/privacy',
                     'title': 'Privacy',
                     'text': 'Privacy',
                 },
                 {
-                    'href': '/cookies',
+                    'href': f'{root_url}/cookies',
                     'title': 'Cookies',
                     'text': 'Cookies',
                 },
                 {
-                    'href': '/terms-and-conditions',
+                    'href': f'{root_url}/terms-and-conditions',
                     'title': 'Terms and conditions',
                     'text': 'Terms and conditions',
                 },
                 {
-                    'href': '/accessibility-statement',
+                    'href': f'{root_url}/accessibility-statement',
                     'title': 'Accessibility',
                     'text': 'Accessibility',
                 },
                 {
-                    'href': '/',
+                    'href': f'{root_url}/',
                     'title': 'Export from the UK',
                     'text': 'Export from the UK',
                 },
@@ -347,43 +352,44 @@ def international_footer(request):
 
 
 def microsite_footer(request):
+    root_url = get_root_url(request)
     return {
         'is_international': False,
         'current_year': str(datetime.now().year),
-        'logo_link_href': '/',
+        'logo_link_href': f'{root_url}/',
         'footer_links': [
             {
-                'href': '/',
+                'href': f'{root_url}/',
                 'title': 'Export from the UK',
                 'text': 'Export from the UK',
             },
             {
-                'href': '/international',
+                'href': f'{root_url}/international',
                 'title': 'Invest in the UK',
                 'text': 'Invest in the UK',
             },
             {
-                'href': '/contact/triage/great-account',
+                'href': f'{root_url}/contact/triage/great-account',
                 'title': 'Get help with your account',
                 'text': 'Get help with your account',
             },
             {
-                'href': '/privacy',
+                'href': f'{root_url}/privacy',
                 'title': 'Privacy',
                 'text': 'Privacy',
             },
             {
-                'href': '/cookies',
+                'href': f'{root_url}/cookies',
                 'title': 'Cookies',
                 'text': 'Cookies',
             },
             {
-                'href': '/terms-and-conditions',
+                'href': f'{root_url}/terms-and-conditions',
                 'title': 'Terms and conditions',
                 'text': 'Terms and conditions',
             },
             {
-                'href': '/accessibility-statement',
+                'href': f'{root_url}/accessibility-statement',
                 'title': 'Accessibility',
                 'text': 'Accessibility',
             },

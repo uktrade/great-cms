@@ -31,6 +31,8 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from geoip2.errors import GeoIP2Error
 from hashids import Hashids
 
+from wagtail.models import Site
+
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
     TRADE_BARRIERS_BY_MARKET,
@@ -922,3 +924,8 @@ def send_hcsat_feedback(data: HCSAT) -> None:
 
 def is_bgs_site(root_url):
     return settings.BGS_SITE in root_url
+
+
+def get_root_url(request):
+    site = Site.find_for_request(request)
+    return f'{site.hostname}:{site.port}'
