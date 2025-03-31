@@ -114,13 +114,16 @@ class HCSATForm(mixins.HCSATFormMixin, gds_forms.ModelForm):
         error_messages={
             'required': "Select issues you experienced, or select 'I did not experience any issues'",
         },
+        linked_conditional_reveal_fields=['other_detail'],
+        linked_conditional_reveal_choice='OTHER',
     )
     other_detail = gds_forms.CharField(
         label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
-        widget=gds_forms.TextInput(container_css_classes='csat-step-2'),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}, container_css_classes='csat-step-2'),
+        linked_conditional_reveal='experienced_issues',
     )
     service_improvements_feedback = gds_forms.CharField(
         label='How could we improve this service?',
@@ -131,7 +134,7 @@ class HCSATForm(mixins.HCSATFormMixin, gds_forms.ModelForm):
         widget=gds_forms.Textarea(
             container_css_classes='csat-step-2',
             attrs={
-                'class': 'govuk-js-character-count',
+                'class': 'govuk-!-width-two-thirds govuk-js-character-count',
                 'rows': 6,
                 'id': 'id_service_improvements_feedback',
                 'name': 'withHint',
