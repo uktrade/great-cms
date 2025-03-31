@@ -62,9 +62,10 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid',
+    'form, form_data, form_is_valid, error_messages',
     (
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -75,8 +76,10 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -91,8 +94,10 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -103,8 +108,10 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -115,8 +122,10 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -127,11 +136,12 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             False,
+            {},
         ),
     ),
 )
 @pytest.mark.django_db
-def test_hcsat_user_feedback_form_validation(form_data, is_valid):
-    data = form_data
-    form = InternationalHCSATForm(data)
-    assert form.is_valid() == is_valid
+def test_hcsat_user_feedback_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(data=form_data)
+    assert form.is_valid() == form_is_valid
+    assert error_messages == form.errors

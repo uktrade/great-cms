@@ -1,10 +1,3 @@
-from django.forms import (
-    CharField,
-    CheckboxSelectMultiple,
-    MultipleChoiceField,
-    TextInput,
-)
-
 from core.forms import HCSATForm as DomesticHCSATForm
 from core.models import HCSAT
 from core.validators import is_valid_email_address
@@ -53,19 +46,22 @@ class ContactForm(gds_forms.Form):
 
 
 class InternationalHCSATForm(DomesticHCSATForm):
-    service_specific_feedback = MultipleChoiceField(
+    service_specific_feedback = gds_forms.MultipleChoiceField(
         label='What did you get out of this service today?',
         help_text='Tick all that apply.',
         choices=INTENSION_CHOICES,
-        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=gds_forms.CheckboxSelectMultiple(container_css_classes='csat-step-2'),
         required=False,
+        linked_conditional_reveal_fields=['service_specific_feedback_other'],
+        linked_conditional_reveal_choice='OTHER',
     )
-    service_specific_feedback_other = CharField(
+    service_specific_feedback_other = gds_forms.CharField(
         label='Enter your answer',
         min_length=2,
         max_length=100,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}, container_css_classes='csat-step-2'),
+        linked_conditional_reveal='service_specific_feedback',
     )
 
     class Meta:
