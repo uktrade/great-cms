@@ -247,7 +247,8 @@ class HCSATFormMixin:
             'other_detail': True,
             'service_improvements_feedback': True,
             'likelihood_of_return': True,
-            'service_specific_feedback' : True
+            'service_specific_feedback' : True,
+            'service_specific_feedback_other': True,
         }
 
         submitted_config = {
@@ -256,7 +257,8 @@ class HCSATFormMixin:
             'other_detail': False,
             'service_improvements_feedback': False,
             'likelihood_of_return': False,
-            'service_specific_feedback' : False
+            'service_specific_feedback' : False,
+            'service_specific_feedback_other': True,
         }
 
         completed_config = {
@@ -265,7 +267,8 @@ class HCSATFormMixin:
             'other_detail': True,
             'service_improvements_feedback': True,
             'likelihood_of_return': True,
-            'service_specific_feedback' : True
+            'service_specific_feedback' : True,
+            'service_specific_feedback_other': True,
         }
 
         stage_config = {
