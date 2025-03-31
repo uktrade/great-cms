@@ -158,83 +158,63 @@ def domestic_header(request):
 
     return {
         'header_classes': '',
-        'isInternational': False,
         'sso_is_logged_in': request.user.is_authenticated,
         'isAuthenticated': request.user.is_authenticated,
         'hideSearch': False,
         'hideMenuOnDesktop': False,
-        'use_domestic_logo': True,
-        'domesticLink': {'href': '/', 'text': 'Export from the UK'},
-        'internationalLink': {'href': '/international/', 'text': 'Invest in the UK'},
         'searchFormAction': reverse_lazy('search:search'),
-        'navItemsList': [
-            {
-                'href': '/learn/categories/',
-                'text': 'Learn to export',
-                'isCurrent': '/learn/categories/' in request.path,
-            },
-            {
-                'href': reverse_lazy('core:compare-countries'),
-                'text': 'Where to export',
-                'requiresAuth': True,
-                'isCurrent': '/compare-countries' in request.path,
-            },
-            {
-                'href': '/export-plan/',
-                'text': 'Make an export plan',
-                'requiresAuth': True,
-                'isCurrent': '/export-plan' in request.path,
-            },
-            {'href': '/markets/', 'text': 'Markets', 'requiresNoAuth': True, 'isCurrent': '/markets' in request.path},
-            {
-                'href': '/services/',
-                'text': 'Services',
-                'requiresNoAuth': True,
-                'isCurrent': '/services' in request.path,
-            },
-        ],
-        'menuItemsList': [
-            {
-                'text': f'Hi {request.user.first_name}' if request.user.is_authenticated else '',
-                'userGreeting': True,
-                'requiresAuth': True,
-            },
-            {
-                'href': '/dashboard/',
-                'text': 'Dashboard',
-                'requiresAuth': True,
-                'isCurrent': '/dashboard' in request.path,
-            },
-            {
-                'href': reverse_lazy('core:compare-countries'),
-                'text': 'Where to export',
-                'requiresAuth': True,
-                'isCurrent': '/compare-countries' in request.path,
-            },
-            {
-                'href': '/export-plan/',
-                'text': 'Make an export plan',
-                'requiresAuth': True,
-                'isCurrent': '/export-plan' in request.path,
-            },
-            {'href': '/profile/', 'text': 'Account', 'requiresAuth': True, 'isCurrent': '/profile' in request.path},
-            {
-                'href': '/learn/categories/',
-                'text': 'Learn to export',
-                'isCurrent': '/learn/categories/' in request.path,
-            },
-            {'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
-            {'href': '/services/', 'text': 'Services', 'isCurrent': '/services' in request.path},
-            {'text': 'Sign out', 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True},
-            {'text': 'Sign in', 'href': reverse_lazy('core:login'), 'button': True, 'requiresNoAuth': True},
-        ],
-        'actionLinkList': [
-            {'href': '/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
-            {'href': reverse_lazy('core:login'), 'text': 'Sign in', 'requiresNoAuth': True},
-        ],
-        'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
+        'menuItemsList': [
+            {
+                'icon': "/static/icons/start-icon.svg",
+                'href': '/export/',
+                'text': 'Starting a business',
+                'isCurrent': '/export' in request.path,
+                'overviewText': "Get support and information",
+                'description': "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+            },
+            {
+                'icon': "/static/icons/run-icon.svg",
+                'href': '/invest/',
+                'text': 'Running and growing my business',
+                'isCurrent': '/invest' in request.path,
+                'overviewText': "Get support and information",
+                'description': "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+            },
+            { 
+                'icon': "/static/icons/export-icon.svg",
+                'href': "#", 
+                'text': "Selling overseas from the UK",
+                'overviewText': "Overview",
+                'children': [
+                    { 'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path },
+                    { 'href': "#", 'text': "Export support", 'requiresAuth': True },
+                    { 'href': "#", 'text': "UK Export Academy" },
+                    { 'href': "/learn/categories/", 'text': "Learn to export", 'isCurrent': '/learn/categories/' in request.path },
+                    { 'href': "#", 'text': "Export resources", 'requiresAuth': True },
+                    { 'href': "/dashboard/", 'text': "Export dashboard", 'requiresAuth': True, 'isCurrent': '/compare-countries' in request.path },
+                    { 'href': reverse_lazy('core:compare-countries'), 'text': "Where to export", 'isCurrent': '/compare-countries' in request.path },
+                    { 'href': "/export-plan/", 'text': "Make an export plan", 'requiresAuth': True, 'isCurrent': '/export-plan' in request.path },
+                    { 'href': "/profile/", 'text': "Export account", 'requiresAuth': True, 'isCurrent': '/profile' in request.path },
+                    { 'text': 'Sign out of export account services', 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True },
+                    { 'text': 'Sign in to export account services', 'href': reverse_lazy('core:login'), 'button': True, 'requiresNoAuth': True },
+                ]
+            },
+            {
+                'icon': "/static/icons/expand-icon.svg",
+                'href': "#", 
+                'text': "Investing and expanding in the UK",
+                'overviewText': "Overview",
+                'children': [
+                    { 'href': "#", 'text': "Expand your business in the UK" },
+                    { 'href': "#", 'text': "Investment opportunities"},
+                    { 'href': "#", 'text': "Buy from the UK" },
+                    { 'href': "#", 'text': "Sign out of expand your business in the UK", 'requiresAuth': True },
+                    { 'href': "#", 'text': "Sign in to expand your business in the UK", 'requiresNoAuth': True }
+                ]
+            },
+        ],
     }
 
 
