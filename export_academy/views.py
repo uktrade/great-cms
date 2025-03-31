@@ -222,6 +222,7 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
 
         hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = self.request.POST
+        form_data = {'data': post_data}
 
         if 'cancelButton' in post_data:
             """
@@ -230,13 +231,15 @@ class SuccessPageView(GetBreadcrumbsMixin, core_mixins.GetSnippetContentMixin, c
             if hcsat:
                 hcsat.stage = HCSatStage.COMPLETED.value
                 hcsat.save()
+                form_data.update({'stage': HCSatStage.COMPLETED.value})
             return HttpResponseRedirect(self.get_success_url())
 
-        form = form_class(post_data)
+        form = form_class(**form_data)
 
         if form.is_valid():
             if hcsat:
-                form = form_class(post_data, instance=hcsat)
+                form_data.update({'instance': hcsat})
+                form = form_class(**form_data)
                 form.is_valid()
             return self.form_valid(form)
         else:
