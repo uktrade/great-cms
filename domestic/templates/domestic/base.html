@@ -159,7 +159,8 @@
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
         {% block body_header %}
-            {% include "_header.html" with header_classes=header_classes sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop searchFormAction=searchFormAction menuItemsList=menuItemsList %}
+            {% include "_header-bgs.html" with header_classes=bgs_header_context.header_classes sso_is_logged_in=bgs_header_context.sso_is_logged_in isAuthenticated=bgs_header_context.isAuthenticated hideSearch=bgs_header_context.hideSearch hideMenuOnDesktop=bgs_header_context.hideMenuOnDesktop searchFormAction=bgs_header_context.searchFormAction menuItemsList=bgs_header_context.menuItemsList %}
+            {% comment %} {% include "_header.html" with header_classes=header_classes isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %} {% endcomment %}
             {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
             <script>
                 function signOut() {

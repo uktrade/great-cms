@@ -9,7 +9,8 @@
 <div class="microsite-main {{ view.slug }}-microsite"
      lang="{{ current_language }}"
      dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-        {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList greatLogoHref=great_logo_href %}
+        {% include "_header-bgs.html" with header_classes=bgs_header_campaign_context.header_classes siteTitle=site_title sso_is_logged_in=bgs_header_campaign_context.sso_is_logged_in isAuthenticated=bgs_header_campaign_context.isAuthenticated hideSearch=bgs_header_campaign_context.hideSearch hideMenuOnDesktop=bgs_header_campaign_context.hideMenuOnDesktop searchFormAction='' menuItemsList='' subnavItemsList=subnavItemsList availableLanguages=available_languages currentLanguage=current_language %}
+        {% comment %} {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList greatLogoHref=great_logo_href %} {% endcomment %}
         {% if page.hero_video %}
             <div>
                 <div class="great-full-width-header-image">
