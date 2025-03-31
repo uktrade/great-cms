@@ -13,11 +13,12 @@ def get_salary_display_classes(context):
 
     return result
 
-@register.tag(name="capture")
+
+@register.tag(name='capture')
 def do_capture(parser, token):
     """
     Capture the content of a block into a variable.
-    
+
     Usage:
     {% capture variable_name %}
         ... content ...
@@ -32,6 +33,7 @@ def do_capture(parser, token):
     parser.delete_first_token()
 
     return CaptureNode(nodelist, variable_name)
+
 
 class CaptureNode(template.Node):
     def __init__(self, nodelist, variable_name):

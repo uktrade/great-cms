@@ -4,7 +4,6 @@ from django.db import models
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
@@ -315,43 +314,50 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'id': 'small-warehouse',
                 'title': 'Small warehouse',
                 'value_key': 'small_warehouse_rent',
-                'explanation': 'A small warehouse is an industrial unit. Calculation based on a small warehouse being 5000 sq foot',
+                'explanation': 'A small warehouse is an industrial unit. Calculation'
+                ' based on a small warehouse being 5000 sq foot',
                 'icon': 'svg/icon-small-warehouse.svg',
             },
             {
                 'id': 'shopping-centre',
                 'title': 'Shopping centre',
                 'value_key': 'shopping_centre',
-                'explanation': 'A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being 204 sq foot',
+                'explanation': 'A shopping centre unit is near a group of shops, sometimes under one roof.'
+                ' Calculation based on average UK unit being 204 sq foot',
                 'icon': 'svg/icon-shopping-centre.svg',
             },
             {
                 'id': 'high-street-retail',
                 'title': 'High street retail',
                 'value_key': 'high_street_retail',
-                'explanation': 'High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being 2195 sq foot',
+                'explanation': 'High street retail is a concentration of shops in either urban or'
+                ' urban-like areas. Calculation based on average UK unit being 2195 sq foot',
                 'icon': 'svg/icon-high-street-retail.svg',
             },
             {
                 'id': 'work-office',
                 'title': 'Work office',
                 'value_key': 'work_office',
-                'explanation': 'A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being 16,671 sq foot',
+                'explanation': 'A work office is a room or set of rooms in which business, professional'
+                ' duties, clerical work, etc, are carried out. Calculation based on average UK work'
+                ' office being 16,671 sq foot',
                 'icon': 'svg/icon-work-office.svg',
-            }
+            },
         ]
 
         # Loop through the property types and add them to the tabs if the value exists in context
         for property in property_types:
             value = context.get(property['value_key'])
             if value is not None:  # Only add the property if the value exists
-                rent_data['tabs'].append({
-                    'id': property['id'],
-                    'title': property['title'],
-                    'value': value,
-                    'explanation': property['explanation'],
-                    'icon': property['icon'],
-                })
+                rent_data['tabs'].append(
+                    {
+                        'id': property['id'],
+                        'title': property['title'],
+                        'value': value,
+                        'explanation': property['explanation'],
+                        'icon': property['icon'],
+                    }
+                )
 
         context = {
             **context,
@@ -393,9 +399,17 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'locations': self.create_investment_opportunity_cards(context),
             'more_locations_link': '/international/investment/' if len(context['investment_opportunities']) > 2 else '',
             'events': self.create_trade_event_cards(context),
-            'more_events_link': '/international/expand-your-business-in-the-uk/guide/trade-shows' if len(context['trade_events']) > 2 else '',
+            'more_events_link': (
+                '/international/expand-your-business-in-the-uk/guide/trade-shows'
+                if len(context['trade_events']) > 2
+                else ''
+            ),
             'associations': self.create_trade_association_cards(context),
-            'more_associations_link': '/international/expand-your-business-in-the-uk/trade-associations' if len(context['trade_associations']) > 2 else '',
+            'more_associations_link': (
+                '/international/expand-your-business-in-the-uk/trade-associations'
+                if len(context['trade_associations']) > 2
+                else ''
+            ),
             'bases': base_cards,
             'rent_data': rent_data,
             'recruit_and_employ': recruit_and_employ_cards,
