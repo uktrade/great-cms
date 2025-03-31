@@ -47,6 +47,20 @@ class UKEFHomeView(TemplateView):
         return context
 
 
+class ThanksView(TemplateView):
+    template_name = 'domestic/finance/lead_generation_form/success.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': reverse('domestic:get-finance')},
+            {'title': 'Trade Finance', 'url': '/trade-finance'},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+
+        return ctx
+
+
 class UKEFProjectFinanceView(TemplateView):
     template_name = 'domestic/ukef/project_finance.html'
 
