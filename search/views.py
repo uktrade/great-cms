@@ -35,15 +35,15 @@ class OpensearchView(TemplateView):
         if search_query:
             # Get the full un-paginated listing of search results as a queryset. Live pages only.
             full_search_results = Page.objects.live().search(search_query)
-            
+
             # Filter by domain (temporary until bgs site launch). Note list comprehensions here as
-            # standard ORM filters do not work on returned query. 
+            # standard ORM filters do not work on returned query.
             bgs_matches = ["bgs.", "business.gov.uk"]
             if any(x in self.request.build_absolute_uri() for x in bgs_matches):
                 full_search_results = [x for x in full_search_results if 'bgs-landing' in x.url_path]
             else:
                 full_search_results = [x for x in full_search_results if 'bgs-landing' not in x.url_path]
-                
+
             # Show 10 resources per page
             paginator = Paginator(full_search_results, 10)
             total_pages = len(paginator.page_range)
