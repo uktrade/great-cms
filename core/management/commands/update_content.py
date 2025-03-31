@@ -1,6 +1,7 @@
 import argparse
 import types
 import sentry_sdk
+from uuid import UUID
 
 
 from django.core.management.base import BaseCommand
@@ -11,6 +12,8 @@ from decimal import Decimal
 from fractions import Fraction
 from django.db import transaction
 from wagtail.models import Site
+from django.db.models.base import ModelState
+from wagtail.blocks.stream_block import StreamValue
 
 
 
@@ -32,12 +35,16 @@ class Command(BaseCommand):
 
     def update_field(self, page, field):
 
+        if field == 'specific_class':
+            return field
+
         value = getattr(page, field)
 
-        if isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime):
+        if not value or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
             return field
         
-
+        if not isinstance(value, str) and not isinstance(value, StreamValue):
+            pass
 
     def update_page(self, page):
 
