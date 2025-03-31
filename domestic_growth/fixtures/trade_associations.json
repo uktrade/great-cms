@@ -148,7 +148,7 @@
     },
     {
       "id": "TRADE_ASSOCIATION_0035",
-      "url": "craftbakersassociation.co.uk",
+      "url": "https://craftbakersassociation.co.uk",
       "name": "Craft Bakers Association",
       "description": "CBA members own and run over 6,000 shops throughout England, Wales, and Northern Ireland. Considering staff, members employ over 125,000 people across the UK.",
       "sectors": "SL0223 Food and drink : Bakery products"
@@ -4579,7 +4579,7 @@
     },
     {
       "id": "TRADE_ASSOCIATION_0782",
-      "url": "(Currently Unavailable) https://railalliance.co.uk/",
+      "url": "https://railalliance.co.uk/",
       "name": "Rail Alliance",
       "description": "Spanning all aspects of the railway sector and its supporting industries, The Rail Alliance embraces both current and aspirational involvement and provides opportunities for businesses to network.",
       "sectors": "SL0286 Railways"

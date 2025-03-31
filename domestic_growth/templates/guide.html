@@ -157,7 +157,7 @@
                                         
                                         {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                         <div class="great-ds-card__metadata govuk-!-padding-bottom-6">
-                                            <img class="great-ds-card__metadata-icon" src="/static/icons/trade-associations/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true">
+                                            <img class="great-ds-card__metadata-icon" src="/static/icons/favicons/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true" onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
                                             <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
                                         </div>
                                         {% endwith %}
