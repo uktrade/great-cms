@@ -247,7 +247,7 @@ class HCSATFormMixin:
             'other_detail': True,
             'service_improvements_feedback': True,
             'likelihood_of_return': True,
-            'service_specific_feedback' : True,
+            'service_specific_feedback': True,
             'service_specific_feedback_other': True,
         }
 
@@ -257,7 +257,7 @@ class HCSATFormMixin:
             'other_detail': False,
             'service_improvements_feedback': False,
             'likelihood_of_return': False,
-            'service_specific_feedback' : False,
+            'service_specific_feedback': False,
             'service_specific_feedback_other': True,
         }
 
@@ -267,7 +267,7 @@ class HCSATFormMixin:
             'other_detail': True,
             'service_improvements_feedback': True,
             'likelihood_of_return': True,
-            'service_specific_feedback' : True,
+            'service_specific_feedback': True,
             'service_specific_feedback_other': True,
         }
 
@@ -278,9 +278,6 @@ class HCSATFormMixin:
         }
 
         for key, value in self.fields.items():
-            print(key)
-            print(value)
-            print(stage)
             value.hide_on_page_load = stage_config[stage][key]
 
 
