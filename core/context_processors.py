@@ -125,7 +125,10 @@ def directory_components_html_lang_attribute(request):
 def services_home_links(request):
     root_url = get_root_url(request)
     return {
-        'international_home_link': {'url': f"{root_url}{reverse_lazy('index')}", 'label': _('great.gov.uk international')},
+        'international_home_link': {
+            'url': f"{root_url}{reverse_lazy('index')}",
+            'label': _('great.gov.uk international'),
+        },
     }
 
 
@@ -188,7 +191,12 @@ def domestic_header(request):
                 'requiresAuth': True,
                 'isCurrent': '/export-plan' in request.path,
             },
-            {'href': f'{root_url}/markets/', 'text': 'Markets', 'requiresNoAuth': True, 'isCurrent': '/markets' in request.path},
+            {
+                'href': f'{root_url}/markets/',
+                'text': 'Markets',
+                'requiresNoAuth': True,
+                'isCurrent': '/markets' in request.path,
+            },
             {
                 'href': f'{root_url}/services/',
                 'text': 'Services',
@@ -220,7 +228,12 @@ def domestic_header(request):
                 'requiresAuth': True,
                 'isCurrent': '/export-plan' in request.path,
             },
-            {'href': f'{root_url}profile/', 'text': 'Account', 'requiresAuth': True, 'isCurrent': '/profile' in request.path},
+            {
+                'href': f'{root_url}profile/',
+                'text': 'Account',
+                'requiresAuth': True,
+                'isCurrent': '/profile' in request.path,
+            },
             {
                 'href': f'{root_url}/learn/categories/',
                 'text': 'Learn to export',
@@ -229,7 +242,12 @@ def domestic_header(request):
             {'href': f'{root_url}/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
             {'href': f'{root_url}/services/', 'text': 'Services', 'isCurrent': '/services' in request.path},
             {'text': 'Sign out', 'attributes': 'onclick="signOut()"', 'button': True, 'requiresAuth': True},
-            {'text': 'Sign in', 'href': f"{root_url}{reverse_lazy('core:login')}", 'button': True, 'requiresNoAuth': True},
+            {
+                'text': 'Sign in',
+                'href': f"{root_url}{reverse_lazy('core:login')}",
+                'button': True,
+                'requiresNoAuth': True,
+            },
         ],
         'actionLinkList': [
             {'href': f'{root_url}/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
