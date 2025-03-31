@@ -103,7 +103,7 @@ class HCSATForm(mixins.HCSATFormMixin, gds_forms.ModelForm):
         label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
         widget=gds_forms.RadioSelect(container_css_classes='csat-step-1'),
-        required=True,
+        required=False,
     )
     experienced_issues = gds_forms.MultipleChoiceField(
         label='Did you experience any of the following issues?',
