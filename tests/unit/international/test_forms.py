@@ -136,7 +136,7 @@ def test_contact_form_validation(form, form_data, form_is_valid, error_messages)
                 'service_improvements_feedback': 'This is some feedback',
             },
             False,
-            {},
+            {'service_specific_feedback_other': ['Ensure this value has at most 100 characters (it has 101).']},
         ),
     ),
 )
