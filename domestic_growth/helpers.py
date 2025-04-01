@@ -80,21 +80,32 @@ def get_trade_associations_file():
     return deserialised_data
 
 
-def get_filtered_trade_associations_by_sector(trade_associations, sector):
-    res = []
+def get_trade_association_results(trade_associations, sector, sub_sector):
+    sector_tas = []
 
     for ta in trade_associations:
         if sector in ta.get('sectors'):
-            res.append(ta)
+            sector_tas.append(ta)
 
-    return res
+    if len(sector_tas) == 0:
+        return None
 
+    if not sub_sector:
+        return {
+            'sector_tas': sector_tas,
+        }
 
-def get_filtered_trade_associations_by_sub_sector(trade_associations, sub_sector):
-    res = []
+    sub_sector_tas = []
+    sector_only_tas = []
 
-    for ta in trade_associations:
+    for ta in sector_tas:
         if sub_sector in ta.get('sectors'):
-            res.append(ta)
+            ta['type'] = 'sub_sector'
+            sub_sector_tas.append(ta)
+        else:
+            ta['type'] = 'sector'
+            sector_only_tas.append(ta)
 
-    return res
+    return {
+        'sub_sector_and_sector_only_tas': sub_sector_tas + sector_only_tas,
+    }
