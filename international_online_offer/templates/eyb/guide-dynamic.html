@@ -57,7 +57,7 @@
                     <ul class="essential-topics__list essential-topics">
                         {% for topic in essential_topics %}
                             <li class="essential-topics__item">
-                                <img class="dynamic-guide__icon" alt="" src="{% static topic.icon_path %}" />
+                                <img class="icon" alt="" src="{% static topic.icon_path %}" />
                                 <a class="great-ds-action-link" href="{{ topic.url }}">
                                     <span class="great-ds-action-link__text">{{ topic.text }}</span>
                                 </a>
@@ -124,7 +124,7 @@
                 <div class="dynamic-guide__section section section--right section--find-a-consultant">
                     <div class="section__header">
                         <h2 class="govuk-heading-m section__heading">Find a consultant</h2>
-                        <img class="dynamic-guide__icon"
+                        <img class="icon"
                              alt="Business structure icon"
                              src="{% static 'svg/icon-consultant.svg' %}" />
                     </div>
@@ -137,7 +137,7 @@
                     <div class="dynamic-guide__section section section--right">
                         <div class="section__header">
                             <h2 class="govuk-heading-m section__heading">{{ section.title }}</h2>
-                            <img class="dynamic-guide__icon"
+                            <img class="icon"
                                  alt=""
                                  src="{% static section.icon_path %}" />
                         </div>
