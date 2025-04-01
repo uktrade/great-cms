@@ -44,7 +44,7 @@ class OpensearchView(TemplateView):
             ctx['elided_page_range'] = elided_page_range
 
         ctx['search_results'] = full_search_results
-        ctx['search_results_count'] = full_search_results.count()
+        ctx['search_results_count'] = len(full_search_results)
         ctx['search_query'] = search_query
 
         return ctx
