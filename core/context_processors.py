@@ -270,9 +270,9 @@ def domestic_header(request):
                     'children': [
                         { 'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path },
                         { 'href': "#", 'text': "Export support", 'requiresAuth': True },
-                        { 'href': "#", 'text': "UK Export Academy" },
+                        { 'href': "/export-academy/", 'text': "UK Export Academy", 'isCurrent': '/export-support/' in request.path },
                         { 'href': "/learn/categories/", 'text': "Learn to export", 'isCurrent': '/learn/categories/' in request.path },
-                        { 'href': "#", 'text': "Export resources", 'requiresAuth': True },
+                        { 'href': "/services/", 'text': "Export resources", 'requiresAuth': True, 'isCurrent': '/services/' in request.path },
                         { 'href': "/dashboard/", 'text': "Export dashboard", 'requiresAuth': True, 'isCurrent': '/compare-countries' in request.path },
                         { 'href': reverse_lazy('core:compare-countries'), 'text': "Where to export", 'isCurrent': '/compare-countries' in request.path },
                         { 'href': "/export-plan/", 'text': "Make an export plan", 'requiresAuth': True, 'isCurrent': '/export-plan' in request.path },
@@ -283,15 +283,15 @@ def domestic_header(request):
                 },
                 {
                     'icon': "/static/icons/expand-icon.svg",
-                    'href': "#", 
+                    'href': "/international", 
                     'text': "Investing and expanding in the UK",
                     'overviewText': "Overview",
                     'children': [
-                        { 'href': "#", 'text': "Expand your business in the UK" },
-                        { 'href': "#", 'text': "Investment opportunities"},
-                        { 'href': "#", 'text': "Buy from the UK" },
-                        { 'href': "#", 'text': "Sign out of expand your business in the UK", 'requiresAuth': True },
-                        { 'href': "#", 'text': "Sign in to expand your business in the UK", 'requiresNoAuth': True }
+                        { 'href': "/international/expand-your-business-in-the-uk/", 'text': "Expand your business in the UK", 'isCurrent': '/expand-your-business-in-the-uk' in request.path },
+                        { 'href': "/international/investment/", 'text': "Investment opportunities", 'isCurrent': '/international/investment/' == request.path or '/international/investment/' in request.path and '?back=' in request.get_full_path(),},
+                        { 'href': "/international/buy-from-the-uk/", 'text': "Buy from the UK", 'isCurrent': '/international/buy-from-the-uk/' in request.path },
+                        { 'href': "#", 'text': "Sign out of expand your business in the UK", 'requiresAuth': True, 'attributes': 'onclick="signOut()"' },
+                        { 'href': reverse_lazy('international_online_offer:login'), 'text': "Sign in to expand your business in the UK", 'requiresNoAuth': True, 'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path }
                     ]
                 },
             ],
