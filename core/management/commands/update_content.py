@@ -46,7 +46,7 @@ class Command(BaseCommand):
                 updated = True
         return updated, value
 
-    def process_string_field(self, page, field, value):
+    def process_string_field(self, value):
         updated, new_value = self.replace_string(value)
         return updated, new_value
 
@@ -56,7 +56,7 @@ class Command(BaseCommand):
             pass
         return updated, value
 
-    def process_list_field(page, field, value):
+    def process_list_field(self, page, field, value):
         updated = False
         for item in value:
             pass
@@ -81,7 +81,7 @@ class Command(BaseCommand):
             return field
 
         if isinstance(value, str):
-            updated, new_value = self.process_string_field(page, field, value)
+            updated, new_value = self.process_string_field(value)
         elif isinstance(value, StreamValue):
             updated, new_value = self.process_streamvalue_field(page, field, value)
         elif isinstance(value, list):
