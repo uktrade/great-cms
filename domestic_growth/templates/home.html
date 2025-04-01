@@ -3,7 +3,7 @@
 {% load wagtailimages_tags %}
 
 {% block head_title %}Business.gov.uk - Find the right support for your business{% endblock %}
-
+{% block feedback_reporter %}{% endblock %}
 {% block content %}
     {% image page.hero_image width-3200 as hero_image %}
     <section class="govuk-!-padding-bottom-9 great-ds-bg-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
