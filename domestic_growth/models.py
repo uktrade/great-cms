@@ -386,6 +386,11 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['scottish_enterprise_admin_districts'] = constants.SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS
+        context['highlands_and_islands_admin_districts'] = constants.HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS
+        context['south_of_scotland_enterprises_admin_districts'] = (
+            constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
+        )
 
         return context
 
