@@ -68,7 +68,7 @@ from domestic_growth.views import (
             {
                 'currently_export': 'YES',
             },
-            '/support-in-uk/established-guide',
+            '/support-in-uk/established-guide/',
         ),
     ),
 )

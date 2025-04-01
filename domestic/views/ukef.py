@@ -47,6 +47,20 @@ class UKEFHomeView(TemplateView):
         return context
 
 
+class ThanksView(TemplateView):
+    template_name = 'domestic/finance/lead_generation_form/success.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': reverse('domestic:get-finance')},
+            {'title': 'Trade Finance', 'url': '/trade-finance'},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+
+        return ctx
+
+
 class UKEFProjectFinanceView(TemplateView):
     template_name = 'domestic/ukef/project_finance.html'
 
@@ -127,6 +141,16 @@ class GetFinanceLeadGenerationFormView(
         COMPANY_DETAILS: 'domestic/finance/lead_generation_form/step-company.html',
         HELP: 'domestic/finance/lead_generation_form/step-help.html',
     }
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        bespoke_breadcrumbs = [
+            {'title': 'UKEF', 'url': reverse('domestic:get-finance')},
+            {'title': 'Trade Finance', 'url': '/trade-finance'},
+        ]
+        ctx['bespoke_breadcrumbs'] = bespoke_breadcrumbs
+
+        return ctx
 
     def get_form_kwargs(self, *args, **kwargs):
         # skipping `PrepopulateFormMixin.get_form_kwargs`

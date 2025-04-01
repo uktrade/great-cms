@@ -2,304 +2,254 @@
 
 @import 'styles/great/_colors.scss';
 
-$gap: 30px;
-// Copied from https://github.com/uktrade/great-design-system/blob/main/src/components/header/_header.scss#L16
-$text-underline-offset: .3em;
+.hero-tile-container {
+	margin-top: -150px;
+	position: relative;
+	z-index: 1;
+}
 
-.dynamic-guide {
-	// The only purpose of this selector is to hold the following variables
-	// so we use this to make it not participate in the layout.
-	display: contents;
-
-	--vertical-gap: 15px;
-	--grid-side-margin: calc(var(--vertical-gap) * 2);
-	--hero-image-height: 80px;
-	--vertical-padding: 15px;
-
-	@mixin display-contents-on-small-screens {
-		display: contents;
-
-		@media (min-width: sizes.$tablet-size) {
-			display: initial;
-		}
-	}
-
-	.great-ds-title-arrow-wrapper {
-		justify-content: space-between;
-		flex-direction: row;
-		gap: 0;
-		display: flex;
-	}
-
-	@mixin vertical-spacer {
-		@media (min-width: sizes.$tablet-size) {
-			display: flex;
-			flex-direction: column;
-			gap: var(--vertical-gap);
-		}
-	}
-
-	@mixin shadow-thrower {
-		background: white;
-		box-shadow: 0 4px 10px #04043F1A;
-	}
+.region-map {
+	display: none;
 
 	@media (min-width: sizes.$tablet-size) {
-		--hero-image-height: 270px;
-		--vertical-padding: 30px;
-		--vertical-gap: 30px;
-	}
-
-	@media (min-width: sizes.$donknowhowtonameit-size) {
-		--hero-image-height: 450px;
-	}
-
-	&__icon {
-		width: 60px;
-	}
-
-	&__disclaimer {
-		color: $great-text-dark-grey;
-	}
-
-	&__hero-image {
-		position: absolute;
+		display: block;
+		background-image: url("/static/svg/regions/uk-all.svg");
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position-x: right;
+		background-position-y: top;
 		width: 100%;
-		height: var(--hero-image-height);
-		background: url("/static/images/international-dynamic-guide-hero.jpg") no-repeat center center;
-		background-size: cover;
+		height: 260px;
+	}
+}
+
+.map-location {
+	display: none;
+
+	@media (min-width: sizes.$tablet-size) {
+		display: block;
+		text-align: right;
+	}
+}
+
+.icon {
+	width: 60px;
+}
+
+.essential-topics {
+	padding: 15px var(--vertical-padding) 25px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+
+	@media (min-width: sizes.$tablet-size) {
+		padding: 30px;
+		gap: 20px;
 	}
 
-	&__grid {
-		// This is required for the grid to participate in the z-index
-		// so that hero-image appears behind it.
-		position: relative;
+	&__list {
 		display: grid;
-		grid-template:
-			"top"
-			"left"
-			"right";
-		row-gap: var(--vertical-gap);
-		column-gap: $gap;
-		padding: 80px 0;
+		gap: 20px;
+		margin: 0;
+		padding: 0;
 
 		@media (min-width: sizes.$tablet-size) {
-			width: min(calc(100% - var(--grid-side-margin)), sizes.$content-max-width);
-			margin: auto;
-			grid-template:
-				"top top"
-				"left right"
-				/ 2fr 1fr;
-		}
-
-		@media (min-width: sizes.$donknowhowtonameit-size) {
-			padding-top: 188px;
+			grid-template-columns: 1fr 1fr;
+			gap: 30px;
 		}
 	}
 
-	&__hero {
-		grid-area: hero;
-	}
-
-	&__edit-link {
+	&__item {
 		display: flex;
-		align-items: baseline;
-		gap: 10px;
-
-		& > svg {
-			transform: translateY(4px);
-		}
-	}
-
-	&__region-map {
-		display: none;
-
-		@media (min-width: sizes.$tablet-size) {
-			display: initial;
-			background-image: url("/static/svg/regions/uk-all.svg");
-			background-size: contain;
-			background-repeat: no-repeat;
-			background-position-x: right;
-			background-position-y: top;
-		}
-	}
-
-	&__region-map-and-location-container {
-		grid-area: region-map-and-location-container;
-		display: grid;
-		grid-template-rows: 1fr auto;
-	}
-
-	&__region-map-location {
-		display: none;
-
-		@media (min-width: sizes.$tablet-size) {
-			display: initial;
-			text-align: right;
-		}
-	}
-
-	&__panel {
-		&-top {
-			@include shadow-thrower();
-			grid-area: top;
-			display: grid;
-			grid-template-columns: subgrid;
-			grid-template-areas: "hero region-map-and-location-container";
-			padding: 20px var(--vertical-padding) 25px;
-		}
-
-		&-left {
-			@include display-contents-on-small-screens();
-			@include vertical-spacer();
-			grid-area: left;
-		}
-
-		&-right {
-			@include display-contents-on-small-screens();
-			@include vertical-spacer();
-			grid-area: right;
-		}
-	}
-
-	&__section {
-		@include shadow-thrower();
-	}
-
-	.essential-topics {
-		padding: 15px var(--vertical-padding) 25px;
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-
-		@media (min-width: sizes.$tablet-size) {
-			padding: 30px;
-			gap: 20px;
-		}
-
-		&__list {
-			display: grid;
-			gap: 20px;
-			margin: 0;
-			padding: 0;
-
-			@media (min-width: sizes.$tablet-size) {
-				grid-template-columns: 1fr 1fr;
-				gap: 30px;
-			}
-		}
-
-		&__item {
-			@include shadow-thrower();
-			display: flex;
 		align-items: center;
 		gap: 15px;
-			border: 2px solid #bdbdbd;
+		border: 2px solid #bdbdbd;
 		border-radius: 10px;
 		list-style: none;
 		padding: 15px;
-			font-weight: bold;
+		font-weight: bold;
 
-			@media (min-width: sizes.$tablet-size) {
-				flex-direction: column;
-				align-items: flex-start;
-			}
+		@media (min-width: sizes.$tablet-size) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
 
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			flex-direction: row;
+			align-items: center;
+		}
+	}
+
+}
+
+.great-ds-title-arrow-wrapper {
+	justify-content: space-between;
+	flex-direction: row;
+	gap: 0;
+	display: flex;
+}
+
+.figures {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			flex-direction: row;
+			gap: 30px;
+		}
+	}
+
+	&__figure {
+		display: grid;
+		grid-template:
+			"icon value"
+			"icon description"
+			/ 60px 1fr;
+		row-gap: 5px;
+		column-gap: 15px;
+		flex: 1 1;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__value {
+		grid-area: value;
+		margin: 0;
+	}
+
+	&__description {
+		grid-area: description;
+		margin: 0;
+	}
+
+	&__disclaimer {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		color: $great-text-dark-grey;
+		margin: 0;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: block;
+		}
+	}
+}
+
+.rich-link {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+	padding-bottom: 20px;
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1;
+		gap: 5px;
+	}
+
+	&__image {
+		display: none;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: initial;
+			width: 140px;
+		}
+	}
+
+	&__website {
+		color: $great-text-dark-grey;
+	}
+
+	& > * {
+		margin: 0;
+	}
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+		border-bottom: 1px solid #bdbdbd;
+	}
+}
+
+.tab-content {
+	padding-bottom: 20px;
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+		border-bottom: 1px solid #bdbdbd;
+	}
+
+	@media (min-width: sizes.$tablet-size) {
+		display: grid;
+		grid-template:
+			" icon title"
+			" icon figure"
+			" icon explanation"
+			/ 60px auto;
+		gap: 10px;
+	}
+
+	@media (min-width: sizes.$donknowhowtonameit-size) {
+		grid-template:
+			" icon  .    title  title title"
+			" icon  .    .      .     ." 5px
+			" icon  .    figure .     explanation"
+			/ 60px  10px auto   30px  auto;
+	}
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__title {
+		grid-area: title;
+		margin: 0;
+	}
+
+	&__figure {
+		grid-area: figure;
+	}
+
+	&__description {
+		grid-area: description;
+	}
+
+	&__explanation {
+		grid-area: explanation;
+	}
+
+	&__value {
+		margin: 0;
+
+		&--mobile {
 			@media (min-width: sizes.$donknowhowtonameit-size) {
-				flex-direction: row;
-				align-items: center;
+				display: none;
 			}
 		}
 
-	}
-
-	.section {
-		& > * {
-			padding: 20px var(--vertical-padding);
-
-			@media (min-width: sizes.$tablet-size) {
-				padding: 30px var(--vertical-padding);
-			}
-
-			&:not(:last-child) {
-				border-bottom: 1px solid #bdbdbd;
-			}
-		}
-
-		&__header {
-			padding-bottom: 15px;
-
-			@media (min-width: sizes.$tablet-size) {
-				padding-bottom: 20px;
-			}
-
-			& .govuk-body {
-				margin: 0;
-			}
-
-			& > *:last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		&--left {
-			&__header {
-				& .govuk-heading-l {
-					margin-bottom: 15px;
-				}
-			}
-		}
-
-		&--find-a-consultant {
-			padding: 15px 0 20px;
-
-			@media (min-width: sizes.$tablet-size) {
-				padding: 30px 0;
-			}
-
-			& > * {
-				border-bottom: none !important;
-				padding-top: 0 !important;
-				padding-bottom: 0 !important;
-			}
-		}
-
-		&--right {
-			& > * {
-				// The horizontal padding of 20px is inconsistent with the cards in the
-				// left column which have padding 15px.
-				padding: 15px 20px 25px;
-
-				@media (min-width: sizes.$tablet-size) {
-					padding: 20px 30px 30px;
-				}
-			}
-
-			.section {
-				&__header {
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: center;
-					gap: 10px;
-					padding-bottom: 15px;
-
-					@media (min-width: sizes.$tablet-size) and (max-width: sizes.$donknowhowtonameit-size) {
-						padding-bottom: 20px;
-						flex-direction: column-reverse;
-						align-items: flex-start;
-					}
-				}
-
-				&__heading {
-					// Override govuk-heading-m margin
-					margin: 0;
-				}
+		&--tablet {
+			@media (max-width: sizes.$donknowhowtonameit-size) {
+				display: none;
 			}
 		}
 	}
+}
 
-	.link-list {
+.link-list {
 		list-style: none;
 		margin: 0;
 
@@ -325,163 +275,3 @@ $text-underline-offset: .3em;
 			}
 		}
 	}
-
-	.rich-link {
-		display: flex;
-		align-items: flex-start;
-		gap: 20px;
-
-		&__content {
-			display: flex;
-			flex-direction: column;
-			flex: 1 1;
-			gap: 5px;
-		}
-
-		&__image {
-			display: none;
-
-			@media (min-width: sizes.$tablet-size) {
-				display: initial;
-				width: 140px;
-			}
-		}
-
-		&__website {
-			color: $great-text-dark-grey;
-		}
-
-		& > * {
-			margin: 0;
-		}
-	}
-
-	.external-link {
-		&__icon {
-			margin-left: 10px;
-		}
-	}
-
-	.figures {
-		display: flex;
-		flex-direction: column;
-		gap: 25px;
-
-		&__list {
-			display: flex;
-			flex-direction: column;
-			gap: 40px;
-
-			@media (min-width: sizes.$donknowhowtonameit-size) {
-				flex-direction: row;
-				gap: 30px;
-			}
-		}
-
-		&__figure {
-			display: grid;
-			grid-template:
-				"icon value"
-				"icon description"
-				/ 60px 1fr;
-			row-gap: 5px;
-			column-gap: 15px;
-			flex: 1 1;
-
-			@media (min-width: sizes.$donknowhowtonameit-size) {
-				display: flex;
-				flex-direction: column;
-				gap: 10px;
-			}
-		}
-
-		&__icon {
-			grid-area: icon;
-		}
-
-		&__value {
-			grid-area: value;
-			margin: 0;
-		}
-
-		&__description {
-			grid-area: description;
-			margin: 0;
-		}
-
-		&__disclaimer {
-			display: flex;
-			flex-direction: column;
-			gap: 4px;
-			color: $great-text-dark-grey;
-			margin: 0;
-
-			@media (min-width: sizes.$donknowhowtonameit-size) {
-				display: block;
-			}
-		}
-	}
-
-	.tab-content {
-		@media (min-width: sizes.$tablet-size) {
-			display: grid;
-			grid-template:
-				" icon title"
-				" icon figure"
-				" icon explanation"
-				/ 60px auto;
-			gap: 10px;
-		}
-
-		@media (min-width: sizes.$donknowhowtonameit-size) {
-			grid-template:
-				" icon  .    title  title title"
-				" icon  .    .      .     ." 5px
-				" icon  .    figure .     explanation"
-				/ 60px  10px auto   30px  auto;
-		}
-
-		&__icon {
-			grid-area: icon;
-		}
-
-		&__title {
-			grid-area: title;
-			margin: 0;
-		}
-
-		&__figure {
-			grid-area: figure;
-		}
-
-		&__description {
-			grid-area: description;
-		}
-
-		&__explanation {
-			grid-area: explanation;
-		}
-
-		&__value {
-			margin: 0;
-
-			&--mobile {
-				@media (min-width: sizes.$donknowhowtonameit-size) {
-					display: none;
-				}
-			}
-
-			&--tablet {
-				@media (max-width: sizes.$donknowhowtonameit-size) {
-					display: none;
-				}
-			}
-		}
-	}
-
-	.rent-data {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-}

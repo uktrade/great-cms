@@ -4,7 +4,7 @@ DYNAMIC_SNIPPET_NAMES = (
     ('BGS_5_010', 'Find a grant'),
     ('BGS_6_001', 'Innovate UK Catapult Network'),
     ('BGS_6_002', 'Innovate UK Business Connect'),
-    ('BGS_9_21', 'Apprenticeships placeholder'),
+    ('BGS_9_021', 'Apprenticeships placeholder'),
     ('BGS_12_005', 'Talk to an International Trade Adviser'),
     ('BGS_13_001', 'Contracts finder'),
 )
@@ -20,6 +20,12 @@ CARD_META_DATA = (
     ('smallbusinesscharter.org', 'smallbusinesscharter.org', 'small-business-charter'),
 )
 
+PRE_START_GUIDE_URL = '/support-in-uk/pre-start-guide/'
+START_UP_GUIDE_URL = '/support-in-uk/start-up-guide/'
+ESTABLISHED_GUIDE_URL = '/support-in-uk/established-guide/'
+PRE_START_BUSINESS_TYPE = 'pre_start'
+ESTABLISHED_OR_START_UP_BUSINESS_TYPE = 'established_or_startup'
+
 REGION_IMAGES = (
     ('North East', 'bgs-section-logo--north-east'),
     ('North West', 'bgs-section-logo--north-west'),
@@ -34,3 +40,35 @@ REGION_IMAGES = (
     ('Wales', 'bgs-section-logo--wales'),
     ('Northern Ireland', 'bgs-section-logo--northern-ireland'),
 )
+
+FINANCE_AND_SUPPORT_REGION_MAPPINGS = (
+    ('North East', 'north-east'),
+    ('North West', 'north-west'),
+    ('Yorkshire and The Humber', 'yorkshire-and-the-humber'),
+    ('East Midlands', 'east-midlands'),
+    ('West Midlands', 'west-midlands'),
+    ('East of England', 'eastern'),
+    ('London', 'london'),
+    ('South East', 'south-east'),
+    ('South West', 'south-west'),
+    ('Scotland', 'scotland'),
+    ('Wales', 'wales'),
+    ('Northern Ireland', 'northern-ireland'),
+)
+
+FIND_A_GRANT_MAPPINGS = (
+    ('North East', '4'),
+    ('North West', '5'),
+    ('Yorkshire and The Humber', '3'),
+    ('East Midlands', '8'),
+    ('West Midlands', '8'),
+    ('East of England', '3'),
+    ('London', '3'),
+    ('South East', '6'),
+    ('South West', '7'),
+    ('Scotland', '9'),
+    ('Wales', '10'),
+    ('Northern Ireland', '11'),
+)
+
+ITA_EXCLUED_TURNOVERS = ('LESS_THAN_90K', '90K_TO_500K', 'PREFER_NOT_TO_SAY')

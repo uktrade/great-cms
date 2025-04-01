@@ -1,6 +1,6 @@
 {% extends 'includes/base.html' %}
 
-{% load get_region_bg_class from content_tags %}
+{% load get_region_bg_class get_url_favicon_and_domain from content_tags %}
 
 {% block head_title %}Domestic Growth - Guide page{% endblock %}
 {% block content %}
@@ -154,7 +154,14 @@
                                 <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
                                     <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
                                         {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border" hideArrow="true" %}
-                                    
+                                        
+                                        {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                        <div class="great-ds-card__metadata govuk-!-padding-bottom-6">
+                                            <img class="great-ds-card__metadata-icon" src="/static/icons/favicons/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true" onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                            <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                        </div>
+                                        {% endwith %}
+
                                         {% if sub_sector %}
                                             {% include "_tag.html" with text=sub_sector type="success" %}
                                         {% elif sector %}
