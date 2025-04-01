@@ -49,8 +49,6 @@ from core.templatetags.content_tags import (
     tag_text_mapper,
     url_type,
     val_to_int,
-    get_card_meta_data_by_url,
-    get_region_bg_class,
     get_url_favicon_and_domain,
     get_region_for_finance_and_support_snippet,
     get_region_name,
