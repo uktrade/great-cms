@@ -35,12 +35,9 @@ class Command(BaseCommand):
 
     def update_field(self, page, field):
 
-        if field == 'specific_class' or field == 'specific':
-            return field
-
         value = getattr(page, field)
 
-        if not value or isinstance(value, timedelta) or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
+        if not value or field == 'specific_class' or field == 'specific' or isinstance(value, timedelta) or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
             return field
         
         if isinstance(value, str):
