@@ -111,7 +111,6 @@ def feature_flags(request):
     retval['features']['FEATURE_UNGUIDED_JOURNEY'] = settings.FEATURE_UNGUIDED_JOURNEY
 
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
-    retval['features']['FEATURE_BGS_FOOTER'] = settings.FEATURE_BGS_FOOTER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
 

@@ -377,7 +377,6 @@ class BaseSettings(PydanticBaseSettings):
     is_local_docker_development: bool = False
 
     feature_great_migration_banner: bool = False
-    feature_bgs_footer: bool = False
 
     frontend_cache_distribution_id: str = ''
     cf_invalidation_role_arn: str = ''
