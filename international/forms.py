@@ -1,20 +1,18 @@
-from django.forms import (
-    CharField,
-    CheckboxSelectMultiple,
-    MultipleChoiceField,
-    Textarea,
-    TextInput,
-)
-from great_components import forms
-
 from core.forms import HCSATForm as DomesticHCSATForm
 from core.models import HCSAT
 from core.validators import is_valid_email_address
+from great_design_system import forms as gds_forms
 from international.choices import INTENSION_CHOICES
 
 
-class ContactForm(forms.Form):
-    how_we_can_help = CharField(
+class ContactForm(gds_forms.Form):
+
+    # These are default but can be updated in the form
+    error_title = 'There was a problem'
+    error_description = 'There was a problem with the form submission'
+    error_disable_auto_focus = False
+
+    how_we_can_help = gds_forms.CharField(
         label='What were you trying to do?',
         help_text="""For example, following a link to a page and getting an error message.
         Do not include personal or commercially sensitive information.""",
@@ -24,23 +22,23 @@ class ContactForm(forms.Form):
             'required': ('Enter information on what you were trying to do'),
             'max_length': ('Information on what you were trying to do must be no more than 1,000 characters'),
         },
-        widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
+        widget=gds_forms.Textarea(attrs={'class': 'govuk-!-width-two-thirds govuk-js-character-count', 'rows': 7}),
     )
-    full_name = CharField(
+    full_name = gds_forms.CharField(
         label='Your name',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}),
         error_messages={
             'required': 'Enter your name',
         },
     )
-    email = CharField(
+    email = gds_forms.CharField(
         label='Your email address',
         help_text="We'll only use this to reply to your message",
         max_length=255,
         required=True,
         validators=[is_valid_email_address],
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}),
         error_messages={
             'required': 'Enter your email address',
         },
@@ -48,19 +46,22 @@ class ContactForm(forms.Form):
 
 
 class InternationalHCSATForm(DomesticHCSATForm):
-    service_specific_feedback = MultipleChoiceField(
+    service_specific_feedback = gds_forms.MultipleChoiceField(
         label='What did you get out of this service today?',
         help_text='Tick all that apply.',
         choices=INTENSION_CHOICES,
-        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=gds_forms.CheckboxSelectMultiple(container_css_classes='csat-step-2'),
         required=False,
+        linked_conditional_reveal_fields=['service_specific_feedback_other'],
+        linked_conditional_reveal_choice='OTHER',
     )
-    service_specific_feedback_other = CharField(
+    service_specific_feedback_other = gds_forms.CharField(
         label='Enter your answer',
         min_length=2,
         max_length=100,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}, container_css_classes='csat-step-2'),
+        linked_conditional_reveal='service_specific_feedback',
     )
 
     class Meta:

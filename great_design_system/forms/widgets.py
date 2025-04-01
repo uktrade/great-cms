@@ -25,11 +25,20 @@ class GDSWidgetMixin(widgets.Widget):
     field = None
     help_text_class_name = ''
 
-    def __init__(self, data_module_attrs={}, fieldset=False, linked_conditional_reveal_fields=[], *args, **kwargs):
+    def __init__(
+        self,
+        container_css_classes='',
+        data_module_attrs={},
+        fieldset=False,
+        linked_conditional_reveal_fields=[],
+        *args,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         self.fieldset = fieldset
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.data_module_attrs = data_module_attrs
+        self.container_css_classes = container_css_classes
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)

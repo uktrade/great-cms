@@ -7,7 +7,6 @@ from directory_forms_api_client.forms import (
 from django.forms import (
     HiddenInput,
     IntegerField as DjangoIntegerField,
-    Select,
     Textarea,
     TextInput,
     ValidationError,
@@ -18,11 +17,12 @@ from great_components import forms
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements
-from core import helpers
-from core.forms import TERMS_LABEL, ConsentFieldMixin
+from core import helpers, mixins
+from core.forms import TERMS_CHOICES, TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
+from great_design_system import forms as gds_forms
 from regex import PHONE_NUMBER_REGEX
 
 BLANK_COUNTRY_CHOICE = [('', 'Select a country')]
@@ -57,14 +57,6 @@ class IntegerField(
     pass
 
 
-class CountryForm(forms.Form):
-    country = forms.fields.ChoiceField(
-        label='Country',
-        widget=Select(attrs={'id': 'great-header-country-select'}),
-        choices=COUNTRIES,
-    )
-
-
 class SerializeDataMixin:
     @property
     def serialized_data(self):
@@ -74,30 +66,43 @@ class SerializeDataMixin:
         return data
 
 
-class BaseShortForm(forms.Form):
-    comment = forms.CharField(
+class BaseShortForm(mixins.ReCaptchaFormMixin, gds_forms.Form):
+
+    comment = gds_forms.CharField(
         label='Please give us as much detail as you can',
-        widget=Textarea,
+        widget=gds_forms.Textarea(attrs={'rows': 10, 'cols': 40}),
     )
-    given_name = forms.CharField(label='First name')  # /PS-IGNORE
-    family_name = forms.CharField(label='Last name')  # /PS-IGNORE
-    email = forms.EmailField()
-    company_type = forms.ChoiceField(
+    given_name = gds_forms.CharField(
+        label='First name',
+        widget=gds_forms.TextInput(),
+    )
+    family_name = gds_forms.CharField(
+        label='Last name',
+        widget=gds_forms.TextInput(),
+    )
+    email = gds_forms.EmailField(
+        widget=gds_forms.EmailInput(),
+    )
+    company_type = gds_forms.ChoiceField(
         label='Company type',
-        label_suffix='',
-        widget=GroupedRadioSelect(),
+        widget=gds_forms.RadioSelectConditionalReveal(),
         choices=constants.COMPANY_TYPE_CHOICES,
+        linked_conditional_reveal_fields=['company_type_other'],
+        linked_conditional_reveal_choice='OTHER',
     )
-    company_type_other = forms.ChoiceField(
+    company_type_other = gds_forms.ChoiceField(
         label='Type of organisation',
         label_suffix='',
         choices=(('', 'Please select'),) + constants.COMPANY_TYPE_OTHER_CHOICES,
         required=False,
+        linked_conditional_reveal='contactable',
+        widget=gds_forms.SelectOne(),
     )
-    organisation_name = forms.CharField()
-    postcode = forms.CharField()
-    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
-    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+    organisation_name = gds_forms.CharField(widget=gds_forms.TextInput())
+    postcode = gds_forms.CharField(widget=gds_forms.TextInput())
+    terms_agreed = gds_forms.ChoiceField(
+        choices=TERMS_CHOICES, required=True, widget=gds_forms.CheckboxSelectMultiple()
+    )
 
 
 class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):

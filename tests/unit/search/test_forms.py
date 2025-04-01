@@ -21,9 +21,32 @@ from search.forms import FeedbackForm
             {},
             False,
             {
-                'contactable': 'This field is required.',
-                'result_found': 'This field is required.',
-                'search_target': 'This field is required.',
+                'result_found': ['This field is required.'],
+                'search_target': ['This field is required.'],
+                'contactable': ['This field is required.'],
+            },
+        ),
+        (
+            FeedbackForm,
+            {'result_found': 'no', 'search_target': 'Test', 'contactable': 'no', 'contact_email': 'bad email'},
+            False,
+            {
+                'contact_email': [
+                    'Enter a valid email address.',
+                    'Enter an email address in the correct format, like name@example.com',
+                ],
+            },
+        ),
+        (
+            FeedbackForm,
+            {
+                'result_found': 'no',
+                'search_target': 'x' * 1001,
+                'contactable': 'no',
+            },
+            False,
+            {
+                'search_target': ['Information on what you were searching for must be no more than 1,000 characters'],
             },
         ),
     ),
@@ -32,6 +55,4 @@ from search.forms import FeedbackForm
 def test_search_feedback_form_validation(form, form_data, form_is_valid, error_messages):
     form = form(data=form_data)
     assert form.is_valid() is form_is_valid
-    if not form_is_valid:
-        for key in error_messages:
-            assert error_messages[key] in form.errors[key]
+    assert form.errors == error_messages
