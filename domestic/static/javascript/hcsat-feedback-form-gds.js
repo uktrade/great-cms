@@ -7,7 +7,7 @@ class CsatFormHandler {
         this.stepOneSuccessMessage = document.getElementById('csat-step-1-submission-confirmation');
         this.stepTwoSuccessMessage = document.getElementById('csat-step-2-submission-confirmation');
         this.infoMsg = document.getElementById('info-message')
-        this.errorSummary = document.getElementById('error-summary');
+        this.errorSummary = document.getElementById('hcsat_error');
         this.errorSummaryTitle = this.errorSummary.querySelector('.govuk-error-summary__title');
         this.errorList = this.errorSummary.querySelector('.govuk-error-summary__list');
         this.submitButton = this.form.querySelectorAll('input[type="submit"]')[0];
