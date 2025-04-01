@@ -7,7 +7,7 @@ from uuid import UUID
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from numbers import Number
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
 from django.db import transaction
@@ -35,18 +35,24 @@ class Command(BaseCommand):
 
     def update_field(self, page, field):
 
-        if field == 'specific_class':
+        if field == 'specific_class' or field == 'specific':
             return field
 
         value = getattr(page, field)
 
-        if not value or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
+        if not value or isinstance(value, timedelta) or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
             return field
         
-        if not isinstance(value, str) and not isinstance(value, StreamValue):
+        if isinstance(value, str):
             pass
+        elif isinstance(value, StreamValue):
+            pass
+        else:
+            self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
 
     def update_page(self, page):
+
+        self.stdout.write(self.style.SUCCESS(f'Processing Page: {page.title}'))
 
         fields = [key for key, value in page.specific.__dict__.items() if not isinstance(value, self.CALLABLES)]
 
@@ -76,3 +82,5 @@ class Command(BaseCommand):
 
         for page in pages_to_update:
              self.update_page(page=page)
+
+        self.stdout.write(self.style.SUCCESS('All done, bye!'))
