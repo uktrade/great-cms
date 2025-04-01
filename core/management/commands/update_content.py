@@ -33,6 +33,18 @@ class Command(BaseCommand):
             help='Show summary output only, do not update data',
         )
 
+    def process_string_field(self, page, field, value):
+        updated = False
+        if 'great' in value.lower():
+            updated = True
+        return updated, value
+
+    def process_streamvalue_field(self, page, field, value):
+        pass
+    
+    def process_list_field(page, field, value):
+        pass
+
     def update_field(self, page, field):
 
         value = getattr(page, field)
@@ -40,19 +52,26 @@ class Command(BaseCommand):
         if not value or field == 'specific_class' or field == 'specific' or isinstance(value, timedelta) or isinstance(value, Number) or isinstance(value, Decimal) or isinstance(value, Fraction) or isinstance(value, datetime) or isinstance(value, ModelState) or isinstance(value, UUID):
             return field
         
+        updated = False
         if isinstance(value, str):
-            pass
+            updated, new_value = self.process_string_field(page, field, value)
         elif isinstance(value, StreamValue):
-            pass
+            updated, new_value = self.process_streamvalue_field(page, field, value)
+        elif isinstance(value, list):
+            updated, new_value = self.process_list_field(page, field, value)
         else:
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
+
+        if updated:
+            setattr(page, field, new_value)
+            page.save()
 
     def update_page(self, page):
 
         self.stdout.write(self.style.SUCCESS(f'Processing Page: {page.title}'))
 
         fields = [key for key, value in page.specific.__dict__.items() if not isinstance(value, self.CALLABLES)]
-
+    
         for field in fields:
             self.update_field(page.specific, field)
 
