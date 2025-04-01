@@ -113,10 +113,10 @@
                         {% endwith %}
 
                         {% if local_support_data.chambers_of_commerce|length > 0 %}
-                        <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow">
+                        <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
                             {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                 <h4 class="govuk-heading-xs govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h4>
-                                
+                                <img src="/static/images/coc-{{ nearest_chamber_of_commerce.id }}.png" alt="" aria-hidden="true" />
                                 {% if page.chamber_of_commerce_intro %}
                                     <p class="govuk-body great-ds-max-width-70">{{ page.chamber_of_commerce_intro }}</p>
                                 {% endif %}
