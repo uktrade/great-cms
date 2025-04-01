@@ -23,8 +23,6 @@ class Command(BaseCommand):
     strings_to_replace = {
         'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
         'great.gov.uk': 'hotfix.great.uktrade.digital',
-        'great': 'business growth',
-        'Great': 'Business growth',
     }
 
     def add_arguments(self, parser):
@@ -56,10 +54,16 @@ class Command(BaseCommand):
             pass
         return updated, value
 
-    def process_list_field(self, page, field, value):
+    def process_list_field(self, value):
         updated = False
-        for item in value:
-            pass
+        enumerate_list = tuple(enumerate(value))
+        for index, item in enumerate_list:
+            if isinstance(item, str):
+                updated, new_item = self.replace_string(item)
+                if updated:
+                    value[index] = new_item
+            else:
+                self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
         return updated, value
 
     def update_field(self, page, field):
@@ -80,12 +84,13 @@ class Command(BaseCommand):
         ):
             return field
 
+        value = ['a', 'b', 'c', 'www.great.gov.uk']
         if isinstance(value, str):
             updated, new_value = self.process_string_field(value)
         elif isinstance(value, StreamValue):
             updated, new_value = self.process_streamvalue_field(page, field, value)
         elif isinstance(value, list):
-            updated, new_value = self.process_list_field(page, field, value)
+            updated, new_value = self.process_list_field(value)
         else:
             updated = False
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
