@@ -4,7 +4,7 @@ import logging
 import math
 import re
 from typing import Union
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit
 
 from bs4 import BeautifulSoup
 from django import template
@@ -18,11 +18,18 @@ from django.utils.text import slugify
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     CHEG_EXCLUDED_COUNTRY_CODES,
-    META_LABELS,
     EU_TRAVEL_ADVICE_URLS,
+    META_LABELS,
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
+from domestic_growth.constants import (
+    DYNAMIC_SNIPPET_NAMES,
+    CARD_META_DATA,
+    REGION_IMAGES,
+    FINANCE_AND_SUPPORT_REGION_MAPPINGS,
+    FIND_A_GRANT_MAPPINGS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -741,6 +748,15 @@ def convert_anchor_identifier_a_to_span(input_html):
     return mark_safe(str(soup))
 
 
+@register.filter
+def convert_anchor_identifiers_to_span(value):
+    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
+    if value.block_type != 'content_module':
+        return value
+    rich_text_html = value.value.content
+    return convert_anchor_identifier_a_to_span(rich_text_html)
+
+
 @register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
@@ -783,3 +799,74 @@ def sector_based_image(sector):
             res = icon_name
 
     return res
+
+
+@register.filter
+def is_a_dynamic_snippet(snippet_id):
+    for snippet in DYNAMIC_SNIPPET_NAMES:
+        if snippet[0] == snippet_id:
+            return True
+
+    return False
+
+
+@register.filter
+def get_card_meta_data_by_url(url):
+    for url_match, text, icon_name in CARD_META_DATA:
+        if url_match in url:
+            return {
+                'text': text,
+                'icon_name': icon_name,
+            }
+
+    return {
+        'text': False,
+        'icon_name': False,
+    }
+
+
+@register.filter
+def get_region_bg_class(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    for region_name, bg_class_name in REGION_IMAGES:
+        if region == region_name:
+            return bg_class_name
+
+    return None
+
+
+@register.filter
+def get_url_favicon_and_domain(url):
+    domain = urlsplit(url).netloc.replace('www.', '')
+
+    domain_parts = domain.split('.')
+
+    return {'filename': domain_parts[0], 'domain': domain}
+
+
+@register.filter
+def get_region_for_finance_and_support_snippet(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    for region_name, mapped_region_name in FINANCE_AND_SUPPORT_REGION_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
+
+    return None
+
+
+@register.filter
+def get_region_name(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    return region
+
+
+@register.filter
+def get_region_for_find_a_grant_snippet(region):
+    for region_name, mapped_region_name in FIND_A_GRANT_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
+
+    return None

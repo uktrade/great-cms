@@ -1,0 +1,136 @@
+{% extends 'includes/base_triage.html' %}
+{% load static %}
+{% block form %}
+    <form method="post" autocomplete="off" data-target-market-form>
+        {% csrf_token %}
+        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+            </h2>
+            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
+                <label class="govuk-heading--xl">What is your sector or industry?</label>
+            </h1>
+            <p class="govuk-body govuk-!-margin-bottom-4">Some placeholder content</p>
+            <div class="govuk-!-margin-bottom-2">
+                {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-hint govuk-!-margin-bottom-3 js-enabled-only' %}
+            </div>
+            <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
+            <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
+                <div class="govuk-checkboxes__item">
+                    {{ form.cant_find_sector }}
+                    <label class="govuk-label govuk-checkboxes__label" for="id_cant_find_sector">{{ form.cant_find_sector.label }}</label>
+                </div>
+            </div>
+        </div>
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
+    </form>
+{% endblock %}
+{% block body_js %}
+    {% comment %} JS ported directly from EYB implementation for BGS MVP{% endcomment %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
+    <script type="text/javascript">
+        const onSubmitBusinessDetails = () => {
+            if (!document.getElementById('js-sector-select').value) {
+                document.getElementById('js-sector-select-select').value = '';
+            }
+        }
+    </script>
+    <script>
+        const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
+
+        function sortResults(sectors) {
+            return sectors.sort((a, b) => {
+                if (a.sub_sub_sector_name && !b.sub_sub_sector_name) return -1;
+                if (!a.sub_sub_sector_name && b.sub_sub_sector_name) return 1;
+
+                // Sort alphabetically by sub_sub_sector_name if both are present
+                if (a.sub_sub_sector_name < b.sub_sub_sector_name) return -1;
+                if (a.sub_sub_sector_name > b.sub_sub_sector_name) return 1;
+
+                // Sort by presence of sub_sector_name if sub_sub_sector_name is equal
+                if (a.sub_sector_name && !b.sub_sector_name) return -1;
+                if (!a.sub_sector_name && b.sub_sector_name) return 1;
+
+                // Sort alphabetically by sub_sector_name if both are present or both are empty
+                if (a.sub_sector_name < b.sub_sector_name) return -1;
+                if (a.sub_sector_name > b.sub_sector_name) return 1;
+
+                // Sort alphabetically by sector_name if both sub_sub_sector_name and sub_sector_name are equal
+                if (a.sector_name < b.sector_name) return -1;
+                if (a.sector_name > b.sector_name) return 1;
+
+                return 0;
+            });
+        }
+
+        function sectorSuggest(query, populateResults) {
+            if (!query) return [];
+            let results = [];
+            for (let i = 0; i < allSectors.length; i++) {
+                const parentSector = allSectors[i].sector_name;
+                let subSector = allSectors[i].sub_sector_name || '';
+                let subSubSector = allSectors[i].sub_sub_sector_name || '';
+                if (parentSector.toLowerCase().indexOf(query.toLowerCase()) !== -1 || subSector.toLowerCase().indexOf(query.toLowerCase()) !== -1 || subSubSector.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+                    results.push(allSectors[i]);
+                }
+            }
+            results = sortResults(results);
+            populateResults(results);
+        }
+
+        accessibleAutocomplete.enhanceSelectElement({
+            selectElement: document.getElementById('js-sector-select'),
+            source: sectorSuggest,
+            autoselect: false,
+            defaultValue: '',
+            templates: {
+                inputValue: (selectedSectorRow) => {
+                    if (selectedSectorRow) {
+                        if (selectedSectorRow.sub_sub_sector_name) {
+                            return selectedSectorRow.sub_sub_sector_name;
+                        } else if (selectedSectorRow.sub_sector_name) {
+                            return selectedSectorRow.sub_sector_name;
+                        } else {
+                            return selectedSectorRow.sector_name
+                        }
+                    } else {
+                        return
+                    }
+                },
+                suggestion: (selectedSectorRow) => {
+                    if (typeof selectedSectorRow !== 'object') {
+                        return selectedSectorRow
+                    }
+                    if (selectedSectorRow.sub_sub_sector_name) {
+                        return `<span>${selectedSectorRow.sub_sub_sector_name}</span><br><span class='govuk-!-font-size-16 eyb-sector-lookup-second-row'>${selectedSectorRow.sector_name} &#8250; ${selectedSectorRow.sub_sector_name}</span>`;
+                    } else if (selectedSectorRow.sub_sector_name) {
+                        return `<span>${selectedSectorRow.sub_sector_name}</span><br><span class='govuk-!-font-size-16 eyb-sector-lookup-second-row'>${selectedSectorRow.sector_name}</span>`;
+                    } else {
+                        return `<span>${selectedSectorRow.sector_name}</span>`
+                    }
+                }
+            },
+            minLength: 2,
+            onConfirm: function(selectedRow) {
+                // onConfirm seems to be triggered by autocomplete many times passing null
+                if (selectedRow) {
+                    // When overriding onconfirm as per docs, it seems to then not automatically update
+                    // the actual select elements selected value and so isnt posted on form submit
+                    const sectorSelectInput = document.querySelector('#js-sector-select-select');
+                    const setSectorSelectValue = (value) => {
+                        for (let i = 0; i < sectorSelectInput.options.length; i++) {
+                            if (sectorSelectInput.options[i].value === selectedRow.sector_id) {
+                                sectorSelectInput.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    setSectorSelectValue(selectedRow);
+                }
+            }
+        });
+    </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
+{% endblock %}

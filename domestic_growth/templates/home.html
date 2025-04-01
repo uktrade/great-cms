@@ -2,14 +2,14 @@
 
 {% load wagtailimages_tags %}
 
-{% block head_title %}Domestic Growth - Landing{% endblock %}
+{% block head_title %}Business.gov.uk - Find the right support for your business{% endblock %}
 
 {% block content %}
-    {% image page.hero_image width-1600 as hero_image %}
-    <section class="govuk-!-padding-bottom-6 great-ds-bg-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
+    {% image page.hero_image width-3200 as hero_image %}
+    <section class="govuk-!-padding-bottom-9 great-ds-bg-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
-            <div class="govuk-grid-row govuk-!-margin-bottom-6">
-                <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-padding-top-9">
+                <div class="govuk-grid-column-three-quarters">
                     {% if page.hero_title %}
                     <h1 class="great-ds-heading-xxl govuk-!-margin-bottom-6 great-ds-text-white">
                         {{ page.hero_title }}
@@ -35,7 +35,7 @@
                             {% if block.block_type == 'explore_card' %}
                                 {% with index=forloop.counter|stringformat:"i" %}
                                     {% with svg_icon_path="/static/icons/homepage/"|add:index|add:".svg" %}
-                                        {% include "_card.html" with type="elevated" href=block.value.url iconSvg=svg_icon_path title=block.value.title id=block.value.title %}
+                                        {% include "_card.html" with type="elevated" href=block.value.url iconSvg=svg_icon_path title=block.value.title id=block.value.title|slugify %}
                                     {% endwith %}
                                 {% endwith %}
                             {% endif %}
@@ -50,7 +50,7 @@
     
     {% if page.explore_body %}
     <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue">
-        <div class="great-ds-container govuk-!-padding-top-9">
+        <div class="great-ds-container govuk-!-padding-top-6">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <div class="govuk-!-padding-bottom-3">
@@ -78,13 +78,13 @@
 
     {% if page.case_study_title and page.case_study_intro and page.case_study_link_url and page.case_study_link_text and page.case_study_image %}
     <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue">
-        <div class="great-ds-container govuk-!-padding-top-9">
+        <div class="great-ds-container govuk-!-padding-top-6">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     {% image page.case_study_image width-650 as case_study_image %}
-                    <div class="great-ds-cta-banner">
+                    <div class="great-ds-cta-banner bgs-home-cta-banner">
                         <div class="govuk-!-padding-top-7">
-                            <div class="govuk-grid-row">
+                            <div class="govuk-grid-row great-ds-cta-banner--image-on-top">
                                 <div class="govuk-grid-column-one-half">
                                     <q class='govuk-heading-l'>{{ page.case_study_title }}</q>
                                     <q class="great-ds-cta-banner-leading-text">{{ page.case_study_intro }}</q>
@@ -119,7 +119,7 @@
                     <div class="great-ds-card-container">
                         {% for blocks in page.guidance_body %}
                             {% for block in blocks.value %}
-                                {% include "_card.html" with href=block.value.url type="mounted" title=block.value.title description=block.value.description metadataIconType="guidance" metadataText="Guidance on GOV.UK" metaDataIconPath="/static/icons" id=block.value.title classes="great-ds-card--2" hideArrow="true"  %}
+                                {% include "_card.html" with href=block.value.url type="mounted" title=block.value.title description=block.value.description metadataIconType="guidance" metadataText="Guidance on GOV.UK" metaDataIconPath="/static/icons" id=block.value.title|slugify classes="great-ds-card--2" hideArrow="true"  %}
                             {% endfor %}
                         {% endfor %}
                     </div>
@@ -142,7 +142,7 @@
                     {% if news %}
                     <div class="great-ds-card-container govuk-!-padding-bottom-4">
                         {% for article in news %}
-                            {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href=article.href type="mounted" title=article.title description=article.summary|safe id=article.title classes="great-ds-card--3" hideArrow="true"  %}
+                            {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href=article.href type="mounted" title=article.title description=article.summary|safe id=article.title|slugify classes="great-ds-card--3" hideArrow="true"  %}
                         {% endfor %}
                     </div>
                     {% endif %}

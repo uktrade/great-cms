@@ -74,6 +74,32 @@ class DomesticGrowthGuidePagePanels:
                 FieldPanel('body_intro'),
             ],
         ),
+        MultiFieldPanel(
+            heading='Primary regional support',
+            children=[
+                FieldPanel('primary_regional_support_title_england'),
+                FieldPanel('primary_regional_support_intro_england'),
+                FieldPanel('primary_regional_support_title_scotland'),
+                FieldPanel('primary_regional_support_intro_scotland'),
+                FieldPanel('primary_regional_support_title_ni'),
+                FieldPanel('primary_regional_support_intro_ni'),
+                FieldPanel('primary_regional_support_title_wales'),
+                FieldPanel('primary_regional_support_intro_wales'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Chambers of commerce',
+            children=[
+                FieldPanel('chamber_of_commerce_intro'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Trade associations',
+            children=[
+                FieldPanel('trade_associations_title'),
+                FieldPanel('trade_associations_intro'),
+            ],
+        ),
     ]
 
     settings_panels = [FieldPanel('title'), FieldPanel('slug')]
@@ -87,6 +113,58 @@ class DomesticGrowthChildGuidePagePanels:
                 FieldPanel('body_title'),
                 FieldPanel('body_intro'),
                 FieldPanel('body_sections'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Related content',
+            children=[
+                FieldPanel('related_cta'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthDynamicChildGuidePagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Page A',
+            children=[
+                FieldPanel('page_a_type'),
+                FieldPanel('page_a_body_title'),
+                FieldPanel('page_a_body_intro'),
+                FieldPanel('page_a_body_sections'),
+                FieldPanel('page_a_related_cta'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Page B',
+            children=[
+                FieldPanel('page_b_type'),
+                FieldPanel('page_b_body_title'),
+                FieldPanel('page_b_body_intro'),
+                FieldPanel('page_b_body_sections'),
+                FieldPanel('page_b_related_cta'),
+            ],
+        ),
+    ]
+
+    settings_panels = [FieldPanel('title'), FieldPanel('slug')]
+
+
+class DomesticGrowthAboutPagePanels:
+    content_panels = [
+        MultiFieldPanel(
+            heading='Heading',
+            children=[
+                FieldPanel('heading'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Body section',
+            children=[
+                FieldPanel('body'),
             ],
         ),
     ]

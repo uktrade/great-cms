@@ -1,0 +1,36 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Domestic Growth - Tell us a little more
+{% endblock %}
+{% block head_css %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {{ block.super }}
+{% endblock %}
+{% if back_url %}
+    {% block breadcrumbs_block %}
+        <div class="great great-bg-dark-blue">
+            <div class="great-container">
+                <div class="govuk-grid-row govuk-!-padding-bottom-3 govuk-!-padding-top-3">
+                    {% include "_back-link.html" with linkHref='/' %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endif %}
+{% block content %}
+    <div class="great great-bg-dark-blue">
+        <div class="great-container govuk-!-padding-top-4">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-9 govuk-!-padding-top-9">
+                    <div class="great-bg-white govuk-!-padding-6">
+                        {% block form %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

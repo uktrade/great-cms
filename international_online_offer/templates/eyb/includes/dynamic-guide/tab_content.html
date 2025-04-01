@@ -1,0 +1,19 @@
+{% load static %}
+{% load humanize %}
+{% load content_tags %}
+<div class="tab-content">
+    <img class="icon tab-content__icon"
+         alt="Business structure icon"
+         src="{% static 'svg/icon-large-warehouse.svg' %}" />
+    <h3 class="govuk-heading-s tab-content__title">{{ title }}</h3>
+    <div class="tab-content__figure">
+        <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
+            £{{ value|default:'-'|intcomma }}
+        </div>
+        <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
+            £{{ value|default:'-'|intcomma }}
+        </div>
+        <div class="tab-content__description">per calendar month</div>
+    </div>
+    <div class="tab-content__explanation">{{ explanation }}</div>
+</div>

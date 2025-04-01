@@ -1,0 +1,24 @@
+<form method="get"
+      id="rent-data-location-select-form"
+      action="#rent-data-location-select-form">
+    {% csrf_token %}
+    {% include 'international/includes/form_field.html' with field=rent_data_location_select_form.rent_data_location %}
+    <div class="govuk-grid-column-one-quarter">
+        <button type="submit"
+                id="change-rent-data-location"
+                class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
+                data-module="govuk-button">Change</button>
+    </div>
+</form>
+<div class="govuk-!-margin-bottom-6"></div>
+{% include '_tabs.html' with title="Rent" items=rent_data.tabs id='rent-data-tabs' %}
+<p class="govuk-body govuk-hint govuk-!-font-size-16">
+    Figures reflect 2023 data. Source: <a class="govuk-link" href="https://www.statista.com/" target="_blank">Statista <i class="fa fa-sm fa-external-link-alt external-link__icon"
+        aria-hidden="true"></i></a> 
+</p>
+<script>
+    document.getElementById("change-rent-data-location").style.display = "none";
+    function refreshRentDataSelectedRegion() {
+        document.getElementById('rent-data-location-select-form').submit();
+    }
+</script>
