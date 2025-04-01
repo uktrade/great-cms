@@ -19,6 +19,8 @@ TERMS_LABEL = mark_safe(
     'conditions</a> of the great.gov.uk service.'
 )
 
+TERMS_CHOICES = [[True, TERMS_LABEL]]
+
 
 class NoOperationForm(forms.Form):
     pass
@@ -64,13 +66,10 @@ class CompaniesHouseSearchForm(forms.Form):
     term = forms.CharField()
 
 
-class ConsentFieldMixin(forms.Form):
-    contact_consent = forms.MultipleChoiceField(
+class ConsentFieldMixin(gds_forms.Form):
+    contact_consent = gds_forms.MultipleChoiceField(
         # label is set in init to avoid circular dependency
-        widget=forms.CheckboxSelectInlineLabelMultiple(
-            attrs={'id': 'checkbox-multiple'},
-            use_nice_ids=True,
-        ),
+        widget=gds_forms.CheckboxSelectMultiple(),
         choices=constants.CONSENT_CHOICES,
         required=False,
     )

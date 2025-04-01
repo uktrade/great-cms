@@ -10,6 +10,7 @@ from great_components import helpers as great_components_helpers
 
 from core import cms_slugs, models
 from core.constants import HCSatStage
+from great_design_system import forms
 
 logger = logging.getLogger(__name__)
 
@@ -233,6 +234,10 @@ class GuidedJourneyMixin:
             session_data=form_data,
             is_edit_mode=is_edit_mode,
         )
+
+
+class ReCaptchaFormMixin(forms.Form):
+    captcha = forms.ReCaptchaField(widget=forms.ReCaptchaV3())
 
 
 class HCSATFormMixin:

@@ -1,10 +1,11 @@
 from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 
+from core.mixins import ReCaptchaFormMixin
 from core.validators import is_valid_email_address
 from great_design_system import forms
 
 
-class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
+class FeedbackForm(SaveOnlyInDatabaseAPIForm, ReCaptchaFormMixin, forms.Form):
 
     # These are default but can be updated in the form
     error_title = 'There was a problem'
@@ -53,7 +54,6 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
         linked_conditional_reveal='contactable',
         widget=forms.TextInput(attrs={'class': 'govuk-!-width-one-half'}),
     )
-    captcha = forms.ReCaptchaField(label='', label_suffix='', widget=forms.ReCaptchaV3())
 
     @property
     def serialized_data(self):
