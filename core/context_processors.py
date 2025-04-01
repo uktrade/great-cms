@@ -399,7 +399,7 @@ def bgs_footer(request):
             'upperFooterSection': [
                 [
                     {
-                        'href': '#',
+                        'href': '#TBC',
                         'text': 'Starting a business',
                         'title': 'Export support for UK businesses',
                         'isHeading': 'true',
@@ -407,7 +407,7 @@ def bgs_footer(request):
                 ],
                 [
                     {
-                        'href': '#',
+                        'href': '#TBC',
                         'text': 'Running and growing my business',
                         'title': 'Running and growing my business',
                         'isHeading': 'true',
@@ -415,7 +415,7 @@ def bgs_footer(request):
                 ],
                 [
                     {
-                        'href': '/',
+                        'href': '',
                         'text': 'Selling overseas from the UK',
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
@@ -434,12 +434,12 @@ def bgs_footer(request):
                         'isHeading': 'true',
                     },
                     {
-                        'href': 'international/expand-your-business-in-the-uk/',
+                        'href': '/international/expand-your-business-in-the-uk/',
                         'text': 'Expand your business in the UK',
                         'title': 'Expand your business in the UK',
                     },
                     {
-                        'href': 'international/investment/',
+                        'href': '/international/investment/',
                         'text': 'Investment opportunities',
                         'title': 'Investment opportunities',
                     },
@@ -458,10 +458,10 @@ def bgs_footer(request):
                 ],
                 [
                     {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
-                    {'href': '#', 'text': 'Sitemap', 'title': 'Sitemap'},
+                    {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
                 ],
                 [
-                    {'href': '#', 'text': 'About this website', 'title': 'About this website'},
+                    {'href': '#TBC', 'text': 'About this website', 'title': 'About this website'},
                     {
                         'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
                         'text': 'Help using this website',
