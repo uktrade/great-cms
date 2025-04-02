@@ -183,7 +183,7 @@
         {% endblock %}
         {% block breadcrumbs_block %}
             {% if not '/' == request.path %}
-            <div class='great-bg-white'>
+            <div class='great-ds-bg-white'>
                 <div class="great-ds-container">
                     {% if bespoke_breadcrumbs %}
                         {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
