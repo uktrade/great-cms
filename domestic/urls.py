@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
@@ -30,13 +29,7 @@ urlpatterns = [
     ),
     path(
         'get-finance/contact/thanks/',
-        skip_ga360(
-            TemplateView.as_view(
-                template_name='domestic/finance/lead_generation_form/success.html',
-            )
-            # if not settings.FEATURE_DIGITAL_POINT_OF_ENTRY
-            # else QuerystringRedirectView.as_view(url=DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE)
-        ),
+        skip_ga360(domestic.views.ukef.ThanksView.as_view()),
         name='uk-export-finance-lead-generation-form-success',
     ),
     path(
