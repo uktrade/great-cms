@@ -39,9 +39,8 @@ class Command(BaseCommand):
 
                 page = Page.objects.live().filter(url_path=full_url_path, locale__language_code='en-gb').first()
                 if page:
-                    page.seo_title=seo_title,
+                    page.seo_title=seo_title
                     page.search_description=search_description
                     page.save()
-
                     print(f'Updated SEO Title & Description for {url_path}')
             print('Data ingestion finished')        
