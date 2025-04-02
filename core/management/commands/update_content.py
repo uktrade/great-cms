@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
 from numbers import Number
+import sys
 from uuid import UUID
 
 import sentry_sdk
@@ -13,6 +14,11 @@ from django.db import transaction
 from django.db.models.base import ModelState
 from wagtail.blocks.stream_block import StreamValue
 from wagtail.models import Site
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.blocks.stream_block import StreamBlock
+
+from core.blocks import CountryGuideIndustryBlock, IndividualStatisticBlock, PullQuoteBlock, RouteSectionBlock, PerformanceDashboardDataBlock
 
 
 class Command(BaseCommand):
@@ -50,7 +56,7 @@ class Command(BaseCommand):
         updated = True
         for item in self.fields_to_report:
             if item == field:
-                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{item}:{value}'))
+                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
                 updated = False
 
         if not updated:
@@ -66,7 +72,7 @@ class Command(BaseCommand):
         if not updated:     
             for item in self.values_to_skip:
                 if item in value:
-                    self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{item}:{value}'))
+                    self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
                     updated = False
         
         return updated, value
@@ -75,10 +81,63 @@ class Command(BaseCommand):
         updated, new_value = self.replace_string(page_title, field, value)
         return updated, new_value
 
+    def process_richtext_block(self, block):
+        pass
+
+    def process_table_block(self, block):
+        pass
+
+    def process_stream_block(self, block):
+        pass
+
+    def process_pullquoteblock_block(self, block):
+        pass
+
+    def process_routesectionblock_block(self, block):
+        pass
+
+    def process_performancedashboarddatablock_block(self, block):
+        pass
+
+    def process_individualstatisticblock_block(self, block):
+        pass
+
+    def process_countryguideindustryblock_block(self, block):
+        pass
+
+    def process_block(self, block):
+        
+        self.stdout.write(self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}'))
+
+        if isinstance(block.block, RichTextBlock):
+            self.process_richtext_block(block)
+        elif isinstance(block.block, TableBlock):
+            self.process_table_block(block)
+        elif isinstance(block.block, StreamBlock):
+            self.process_stream_block(block)
+        elif isinstance(block.block, PullQuoteBlock):
+            self.process_pullquoteblock_block(block)
+        elif isinstance(block.block, RouteSectionBlock):
+            self.process_routesectionblock_block(block)
+        elif isinstance(block.block, PerformanceDashboardDataBlock):
+            self.process_performancedashboarddatablock_block(block)
+        elif isinstance(block.block, IndividualStatisticBlock):
+            self.process_individualstatisticblock_block(block)
+        elif isinstance(block.block, CountryGuideIndustryBlock):
+            self.process_countryguideindustryblock_block(block)
+        else:
+            pass
+        # child_blocks = block.child_blocks()
+        # if child_blocks:
+        #     for child in child_blocks:
+        #         self.process_block(child)
+
     def process_streamvalue_field(self, page_title, field, value):
         updated = False
         for block in value:
-            pass
+            if block.block_type.lower() in ('button', 'image', 'video',):
+                continue
+            self.process_block(block)
         return updated, value
 
     def process_list_field(self, page_title, field, value):
@@ -91,15 +150,12 @@ class Command(BaseCommand):
                     value[index] = new_item
             else:
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
+                sys.exit(-1)
         return updated, value
 
     def update_field(self, page, field):
 
         value = getattr(page, field)
-
-        if field in self.fields_to_skip:
-            
-            return
 
         if (
             not value
@@ -124,6 +180,7 @@ class Command(BaseCommand):
         else:
             updated = False
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
+            sys.exit(-1)
 
         if updated:
             setattr(page, field, new_value)
