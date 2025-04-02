@@ -966,3 +966,37 @@ $great-design-system-mint-green: #8ce2d0;
     margin: 0 !important;
   }
 }
+
+.great-ds-card--image-to-side {
+  .great-ds-card__media {
+    max-width: 120px;
+    padding-top: 15px;
+
+    img {
+      border: 2px solid #eceeef;
+    }
+  }
+
+  .great-ds-card__link {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+}
+
+.bgs-ita-block {
+  @include govuk-media-query($until: tablet) {
+    border-top: 5px solid #8ce2d0;
+    padding-top: 10px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    border-left: 5px solid #8ce2d0;
+  }
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
