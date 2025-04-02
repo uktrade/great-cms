@@ -2,17 +2,17 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
-        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+        <div class="govuk-form-group">
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
             <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading--xl">Where is it based?</label>
+                <label class="govuk-heading-l">Where is it based?</label>
             </h1>
             <p class="govuk-body govuk-!-margin-bottom-4">
                 Enter the postcode and we’ll show you support and information services closest to you.
             </p>
-            <div class="govuk-!-margin-bottom-2">
+            <div class="govuk-!-margin-bottom-2 {% if form.errors %}govuk-form-group--error{% endif %}">
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=form.postcode %}
             </div>
         </div>

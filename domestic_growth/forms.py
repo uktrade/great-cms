@@ -7,6 +7,7 @@ from django.forms import (
     widgets,
 )
 from great_components import forms
+from great_design_system.forms.widgets import RadioSelect as DSRadioSelect
 
 from contact import widgets as contact_widgets
 from core.validators import is_valid_uk_postcode
@@ -38,14 +39,14 @@ class StartingABusinessSectorForm(forms.Form):
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector = ChoiceField(
         label=False,
-        help_text='Enter your sector or industry and select the closest result',
+        help_text='Enter your sector or industry and select the closest result.',
         required=False,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
         ),
         choices=(('', ''),),
         error_messages={
-            'required': 'Enter your sector or industry and select the closest result',
+            'required': "Enter your sector or industry and select the closest result, or select 'I don't know yet'",
         },
     )
     dont_know_sector_yet = BooleanField(
@@ -64,7 +65,7 @@ class StartingABusinessSectorForm(forms.Form):
         if not (sector or dont_know_sector_yet):
             self.add_error(
                 'sector',
-                'Enter your sector or industry and select the closest result, or select I don’t know yet',  # NOQA: E501
+                 "Enter your sector or industry and select the closest result, or select 'I don't know yet'",  # NOQA: E501
             )
 
 
@@ -88,7 +89,7 @@ class ExistingBusinessSectorForm(forms.Form):
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector = ChoiceField(
         label=False,
-        help_text='Enter your sector or industry and select the closest result',
+        help_text='Enter your sector or industry and select the closest result.',
         required=False,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
@@ -122,7 +123,7 @@ class ExistingBusinessWhenSetUpForm(forms.Form):
     when_set_up = ChoiceField(
         label='',
         required=True,
-        widget=contact_widgets.GreatRadioSelect,
+        widget=DSRadioSelect,
         choices=EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
         error_messages={
             'required': 'Select when you set up your business',
@@ -134,7 +135,7 @@ class ExistingBusinessTurnoverForm(forms.Form):
     turnover = ChoiceField(
         label='',
         required=True,
-        widget=contact_widgets.GreatRadioSelect,
+        widget=DSRadioSelect,
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
         error_messages={
             'required': 'Select last financial year’s turnover, or select ‘Prefer not to say’',

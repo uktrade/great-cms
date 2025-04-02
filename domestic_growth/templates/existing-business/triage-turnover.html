@@ -2,12 +2,12 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
-        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+        <div class="govuk-form-group">
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
             <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading--xl">What was last financial year’s turnover?</label>
+                <label class="govuk-heading-l">What was last financial year’s turnover?</label>
             </h1>
             <p class="govuk-body govuk-!-margin-bottom-4">
                 You may be eligible for some types of support depending on your turnover.

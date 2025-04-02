@@ -47,7 +47,7 @@ class BaseTriageFormView(FormView):
         else:
             return uuid4()
 
-    def get_success_url(self, success_url: str, params: dict = {}) -> HttpUrl:
+    def get_url_with_optional_session_id_param(self, url: str, params: dict = {}) -> HttpUrl:
         """
         Accepts a success url and if we are using a uuid as opposed to a session_key appends a
         query string parameter
@@ -55,12 +55,12 @@ class BaseTriageFormView(FormView):
         try:
             if type(self.session_id) is UUID or type(UUID(self.session_id)) is UUID:
                 params = {'session_id': self.session_id, **params}
-                return f'{success_url}?{urlencode(params)}'
+                return f'{url}?{urlencode(params)}'
         except ValueError as e:  # NOQA:F841
             # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
             pass
 
-        return success_url
+        return url
 
 
 class StartingABusinessLocationFormView(BaseTriageFormView):
@@ -79,7 +79,7 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'))
+        return super().get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'))
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
@@ -94,10 +94,12 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
+        back_url=self.get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-pre-start-location'))
 
         return super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
+            back_url=back_url
         )
 
     def form_valid(self, form):
@@ -113,7 +115,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(PRE_START_GUIDE_URL)
+        return super().get_url_with_optional_session_id_param(PRE_START_GUIDE_URL)
 
 
 class ExistingBusinessLocationFormView(BaseTriageFormView):
@@ -132,7 +134,12 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-sector'))
+        return super().get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-existing-sector'))
+    
+    def get_context_data(self, **kwargs):
+        ctx_data = super().get_context_data(**kwargs)
+
+        return {'back_url': '/', **ctx_data}
 
 
 class ExistingBusinessSectorFormView(BaseTriageFormView):
@@ -142,10 +149,12 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
+        back_url=self.get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-existing-location'))
 
         return super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
+            back_url=back_url
         )
 
     def form_valid(self, form):
@@ -161,7 +170,7 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-when-set-up'))
+        return super().get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-when-set-up'))
 
 
 class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
@@ -180,7 +189,13 @@ class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-turnover'))
+        return super().get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-existing-turnover'))
+    
+    def get_context_data(self, **kwargs):
+        ctx_data = super().get_context_data(**kwargs)
+        back_url=self.get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-existing-sector'))
+
+        return {'back_url': back_url, **ctx_data}
 
 
 class ExistingBusinessTurnoverFormView(BaseTriageFormView):
@@ -199,8 +214,13 @@ class ExistingBusinessTurnoverFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_success_url(reverse_lazy('domestic_growth:domestic-growth-existing-exporter'))
+        return super().get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-existing-exporter'))
 
+    def get_context_data(self, **kwargs):
+        ctx_data = super().get_context_data(**kwargs)
+        back_url=self.get_url_with_optional_session_id_param(reverse_lazy('domestic_growth:domestic-growth-when-set-up'))
+
+        return {'back_url': back_url, **ctx_data}
 
 class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
     template_name = 'existing-business/triage-currently-export.html'
@@ -226,4 +246,4 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
         if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
             success_url = START_UP_GUIDE_URL
 
-        return super().get_success_url(success_url)
+        return super().get_url_with_optional_session_id_param(success_url)
