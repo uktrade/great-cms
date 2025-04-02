@@ -204,7 +204,7 @@
 {% block body_footer %}
     <div id="snackbar-container"></div>
     {% if bgs_site %}
-        {% include '_bgs-footer.html' with currentYear=bgs_footer_context.currentYear upperFooterSection=bgs_footer_context.upperFooterSection lowerFooterSection=bgs_footer_context.lowerFooterSection %}
+        {% include '_footer-bgs.html' with currentYear=bgs_footer_context.currentYear upperFooterSection=bgs_footer_context.upperFooterSection lowerFooterSection=bgs_footer_context.lowerFooterSection %}
     {% else %}
         {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
     {% endif %}

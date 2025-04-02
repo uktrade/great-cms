@@ -117,11 +117,11 @@
             </section>
         {% endblock %}
         {% block body_footer %}
-        {% if bgs_site %}
-            {% include '_bgs-footer.html' with currentYear=bgs_footer_context.currentYear upperFooterSection=bgs_footer_context.upperFooterSection lowerFooterSection=bgs_footer_context.lowerFooterSection %}
-        {% else %}
-            {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
-        {% endif %}
+            {% if bgs_site %}
+                {% include '_footer-bgs.html' with currentYear=bgs_footer_context.currentYear upperFooterSection=bgs_footer_context.upperFooterSection lowerFooterSection=bgs_footer_context.lowerFooterSection %}
+            {% else %}
+                {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
+            {% endif %}
         {% endblock %}
         {% block body_js %}
             <script src="{% static 'great_design_system_scripts.js' %}"></script>
