@@ -138,7 +138,8 @@
                         {% endif %}
                     {% endif %}
 
-                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow">
+                    {% if trade_associations %}
+                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow" id="trade-associations">
                         <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                             {% if page.trade_associations_title %}
                                 <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
@@ -150,9 +151,9 @@
                         </div>
 
                         <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
-                            {% if trade_associations %}
-                                {% for ta in trade_associations %}
-                                    <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
+                            {% if trade_associations.sub_sector_and_sector_only_tas %}
+                                {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
+                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true"  class="govuk-!-display-none"{% endif %}>
                                         <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
                                             {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
                                             
@@ -163,24 +164,47 @@
                                             </div>
                                             {% endwith %}
 
-                                            {% if sub_sector %}
+                                            {% if sub_sector and ta.type == 'sub_sector' %}
                                                 {% include "includes/_sector-tag.html" with text=sub_sector %}
-                                            {% elif sector %}
+                                            {% endif %}
+
+                                            {% if sector and ta.type == 'sector' %}
+                                                {% include "includes/_sector-tag.html" with text=sector %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% elif trade_associations.sector_tas %}
+                                {% for ta in trade_associations.sector_tas %}
+                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
+                                            
+                                            {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                            <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
+                                                <img class="great-ds-card__metadata-icon" src="/static/icons/favicons/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true" onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                                <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                            </div>
+                                            {% endwith %}
+
+                                            {% if sector %}
                                                 {% include "includes/_sector-tag.html" with text=sector %}
                                             {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <p class="govuk-body">Please choose a sector</p>
+                                <div class="govuk-!-padding-6 great-ds-bg-light-blue">
+                                    <p class="govuk-body">To view trade associations <a href="" class="govuk-link">enter your sector or industry</a></p>
+                                </div>
                             {% endif %}
                         </div>
-                        {% if trade_associations %}
                         <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1">
                             <button data-hidden-ta-trigger class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">Show more</button>
+                            <button data-show-ta-trigger class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">Show less</button>
                         </div>
-                        {% endif %}
                     </div>
+                    {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-third">
                     {% include 'includes/_email-guide-form.html' %}
@@ -196,12 +220,5 @@
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
-    <script>
-        const hidden_ta_trigger = document.querySelector('[data-hidden-ta-trigger]');
-
-        hidden_ta_trigger.addEventListener('click', (e) => {
-            document.querySelectorAll('[data-hidden-ta]').forEach(el => el.classList = '');
-            hidden_ta_trigger.remove();
-        });
-    </script>
+    <script type="text/javascript" src="/static/js/trade-associations.js"></script>
 {% endblock %}
