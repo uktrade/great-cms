@@ -17,7 +17,7 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         source_hostname = options['source']
-        print('Ingesting SEO Data')
+        self.stdout.write(self.style.SUCCESS('Ingesting SEO Data'))
 
         with open(
             settings.ROOT_DIR / 'core/fixtures/seo-data.csv',
@@ -38,5 +38,5 @@ class Command(BaseCommand):
                     page.seo_title = seo_title
                     page.search_description = search_description
                     page.save()
-                    print(f'Updated SEO Title & Description for {url_path}')
-            print('Data ingestion finished')
+                    self.stdout.write(self.style.SUCCESS(f'Updated SEO Title & Description for {url_path}'))
+            self.stdout.write(self.style.SUCCESS('Data ingestion finished'))
