@@ -1000,3 +1000,38 @@ $great-design-system-mint-green: #8ce2d0;
     gap: 10px;
   }
 }
+
+.great-ds-card--show-date {
+  .great-ds-card__link {
+    flex-direction: column;
+    gap: 0;
+
+    @include govuk-media-query($from: tablet) {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+    }
+  }
+
+  .great-ds-card__date {
+    padding-top: 10px;
+
+    > div {
+      background: #04043f;
+      width: 60px;
+      height: 60px;
+      color: #fff;
+      text-align: center;
+      padding-top: 5px;
+    }
+
+    span {
+      display: block;
+      line-height: 24px;
+
+      &:first-of-type {
+        font-weight: bold;
+      }
+    }
+  }
+}
