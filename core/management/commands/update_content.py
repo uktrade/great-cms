@@ -25,6 +25,16 @@ class Command(BaseCommand):
         'great.gov.uk': 'hotfix.great.uktrade.digital',
     }
 
+    fields_to_report = (
+        'url_path',
+        'slug',
+    )
+
+    values_to_skip = (
+        'Great',
+        'great',
+    )
+
     def add_arguments(self, parser):
         parser.add_argument(
             '--hostname', type=str, required=True, help='Site hostname (e.g., www.dev.bgs.uktrade.digital)'
@@ -36,30 +46,47 @@ class Command(BaseCommand):
             help='Show summary output only, do not update data',
         )
 
-    def replace_string(self, value):
+    def replace_string(self, page_title, field, value):
+        updated = True
+        for item in self.fields_to_report:
+            if item == field:
+                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{item}:{value}'))
+                updated = False
+
+        if not updated:
+            return updated, value
+        
         updated = False
+
         for item in self.strings_to_replace:
             if item in value:
                 value = value.replace(item, self.strings_to_replace[item])
                 updated = True
+
+        if not updated:     
+            for item in self.values_to_skip:
+                if item in value:
+                    self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{item}:{value}'))
+                    updated = False
+        
         return updated, value
 
-    def process_string_field(self, value):
-        updated, new_value = self.replace_string(value)
+    def process_string_field(self, page_title, field, value):
+        updated, new_value = self.replace_string(page_title, field, value)
         return updated, new_value
 
-    def process_streamvalue_field(self, page, field, value):
+    def process_streamvalue_field(self, page_title, field, value):
         updated = False
         for block in value:
             pass
         return updated, value
 
-    def process_list_field(self, value):
+    def process_list_field(self, page_title, field, value):
         updated = False
         enumerate_list = tuple(enumerate(value))
         for index, item in enumerate_list:
             if isinstance(item, str):
-                updated, new_item = self.replace_string(item)
+                updated, new_item = self.replace_string(page_title, field, item)
                 if updated:
                     value[index] = new_item
             else:
@@ -69,6 +96,10 @@ class Command(BaseCommand):
     def update_field(self, page, field):
 
         value = getattr(page, field)
+
+        if field in self.fields_to_skip:
+            
+            return
 
         if (
             not value
@@ -84,13 +115,12 @@ class Command(BaseCommand):
         ):
             return field
 
-        value = ['a', 'b', 'c', 'www.great.gov.uk']
         if isinstance(value, str):
-            updated, new_value = self.process_string_field(value)
+            updated, new_value = self.process_string_field(page.title, field, value)
         elif isinstance(value, StreamValue):
-            updated, new_value = self.process_streamvalue_field(page, field, value)
+            updated, new_value = self.process_streamvalue_field(page.title, field, value)
         elif isinstance(value, list):
-            updated, new_value = self.process_list_field(value)
+            updated, new_value = self.process_list_field(page.title, field, value)
         else:
             updated = False
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
