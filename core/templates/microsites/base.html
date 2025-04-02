@@ -156,7 +156,7 @@
         {% endblock %}
         {% block body_footer %}
             {% if bgs_site %}
-                {% include '_footer-bgs.html' with currentYear=bgs_footer_context.currentYear upperFooterSection=bgs_footer_context.upperFooterSection lowerFooterSection=bgs_footer_context.lowerFooterSection %}
+                {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
             {% else %}
                 {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
             {% endif %}

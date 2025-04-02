@@ -391,9 +391,9 @@ def microsite_footer(request):
     }
 
 
-def bgs_footer(request):
+def footer_bgs(request):
     return {
-        'bgs_footer_context': {
+        'footer_bgs_context': {
             'currentYear': str(datetime.now().year),
             'upperFooterSection': [
                 [
@@ -419,11 +419,19 @@ def bgs_footer(request):
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
                     },
-                    {'href': '/markets/', 'text': 'Markets', 'title': 'Markets'},
-                    {'href': '/export-support/', 'text': 'Export support', 'title': 'Export support'},
-                    {'href': '/export-academy/', 'text': 'UK Export Academy', 'title': 'UK Export Academy'},
-                    {'href': '/learn/categories/', 'text': 'Learn to export', 'title': 'Learn to export'},
-                    {'href': '/services', 'text': 'Export resources', 'title': 'Export resources'},
+                    {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
+                    {'href': '/export-from-uk/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {
+                        'href': '/export-from-uk/export-academy/',
+                        'text': 'UK Export Academy',
+                        'title': 'UK Export Academy',
+                    },
+                    {
+                        'href': '/export-from-uk/learn/categories/',
+                        'text': 'Learn to export',
+                        'title': 'Learn to export',
+                    },
+                    {'href': '/export-from-uk/services', 'text': 'Export resources', 'title': 'Export resources'},
                 ],
                 [
                     {

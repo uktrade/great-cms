@@ -195,7 +195,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.domestic_footer',
-                'core.context_processors.bgs_footer',
+                'core.context_processors.footer_bgs',
                 'core.context_processors.international_footer',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
