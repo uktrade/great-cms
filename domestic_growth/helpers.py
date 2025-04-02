@@ -1,5 +1,6 @@
 import json
 
+from django.db.models.base import Model
 from django.forms.models import model_to_dict
 from django.http import HttpRequest
 
@@ -98,3 +99,12 @@ def get_filtered_trade_associations_by_sub_sector(trade_associations, sub_sector
             res.append(ta)
 
     return res
+
+
+def get_triage_data_for_form_init(model: Model, session_id: str) -> Model:
+    try:
+        return model.objects.get(session_id=session_id)
+    except AttributeError:
+        return None
+    except model.DoesNotExist:
+        return None

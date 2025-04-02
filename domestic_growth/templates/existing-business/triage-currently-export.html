@@ -2,7 +2,7 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
-        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+        <div class="govuk-form-group">
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
@@ -14,6 +14,6 @@
             </p>
             <div class="govuk-!-margin-bottom-2">{{ form }}</div>
         </div>
-        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Get Support and Information' %}
+        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Get support and information' %}
     </form>
 {% endblock %}
