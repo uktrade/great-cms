@@ -17,8 +17,11 @@ from wagtail.models import Site
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.blocks.stream_block import StreamBlock
+from wagtail.blocks.struct_block import StructBlock
+from wagtail.blocks.field_block import CharBlock
+from  wagtail.blocks.list_block import ListBlock
 
-from core.blocks import CountryGuideIndustryBlock, IndividualStatisticBlock, PullQuoteBlock, RouteSectionBlock, PerformanceDashboardDataBlock
+from core.blocks import CaseStudyStaticBlock, CountryGuideIndustryBlock, IndividualStatisticBlock, PullQuoteBlock, RouteSectionBlock, PerformanceDashboardDataBlock
 
 
 class Command(BaseCommand):
@@ -77,6 +80,7 @@ class Command(BaseCommand):
         
         return updated, value
 
+
     def process_string_field(self, page_title, field, value):
         updated, new_value = self.replace_string(page_title, field, value)
         return updated, new_value
@@ -105,6 +109,21 @@ class Command(BaseCommand):
     def process_countryguideindustryblock_block(self, block):
         pass
 
+    def process_structblock_block(self, block):
+        pass
+
+    def process_charblock_block(self, block):
+        pass
+
+    def process_casestudystaticblock_block(self, block):
+        pass
+
+    def process_listblock_block(self, block):
+        pass
+
+    def process_pagechooserblock_block(self, block):
+        pass
+
     def process_block(self, block):
         
         self.stdout.write(self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}'))
@@ -125,17 +144,22 @@ class Command(BaseCommand):
             self.process_individualstatisticblock_block(block)
         elif isinstance(block.block, CountryGuideIndustryBlock):
             self.process_countryguideindustryblock_block(block)
+        elif isinstance(block.block, StructBlock):
+            self.process_structblock_block(block)
+        elif isinstance(block.block, CharBlock):
+            self.process_charblock_block(block)
+        elif isinstance(block.block, CaseStudyStaticBlock):
+            self.process_casestudystaticblock_block(block)
+        elif isinstance(block.block, ListBlock):
+            self.process_listblock_block(block)
         else:
-            pass
-        # child_blocks = block.child_blocks()
-        # if child_blocks:
-        #     for child in child_blocks:
-        #         self.process_block(child)
+            self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
+            sys.exit(-1)
 
     def process_streamvalue_field(self, page_title, field, value):
         updated = False
         for block in value:
-            if block.block_type.lower() in ('button', 'image', 'video',):
+            if block.block_type.lower() in ('button', 'image', 'video', 'page', 'image_full_width', 'task',):
                 continue
             self.process_block(block)
         return updated, value
