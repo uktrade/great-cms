@@ -19,8 +19,7 @@ from domestic_growth.helpers import (
     get_events,
     get_triage_data,
     get_trade_associations_file,
-    get_filtered_trade_associations_by_sector,
-    get_filtered_trade_associations_by_sub_sector,
+    get_trade_association_results,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -250,7 +249,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
         postcode = triage_data['postcode']
         sector = triage_data['sector']
-        sub_sector = triage_data['sub_sector']
+        sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -259,16 +258,14 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
-            trade_associations = get_filtered_trade_associations_by_sector(trade_associations, sector)
+            sector_trade_associations = get_trade_association_results(trade_associations, sector, None)
 
-            context['trade_associations'] = trade_associations
+            context['trade_associations'] = sector_trade_associations
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
             if sub_sector:
-                context['trade_associations'] = get_filtered_trade_associations_by_sub_sector(
-                    trade_associations, sub_sector
-                )
+                context['trade_associations'] = get_trade_association_results(trade_associations, sector, sub_sector)
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
