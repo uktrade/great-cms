@@ -20,7 +20,7 @@
         {% if entry_salary or mid_salary or executive_salary %}
             {% if entry_salary %}
                 <div class="figures__figure">
-                    <img class="dynamic-guide__icon figures__icon"
+                    <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-entry.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ entry_salary|intcomma }}</p>
@@ -31,7 +31,7 @@
             {% endif %}
             {% if mid_salary %}
                 <div class="figures__figure">
-                    <img class="dynamic-guide__icon figures__icon"
+                    <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-mid.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ mid_salary|intcomma }}</p>
@@ -42,7 +42,7 @@
             {% endif %}
             {% if executive_salary %}
                 <div class="figures__figure">
-                    <img class="dynamic-guide__icon figures__icon"
+                    <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-executive.svg' %}" />
                     <p class="figures__value govuk-heading-l">£{{ executive_salary|intcomma }}</p>

@@ -7,6 +7,9 @@ DYNAMIC_SNIPPET_NAMES = (
     ('BGS_9_021', 'Apprenticeships placeholder'),
     ('BGS_12_005', 'Talk to an International Trade Adviser'),
     ('BGS_13_001', 'Contracts finder'),
+    ('BGS_15_001', 'Scottish Enterprise'),
+    ('BGS_15_002', 'Highlands & Islands Enterprise'),
+    ('BGS_15_003', 'South of Scotland Enterprise'),
 )
 
 DYNAMIC_CHILD_PAGE_CHOICES = [
@@ -72,3 +75,35 @@ FIND_A_GRANT_MAPPINGS = (
 )
 
 ITA_EXCLUED_TURNOVERS = ('LESS_THAN_90K', '90K_TO_500K', 'PREFER_NOT_TO_SAY')
+
+SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS = (
+    'Aberdeen City',
+    'Aberdeenshire',
+    'Angus',
+    'City of Edinburgh',
+    'Clackmannanshire',
+    'Dundee City',
+    'East Lothian',
+    'Falkirk',
+    'Fife',
+    'Midlothian',
+    'North Lanarkshire',
+    'Perth and Kinross',
+    'South Ayrshire',
+    'Stirling',
+    'West Lothian',
+)
+
+HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS = (
+    'Argyll and Bute',
+    'Highland',
+    'Moray',
+    'Na h-Eileanan Siar',
+    'Orkney Islands',
+    'Shetland Islands',
+)
+
+SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS = (
+    'Dumfries and Galloway',
+    'Scottish Borders',
+)
