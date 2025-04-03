@@ -1,10 +1,10 @@
 import argparse
+import sys
 import types
 from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
 from numbers import Number
-import sys
 from uuid import UUID
 
 import sentry_sdk
@@ -12,16 +12,19 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models.base import ModelState
-from wagtail.blocks.stream_block import StreamValue
-from wagtail.models import Site
-from wagtail.blocks.field_block import RichTextBlock
-from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.blocks.stream_block import StreamBlock
+from wagtail.blocks.field_block import CharBlock, RichTextBlock
+from wagtail.blocks.list_block import ListBlock
+from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.blocks.struct_block import StructBlock
-from wagtail.blocks.field_block import CharBlock
-from  wagtail.blocks.list_block import ListBlock
+from wagtail.models import Site
 
-from core.blocks import CaseStudyStaticBlock, CountryGuideIndustryBlock, IndividualStatisticBlock, PullQuoteBlock, RouteSectionBlock, PerformanceDashboardDataBlock
+from core.blocks import (
+    CountryGuideIndustryBlock,
+    IndividualStatisticBlock,
+    PerformanceDashboardDataBlock,
+    PullQuoteBlock,
+    RouteSectionBlock,
+)
 
 
 class Command(BaseCommand):
@@ -64,7 +67,7 @@ class Command(BaseCommand):
 
         if not updated:
             return updated, value
-        
+
         updated = False
 
         for item in self.strings_to_replace:
@@ -72,14 +75,13 @@ class Command(BaseCommand):
                 value = value.replace(item, self.strings_to_replace[item])
                 updated = True
 
-        if not updated:     
+        if not updated:
             for item in self.values_to_skip:
                 if item in value:
                     self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
                     updated = False
-        
-        return updated, value
 
+        return updated, value
 
     def process_string_field(self, page_title, field, value):
         updated, new_value = self.replace_string(page_title, field, value)
@@ -88,14 +90,28 @@ class Command(BaseCommand):
     def process_richtext_block(self, block):
         pass
 
-    def process_table_block(self, block):
-        pass
-
     def process_stream_block(self, block):
         pass
 
-    def process_pullquoteblock_block(self, block):
-        pass
+    def process_pullquoteblock_block(self, page_title, block):
+        updated, new_quote = self.replace_string(page_title, 'quote', block.value['quote'])
+        if updated:
+            setattr(block.value['quote'], new_quote)
+        updated, new_attribution = self.replace_string(page_title, 'attribution', block.value['attribution'])
+        if updated:
+            setattr(block.value['attribution'], new_attribution)
+        updated, new_role = self.replace_string(page_title, 'role', block.value['role'])
+        if updated:
+            setattr(block.value['role'], new_role)
+        updated, new_organisation = self.replace_string(page_title, 'organisation', block.value['organisation'])
+        if updated:
+            setattr(block.value['organisation'], new_organisation)
+        updated, new_organisation_link = self.replace_string(
+            page_title, 'organisation_link', block.value['organisation_link']
+        )
+        if updated:
+            setattr(block.value['organisation_link'], new_organisation_link)
+        return updated
 
     def process_routesectionblock_block(self, block):
         pass
@@ -103,8 +119,15 @@ class Command(BaseCommand):
     def process_performancedashboarddatablock_block(self, block):
         pass
 
-    def process_individualstatisticblock_block(self, block):
-        pass
+    def process_individualstatisticblock_block(self, page_title, block):
+        updated = False
+        updated, new_smallprint = self.replace_string(page_title, 'smallprint', block.value['smallprint'])
+        if updated:
+            setattr(block.value['smallprint'], new_smallprint)
+        updated, new_heading = self.replace_string(page_title, 'heading', block.value['heading'])
+        if updated:
+            setattr(block.value['heading'], new_heading)
+        return updated
 
     def process_countryguideindustryblock_block(self, block):
         pass
@@ -124,44 +147,52 @@ class Command(BaseCommand):
     def process_pagechooserblock_block(self, block):
         pass
 
-    def process_block(self, block):
-        
-        self.stdout.write(self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}'))
+    def process_block(self, page_title, block):
+
+        self.stdout.write(
+            self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}')
+        )
 
         if isinstance(block.block, RichTextBlock):
             self.process_richtext_block(block)
-        elif isinstance(block.block, TableBlock):
-            self.process_table_block(block)
         elif isinstance(block.block, StreamBlock):
             self.process_stream_block(block)
         elif isinstance(block.block, PullQuoteBlock):
-            self.process_pullquoteblock_block(block)
+            updated = self.process_pullquoteblock_block(page_title, block)
         elif isinstance(block.block, RouteSectionBlock):
             self.process_routesectionblock_block(block)
         elif isinstance(block.block, PerformanceDashboardDataBlock):
             self.process_performancedashboarddatablock_block(block)
         elif isinstance(block.block, IndividualStatisticBlock):
-            self.process_individualstatisticblock_block(block)
+            updated = self.process_individualstatisticblock_block(page_title, block)
         elif isinstance(block.block, CountryGuideIndustryBlock):
             self.process_countryguideindustryblock_block(block)
         elif isinstance(block.block, StructBlock):
             self.process_structblock_block(block)
         elif isinstance(block.block, CharBlock):
             self.process_charblock_block(block)
-        elif isinstance(block.block, CaseStudyStaticBlock):
-            self.process_casestudystaticblock_block(block)
         elif isinstance(block.block, ListBlock):
             self.process_listblock_block(block)
         else:
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
+        return updated
 
-    def process_streamvalue_field(self, page_title, field, value):
+    def process_streamvalue_field(self, page_title, value):
         updated = False
         for block in value:
-            if block.block_type.lower() in ('button', 'image', 'video', 'page', 'image_full_width', 'task',):
+            if block.block_type.lower() in (
+                'button',
+                'image',
+                'video',
+                'page',
+                'image_full_width',
+                'task',
+                'case_study',
+                'table',
+            ):
                 continue
-            self.process_block(block)
+            self.process_block(page_title, block)
         return updated, value
 
     def process_list_field(self, page_title, field, value):
@@ -198,7 +229,7 @@ class Command(BaseCommand):
         if isinstance(value, str):
             updated, new_value = self.process_string_field(page.title, field, value)
         elif isinstance(value, StreamValue):
-            updated, new_value = self.process_streamvalue_field(page.title, field, value)
+            updated, new_value = self.process_streamvalue_field(page.title, value)
         elif isinstance(value, list):
             updated, new_value = self.process_list_field(page.title, field, value)
         else:
