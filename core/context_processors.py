@@ -266,10 +266,10 @@ def domestic_header(request):
                     'icon': "/static/icons/export-icon.svg",
                     'href': "#", 
                     'text': "Selling overseas from the UK",
-                    'overviewText': "Overview",
+                    'overviewText': "Start exporting",
                     'children': [
                         { 'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path },
-                        { 'href': "#", 'text': "Export support", 'requiresAuth': True },
+                        { 'href': "#", 'text': "Export support" },
                         { 'href': "/export-academy/", 'text': "UK Export Academy", 'isCurrent': '/export-support/' in request.path },
                         { 'href': "/learn/categories/", 'text': "Learn to export", 'isCurrent': '/learn/categories/' in request.path },
                         { 'href': "/services/", 'text': "Export resources", 'requiresAuth': True, 'isCurrent': '/services/' in request.path },
@@ -285,7 +285,7 @@ def domestic_header(request):
                     'icon': "/static/icons/expand-icon.svg",
                     'href': "/international", 
                     'text': "Investing and expanding in the UK",
-                    'overviewText': "Overview",
+                    'overviewText': "Start investing",
                     'children': [
                         { 'href': "/international/expand-your-business-in-the-uk/", 'text': "Expand your business in the UK", 'isCurrent': '/expand-your-business-in-the-uk' in request.path },
                         { 'href': "/international/investment/", 'text': "Investment opportunities", 'isCurrent': '/international/investment/' == request.path or '/international/investment/' in request.path and '?back=' in request.get_full_path(),},

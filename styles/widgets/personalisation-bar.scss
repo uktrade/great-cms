@@ -24,14 +24,18 @@
   position: absolute;
   background-color: #eef2f6;
   z-index: 2;
-  bottom: -80px;
+  top: 100%;
   background: #eef2f6;
   padding: 15px;
   left: 0;
   width: 100%;
+  border: 1px solid #fff;
+  border-top: none;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+
   @media (min-width: 641px) { 
     width: 350px;
-    left: -199px;
+    left: -198px;
   }
 
   ul {
@@ -43,9 +47,12 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
+      padding: 0;
+      margin: 0;
 
       &:not(:last-child) {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
         border-bottom: 1px solid #bcbcbc;
       }
 
@@ -55,13 +62,22 @@
     }
   }
 
-  .remove-product {
+  .remove-product, li a {
     color: #1d70b8;
     text-decoration: underline;
+    text-underline-offset: .3em;
+    text-decoration-thickness: 5%;
     padding: 0;
+    border-bottom: 3px solid transparent;
+
+    &:hover:not(:active):not(:focus) {
+      color: #003078;
+      text-decoration-thickness: 10%;
+    }
 
     &:focus {
       background-color: #fd0;
+      text-decoration: none;
       outline: none;
       border-bottom: 3px solid #222;
       color: #222;
@@ -73,7 +89,7 @@
   padding: 15px 10px 13px 10px;
   border-bottom: 3px solid transparent;
 
-  &:hover, &:focus:active, &.open {
+  &:focus:active, &.open {
     background-color: #eef2f6 !important;
     border-color: #eef2f6 !important;
 
@@ -87,6 +103,18 @@
   .menu-link, .fa-chevron-down, .fa-chevron-up {
     color: #1d70b8;
     font-weight: 700;
+  }
+
+  &:hover {
+    .menu-link, .fa-chevron-down, .fa-chevron-up {
+      color: #003078;
+    }
+  }
+
+  &:hover:not(:active):not(:focus) .menu-link {
+    text-decoration: underline;
+    text-underline-offset: .3em;
+    text-decoration-thickness: 10%;
   }
 }
 
@@ -102,13 +130,9 @@ button.personalization-menu-button:active {
   }
 }
 
-#set-product-button {
-  margin-right: 10px;
-}
-
 #set-country-button {
   .personalization-menu {
-    right: 0;
+    right: -1px;
     left: 0;
 
     @media (min-width: 641px) {   
