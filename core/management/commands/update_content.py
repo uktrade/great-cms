@@ -96,22 +96,23 @@ class Command(BaseCommand):
     def process_pullquoteblock_block(self, page_title, block):
         updated, new_quote = self.replace_string(page_title, 'quote', block.value['quote'])
         if updated:
-            setattr(block.value['quote'], new_quote)
+            block.value['quote'] = new_quote
         updated, new_attribution = self.replace_string(page_title, 'attribution', block.value['attribution'])
         if updated:
-            setattr(block.value['attribution'], new_attribution)
+            block.value['attribution'] = new_attribution
         updated, new_role = self.replace_string(page_title, 'role', block.value['role'])
         if updated:
-            setattr(block.value['role'], new_role)
+            block.value['role'] = new_role
         updated, new_organisation = self.replace_string(page_title, 'organisation', block.value['organisation'])
         if updated:
-            setattr(block.value['organisation'], new_organisation)
+            block.value['organisation'] = new_organisation
         updated, new_organisation_link = self.replace_string(
             page_title, 'organisation_link', block.value['organisation_link']
         )
         if updated:
-            setattr(block.value['organisation_link'], new_organisation_link)
-        return updated
+            breakpoint()
+            block.value['organisation_link'] = new_organisation_link
+        return updated, block
 
     def process_routesectionblock_block(self, block):
         pass
@@ -149,6 +150,8 @@ class Command(BaseCommand):
 
     def process_block(self, page_title, block):
 
+        block_updated = False
+
         self.stdout.write(
             self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}')
         )
@@ -158,13 +161,17 @@ class Command(BaseCommand):
         elif isinstance(block.block, StreamBlock):
             self.process_stream_block(block)
         elif isinstance(block.block, PullQuoteBlock):
-            updated = self.process_pullquoteblock_block(page_title, block)
+            updated, new_block = self.process_pullquoteblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, RouteSectionBlock):
             self.process_routesectionblock_block(block)
         elif isinstance(block.block, PerformanceDashboardDataBlock):
             self.process_performancedashboarddatablock_block(block)
         elif isinstance(block.block, IndividualStatisticBlock):
             updated = self.process_individualstatisticblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, CountryGuideIndustryBlock):
             self.process_countryguideindustryblock_block(block)
         elif isinstance(block.block, StructBlock):
@@ -176,7 +183,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
-        return updated
+        return block_updated
 
     def process_streamvalue_field(self, page_title, value):
         updated = False
