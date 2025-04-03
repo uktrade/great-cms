@@ -86,13 +86,15 @@
                                 {% for content in section.value.content %}
                                     {% include "includes/_render-snippet.html" with content=content %}
                                 {% endfor %}
-
-                                {% if section.value.link_text and section.value.link_url %}
-                                    <div class="great-ds-cta-banner__action-link-container">
-                                        {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
-                                    </div>
-                                {% endif %}
                             </div>
+
+                            {% if section.value.link_text and section.value.link_url %}
+                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-2">
+                                <div class="great-ds-cta-banner__action-link-container">
+                                    {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     {% endif %}
