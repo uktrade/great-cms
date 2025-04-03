@@ -230,11 +230,13 @@
                                 </div>
                             </div>
                             <div class="flex-grid markets-grid">
-                                {% include 'components/card_grid.html' with cards=paginated_results href='' %}
+                                {% include 'components/card_grid.html' with cards=page_obj href='' %}
                             </div>
-                            <div class="markets-pagination column-two-thirds column-three-quarters-xl">
-                                {% pagination pagination_page=paginated_results %}
+                            {% if page_obj.has_other_pages %}
+                            <div class="great-float-right column-two-thirds column-three-quarters-xl govuk-!-padding-left-6">
+                                {% pagination page_obj=page_obj elided_page_range=elided_page_range hover_classes='great-ds-pagination__hover--white' %}
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <input class="button" type="submit" value="Submit form" />

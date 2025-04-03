@@ -754,7 +754,20 @@ $great-design-system-mint-green: #8ce2d0;
   background-repeat: no-repeat;
 
   @include govuk-media-query($until: tablet) {
+    background-image: url(/static/images/homepage-mobile.png) !important;
     background-size: contain;
+  }
+
+  .great-ds-card__media {
+    @include govuk-media-query($until: tablet) {
+      display: none;
+    }
+  }
+
+  h1 {
+    @include govuk-media-query($until: tablet) {
+      font-size: 32px;
+    }
   }
 }
 
@@ -773,7 +786,7 @@ $great-design-system-mint-green: #8ce2d0;
 .bgs-email-guide {
   background: url(/static/images/send-mail-graphic.svg);
   background-repeat: no-repeat;
-  background-position: 90% 0;
+  background-position: 95% 20px;
 }
 
 .bgs-box-shadow {
@@ -785,6 +798,84 @@ $great-design-system-mint-green: #8ce2d0;
   background-position: 95% 5%;
 }
 
+.bgs-section-logo--yorkshire {
+  background-image: url('/static/images/yorkshire.svg');
+  background-size: 225px;
+  background-position: 100% -82px;
+}
+
+.bgs-section-logo--west-midlands {
+  background-image: url('/static/images/west-midlands.svg');
+  background-size: 225px;
+  background-position: 100% -118px;
+}
+
+.bgs-section-logo--east-of-england {
+  background-image: url('/static/images/east-of-england.svg');
+  background-size: 225px;
+  background-position: 100% -141px;
+}
+
+.bgs-section-logo--south-east {
+  background-image: url('/static/images/south-east.svg');
+  background-size: 225px;
+  background-position: 100% -172px;
+}
+
+.bgs-section-logo--south-west {
+  background-image: url('/static/images/south-west.svg');
+  background-size: 225px;
+  background-position: 100% -172px;
+}
+
+.bgs-section-logo--scotland {
+  background-image: url('/static/images/scotland.svg');
+  background-size: 259px;
+  background-position: 109% -48px;
+}
+
+.bgs-section-logo--northern-ireland {
+  background-image: url('/static/images/northern-ireland.svg');
+  background-size: 251px;
+  background-position: 109% -98px;
+}
+
+.bgs-section-logo--east-midlands {
+  background-image: url('/static/images/east-midlands.svg');
+  background-size: 225px;
+  background-position: 100% -120px;
+}
+
+.bgs-section-logo--london {
+  background-image: url('/static/images/london.svg');
+  background-size: 225px;
+  background-position: 100% -166px;
+}
+
+.bgs-section-logo--north-west {
+  background-image: url('/static/images/north-west.svg');
+  background-size: 225px;
+  background-position: 100% -91px;
+}
+
+.bgs-section-logo--north-east {
+  background-image: url('/static/images/north-east.svg');
+  background-size: 225px;
+  background-position: 100% -71px;
+}
+
+.bgs-section-logo--wales {
+  background-image: url('/static/images/wales.svg');
+  background-size: 225px;
+  background-position: 100% -159px;
+}
+
+.bgs-home-cta-banner {
+  img {
+    max-width: 100%;
+  }
+}
+
 .great-ds-address {
   font-style: normal;
 
@@ -792,6 +883,12 @@ $great-design-system-mint-green: #8ce2d0;
     display: flex;
     align-items: anchor-center;
     padding-bottom: 10px;
+    word-break: break-word;
+
+    @include govuk-media-query($until: tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
     > *:first-child {
       font-weight: bold;
@@ -802,4 +899,139 @@ $great-design-system-mint-green: #8ce2d0;
 
 .great-ds-border-top-blue-3 {
   border-top: 3px solid #1d70b8 !important;
+}
+
+.great-ds-card--no-border .great-ds-card__inner {
+  border-bottom: 0 !important;
+}
+
+.great-ds-card--no-content-margin .great-ds-card__content {
+  margin-bottom: 0 !important;
+}
+
+.great-ds-max-width-70 {
+  max-width: 70%;
+}
+
+.great-ds-tag {
+  &.great-ds-tag--location,
+  &.great-ds-tag--sector {
+    border-radius: 15px;
+    display: inline-flex;
+    gap: 8px;
+  }
+
+  &.great-ds-tag--location {
+    background: #dbeeff;
+    color: #003078;
+  }
+
+  &.great-ds-tag--sector {
+    background: #c2f0e6;
+    color: #004f59;
+  }
+}
+
+.bgs-change-your-answers {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bgs-growth-hub {
+  position: relative;
+
+  img {
+    max-width: 140px;
+
+    @include govuk-media-query($until: tablet) {
+      padding: 10px 0;
+      border-top: 1px solid #bcbcbc;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      padding: 10px 0 10px 15px;
+      border-left: 1px solid #bcbcbc;
+    }
+  }
+}
+
+.bgs-section-body {
+  > div:last-of-type {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+.great-ds-card--image-to-side {
+  .great-ds-card__media {
+    max-width: 120px;
+    padding-top: 15px;
+
+    img {
+      border: 2px solid #eceeef;
+    }
+  }
+
+  .great-ds-card__link {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+}
+
+.bgs-ita-block {
+  @include govuk-media-query($until: tablet) {
+    border-top: 5px solid #8ce2d0;
+    padding-top: 10px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    border-left: 5px solid #8ce2d0;
+  }
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.great-ds-card--show-date {
+  .great-ds-card__link {
+    flex-direction: column;
+    gap: 0;
+
+    @include govuk-media-query($from: tablet) {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+    }
+  }
+
+  .great-ds-card__date {
+    padding-top: 10px;
+
+    > div {
+      background: #04043f;
+      width: 60px;
+      height: 60px;
+      color: #fff;
+      text-align: center;
+      padding-top: 5px;
+    }
+
+    span {
+      display: block;
+      line-height: 24px;
+
+      &:first-of-type {
+        font-weight: bold;
+      }
+    }
+  }
 }

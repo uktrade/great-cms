@@ -3,6 +3,7 @@
 {% load static_absolute from great_components %}
 {% load url_map %}
 {% load to_json %}
+{% load bgs_tags %}
 {% load wagtailcore_tags wagtail_cache %}
 {% load bgs_tags %}
 {% is_bgs_site current_site.root_url as bgs_site %}
@@ -218,7 +219,11 @@
 {% endblock %}
 {% block body_footer %}
     <div id="snackbar-container"></div>
-    {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+    {% if bgs_site %}
+        {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
+    {% else %}
+        {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+    {% endif %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

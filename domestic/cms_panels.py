@@ -267,6 +267,14 @@ class CountryGuidePagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Notification banner',
+            classname='collapsible',
+            children=[
+                FieldPanel('notification_title'),
+                FieldPanel('notification_body'),
+            ],
+        ),
+        MultiFieldPanel(
             heading='Unique selling points of the market for UK exporters',
             children=[
                 FieldRowPanel(

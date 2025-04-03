@@ -15,9 +15,13 @@ from wagtailseo.models import SeoMixin
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
-from domestic_growth.helpers import get_triage_data, get_events
+from domestic_growth.helpers import (
+    get_events,
+    get_triage_data,
+    get_trade_associations_file,
+    get_trade_association_results,
+)
 from international_online_offer.core.helpers import get_hero_image_by_sector
-from international_online_offer.models import TradeAssociation
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):
@@ -159,7 +163,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
-        context['trade_associations'] = TradeAssociation.objects.all()
         return context
 
 
@@ -241,10 +244,12 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, StartingABusinessTriage)
+        triage_data, business_type = get_triage_data(request)
+        trade_associations = get_trade_associations_file()
 
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -253,11 +258,17 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
-            context['trade_associations'] = TradeAssociation.objects.filter(sector__icontains=sector)
+            sector_trade_associations = get_trade_association_results(trade_associations, sector, None)
+
+            context['trade_associations'] = sector_trade_associations
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
+
+            if sub_sector:
+                context['trade_associations'] = get_trade_association_results(trade_associations, sector, sub_sector)
+                context['sub_sector'] = sub_sector
         else:
-            context['trade_associations'] = TradeAssociation.objects.all()
+            context['trade_associations'] = None
 
         return context
 
@@ -350,10 +361,16 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, StartingABusinessTriage)
+        triage_data, business_type = get_triage_data(request)
 
+        # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        sub_sector = triage_data.get('sub_sector', None)
+
+        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
+            # we have the business type and some additional triage fields
+            pass
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -365,7 +382,16 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
+            if sub_sector:
+                context['sub_sector'] = sub_sector
+
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['scottish_enterprise_admin_districts'] = constants.SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS
+        context['highlands_and_islands_admin_districts'] = constants.HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS
+        context['south_of_scotland_enterprises_admin_districts'] = (
+            constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
+        )
 
         return context
 
@@ -541,10 +567,16 @@ class DomesticGrowthDynamicChildGuidePage(
     def get_context(self, request):
         context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
 
-        triage_data = get_triage_data(request, ExistingBusinessTriage)
+        triage_data, business_type = get_triage_data(request)
 
+        # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+
+        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
+            # we have the business type and some additional triage fields
+            pass
+
         currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:
@@ -600,6 +632,7 @@ class DomesticGrowthContent(index.Indexed, models.Model):
     url = models.CharField(blank=True)
     region = models.CharField(blank=True)
     sector = models.CharField(blank=True)
+    sub_sector = models.CharField(blank=True)
     is_dynamic = models.BooleanField(default=False)
     show_image = models.BooleanField(default=False)
 
@@ -610,6 +643,7 @@ class DomesticGrowthContent(index.Indexed, models.Model):
         FieldPanel('url'),
         FieldPanel('region'),
         FieldPanel('sector'),
+        FieldPanel('sub_sector'),
         FieldPanel('is_dynamic'),
         FieldPanel('show_image'),
     ]

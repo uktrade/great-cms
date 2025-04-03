@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from component_tags %}
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/ukef-lead-generation-success.css' %}"
@@ -11,25 +10,20 @@
 {% block head_title %}UK Export Finance - We have received your details{% endblock %}
 {% block meta_title %}UK Export Finance - We have received your details{% endblock %}
 {% block content %}
-    {% breadcrumbs %}
-    <a href="/">Home</a>
-    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-    <a href="{% slugurl 'trade-finance' %}">Trade Finance</a>
-{% endbreadcrumbs %}
-<div class="container">
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <div id="success-message-container">
-                <h1 class="heading-medium">We have received your enquiry. Thank you</h1>
-            </div>
-            <h2 class="heading-medium">What happens next</h2>
-            <span>Our team will take a look at what you need and get back to you soon.</span>
-            <div>
+    <div class="container">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <div id="success-message-container">
+                    <h1 class="heading-medium">We have received your enquiry. Thank you</h1>
+                </div>
+                <h2 class="heading-medium">What happens next</h2>
+                <span>Our team will take a look at what you need and get back to you soon.</span>
+                <div>
+                    <br />
+                    <a href="/">Continue to great.gov.uk</a>
+                </div>
                 <br />
-                <a href="/">Continue to great.gov.uk</a>
             </div>
-            <br />
         </div>
     </div>
-</div>
 {% endblock %}
