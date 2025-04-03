@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load wagtailcore_tags %}
-{% load breadcrumbs from component_tags %}
 {% block sharing_metadata %}{% endblock %}
 {% block head_css %}
     {{ block.super }}
@@ -11,46 +10,41 @@
 {% endblock %}
 {% block content %}
     <section>
-        {% breadcrumbs %}
-        <a href="/">Home</a>
-        <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-        <a href="{% slugurl 'trade-finance' %}">Trade Finance</a>
-    {% endbreadcrumbs %}
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-one-half">
-                <form method="post" autocomplete="on">
-                    <div>
-                        {% block step_title_container %}
-                            <h3 class="heading-medium">
-                                {% block step_title %}{% endblock %}
-                            </h3>
-                        {% endblock %}
-                        {% csrf_token %}
-                        {% block extra_contents %}{% endblock %}
-                        <div class="input-field-container">
-                            {{ wizard.management_form }}
-                            {% if wizard.form.forms %}
-                                {{ wizard.form.management_form }}
-                                {% for form in wizard.form.forms %}{{ form }}{% endfor %}
-                            {% else %}
-                                {{ form }}
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-one-half">
+                    <form method="post" autocomplete="on">
+                        <div>
+                            {% block step_title_container %}
+                                <h3 class="heading-medium">
+                                    {% block step_title %}{% endblock %}
+                                </h3>
+                            {% endblock %}
+                            {% csrf_token %}
+                            {% block extra_contents %}{% endblock %}
+                            <div class="input-field-container">
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form }}
+                                    {% for form in wizard.form.forms %}{{ form }}{% endfor %}
+                                {% else %}
+                                    {{ form }}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button type="submit" class="button primary-button">
+                                    {% block submit_button_label %}Continue{% endblock %}
+                                </button>
+                            </div>
+                            {% if wizard.steps.prev %}
+                                <a id="previous-button"
+                                   class="link"
+                                   href="{% url 'domestic:uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</a>
                             {% endif %}
                         </div>
-                        <div>
-                            <button type="submit" class="button primary-button">
-                                {% block submit_button_label %}Continue{% endblock %}
-                            </button>
-                        </div>
-                        {% if wizard.steps.prev %}
-                            <a id="previous-button"
-                               class="link"
-                               href="{% url 'domestic:uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</a>
-                        {% endif %}
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}

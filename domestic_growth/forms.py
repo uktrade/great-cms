@@ -6,12 +6,7 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
 from great_design_system.forms import Form
-from great_design_system.forms.widgets import (
-    CheckboxInput,
-    RadioSelect,
-    SelectOne,
-    TextInput,
-)
+from great_design_system.forms.widgets import CheckboxInput, RadioSelect, TextInput
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 

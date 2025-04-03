@@ -4,9 +4,12 @@ DYNAMIC_SNIPPET_NAMES = (
     ('BGS_5_010', 'Find a grant'),
     ('BGS_6_001', 'Innovate UK Catapult Network'),
     ('BGS_6_002', 'Innovate UK Business Connect'),
-    ('BGS_9_21', 'Apprenticeships placeholder'),
+    ('BGS_9_021', 'Apprenticeships placeholder'),
     ('BGS_12_005', 'Talk to an International Trade Adviser'),
     ('BGS_13_001', 'Contracts finder'),
+    ('BGS_15_001', 'Scottish Enterprise'),
+    ('BGS_15_002', 'Highlands & Islands Enterprise'),
+    ('BGS_15_003', 'South of Scotland Enterprise'),
 )
 
 DYNAMIC_CHILD_PAGE_CHOICES = [
@@ -39,4 +42,68 @@ REGION_IMAGES = (
     ('Scotland', 'bgs-section-logo--scotland'),
     ('Wales', 'bgs-section-logo--wales'),
     ('Northern Ireland', 'bgs-section-logo--northern-ireland'),
+)
+
+FINANCE_AND_SUPPORT_REGION_MAPPINGS = (
+    ('North East', 'north-east'),
+    ('North West', 'north-west'),
+    ('Yorkshire and The Humber', 'yorkshire-and-the-humber'),
+    ('East Midlands', 'east-midlands'),
+    ('West Midlands', 'west-midlands'),
+    ('East of England', 'eastern'),
+    ('London', 'london'),
+    ('South East', 'south-east'),
+    ('South West', 'south-west'),
+    ('Scotland', 'scotland'),
+    ('Wales', 'wales'),
+    ('Northern Ireland', 'northern-ireland'),
+)
+
+FIND_A_GRANT_MAPPINGS = (
+    ('North East', '4'),
+    ('North West', '5'),
+    ('Yorkshire and The Humber', '3'),
+    ('East Midlands', '8'),
+    ('West Midlands', '8'),
+    ('East of England', '3'),
+    ('London', '3'),
+    ('South East', '6'),
+    ('South West', '7'),
+    ('Scotland', '9'),
+    ('Wales', '10'),
+    ('Northern Ireland', '11'),
+)
+
+ITA_EXCLUED_TURNOVERS = ('LESS_THAN_90K', '90K_TO_500K', 'PREFER_NOT_TO_SAY')
+
+SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS = (
+    'Aberdeen City',
+    'Aberdeenshire',
+    'Angus',
+    'City of Edinburgh',
+    'Clackmannanshire',
+    'Dundee City',
+    'East Lothian',
+    'Falkirk',
+    'Fife',
+    'Midlothian',
+    'North Lanarkshire',
+    'Perth and Kinross',
+    'South Ayrshire',
+    'Stirling',
+    'West Lothian',
+)
+
+HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS = (
+    'Argyll and Bute',
+    'Highland',
+    'Moray',
+    'Na h-Eileanan Siar',
+    'Orkney Islands',
+    'Shetland Islands',
+)
+
+SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS = (
+    'Dumfries and Galloway',
+    'Scottish Borders',
 )

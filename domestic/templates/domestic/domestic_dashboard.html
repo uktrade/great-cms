@@ -1,5 +1,14 @@
 {% extends 'core/base.html' %}
 {% load wagtailcore_tags %}
+{% block breadcrumbs_block %}
+    <div class="great-ds-container">
+        {% if bespoke_breadcrumbs %}
+            {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+        {% else %}
+            {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+        {% endif %}
+    </div>
+{% endblock %}
 {% block content %}
     <div id="dashboard-container" class="container">
         <h1 class="page-title" id="great-hero-welcome">Dashboard</h1>

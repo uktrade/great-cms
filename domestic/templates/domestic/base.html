@@ -4,6 +4,8 @@
 {% load wagtailcore_tags wagtail_cache %}
 {% load wagtailimages_tags %}
 {% load domestic_canonical_url_tags %}
+{% load bgs_tags %}
+{% is_bgs_site current_site.root_url as bgs_site %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
 <!--[if lt IE 9]>
@@ -183,12 +185,14 @@
         {% endblock %}
         {% block breadcrumbs_block %}
             {% if not '/' == request.path %}
-                <div class="great-ds-container">
-                    {% if bespoke_breadcrumbs %}
-                        {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                    {% else %}
-                        {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                    {% endif %}
+                <div class='great-ds-bg-white'>
+                    <div class="great-ds-container">
+                        {% if bespoke_breadcrumbs %}
+                            {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+                        {% else %}
+                            {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+                        {% endif %}
+                    </div>
                 </div>
             {% endif %}
         {% endblock %}
@@ -204,7 +208,11 @@
             {% include 'components/inline_feedback/was_page_useful.html' %}
         {% endblock %}
         {% block body_footer %}
-            {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+            {% if bgs_site %}
+                {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
+            {% else %}
+                {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+            {% endif %}
         {% endblock %}
         {% block body_js %}
             {% slugurl "privacy" as privacy_and_cookies_path %}

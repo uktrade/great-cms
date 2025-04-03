@@ -340,9 +340,9 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
             reverse_lazy('domestic_growth:domestic-growth-pre-start-location'),
             '1234',
             'postcode',
-            'BT80 9ER',
+            'BT80 9ER',  # /PS-IGNORE
             'postcode',
-            'BT80 9ER',
+            'BT80 9ER',  # /PS-IGNORE
         ),
         (
             StartingABusinessTriage,
@@ -360,9 +360,9 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
             reverse_lazy('domestic_growth:domestic-growth-existing-location'),
             '1234',
             'postcode',
-            'BT80 9ER',
+            'BT80 9ER',  # /PS-IGNORE
             'postcode',
-            'BT80 9ER',
+            'BT80 9ER',  # /PS-IGNORE
         ),
         (
             ExistingBusinessTriage,
@@ -425,6 +425,6 @@ def test_triage_form_init(
 
     factory = RequestFactory()
 
-    req = factory.get(f"{form_url}?session_id={session_id}")
+    req = factory.get(f'{form_url}?session_id={session_id}')
     view = form_view.as_view()(req)
     assert view.context_data['form'].initial[form_field_name] == form_field_value

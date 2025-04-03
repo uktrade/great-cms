@@ -23,7 +23,13 @@ from core.constants import (
 )
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
-from domestic_growth.constants import DYNAMIC_SNIPPET_NAMES, CARD_META_DATA, REGION_IMAGES
+from domestic_growth.constants import (
+    DYNAMIC_SNIPPET_NAMES,
+    CARD_META_DATA,
+    REGION_IMAGES,
+    FINANCE_AND_SUPPORT_REGION_MAPPINGS,
+    FIND_A_GRANT_MAPPINGS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -742,6 +748,15 @@ def convert_anchor_identifier_a_to_span(input_html):
     return mark_safe(str(soup))
 
 
+@register.filter
+def convert_anchor_identifiers_to_span(value):
+    # Issue only occurs in content_modules where render_a method in core/rich_text.py does not fire, so return as-is
+    if value.block_type != 'content_module':
+        return value
+    rich_text_html = value.value.content
+    return convert_anchor_identifier_a_to_span(rich_text_html)
+
+
 @register.inclusion_tag('_cta-banner.html')
 def render_signup_cta(background=None, link=None):
     background_class = 'great-ds-cta-banner--bg-white'
@@ -828,3 +843,30 @@ def get_url_favicon_and_domain(url):
     domain_parts = domain.split('.')
 
     return {'filename': domain_parts[0], 'domain': domain}
+
+
+@register.filter
+def get_region_for_finance_and_support_snippet(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    for region_name, mapped_region_name in FINANCE_AND_SUPPORT_REGION_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
+
+    return None
+
+
+@register.filter
+def get_region_name(postcode_data):
+    region = postcode_data.get('region') if postcode_data.get('region') else postcode_data.get('country')
+
+    return region
+
+
+@register.filter
+def get_region_for_find_a_grant_snippet(region):
+    for region_name, mapped_region_name in FIND_A_GRANT_MAPPINGS:
+        if region == region_name:
+            return mapped_region_name
+
+    return None
