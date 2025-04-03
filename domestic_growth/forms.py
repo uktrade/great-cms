@@ -1,35 +1,34 @@
-from django.forms import (
-    BooleanField,
-    CharField,
-    CheckboxInput,
-    ChoiceField,
-    Select,
-    widgets,
-)
-from great_components import forms
-from great_design_system.forms.widgets import RadioSelect as DSRadioSelect
+from django.forms import BooleanField, CharField, ChoiceField, Select
 
-from contact import widgets as contact_widgets
 from core.validators import is_valid_uk_postcode
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
+from great_design_system.forms import Form
+from great_design_system.forms.widgets import (
+    CheckboxInput,
+    RadioSelect,
+    SelectOne,
+    TextInput,
+)
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 
 
-class StartingABusinessLocationForm(forms.Form):
+class StartingABusinessLocationForm(Form):
     postcode = CharField(
         label='Postcode',
-        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half', 'autocomplete': 'postal-code'}
+        ),
         max_length=10,
         error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
     )
 
 
-class StartingABusinessSectorForm(forms.Form):
+class StartingABusinessSectorForm(Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
@@ -65,21 +64,23 @@ class StartingABusinessSectorForm(forms.Form):
         if not (sector or dont_know_sector_yet):
             self.add_error(
                 'sector',
-                 "Enter your sector or industry and select the closest result, or select 'I don't know yet'",  # NOQA: E501
+                "Enter your sector or industry and select the closest result, or select 'I don't know yet'",  # NOQA: E501
             )
 
 
-class ExistingBusinessLocationForm(forms.Form):
+class ExistingBusinessLocationForm(Form):
     postcode = CharField(
         label='Postcode',
-        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        widget=TextInput(
+            attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half', 'autocomplete': 'postal-code'}
+        ),
         max_length=10,
         error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
     )
 
 
-class ExistingBusinessSectorForm(forms.Form):
+class ExistingBusinessSectorForm(Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
@@ -119,11 +120,11 @@ class ExistingBusinessSectorForm(forms.Form):
             )
 
 
-class ExistingBusinessWhenSetUpForm(forms.Form):
+class ExistingBusinessWhenSetUpForm(Form):
     when_set_up = ChoiceField(
         label='',
         required=True,
-        widget=DSRadioSelect,
+        widget=RadioSelect,
         choices=EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
         error_messages={
             'required': 'Select when you set up your business',
@@ -131,110 +132,41 @@ class ExistingBusinessWhenSetUpForm(forms.Form):
     )
 
 
-class ExistingBusinessTurnoverForm(forms.Form):
+class ExistingBusinessTurnoverForm(Form):
     turnover = ChoiceField(
         label='',
-        required=True,
-        widget=DSRadioSelect,
+        required=False,
+        widget=RadioSelect,
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
-        error_messages={
-            'required': 'Select last financial year’s turnover, or select ‘Prefer not to say’',
-        },
     )
 
+    # prefer_not_to_say = ChoiceField(
+    #     label='',
+    #     required=False,
+    #     widget=RadioSelect,
+    #     choices=EXISTING_BUSINESS_TURNOVER_CHOICES[-1],
+    #     # choices=(('Hello', 'Hello'), ('Yes', 'Yes'))
+    # )
 
-class ExistingBusinessCurrentlyExportForm(forms.Form):
+    # def clean(self):
+    #     # require either turnover or prefer not to say
+    #     cleaned_data = super().clean()
+    #     turnover = cleaned_data['turnover']
+    #     prefer_not_to_say = cleaned_data['prefer_not_to_say']
+
+    #     if not (turnover or prefer_not_to_say):
+    #         self.add_error(
+    #             'turnover', 'Select last financial year’s turnover, or select ‘Prefer not to say’',
+    #         )
+
+
+class ExistingBusinessCurrentlyExportForm(Form):
     currently_export = ChoiceField(
         label='',
         required=True,
-        widget=contact_widgets.GreatRadioSelect,
+        widget=RadioSelect,
         choices=(('YES', 'Yes'), ('NO', 'No')),
         error_messages={
             'required': 'Select if you currently export your products or services overseas',
         },
-    )
-
-
-class StartingABusinessForm(forms.Form):
-    sector = ChoiceField(
-        label='Sector',
-        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
-        choices=(
-            ('', 'Select your sector'),
-            ('Advanced manufacturing', 'Advanced manufacturing'),
-            ('Aerospace', 'Aerospace'),
-            ('Food and drink', 'Food and drink'),
-        ),
-        error_messages={
-            'required': 'Select your sector',
-        },
-    )
-    postcode = CharField(
-        label='Postcode',
-        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
-        max_length=50,
-        error_messages={'required': 'Enter your postcode', 'invalid': 'Please enter a UK postcode'},
-        validators=[is_valid_uk_postcode],
-    )
-
-
-class ScalingABusinessForm(forms.Form):
-    country = ChoiceField(
-        label='Where are you based?',
-        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
-        choices=(
-            ('', 'Select your country'),
-            ('uk', 'United Kingdom'),
-        ),
-        error_messages={
-            'required': 'Select your country',
-        },
-    )
-    sector = ChoiceField(
-        label='Sector',
-        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
-        choices=(
-            ('', 'Select your sector'),
-            ('Advanced manufacturing', 'Advanced manufacturing'),
-            ('Aerospace', 'Aerospace'),
-            ('Food and drink', 'Food and drink'),
-        ),
-        error_messages={
-            'required': 'Select your sector',
-        },
-    )
-    business_stage = ChoiceField(
-        label='Stage of business',
-        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
-        choices=(
-            ('', 'Select your busines stage'),
-            ('startup', 'Startup'),
-            ('established', 'Established'),
-        ),
-        error_messages={
-            'required': 'Select your stage of business',
-        },
-    )
-    postcode = CharField(
-        label='Postcode',
-        widget=widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
-        max_length=50,
-        error_messages={'required': 'Enter your postcode', 'invalid': 'Please enter a UK postcode'},
-        validators=[is_valid_uk_postcode],
-    )
-    turnover = ChoiceField(
-        label='Average annual turnover',
-        widget=widgets.Select(attrs={'class': 'govuk-select great-select govuk-!-width-one-half'}),
-        choices=(
-            ('Up to £85,000', 'Up to £85,000'),
-            ('£85,001 up to £249,999', '£85,001 up to £249,999'),
-            ('£250,000 up to £499,999', '£250,000 up to £499,999'),
-            ('£500,000 +', '£500,000 +'),
-            ("I don't know", "I don't know"),
-            ("I'd prefer not to say", "I'd prefer not to say"),
-        ),
-        error_messages={
-            'required': 'Select your annual turnover',
-        },
-        required=False,
     )
