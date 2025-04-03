@@ -5,6 +5,7 @@
 {% load wagtailimages_tags %}
 {% load domestic_canonical_url_tags %}
 {% load bgs_tags %}
+{% wagtail_site as current_site %}
 {% is_bgs_site current_site.root_url as bgs_site %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
