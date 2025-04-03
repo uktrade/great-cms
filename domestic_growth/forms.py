@@ -6,6 +6,8 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
 from great_design_system.forms import Form
+
+# from django.forms import Form
 from great_design_system.forms.widgets import CheckboxInput, RadioSelect, TextInput
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
@@ -126,9 +128,12 @@ class ExistingBusinessWhenSetUpForm(Form):
 class ExistingBusinessTurnoverForm(Form):
     turnover = ChoiceField(
         label='',
-        required=False,
+        required=True,
         widget=RadioSelect,
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
+        error_messages={
+            'required': 'Select last financial year’s turnover, or select ‘Prefer not to say’',
+        },
     )
 
 

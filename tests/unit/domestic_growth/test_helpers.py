@@ -8,10 +8,7 @@ from domestic_growth.constants import (
     PRE_START_GUIDE_URL,
     START_UP_GUIDE_URL,
 )
-from domestic_growth.helpers import (
-    get_triage_data,
-    get_trade_association_results,
-)
+from domestic_growth.helpers import get_trade_association_results, get_triage_data
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 
 
