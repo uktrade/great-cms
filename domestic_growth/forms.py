@@ -19,9 +19,7 @@ from international_online_offer.services import get_dbt_sectors
 class StartingABusinessLocationForm(Form):
     postcode = CharField(
         label='Postcode',
-        widget=TextInput(
-            attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half', 'autocomplete': 'postal-code'}
-        ),
+        widget=TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         max_length=10,
         error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
@@ -38,7 +36,7 @@ class StartingABusinessSectorForm(Form):
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector = ChoiceField(
         label=False,
-        help_text='Enter your sector or industry and select the closest result.',
+        help_text='Enter your sector or industry and select the closest result',
         required=False,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
@@ -71,9 +69,7 @@ class StartingABusinessSectorForm(Form):
 class ExistingBusinessLocationForm(Form):
     postcode = CharField(
         label='Postcode',
-        widget=TextInput(
-            attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half', 'autocomplete': 'postal-code'}
-        ),
+        widget=TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         max_length=10,
         error_messages={'required': 'Enter a full UK postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
@@ -90,7 +86,7 @@ class ExistingBusinessSectorForm(Form):
     # sector sub choices are set in form constructor to avoid side effects when importing module
     sector = ChoiceField(
         label=False,
-        help_text='Enter your sector or industry and select the closest result.',
+        help_text='Enter your sector or industry and select the closest result',
         required=False,
         widget=Select(
             attrs={'id': 'js-sector-select', 'class': 'govuk-select', 'aria-describedby': 'help_for_id_sector_sub'}
@@ -139,25 +135,6 @@ class ExistingBusinessTurnoverForm(Form):
         widget=RadioSelect,
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
     )
-
-    # prefer_not_to_say = ChoiceField(
-    #     label='',
-    #     required=False,
-    #     widget=RadioSelect,
-    #     choices=EXISTING_BUSINESS_TURNOVER_CHOICES[-1],
-    #     # choices=(('Hello', 'Hello'), ('Yes', 'Yes'))
-    # )
-
-    # def clean(self):
-    #     # require either turnover or prefer not to say
-    #     cleaned_data = super().clean()
-    #     turnover = cleaned_data['turnover']
-    #     prefer_not_to_say = cleaned_data['prefer_not_to_say']
-
-    #     if not (turnover or prefer_not_to_say):
-    #         self.add_error(
-    #             'turnover', 'Select last financial year’s turnover, or select ‘Prefer not to say’',
-    #         )
 
 
 class ExistingBusinessCurrentlyExportForm(Form):

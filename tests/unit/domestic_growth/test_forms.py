@@ -10,6 +10,7 @@ from domestic_growth.forms import (
     StartingABusinessLocationForm,
     StartingABusinessSectorForm,
 )
+from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 
 
 @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ from domestic_growth.forms import (
             StartingABusinessSectorForm,
             {},
             False,
-            {'sector': 'Enter your sector or industry and select the closest result, or select I don’t know yet'},
+            {'sector': "Enter your sector or industry and select the closest result, or select 'I don't know yet'"},
         ),
         (
             StartingABusinessLocationForm,
@@ -125,7 +126,7 @@ from domestic_growth.forms import (
     ),
 )
 @pytest.mark.django_db
-def test_starting_a_business_form_validation(mock_get_dbt_sectors, form, form_data, form_is_valid, error_messages):
+def test_domestic_growth_form_validation(mock_get_dbt_sectors, form, form_data, form_is_valid, error_messages):
     form = form(form_data)
     assert form.is_valid() is form_is_valid
     if not form_is_valid:

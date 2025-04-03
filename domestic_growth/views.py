@@ -44,10 +44,10 @@ class BaseTriageFormView(FormView):
         or a UUIDv4. This is necessary to facilitate users who have not accepted cookies and
         therefore do not have a django request.session.session_key
         """
-        if self.request.session.session_key:
-            return self.request.session.session_key
-        elif self.request.GET.get('session_id', False):
+        if self.request.GET.get('session_id', False):
             return self.request.GET.get('session_id')
+        elif self.request.session.session_key:
+            return self.request.session.session_key
         else:
             return uuid4()
 
@@ -298,3 +298,10 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
         )
 
         return {'back_url': back_url, **ctx_data}
+
+    def get_initial(self):
+        triage_data = get_triage_data_for_form_init(ExistingBusinessTriage, self.session_id)
+        if triage_data:
+            return {
+                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) else 'NO',
+            }

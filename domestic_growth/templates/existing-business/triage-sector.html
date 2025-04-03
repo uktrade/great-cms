@@ -7,12 +7,10 @@
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
             </h2>
-            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading-l">What is your sector or industry?</label>
-            </h1>
-            <p class="govuk-body govuk-!-margin-bottom-4">
-                We’ll show you support and information relevant to your sector or industry.
-            </p>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">What is your sector or industry?</h1>
+            <div class="govuk-body govuk-!-margin-bottom-4">
+                <label for="js-sector-select">We’ll show you support and information relevant to your sector or industry.</label>
+            </div>
             <div class="{% if form.errors %} govuk-form-group--error{% endif %}">
                 <div class="govuk-!-margin-bottom-2">
                     {% include 'international/includes/form_field.html' with field=form.sector help_class='govuk-label great-font-bold js-enabled-only' inputWrapperClass='prepend-search-icon' %}
