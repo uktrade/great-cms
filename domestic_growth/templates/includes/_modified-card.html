@@ -11,6 +11,16 @@
                 <img src="/static/images/{{ content.content_id }}.png" alt="" aria-hidden="true" class="great-ds-card__image">
             </div>
         {% endif %}
+
+        {% if date and month %}
+            <div class="great-ds-card__date">
+                <div>
+                    <span>{{ date }}</span>
+                    <span>{{ month }}</span>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="great-ds-card__content">
             {% if title %}
                 <div class="great-ds-card__title-wrapper">
@@ -23,15 +33,22 @@
                         {% include "_tag.html" with text="Completed" type="success"  %}
                     {% endif %}
                 </div>
+            {% endif %} 
+
+            {% if introText %}
+                <div class="great-ds-card__metadata-text govuk-!-margin-bottom-2">{{ introText }}</div>
             {% endif %}
+
             {% if description %}
                 <div class="great-ds-card__description">{{ description }}</div>
             {% endif %}
     
+            {% if not hideMetaText %}
             <div class="great-ds-card__metadata">
                 <img class="great-ds-card__metadata-icon" src="/static/icons/favicons/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true" onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
                 <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
             </div>
+            {% endif %}
         </div>
         {% if href %}
             </a>

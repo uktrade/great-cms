@@ -85,7 +85,11 @@
                                     {% if section.value.content|length == 0 %}
                                         {% if events %}
                                             {% for event in events %}
-                                                {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                                {% with weekday=event.start_date|date:"l" date=event.start_date|date:"j M" time=event.start_date|date:"g:iA"|lower duration=event.start_date|timesince:event.end_date %}
+                                                    <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
+                                                        {% include "includes/_modified-card.html" with hideMetaText=True date=event.start_date|date:"j" month=event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                                    </div>    
+                                                {% endwith %}
                                             {% endfor %}
                                         {% endif %}
                                     {% else %}
@@ -128,7 +132,11 @@
                                     {% if section.value.content|length == 0 %}
                                         {% if events %}
                                             {% for event in events %}
-                                                {% include "_card.html" with classes="great-ds-card--full" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                                {% with weekday=event.start_date|date:"l" date=event.start_date|date:"j M" time=event.start_date|date:"g:iA"|lower duration=event.start_date|timesince:event.end_date %}
+                                                    <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
+                                                        {% include "includes/_modified-card.html" with hideMetaText=True date=event.start_date|date:"j" month=event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                                    </div>    
+                                                {% endwith %}
                                             {% endfor %}
                                         {% endif %}
                                     {% else %}
