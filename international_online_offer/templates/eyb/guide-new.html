@@ -125,10 +125,10 @@
                     <h3 class="govuk-heading-s tab-content__title">{{ rent_data_content.title }}</h3>
                     <div class="tab-content__figure">
                         <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
-                            £{{ rent_data_content.value|default:'-'|intcomma }}
+                            £{{ rent_data_content.value|floatformat:-3|intcomma }}
                         </div>
                         <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
-                            £{{ rent_data_content.value|default:'-'|intcomma }}
+                            £{{ rent_data_content.value|floatformat:-3|intcomma }} 
                         </div>
                         <div class="tab-content__description">per calendar month</div>
                     </div>
