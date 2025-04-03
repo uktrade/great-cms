@@ -252,7 +252,7 @@ def domestic_header(request):
                     'text': 'Starting a business',
                     'isCurrent': '/export' in request.path,
                     'overviewText': "Get support and information",
-                    'description': "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+                    'description': "Tell us about your plans and we’ll connect you to expert guidance and support for setting up your business."
                 },
                 {
                     'icon': "/static/icons/run-icon.svg",
@@ -260,7 +260,7 @@ def domestic_header(request):
                     'text': 'Running and growing my business',
                     'isCurrent': '/invest' in request.path,
                     'overviewText': "Get support and information",
-                    'description': "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+                    'description': "Tell us a bit about your business and we’ll link you up to the right resources to help it thrive."
                 },
                 { 
                     'icon': "/static/icons/export-icon.svg",
