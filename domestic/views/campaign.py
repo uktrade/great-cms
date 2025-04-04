@@ -178,7 +178,7 @@ class CampaignView(BaseNotifyUserFormView):
         use_domestic_logo = page.get_use_domestic_header_logo() if hasattr(page, 'get_use_domestic_header_logo') else ''
         site_title = page.get_site_title() if hasattr(page, 'get_site_title') else ''
         menu_items = page.get_menu_items() if hasattr(page, 'get_menu_items') else ''
-        great_logo_href = (
+        siteHref = (
             page.get_menu_items()[0]['href'] if hasattr(page, 'get_menu_items') and page.get_menu_items() else ''
         )
         microsite_context = microsite_header(self.request)
@@ -186,7 +186,7 @@ class CampaignView(BaseNotifyUserFormView):
         microsite_context['use_domestic_logo'] = use_domestic_logo
         microsite_context['site_title'] = site_title
         microsite_context['subnavItemsList'] = menu_items
-        microsite_context['great_logo_href'] = great_logo_href
+        microsite_context['siteHref'] = siteHref
 
         microsite_context['microsite_footer_context'] = microsite_footer(self.request)
         kwargs.update(microsite_context)

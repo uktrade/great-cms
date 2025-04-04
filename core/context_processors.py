@@ -387,11 +387,8 @@ def microsite_header(request):
         'mobileSiteLink': '',
         'bgs_header_campaign_context': {
             'rtl': get_language_bidi(),
-            'site_title': '',
-            'languages': '',
             'hideSearch': True,
             'hideMenuOnDesktop': True,
-            'subnavItemsList': '',
         },
     }
 

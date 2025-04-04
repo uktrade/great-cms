@@ -33,7 +33,7 @@ export default function BasketViewer({ label, onOpen, children }) {
       ref={buttonRef}
     >
       <span
-        className={`govuk-!-margin-right-2 fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
+        className={`govuk-!-margin-right-1 fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
         aria-hidden="true" role="img"
       />
       <span className="menu-link">{label}</span>
