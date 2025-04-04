@@ -3,7 +3,10 @@
 {% load static_absolute from great_components %}
 {% load url_map %}
 {% load to_json %}
+{% load bgs_tags %}
 {% load wagtailcore_tags wagtail_cache %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
 {% block head_css %}
     {% path_match "^\/learn\/" as in_learning %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
@@ -184,12 +187,14 @@
             {% include 'components/great/migration_notice_banner.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
-            <div class="great-ds-container">
-                {% if bespoke_breadcrumbs %}
-                    {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                {% else %}
-                    {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
-                {% endif %}
+            <div class='great-ds-bg-white'>
+                <div class="great-ds-container">
+                    {% if bespoke_breadcrumbs %}
+                        {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+                    {% else %}
+                        {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+                    {% endif %}
+                </div>
             </div>
         {% endblock %}
         {% block content %}{% endblock %}
@@ -201,7 +206,11 @@
 {% endblock %}
 {% block body_footer %}
     <div id="snackbar-container"></div>
-    {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+    {% if bgs_site %}
+        {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
+    {% else %}
+        {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
+    {% endif %}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

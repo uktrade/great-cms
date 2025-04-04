@@ -24,11 +24,11 @@ from core.constants import (
 from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 from domestic_growth.constants import (
-    DYNAMIC_SNIPPET_NAMES,
     CARD_META_DATA,
-    REGION_IMAGES,
+    DYNAMIC_SNIPPET_NAMES,
     FINANCE_AND_SUPPORT_REGION_MAPPINGS,
     FIND_A_GRANT_MAPPINGS,
+    REGION_IMAGES,
 )
 
 logger = logging.getLogger(__name__)

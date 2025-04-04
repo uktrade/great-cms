@@ -2,18 +2,16 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
-        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+        <div class="govuk-form-group">
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
-            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading--xl">When did you set it up?</label>
-            </h1>
-            <p class="govuk-body govuk-!-margin-bottom-4">
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">When did you set it up?</h1>
+            <label class="govuk-body govuk-!-margin-bottom-4" for="id_when_set_up">
                 We’ll make sure the information provided is relevant to your business stage.
-            </p>
-            <div class="govuk-!-margin-bottom-2">{{ form }}</div>
+            </label>
+            <div class="govuk-!-margin-top-4">{{ form }}</div>
         </div>
-        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Continue' %}
+        {% include '_button.html' with text='Continue' %}
     </form>
 {% endblock %}

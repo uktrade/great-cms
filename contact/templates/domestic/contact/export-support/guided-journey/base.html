@@ -3,7 +3,7 @@
 {% load static %}
 {% block breadcrumbs_block %}
     <div class="great-ds-container">
-        {% include '_breadcrumbs.html' with itemsList=""|get_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True %}
+        {% include '_breadcrumbs.html' with itemsList=""|get_category_page_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
     </div>
 {% endblock %}
 {% block body_js %}

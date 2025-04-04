@@ -140,7 +140,7 @@ GreatFrontend.MakeOrDoSearchEnhanced = {
           }, 10)
         }
       },
-      placeholder: 'e.g: financial services or coffee ',
+      placeholder: 'For example, financial services or coffee ',
       inputClasses: 'govuk-input great-text-input great-ds-autocomplete-input',
       menuClasses: 'great-autocomplete-overlay',
       required: true,

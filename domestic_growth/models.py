@@ -17,10 +17,9 @@ from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import (
     get_events,
-    get_triage_data,
+    get_trade_association_results,
     get_trade_associations_file,
-    get_filtered_trade_associations_by_sector,
-    get_filtered_trade_associations_by_sub_sector,
+    get_triage_data,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -250,7 +249,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
 
         postcode = triage_data['postcode']
         sector = triage_data['sector']
-        sub_sector = triage_data['sub_sector']
+        sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -259,16 +258,14 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
 
         if sector:
-            trade_associations = get_filtered_trade_associations_by_sector(trade_associations, sector)
+            sector_trade_associations = get_trade_association_results(trade_associations, sector, None)
 
-            context['trade_associations'] = trade_associations
+            context['trade_associations'] = sector_trade_associations
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
             if sub_sector:
-                context['trade_associations'] = get_filtered_trade_associations_by_sub_sector(
-                    trade_associations, sub_sector
-                )
+                context['trade_associations'] = get_trade_association_results(trade_associations, sector, sub_sector)
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
@@ -369,6 +366,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        sub_sector = triage_data.get('sub_sector', None)
 
         if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
             # we have the business type and some additional triage fields
@@ -383,6 +381,9 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         if sector:
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
+
+            if sub_sector:
+                context['sub_sector'] = sub_sector
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
@@ -631,6 +632,7 @@ class DomesticGrowthContent(index.Indexed, models.Model):
     url = models.CharField(blank=True)
     region = models.CharField(blank=True)
     sector = models.CharField(blank=True)
+    sub_sector = models.CharField(blank=True)
     is_dynamic = models.BooleanField(default=False)
     show_image = models.BooleanField(default=False)
 
@@ -641,6 +643,7 @@ class DomesticGrowthContent(index.Indexed, models.Model):
         FieldPanel('url'),
         FieldPanel('region'),
         FieldPanel('sector'),
+        FieldPanel('sub_sector'),
         FieldPanel('is_dynamic'),
         FieldPanel('show_image'),
     ]

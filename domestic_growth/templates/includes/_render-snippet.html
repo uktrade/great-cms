@@ -18,7 +18,7 @@
                         {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
                     {% endif %}
                 {% elif snippet_name == 'Finance and support for your business' and local_support_data %}
-                    {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region=local_support_data.postcode_data|get_region_for_finance_and_support_snippet %}
+                    {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region=local_support_data.postcode_data|get_region_for_finance_and_support_snippet region_name=local_support_data.postcode_data|get_region_name %}
                 {% elif snippet_name == 'Talk to an International Trade Adviser' and turnover not in ita_excluded_turnovers %}
                     {% include "includes/dynamic-snippets/_ita.html" with content=content %}
                 {% elif snippet_name == 'Find a grant' and local_support_data %}

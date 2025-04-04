@@ -1,19 +1,17 @@
 {% extends 'includes/base_triage.html' %}
 {% block form %}
-    <form method="post" autocomplete="off" data-target-market-form>
+    <form method="post">
         {% csrf_token %}
-        <div class="govuk-form-group {% if form.errors %}govuk-form-group--error{% endif %}">
+        <div class="govuk-form-group govuk-!-margin-bottom-6">
             <h2 class="govuk-caption-l">
                 <span class="govuk-visually-hidden">This section is</span>Tell us about your business
             </h2>
-            <h1 class="govuk-label-wrapper govuk-!-margin-bottom-4">
-                <label class="govuk-heading--xl">Do you currently export your products or services overseas?</label>
-            </h1>
-            <p class="govuk-body govuk-!-margin-bottom-4">
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">Do you currently export your products or services overseas?</h1>
+            <label class="govuk-body govuk-!-margin-bottom-4" for="id_currently_export">
                 We’ll show technical support if you’re exporting and introductory information for exporting if you’re not.
-            </p>
-            <div class="govuk-!-margin-bottom-2">{{ form }}</div>
+            </label>
+            <div class="govuk-!-margin-top-4">{{ form }}</div>
         </div>
-        {% include 'domestic/contact/export-support/includes/continue-save-button.html' with button_text='Get Support and Information' %}
+        {% include '_button.html' with text='Get support and information' %}
     </form>
 {% endblock %}

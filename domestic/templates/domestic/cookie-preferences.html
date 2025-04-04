@@ -5,114 +5,116 @@
 {% block head_title %}Cookies on great.gov.uk{% endblock %}
 {% block meta_title %}Cookies on great.gov.uk{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="grid-row">
-        <div class="column-two-thirds">
-            <div class="confirmation-banner display-none great">
-                {# djlint:off #}
-                {% include 'components/great/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading="Your cookie settings were saved" banner_body='<a id="back-from-preferences" class="link go-back margin-top-15 block" href="#">Back to previous page</a>' %}
-                {# djlint:on #}
-            </div>
-            <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
-            <div class="margin-bottom-30 margin-bottom-60-m">
-                <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
-                <p>We use cookies to store information about how you use the great.gov.uk website, such as the pages you visit.</p>
-            </div>
-            <div class="display-only-no-js">
-                <p>
-                    We use Javascript to set most of our cookies. Unfortunately Javascript is not running on your browser, so you cannot change your settings. You can try:
-                </p>
-                <ul class="list list-bullet">
-                    <li>reloading the page</li>
-                    <li>turning on Javascript in your browser</li>
-                </ul>
-            </div>
-            <div class="form-wrapper display-only-js">
-                <form id="cookie-preferences-form">
-                    <h2 class="heading-large">Cookie settings</h2>
-                    <div class="margin-bottom-30 margin-bottom-60-m">
-                        <p>We use 4 types of cookie. You can choose which cookies you're happy for us to use.</p>
-                        <h3 class="heading-medium">Cookies that measure website use</h3>
+<div class='great-ds-bg-white'>
+    <div class="great-ds-container">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <div class="confirmation-banner display-none great">
+                    {# djlint:off #}
+                    {% include 'components/great/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading="Your cookie settings were saved" banner_body='<a id="back-from-preferences" class="link go-back margin-top-15 block" href="#">Back to previous page</a>' %}
+                    {# djlint:on #}
+                </div>
+                <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
+                <div class="margin-bottom-30 margin-bottom-60-m">
+                    <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+                    <p>We use cookies to store information about how you use the great.gov.uk website, such as the pages you visit.</p>
+                </div>
+                <div class="display-only-no-js">
+                    <p>
+                        We use Javascript to set most of our cookies. Unfortunately Javascript is not running on your browser, so you cannot change your settings. You can try:
+                    </p>
+                    <ul class="list list-bullet">
+                        <li>reloading the page</li>
+                        <li>turning on Javascript in your browser</li>
+                    </ul>
+                </div>
+                <div class="form-wrapper display-only-js">
+                    <form id="cookie-preferences-form">
+                        <h2 class="heading-large">Cookie settings</h2>
+                        <div class="margin-bottom-30 margin-bottom-60-m">
+                            <p>We use 4 types of cookie. You can choose which cookies you're happy for us to use.</p>
+                            <h3 class="heading-medium">Cookies that measure website use</h3>
+                            <p>
+                                We use Google Analytics to measure how you use the website so we can improve it based on user needs. Google Analytics sets cookies that store anonymised information about:
+                            </p>
+                            <ul class="list list-bullet">
+                                <li>how you got to the site</li>
+                                <li>the pages you visit on great.gov.uk and government digital services, and how long you spend on each page</li>
+                                <li>what you click on while you're visiting the site</li>
+                            </ul>
+                            <p>We do not allow Google to use or share the data about how you use this site.</p>
+                            <fieldset>
+                                <ul>
+                                    <li class="multiple-choice clear-none margin-right-30">
+                                        <input type="radio" name="cookies-usage" value="on" id="cookies-usage-on">
+                                        <label for="cookies-usage-on" class="form-label">On</label>
+                                    </li>
+                                    <li class="multiple-choice clear-none">
+                                        <input type="radio" name="cookies-usage" value="off" id="cookies-usage-off">
+                                        <label for="cookies-usage-off" class="form-label">Off</label>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                        </div>
+                        <h3 class="heading-medium">Cookies that help with our communications and marketing</h3>
                         <p>
-                            We use Google Analytics to measure how you use the website so we can improve it based on user needs. Google Analytics sets cookies that store anonymised information about:
+                            These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on great.gov.uk.
                         </p>
-                        <ul class="list list-bullet">
-                            <li>how you got to the site</li>
-                            <li>the pages you visit on great.gov.uk and government digital services, and how long you spend on each page</li>
-                            <li>what you click on while you're visiting the site</li>
-                        </ul>
-                        <p>We do not allow Google to use or share the data about how you use this site.</p>
                         <fieldset>
                             <ul>
                                 <li class="multiple-choice clear-none margin-right-30">
-                                    <input type="radio" name="cookies-usage" value="on" id="cookies-usage-on">
-                                    <label for="cookies-usage-on" class="form-label">On</label>
+                                    <input type="radio"
+                                        name="cookies-campaigns"
+                                        value="on"
+                                        id="cookies-campaigns-on">
+                                    <label for="cookies-campaigns-on" class="form-label">On</label>
                                 </li>
                                 <li class="multiple-choice clear-none">
-                                    <input type="radio" name="cookies-usage" value="off" id="cookies-usage-off">
-                                    <label for="cookies-usage-off" class="form-label">Off</label>
+                                    <input type="radio"
+                                        name="cookies-campaigns"
+                                        value="off"
+                                        id="cookies-campaigns-off">
+                                    <label for="cookies-campaigns-off" class="form-label">Off</label>
                                 </li>
                             </ul>
                         </fieldset>
-                    </div>
-                    <h3 class="heading-medium">Cookies that help with our communications and marketing</h3>
-                    <p>
-                        These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on great.gov.uk.
-                    </p>
-                    <fieldset>
-                        <ul>
-                            <li class="multiple-choice clear-none margin-right-30">
-                                <input type="radio"
-                                    name="cookies-campaigns"
-                                    value="on"
-                                    id="cookies-campaigns-on">
-                                <label for="cookies-campaigns-on" class="form-label">On</label>
-                            </li>
-                            <li class="multiple-choice clear-none">
-                                <input type="radio"
-                                    name="cookies-campaigns"
-                                    value="off"
-                                    id="cookies-campaigns-off">
-                                <label for="cookies-campaigns-off" class="form-label">Off</label>
-                            </li>
+                        <h3 class="heading-medium">Cookies that remember your settings</h3>
+                        <p>
+                            These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.
+                        </p>
+                        <fieldset>
+                            <ul>
+                                <li class="multiple-choice clear-none margin-right-30">
+                                    <input type="radio"
+                                        name="cookies-settings"
+                                        value="on"
+                                        id="cookies-settings-on">
+                                    <label for="cookies-settings-on" class="form-label">On</label>
+                                </li>
+                                <li class="multiple-choice clear-none">
+                                    <input type="radio"
+                                        name="cookies-settings"
+                                        value="off"
+                                        id="cookies-settings-off">
+                                    <label for="cookies-settings-off" class="form-label">Off</label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <h3 class="heading-medium">Strictly necessary cookies</h3>
+                        <p>These essential cookies do things like</p>
+                        <ul class="list-bullet margin-bottom-30">
+                            <li>remember the notifications you've seen so you we do not show them to you again</li>
+                            <li>remember your progress through a form (for example a licence application)</li>
                         </ul>
-                    </fieldset>
-                    <h3 class="heading-medium">Cookies that remember your settings</h3>
-                    <p>
-                        These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.
-                    </p>
-                    <fieldset>
-                        <ul>
-                            <li class="multiple-choice clear-none margin-right-30">
-                                <input type="radio"
-                                    name="cookies-settings"
-                                    value="on"
-                                    id="cookies-settings-on">
-                                <label for="cookies-settings-on" class="form-label">On</label>
-                            </li>
-                            <li class="multiple-choice clear-none">
-                                <input type="radio"
-                                    name="cookies-settings"
-                                    value="off"
-                                    id="cookies-settings-off">
-                                <label for="cookies-settings-off" class="form-label">Off</label>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <h3 class="heading-medium">Strictly necessary cookies</h3>
-                    <p>These essential cookies do things like</p>
-                    <ul class="list-bullet margin-bottom-30">
-                        <li>remember the notifications you've seen so you we do not show them to you again</li>
-                        <li>remember your progress through a form (for example a licence application)</li>
-                    </ul>
-                    <p>They always need to be on.</p>
-                    <p class="margin-top-45 margin-bottom-45 margin-bottom-90-m">
-                        <a href="{% slugurl 'cookies-policy' %}" class="link">Find out more about cookies on great.gov.uk</a>
-                    </p>
-                    <p>
-                        <button class="button primary-button" type="submit">Save changes</button>
-                    </p>
-                </form>
+                        <p>They always need to be on.</p>
+                        <p class="margin-top-45 margin-bottom-45 margin-bottom-90-m">
+                            <a href="{% slugurl 'cookies-policy' %}" class="link">Find out more about cookies on great.gov.uk</a>
+                        </p>
+                        <p>
+                            <button class="button primary-button" type="submit">Save changes</button>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

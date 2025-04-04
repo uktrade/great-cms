@@ -31,6 +31,15 @@
         </script>
     {% endif %}
 {% endblock %}
+{% block breadcrumbs_block %}
+    <div class="great-ds-container">
+        {% if bespoke_breadcrumbs %}
+            {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}
+        {% else %}
+            {% include '_breadcrumbs.html' with itemsList=page.get_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white'%}
+        {% endif %}
+    </div>
+{% endblock %}
 {% block content %}
     <div class="great great-bg-white">
         <div class="great-container govuk-!-padding-top-4">
