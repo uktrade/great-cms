@@ -6,6 +6,7 @@
 {% load bgs_tags %}
 {% load wagtailcore_tags wagtail_cache %}
 {% load bgs_tags %}
+{% wagtail_site as current_site %}
 {% is_bgs_site current_site.root_url as bgs_site %}
 {% block head_css %}
     {% path_match "^\/learn\/" as in_learning %}
