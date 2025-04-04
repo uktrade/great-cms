@@ -6,11 +6,7 @@ from django.http import HttpRequest
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
-from domestic_growth.constants import (
-    ESTABLISHED_OR_START_UP_BUSINESS_TYPE,
-    PRE_START_BUSINESS_TYPE,
-    PRE_START_GUIDE_URL,
-)
+from domestic_growth.constants import PRE_START_GUIDE_URL
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
@@ -37,7 +33,15 @@ def get_dbt_news_articles():
     return data[:3]
 
 
-def get_triage_data(request: HttpRequest) -> dict:
+def get_triage_model(request: HttpRequest) -> Model:
+    return (
+        domestic_growth_models.StartingABusinessTriage
+        if PRE_START_GUIDE_URL in request.path
+        else domestic_growth_models.ExistingBusinessTriage
+    )
+
+
+def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
     session_id = None
 
@@ -47,15 +51,10 @@ def get_triage_data(request: HttpRequest) -> dict:
     elif request.session.session_key:
         session_id = request.session.session_key
 
-    triage_model = domestic_growth_models.ExistingBusinessTriage
-    business_type = ESTABLISHED_OR_START_UP_BUSINESS_TYPE
-
-    if PRE_START_GUIDE_URL in request.path:
-        triage_model = domestic_growth_models.StartingABusinessTriage
-        business_type = PRE_START_BUSINESS_TYPE
+    triage_model = get_triage_model(request)
 
     try:
-        triage_data = triage_model.objects.get(session_id=session_id)
+        triage_data = get_triage_data(triage_model, session_id=session_id)
         triage_data = model_to_dict(triage_data)
 
         dbt_sectors = get_dbt_sectors()
@@ -63,9 +62,25 @@ def get_triage_data(request: HttpRequest) -> dict:
         if triage_data:
             parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
-        return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}, business_type
+        return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
     except Exception:
-        return {'postcode': '', 'sector': ''}, business_type
+        return {'postcode': '', 'sector': ''}
+
+
+def get_triage_data(model: Model, session_id: str) -> Model:
+    try:
+        return model.objects.get(session_id=session_id)
+    except AttributeError:
+        return None
+    except model.DoesNotExist:
+        return None
+
+
+def get_triage_drop_off_point(request: HttpRequest) -> str:
+    """
+    returns the view name of the next unanswered triage question
+    returns None if the triage has been completed
+    """
 
 
 def get_events():
@@ -110,12 +125,3 @@ def get_trade_association_results(trade_associations, sector, sub_sector):
     return {
         'sub_sector_and_sector_only_tas': sub_sector_tas + sector_only_tas,
     }
-
-
-def get_triage_data_for_form_init(model: Model, session_id: str) -> Model:
-    try:
-        return model.objects.get(session_id=session_id)
-    except AttributeError:
-        return None
-    except model.DoesNotExist:
-        return None

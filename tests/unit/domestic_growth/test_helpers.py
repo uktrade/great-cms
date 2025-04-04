@@ -8,7 +8,10 @@ from domestic_growth.constants import (
     PRE_START_GUIDE_URL,
     START_UP_GUIDE_URL,
 )
-from domestic_growth.helpers import get_trade_association_results, get_triage_data
+from domestic_growth.helpers import (
+    get_trade_association_results,
+    get_triage_data_with_sectors,
+)
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 
 
@@ -90,9 +93,7 @@ def test_get_triage_data(mock_get_dbt_sectors, guide_url, business_type):
 
     req = factory.get(guide_url + f"?session_id={mock_triage_data['session_id']}")
 
-    triage_data, returned_business_type = get_triage_data(req)
-
-    assert returned_business_type == business_type
+    triage_data = get_triage_data_with_sectors(req)
 
     for key in mock_triage_data.keys():
         assert triage_data[key] == mock_triage_data[key]
