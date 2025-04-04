@@ -1,6 +1,6 @@
 {% extends 'includes/base.html' %}
 
-{% block head_title %}Domestic Growth - Guide child page{% endblock %}
+{% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
