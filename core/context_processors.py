@@ -235,7 +235,6 @@ def domestic_header(request):
         'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
-
         'bgs_header_context': {
             'header_classes': '',
             'sso_is_logged_in': request.user.is_authenticated,
@@ -272,40 +271,58 @@ def domestic_header(request):
                     'children': [
                         {'href': '/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
                         {'href': '#', 'text': 'Export support'},
-                        {'href': '/export-academy/',
-                         'text': 'UK Export Academy',
-                         'isCurrent': '/export-support/' in request.path},
-                        {'href': '/learn/categories/',
-                         'text': 'Learn to export',
-                         'isCurrent': '/learn/categories/' in request.path},
-                        {'href': '/services/',
-                         'text': 'Export resources',
-                         'requiresAuth': True,
-                         'isCurrent': '/services/' in request.path},
-                        {'href': '/dashboard/',
-                         'text': 'Export dashboard',
-                         'requiresAuth': True,
-                         'isCurrent': '/compare-countries' in request.path},
-                        {'href': reverse_lazy('core:compare-countries'),
-                         'text': 'Where to export',
-                         'isCurrent': '/compare-countries' in request.path},
-                        {'href': '/export-plan/',
-                         'text': 'Make an export plan',
-                         'requiresAuth': True,
-                         'isCurrent': '/export-plan' in request.path},
-                        {'href': '/profile/',
-                         'text': 'Export account',
-                         'requiresAuth': True,
-                         'isCurrent': '/profile' in request.path},
-                        {'text': 'Sign out of export account services',
-                         'attributes': 'onclick="signOut()"',
-                         'button': True,
-                         'requiresAuth': True},
-                        {'text': 'Sign in to export account services',
-                         'href': reverse_lazy('core:login'),
-                         'button': True,
-                         'requiresNoAuth': True},
-                    ]
+                        {
+                            'href': '/export-academy/',
+                            'text': 'UK Export Academy',
+                            'isCurrent': '/export-support/' in request.path,
+                        },
+                        {
+                            'href': '/learn/categories/',
+                            'text': 'Learn to export',
+                            'isCurrent': '/learn/categories/' in request.path,
+                        },
+                        {
+                            'href': '/services/',
+                            'text': 'Export resources',
+                            'requiresAuth': True,
+                            'isCurrent': '/services/' in request.path,
+                        },
+                        {
+                            'href': '/dashboard/',
+                            'text': 'Export dashboard',
+                            'requiresAuth': True,
+                            'isCurrent': '/compare-countries' in request.path,
+                        },
+                        {
+                            'href': reverse_lazy('core:compare-countries'),
+                            'text': 'Where to export',
+                            'isCurrent': '/compare-countries' in request.path,
+                        },
+                        {
+                            'href': '/export-plan/',
+                            'text': 'Make an export plan',
+                            'requiresAuth': True,
+                            'isCurrent': '/export-plan' in request.path,
+                        },
+                        {
+                            'href': '/profile/',
+                            'text': 'Export account',
+                            'requiresAuth': True,
+                            'isCurrent': '/profile' in request.path,
+                        },
+                        {
+                            'text': 'Sign out of export account services',
+                            'attributes': 'onclick="signOut()"',
+                            'button': True,
+                            'requiresAuth': True,
+                        },
+                        {
+                            'text': 'Sign in to export account services',
+                            'href': reverse_lazy('core:login'),
+                            'button': True,
+                            'requiresNoAuth': True,
+                        },
+                    ],
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
@@ -316,33 +333,36 @@ def domestic_header(request):
                         {
                             'href': '/international/expand-your-business-in-the-uk/',
                             'text': 'Expand your business in the UK',
-                            'isCurrent': '/expand-your-business-in-the-uk' in request.path
+                            'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                         },
                         {
                             'href': '/international/investment/',
                             'text': 'Investment opportunities',
-                            'isCurrent': ('/international/investment/' == request.path
-                                          or ('/international/investment/' in request.path
-                                              and '?back=' in request.get_full_path()))
+                            'isCurrent': (
+                                '/international/investment/' == request.path
+                                or (
+                                    '/international/investment/' in request.path and '?back=' in request.get_full_path()
+                                )
+                            ),
                         },
                         {
                             'href': '/international/buy-from-the-uk/',
                             'text': 'Buy from the UK',
-                            'isCurrent': '/international/buy-from-the-uk/' in request.path
+                            'isCurrent': '/international/buy-from-the-uk/' in request.path,
                         },
                         {
                             'href': '#',
                             'text': 'Sign out of expand your business in the UK',
                             'requiresAuth': True,
-                            'attributes': 'onclick="signOut()"'
+                            'attributes': 'onclick="signOut()"',
                         },
                         {
                             'href': reverse_lazy('international_online_offer:login'),
                             'text': 'Sign in to expand your business in the UK',
                             'requiresNoAuth': True,
-                            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path
-                        }
-                    ]
+                            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
+                        },
+                    ],
                 },
             ],
         },
@@ -365,7 +385,6 @@ def microsite_header(request):
         'hideMenuOnDesktop': True,
         'subnavItemsList': '',
         'mobileSiteLink': '',
-
         'bgs_header_campaign_context': {
             'rtl': get_language_bidi(),
             'site_title': '',
@@ -373,7 +392,7 @@ def microsite_header(request):
             'hideSearch': True,
             'hideMenuOnDesktop': True,
             'subnavItemsList': '',
-        }
+        },
     }
 
 
