@@ -158,11 +158,11 @@
 {% endblock %}
 {% block body_header %}
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
-    {% comment %} {% if bgs_site %} {% endcomment %}
+    {% if bgs_site %}
         {% include "_header-bgs.html" with header_classes=bgs_header_context.header_classes sso_is_logged_in=bgs_header_context.sso_is_logged_in isAuthenticated=bgs_header_context.isAuthenticated hideSearch=bgs_header_context.hideSearch hideMenuOnDesktop=bgs_header_context.hideMenuOnDesktop searchFormAction=bgs_header_context.searchFormAction menuItemsList=bgs_header_context.menuItemsList %}
-    {% comment %} {% else %}
+    {% else %}
         {% include "_header.html" with header_classes=header_classes isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
-    {% endif %} {% endcomment %}
+    {% endif %}
     {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
     <script>
         function signOut() {
