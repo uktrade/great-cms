@@ -1035,3 +1035,77 @@ $great-design-system-mint-green: #8ce2d0;
     }
   }
 }
+
+.great-ds-back-link--white {
+  color: $great-white !important;
+  &::before {
+    color: $great-white !important;
+    border-color: $great-white !important;
+  }
+}
+
+.bgs-triage-background {
+  background: radial-gradient(99.99% 87.64% at 56.67% 124.3%, #009DBC 0%, #1D70B8 27.11%, #04043F 100%);
+}
+
+.autocomplete__option:hover {
+  .bgs-sector-lookup-second-row {
+      color: white;
+  }
+}
+
+.autocomplete__option:focus {
+  color: white;
+  .bgs-sector-lookup-second-row {
+      color: white;
+  }
+}
+
+.autocomplete__option--odd {
+  background-color: $great-light-blue;
+}
+
+.autocomplete__option--odd:hover {
+  background-color: #1d70b8;
+  .bgs-sector-lookup-second-row {
+      color: white;
+  }
+}
+
+.autocomplete__option--odd:focus {
+  background-color: #1d70b8;
+  color: white;
+  .bgs-sector-lookup-second-row {
+      color: white;
+  }
+}
+
+.prepend-search-icon {
+  .autocomplete__wrapper {
+     .autocomplete__input {
+          text-indent: 32px;
+          background-image: url('../static/icons/icon-search.svg');
+          background-repeat: no-repeat;
+          background-size: 18px;
+          background-position: 10px 50%;
+     }
+  }
+}
+
+.triage-form-container {
+  width: calc(100% - 30px);
+  margin-left: 15px;
+  margin-right: 15px;
+  @media only screen and (min-width: 901px) {
+    width: 810px
+  }
+}
+
+.autocomplete__wrapper {
+  // temporarily adding as 5px bottom margin is being added to autocomplete drop down items
+  ul {
+    li {
+      margin-bottom: 0px !important;
+    }
+  }
+}
