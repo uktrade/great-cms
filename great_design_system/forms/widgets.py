@@ -97,6 +97,12 @@ class CreateOptionMixin:
                 )
         return reveal_fields
 
+    def get_exclusive(self, value):
+        if hasattr(self.field, 'exclusive_choice'):
+            if value == self.field.exclusive_choice:
+                return True
+        return False
+
     def get_option_help_text(self, value):
 
         help_dict = {'help_text': '', 'help_text_css': ''}
@@ -173,6 +179,7 @@ class CreateOptionMixin:
             'template_name': self.option_template_name,
             'wrap_label': True,
             'reveals': self.get_option_reveal_fields(value),
+            'exclusive': self.get_exclusive(value),
         }
 
         options.update(**self.get_option_help_text(value))
@@ -289,6 +296,25 @@ class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
     option_template_name = '_option.html'
     use_fieldset = True
     help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
+
+
+class CheckboxSelectConditionalReveal(ChoiceWidget):
+    """
+    New widget that will play nicely with the great-design-system
+    """
+
+    input_type = 'checkbox'
+    template_class_name = 'checkboxes'
+    template_name = '_multiple_input.html'
+    option_template_name = '_option_conditional_reveal.html'
+    option_reveal_template_name = '_reveal_input.html'
+    use_fieldset = True
+    help_text_class_name = 'govuk-checkboxes__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)

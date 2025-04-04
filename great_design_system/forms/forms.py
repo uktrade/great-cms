@@ -14,7 +14,7 @@ class GDSErrorList(ErrorList):
 
     def get_context(self):
         ctx = super().get_context()
-        ctx.update({'error_class': 'govuk-error-message'})
+        ctx.update({'error_class': 'govuk-error-message great-ds-error-message'})
         return ctx
 
 
@@ -65,7 +65,7 @@ class GDSFormMixin:
     error_description = 'There was a problem with the form submission'
     error_disable_auto_focus = False
 
-    def __init__(self, is_gds_form=True, error_class=GDSErrorList, *args, **kwargs):
+    def __init__(self, is_gds_form=True, error_class=GDSErrorList, dict_error_class=GDSErrorDict, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.is_gds_form = is_gds_form
         self.error_class = error_class

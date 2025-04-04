@@ -89,6 +89,7 @@ class BaseShortForm(mixins.ReCaptchaFormMixin, gds_forms.Form):
         choices=constants.COMPANY_TYPE_CHOICES,
         linked_conditional_reveal_fields=['company_type_other'],
         linked_conditional_reveal_choice='OTHER',
+        exclusive_choice='OTHER',
     )
     company_type_other = gds_forms.ChoiceField(
         label='Type of organisation',
