@@ -2,7 +2,7 @@
 
 {% load get_region_bg_class get_url_favicon_and_domain from content_tags %}
 
-{% block head_title %}Domestic Growth - Guide page{% endblock %}
+{% block head_title %}{{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
