@@ -72,7 +72,7 @@
                     {% if local_support_data %}
                         {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
                             <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
-                                <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2 {% if region_bg_class %}bgs-section-logo {{ region_bg_class }}{% endif %}">
+                                <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2 {% if region_bg_class %}bgs-section-logo bgs-section-logo--regions {{ region_bg_class }}{% endif %}">
                                     {% if country == 'england' %}
                                         {% if page.primary_regional_support_title_england %}
                                             <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
@@ -116,22 +116,34 @@
                         <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
                             {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                 <h4 class="govuk-heading-xs govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h4>
-                                <img src="/static/images/coc-{{ nearest_chamber_of_commerce.id }}.png" alt="" aria-hidden="true" />
+                                <img src="/static/images/coc-{{ nearest_chamber_of_commerce.digest }}.png" alt="" aria-hidden="true" />
                                 {% if page.chamber_of_commerce_intro %}
                                     <p class="govuk-body great-ds-max-width-70">{{ page.chamber_of_commerce_intro }}</p>
                                 {% endif %}
                                 <address class="great-ds-address">
+                                    {% if nearest_chamber_of_commerce.contacts.website and nearest_chamber_of_commerce.contacts.website_label %}
                                     <div class="great-ds-address__row">
-                                        <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_chamber_of_commerce.contacts.website }}">{{ nearest_chamber_of_commerce.contacts.website }}</a>
+                                        <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_chamber_of_commerce.contacts.website }}">{{ nearest_chamber_of_commerce.contacts.website_label }}</a>
                                     </div>
+                                    {% endif %}
+
                                     {% if nearest_chamber_of_commerce.contacts.email %}
                                     <div class="great-ds-address__row">
                                         <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_chamber_of_commerce.contacts.email }}">{{ nearest_chamber_of_commerce.contacts.email }}</a>
                                     </div>
                                     {% endif %}
+
+                                    {% if nearest_chamber_of_commerce.contacts.phone %}
                                     <div class="great-ds-address__row">
                                         <strong class="govuk-!-font-weight-bold">Phone</strong> <span>{{ nearest_chamber_of_commerce.contacts.phone }}</span>
                                     </div>
+                                    {% endif %}
+
+                                    {% if nearest_chamber_of_commerce.contacts.contact_form and nearest_chamber_of_commerce.contacts.contact_form_label %}
+                                    <div class="great-ds-address__row">
+                                        <strong class="govuk-!-font-weight-bold">Message</strong> <a href="{{ nearest_chamber_of_commerce.contacts.contact_form }}">{{ nearest_chamber_of_commerce.contacts.contact_form_label }}</a>
+                                    </div>
+                                    {% endif %}
                                 </address>
                             {% endwith %}
                         </div>
