@@ -1026,19 +1026,22 @@ $great-design-system-mint-green: #8ce2d0;
 }
 
 .bgs-triage-background {
-  background: radial-gradient(99.99% 87.64% at 56.67% 124.3%, #009DBC 0%, #1D70B8 27.11%, #04043F 100%);
+  background-image: url(/static/images/triage-bg.png) !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
 
 .autocomplete__option:hover {
   .bgs-sector-lookup-second-row {
-      color: white;
+    color: white;
   }
 }
 
 .autocomplete__option:focus {
   color: white;
   .bgs-sector-lookup-second-row {
-      color: white;
+    color: white;
   }
 }
 
@@ -1049,7 +1052,7 @@ $great-design-system-mint-green: #8ce2d0;
 .autocomplete__option--odd:hover {
   background-color: #1d70b8;
   .bgs-sector-lookup-second-row {
-      color: white;
+    color: white;
   }
 }
 
@@ -1057,19 +1060,19 @@ $great-design-system-mint-green: #8ce2d0;
   background-color: #1d70b8;
   color: white;
   .bgs-sector-lookup-second-row {
-      color: white;
+    color: white;
   }
 }
 
 .prepend-search-icon {
   .autocomplete__wrapper {
-     .autocomplete__input {
-          text-indent: 32px;
-          background-image: url('../static/icons/icon-search.svg');
-          background-repeat: no-repeat;
-          background-size: 18px;
-          background-position: 10px 50%;
-     }
+    .autocomplete__input {
+      text-indent: 32px;
+      background-image: url('../static/icons/icon-search.svg');
+      background-repeat: no-repeat;
+      background-size: 18px;
+      background-position: 10px 50%;
+    }
   }
 }
 
@@ -1078,7 +1081,7 @@ $great-design-system-mint-green: #8ce2d0;
   margin-left: 15px;
   margin-right: 15px;
   @media only screen and (min-width: 901px) {
-    width: 810px
+    width: 810px;
   }
 }
 
