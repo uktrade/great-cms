@@ -23,6 +23,7 @@ export default function BasketViewer({ label, onOpen, children }) {
   })
 
   const triggerButton = (
+    
     <button
       type="button"
       className={`personalization-menu-button ${
@@ -31,11 +32,11 @@ export default function BasketViewer({ label, onOpen, children }) {
       onClick={toggleViewer}
       ref={buttonRef}
     >
-      <span className="menu-link">{label}</span>
       <span
-        className={`govuk-!-margin-left-2 fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
+        className={`govuk-!-margin-right-1 fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
         aria-hidden="true" role="img"
       />
+      <span className="menu-link">{label}</span>
     </button>
   )
 

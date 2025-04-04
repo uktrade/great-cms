@@ -49,9 +49,8 @@ export const CountryFinderButton = () => {
                   className="remove-product"
                   onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
-                  <span role="img" className="fas fa-trash great-red-text" />
-                  <span className="govuk-visually-hidden">
-                    Remove market {market.country_name}
+                  <span>
+                    Remove
                   </span>
                 </button>
               </li>
