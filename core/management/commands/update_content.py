@@ -5,6 +5,7 @@ import types
 from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
+from inspect import currentframe, getframeinfo
 from numbers import Number
 from uuid import UUID
 
@@ -22,6 +23,7 @@ from wagtail.models import Site
 from wagtail.rich_text import RichText
 
 from core.blocks import (
+    ArticleListingLinkBlock,
     CountryGuideIndustryBlock,
     IndividualStatisticBlock,
     PerformanceDashboardDataBlock,
@@ -61,6 +63,10 @@ class Command(BaseCommand):
             default=False,
             help='Show summary output only, do not update data',
         )
+
+    def get_line_number(self):
+        f = currentframe()
+        return getframeinfo(f).lineno
 
     def string_contains_html(self, value):
         return bool(BeautifulSoup(value, 'html.parser').find())
@@ -165,6 +171,7 @@ class Command(BaseCommand):
             if updated:
                 block_updated = True
         else:
+            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
             sys.exit(-1)
 
@@ -206,7 +213,9 @@ class Command(BaseCommand):
                 if updated:
                     block_updated = True
             elif isinstance(field_value, RichText):
-                pass
+                updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
+                if updated:
+                    block_updated = True
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(page_title, field_value)
                 if updated:
@@ -222,6 +231,7 @@ class Command(BaseCommand):
             elif isinstance(field_value, EmbedValue):
                 continue
             else:
+                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
                 self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
                 sys.exit(-1)
         return block_updated, block
@@ -342,6 +352,7 @@ class Command(BaseCommand):
                     block.value[item].link_text = new_link_text
                     block_updated = True
             else:
+                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
                 self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
                 sys.exit(-1)
 
@@ -385,6 +396,8 @@ class Command(BaseCommand):
                 block_updated = True
         elif isinstance(block.block, StructBlock):
             self.process_structblock_block(page_title, block)
+        elif isinstance(block.block, ArticleListingLinkBlock):
+            pass
         elif isinstance(block.block, CharBlock):
             updated, new_block = self.process_charblock_block(page_title, block)
             if updated:
@@ -394,6 +407,7 @@ class Command(BaseCommand):
             if updated:
                 block_updated = True
         else:
+            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
         return block_updated
@@ -427,6 +441,7 @@ class Command(BaseCommand):
                     value[index] = new_item
                     block_updated = True
             else:
+                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
                 sys.exit(-1)
         return block_updated, value
@@ -457,6 +472,7 @@ class Command(BaseCommand):
             updated, new_value = self.process_list_field(page.title, field, value)
         else:
             updated = False
+            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
             sys.exit(-1)
 
