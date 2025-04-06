@@ -1,4 +1,5 @@
 import argparse
+import re
 import sys
 import types
 from datetime import datetime, timedelta
@@ -8,7 +9,7 @@ from numbers import Number
 from uuid import UUID
 
 import sentry_sdk
-from django.conf import settings
+from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models.base import ModelState
@@ -16,7 +17,9 @@ from wagtail.blocks.field_block import CharBlock, RichTextBlock
 from wagtail.blocks.list_block import ListBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.blocks.struct_block import StructBlock
+from wagtail.embeds.blocks import EmbedValue
 from wagtail.models import Site
+from wagtail.rich_text import RichText
 
 from core.blocks import (
     CountryGuideIndustryBlock,
@@ -25,6 +28,7 @@ from core.blocks import (
     PullQuoteBlock,
     RouteSectionBlock,
 )
+from core.models import AltTextImage, GreatMedia, RelatedContentCTA
 
 
 class Command(BaseCommand):
@@ -58,7 +62,14 @@ class Command(BaseCommand):
             help='Show summary output only, do not update data',
         )
 
-    def replace_string(self, page_title, field, value):
+    def string_contains_html(self, value):
+        return bool(BeautifulSoup(value, 'html.parser').find())
+
+    def replace_string(self, page_title, field, value):  # noqa C901
+
+        if self.string_contains_html(value):
+            return self.replace_richtextbox(page_title, source=value)
+
         updated = True
         for item in self.fields_to_report:
             if item == field:
@@ -83,72 +94,260 @@ class Command(BaseCommand):
 
         return updated, value
 
+    def replace_richtextbox_report(self, page_title, source):
+
+        soup = BeautifulSoup(source, 'html.parser')
+
+        for value in self.values_to_skip:
+            findall = soup.find_all(text=re.compile(value))
+            for txt in findall:
+                self.stdout.write(self.style.WARNING(f'SKIPPING page:value {page_title}:{txt}'))
+
+    def replace_richtextbox_text(self, page_title, source):
+
+        updated = False
+        soup = BeautifulSoup(source, 'html.parser')
+
+        for value in self.strings_to_replace:
+            findall = soup.find_all(text=re.compile(value))
+            for link in findall:
+                fixed_link = link.replace(value, self.strings_to_replace[value])
+                link.replace_with(fixed_link)
+                updated = True
+
+        return updated, str(soup)
+
+    def replace_richtextbox_links(self, page_title, source):
+
+        updated = False
+        soup = BeautifulSoup(source, 'html.parser')
+        a_tags = soup.find_all('a', href=True)
+        for tag in a_tags:
+            for value in self.strings_to_replace:
+                if value in tag['href']:
+                    tag['href'] = tag['href'].replace(value, self.strings_to_replace[value])
+                    updated = True
+        return updated, str(soup)
+
     def process_string_field(self, page_title, field, value):
         updated, new_value = self.replace_string(page_title, field, value)
         return updated, new_value
 
-    def process_richtext_block(self, block):
-        pass
+    def replace_richtextbox(self, page_title, block=None, source=None):
+        block_updated = False
+        updated, new_source = self.replace_richtextbox_text(page_title, block.value.source if block else source)
+        if updated:
+            block_updated = True
+        updated, new_source = self.replace_richtextbox_links(page_title, new_source)
+        if updated:
+            block_updated = True
+        self.replace_richtextbox_report(page_title, new_source)
+        if updated:
+            block_updated = True
 
-    def process_stream_block(self, block):
-        pass
+        return block_updated, new_source
+
+    def process_richtext_block(self, page_title, block):
+        updated, new_source = self.replace_richtextbox(page_title, block=block)
+        if updated:
+            setattr(block.value, 'source', new_source)
+        return updated, block
+
+    def process_stream_block(self, page_title, block):
+        block_updated = False
+
+        if isinstance(block, StreamValue):
+            updated, new_value = self.process_streamvalue_field(page_title, block)
+            if updated:
+                block_updated = True
+        elif isinstance(block, StreamValue.StreamChild):
+            updated, val = self.process_streamvalue_field(page_title, block.value)
+            if updated:
+                block_updated = True
+        else:
+            self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
+            sys.exit(-1)
+
+        return block_updated, block
+
+    def process_alttextimage_field(self, page_title, field_name, field_value):
+        updated = False
+        alt_text = field_value.alt_text
+        if alt_text:
+            updated, new_alt_text = self.replace_string(page_title, 'alt_text', alt_text)
+        return updated, field_value
+
+    def process_greatmedia_field(self, page_title, field_name, field_value):
+        block_updated = False
+        description = field_value.description
+        if description:
+            updated, new_description = self.replace_string(page_title, 'description', description)
+            if updated:
+                block_updated = True
+        transcript = field_value.transcript
+        if transcript:
+            updated, new_transcript = self.replace_string(page_title, 'transcript', transcript)
+            if updated:
+                block_updated = True
+        subtitles_en = field_value.subtitles_en
+        if subtitles_en:
+            updated, new_subtitles_en = self.replace_string(page_title, 'subtitles_en', subtitles_en)
+            if updated:
+                block_updated = True
+        return block_updated, field_value
+
+    def process_structblock_block(self, page_title, block):  # noqa C901
+        block_updated = False
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            if isinstance(field_value, str):
+                updated, new_value = self.process_string_field(page_title, field_name, field_value)
+                if updated:
+                    block_updated = True
+            elif isinstance(field_value, RichText):
+                pass
+            elif isinstance(field_value, StreamValue):
+                updated, new_value = self.process_streamvalue_field(page_title, field_value)
+                if updated:
+                    block_updated = True
+            elif isinstance(field_value, AltTextImage):
+                updated, new_value = self.process_alttextimage_field(page_title, field_name, field_value)
+                if updated:
+                    block_updated = True
+            elif isinstance(field_value, GreatMedia):
+                updated, new_value = self.process_greatmedia_field(page_title, field_name, field_value)
+                if updated:
+                    block_updated = True
+            elif isinstance(field_value, EmbedValue):
+                continue
+            else:
+                self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
+                sys.exit(-1)
+        return block_updated, block
 
     def process_pullquoteblock_block(self, page_title, block):
+        block_updated = False
         updated, new_quote = self.replace_string(page_title, 'quote', block.value['quote'])
         if updated:
             block.value['quote'] = new_quote
+            block_updated = True
         updated, new_attribution = self.replace_string(page_title, 'attribution', block.value['attribution'])
         if updated:
             block.value['attribution'] = new_attribution
+            block_updated = True
         updated, new_role = self.replace_string(page_title, 'role', block.value['role'])
         if updated:
             block.value['role'] = new_role
+            block_updated = True
         updated, new_organisation = self.replace_string(page_title, 'organisation', block.value['organisation'])
         if updated:
             block.value['organisation'] = new_organisation
+            block_updated = True
         updated, new_organisation_link = self.replace_string(
             page_title, 'organisation_link', block.value['organisation_link']
         )
         if updated:
-            breakpoint()
             block.value['organisation_link'] = new_organisation_link
+            block_updated = True
+        return block_updated, block
+
+    def process_routesectionblock_block(self, page_title, block):
+        block_updated = False
+        updated, new_title = self.replace_string(page_title, 'title', block.value['title'])
+        if updated:
+            block.value['title'] = new_title
+            block_updated = True
+        updated, new_body = self.replace_string(page_title, 'body', block.value['body'])
+        if updated:
+            block.value['body'] = new_body
+            block_updated = True
+        return block_updated, block
+
+    def process_performancedashboarddatablock_block(self, page_title, block):
+        updated = False
+        data_description = block.value['data_description']
+        updated, new_source = self.replace_richtextbox(page_title, source=data_description.source)
+        if updated:
+            setattr(block.value['data_description'], 'source', new_source)
         return updated, block
 
-    def process_routesectionblock_block(self, block):
-        pass
-
-    def process_performancedashboarddatablock_block(self, block):
-        pass
-
     def process_individualstatisticblock_block(self, page_title, block):
-        updated = False
+        block_updated = False
         updated, new_smallprint = self.replace_string(page_title, 'smallprint', block.value['smallprint'])
         if updated:
             setattr(block.value['smallprint'], new_smallprint)
+            block_updated = True
         updated, new_heading = self.replace_string(page_title, 'heading', block.value['heading'])
         if updated:
             setattr(block.value['heading'], new_heading)
-        return updated
+            block_updated = True
+        return block_updated, block
 
-    def process_countryguideindustryblock_block(self, block):
-        pass
+    def process_countryguidecasestudyblock_block(self, page_title, block):
+        block_updated = False
+        updated, new_title = self.replace_string(page_title, 'title', block['title'])
+        if updated:
+            block['title'] = new_title
+            block_updated = True
+        updated, new_description = self.replace_string(page_title, 'description', block['description'])
+        if updated:
+            block['description'] = new_description
+            block_updated = True
+        updated, new_button_text = self.replace_string(page_title, 'button_text', block['button_text'])
+        if updated:
+            block['button_text'] = new_button_text
+            block_updated = True
+        updated, new_button_link = self.replace_string(page_title, 'button_link', block['button_link'])
+        if updated:
+            block['button_link'] = new_button_link
+            block_updated = True
+        return block_updated, block
 
-    def process_structblock_block(self, block):
-        pass
+    def process_countryguideindustryblock_block(self, page_title, block):
+        block_updated = False
+        updated, new_title = self.replace_string(page_title, 'title', block.value['title'])
+        if updated:
+            block.value['title'] = new_title
+            block_updated = True
+        updated, new_teaser = self.replace_string(page_title, 'teaser', block.value['teaser'])
+        if updated:
+            block.value['teaser'] = new_teaser
+            block_updated = True
+        updated, new_subsections = self.process_stream_block(page_title, block.value['subsections'])
+        if updated:
+            block.value['subsections'] = new_subsections
+            block_updated = True
 
-    def process_charblock_block(self, block):
-        pass
+        updated, new_case_study = self.process_countryguidecasestudyblock_block(page_title, block.value['case_study'])
+        if updated:
+            block.value['case_study'] = new_case_study
+            block_updated = True
 
-    def process_casestudystaticblock_block(self, block):
-        pass
+        return block_updated, block
 
-    def process_listblock_block(self, block):
-        pass
+    def process_charblock_block(self, page_title, block):
+        updated = False
+        updated, new_value = self.replace_string(page_title, block.block_type, block.value)
+        if updated:
+            block.value = new_value
+        return updated, block
 
-    def process_pagechooserblock_block(self, block):
-        pass
+    def process_listblock_block(self, page_title, block):
+        block_updated = False
+        for item in block.value:
+            if isinstance(item, RelatedContentCTA):
+                updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
+                if updated:
+                    block.value[item].link_text = new_link_text
+                    block_updated = True
+            else:
+                self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
+                sys.exit(-1)
 
-    def process_block(self, page_title, block):
+        return block_updated, block
+
+    def process_block(self, page_title, block):  # noqa C901
 
         block_updated = False
 
@@ -157,36 +356,50 @@ class Command(BaseCommand):
         )
 
         if isinstance(block.block, RichTextBlock):
-            self.process_richtext_block(block)
+            updated, new_block = self.process_richtext_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, StreamBlock):
-            self.process_stream_block(block)
+            updated, new_block = self.process_stream_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, PullQuoteBlock):
             updated, new_block = self.process_pullquoteblock_block(page_title, block)
             if updated:
                 block_updated = True
         elif isinstance(block.block, RouteSectionBlock):
-            self.process_routesectionblock_block(block)
+            updated, new_block = self.process_routesectionblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, PerformanceDashboardDataBlock):
-            self.process_performancedashboarddatablock_block(block)
+            updated, new_block = self.process_performancedashboarddatablock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, IndividualStatisticBlock):
-            updated = self.process_individualstatisticblock_block(page_title, block)
+            updated, new_block = self.process_individualstatisticblock_block(page_title, block)
             if updated:
                 block_updated = True
         elif isinstance(block.block, CountryGuideIndustryBlock):
-            self.process_countryguideindustryblock_block(block)
+            updated, new_block = self.process_countryguideindustryblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, StructBlock):
-            self.process_structblock_block(block)
+            self.process_structblock_block(page_title, block)
         elif isinstance(block.block, CharBlock):
-            self.process_charblock_block(block)
+            updated, new_block = self.process_charblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, ListBlock):
-            self.process_listblock_block(block)
+            updated, new_block = self.process_listblock_block(page_title, block)
+            if updated:
+                block_updated = True
         else:
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
         return block_updated
 
     def process_streamvalue_field(self, page_title, value):
-        updated = False
+        block_updated = False
         for block in value:
             if block.block_type.lower() in (
                 'button',
@@ -199,21 +412,24 @@ class Command(BaseCommand):
                 'table',
             ):
                 continue
-            self.process_block(page_title, block)
-        return updated, value
+            updated = self.process_block(page_title, block)
+            if updated:
+                block_updated = True
+        return block_updated, value
 
     def process_list_field(self, page_title, field, value):
-        updated = False
+        block_updated = False
         enumerate_list = tuple(enumerate(value))
         for index, item in enumerate_list:
             if isinstance(item, str):
                 updated, new_item = self.replace_string(page_title, field, item)
                 if updated:
                     value[index] = new_item
+                    block_updated = True
             else:
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
                 sys.exit(-1)
-        return updated, value
+        return block_updated, value
 
     def update_field(self, page, field):
 
