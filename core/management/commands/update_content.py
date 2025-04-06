@@ -238,102 +238,103 @@ class Command(BaseCommand):
 
     def process_pullquoteblock_block(self, page_title, block):
         block_updated = False
-        updated, new_quote = self.replace_string(page_title, 'quote', block.value['quote'])
-        if updated:
-            block.value['quote'] = new_quote
-            block_updated = True
-        updated, new_attribution = self.replace_string(page_title, 'attribution', block.value['attribution'])
-        if updated:
-            block.value['attribution'] = new_attribution
-            block_updated = True
-        updated, new_role = self.replace_string(page_title, 'role', block.value['role'])
-        if updated:
-            block.value['role'] = new_role
-            block_updated = True
-        updated, new_organisation = self.replace_string(page_title, 'organisation', block.value['organisation'])
-        if updated:
-            block.value['organisation'] = new_organisation
-            block_updated = True
-        updated, new_organisation_link = self.replace_string(
-            page_title, 'organisation_link', block.value['organisation_link']
-        )
-        if updated:
-            block.value['organisation_link'] = new_organisation_link
-            block_updated = True
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            if field_name in (
+                'route_type',
+                'image',
+                'button',
+            ):
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                setattr(block, field_name, field_value)
+                block_updated = True
         return block_updated, block
 
     def process_routesectionblock_block(self, page_title, block):
         block_updated = False
-        updated, new_title = self.replace_string(page_title, 'title', block.value['title'])
-        if updated:
-            block.value['title'] = new_title
-            block_updated = True
-        updated, new_body = self.replace_string(page_title, 'body', block.value['body'])
-        if updated:
-            block.value['body'] = new_body
-            block_updated = True
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            if field_name in (
+                'route_type',
+                'image',
+                'button',
+            ):
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                setattr(block, field_name, field_value)
+                block_updated = True
         return block_updated, block
 
     def process_performancedashboarddatablock_block(self, page_title, block):
-        updated = False
-        data_description = block.value['data_description']
-        updated, new_source = self.replace_richtextbox(page_title, source=data_description.source)
-        if updated:
-            setattr(block.value['data_description'], 'source', new_source)
-        return updated, block
+        block_updated = False
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            if field_name in (
+                'data_title',
+                'data_period',
+                'data_value',
+            ):
+                continue
+            updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
+            if updated:
+                setattr(block, field_name, field_value)
+                block_updated = True
+        return block_updated, block
 
     def process_individualstatisticblock_block(self, page_title, block):
         block_updated = False
-        updated, new_smallprint = self.replace_string(page_title, 'smallprint', block.value['smallprint'])
-        if updated:
-            setattr(block.value['smallprint'], new_smallprint)
-            block_updated = True
-        updated, new_heading = self.replace_string(page_title, 'heading', block.value['heading'])
-        if updated:
-            setattr(block.value['heading'], new_heading)
-            block_updated = True
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                block[field_name] = field_value
+                block_updated = True
         return block_updated, block
 
     def process_countryguidecasestudyblock_block(self, page_title, block):
         block_updated = False
-        updated, new_title = self.replace_string(page_title, 'title', block['title'])
-        if updated:
-            block['title'] = new_title
-            block_updated = True
-        updated, new_description = self.replace_string(page_title, 'description', block['description'])
-        if updated:
-            block['description'] = new_description
-            block_updated = True
-        updated, new_button_text = self.replace_string(page_title, 'button_text', block['button_text'])
-        if updated:
-            block['button_text'] = new_button_text
-            block_updated = True
-        updated, new_button_link = self.replace_string(page_title, 'button_link', block['button_link'])
-        if updated:
-            block['button_link'] = new_button_link
-            block_updated = True
+        for field_name, field_value in block.items():
+            if not field_value:
+                continue
+            if field_name in ('hero_image',):
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                block[field_name] = field_value
+                block_updated = True
         return block_updated, block
 
-    def process_countryguideindustryblock_block(self, page_title, block):
+    def process_countryguideindustryblock_block(self, page_title, block):  # noqa C901
         block_updated = False
-        updated, new_title = self.replace_string(page_title, 'title', block.value['title'])
-        if updated:
-            block.value['title'] = new_title
-            block_updated = True
-        updated, new_teaser = self.replace_string(page_title, 'teaser', block.value['teaser'])
-        if updated:
-            block.value['teaser'] = new_teaser
-            block_updated = True
-        updated, new_subsections = self.process_stream_block(page_title, block.value['subsections'])
-        if updated:
-            block.value['subsections'] = new_subsections
-            block_updated = True
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            if field_name in ('icon',):
+                continue
 
-        updated, new_case_study = self.process_countryguidecasestudyblock_block(page_title, block.value['case_study'])
-        if updated:
-            block.value['case_study'] = new_case_study
-            block_updated = True
-
+            if field_name in ('subsections',):
+                updated, new_subsections = self.process_stream_block(page_title, field_value)
+                if updated:
+                    block_updated = True
+            elif field_name in ('case_study'):
+                updated, new_case_study = self.process_countryguidecasestudyblock_block(page_title, field_value)
+                if updated:
+                    block_updated = True
+            elif field_name in ('statistics',):
+                updated, new_case_study = self.process_stream_block(page_title, field_value)
+                if updated:
+                    block_updated = True
+            else:
+                updated, new_value = self.replace_string(page_title, field_name, field_value)
+                if updated:
+                    block_updated = True
         return block_updated, block
 
     def process_charblock_block(self, page_title, block):
