@@ -8,48 +8,39 @@ from domestic_growth.constants import (
     PRE_START_GUIDE_URL,
     START_UP_GUIDE_URL,
 )
-from domestic_growth.helpers import (
-    get_filtered_trade_associations_by_sector,
-    get_filtered_trade_associations_by_sub_sector,
-    get_triage_data,
-)
+from domestic_growth.helpers import get_trade_association_results, get_triage_data
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 
 
 @pytest.mark.parametrize(
-    'sector, ta_data, expected_output',
+    'trade_associations, sector, sub_sector, expected_output',
     (
         (
-            'Food and drink',
             [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}],
-            [{'sectors': 'Food and drink'}],
+            'Food and drink',
+            None,
+            {'sector_tas': [{'sectors': 'Food and drink'}]},
         ),
-    ),
-)
-def test_get_filtered_trade_associations_by_sector(
-    sector,
-    ta_data,
-    expected_output,
-):
-    assert get_filtered_trade_associations_by_sector(ta_data, sector) == expected_output
-
-
-@pytest.mark.parametrize(
-    'sub_sector, ta_data, expected_output',
-    (
         (
-            'Toys',
-            [{'sectors': 'Consumer and retail : Toys'}, {'sectors': 'Aerospace'}],
-            [{'sectors': 'Consumer and retail : Toys'}],
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}, {'sectors': 'Food and drink : Tea'}],
+            'Food and drink',
+            'Tea',
+            {
+                'sub_sector_and_sector_only_tas': [
+                    {'sectors': 'Food and drink : Tea', 'type': 'sub_sector'},
+                    {'sectors': 'Food and drink', 'type': 'sector'},
+                ]
+            },
         ),
     ),
 )
-def test_get_filtered_trade_associations_by_sub_sector(
+def test_get_trade_association_results(
+    trade_associations,
+    sector,
     sub_sector,
-    ta_data,
     expected_output,
 ):
-    assert get_filtered_trade_associations_by_sub_sector(ta_data, sub_sector) == expected_output
+    assert get_trade_association_results(trade_associations, sector, sub_sector) == expected_output
 
 
 @pytest.mark.parametrize(

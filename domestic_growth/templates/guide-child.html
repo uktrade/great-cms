@@ -1,6 +1,6 @@
 {% extends 'includes/base.html' %}
 
-{% block head_title %}Domestic Growth - Guide child page{% endblock %}
+{% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
@@ -86,13 +86,15 @@
                                 {% for content in section.value.content %}
                                     {% include "includes/_render-snippet.html" with content=content %}
                                 {% endfor %}
-
-                                {% if section.value.link_text and section.value.link_url %}
-                                    <div class="great-ds-cta-banner__action-link-container">
-                                        {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
-                                    </div>
-                                {% endif %}
                             </div>
+
+                            {% if section.value.link_text and section.value.link_url %}
+                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-2">
+                                <div class="great-ds-cta-banner__action-link-container">
+                                    {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     {% endif %}
