@@ -364,13 +364,17 @@ class Command(BaseCommand):
 
     def process_datatableblock_block(self, page_title, block):
         block_updated = False
-        for field_name, field_value in block.value.items():
-            if not field_value:
-                continue
-            updated, new_value = self.replace_string(page_title, field_name, field_value)
-            if updated:
-                block[field_name] = field_value
-                block_updated = True
+        for row in block:
+            for cell in row:
+                if isinstance(cell.value, str):
+                    updated, new_value = self.process_string_field(page_title, 'NOTAPPLICABLE', cell.value)
+                    if updated:
+                        block_updated = True
+                else:
+                    self.stdout.write(self.style.WARNING('LINE NUMBER 372'))
+                    self.stdout.write(self.style.WARNING(f'Unhandled Data Block Cell Type: {type(cell.value)}'))
+                    sys.exit(-1)
+
         return block_updated, block
 
     def process_listblock_block(self, page_title, block):
