@@ -39,25 +39,20 @@
                             method="get"
                             aria-label="Search form">
                             
-                            {% include '_input.html' with classes='great-ds-text-input--search great-ds-text-input--borderless' formGroupClasses='search-results-form-group' label='Search again' id='search-again-input' name='q' placeholder='' value=search_query %}
+                            {% include '_input.html' with classes='great-ds-text-input--search' formGroupClasses='search-results-form-group' label='Search again' id='search-again-input' name='q' placeholder='' value=search_query %}
                             {% include '_button.html' with text='Search' type='submit' html=search_icon classes='great-ds-button--icon great-ds-button--search' %}
                         </form>
                         {% if search_query %}
                             {% if search_results %}
-                                <p>
-                                    <a href="#search-results-list" class="bland">
-                                        {{ page_obj.paginator.count|intcomma }} result{{ page_obj.paginator.count|pluralize }} found<span class="verbose">for {{ search_query }}</span>                            </a>
+                                <p class="govuk-body govuk-!-font-weight-bold">
+                                    {{ page_obj.paginator.count|intcomma }} result{{ page_obj.paginator.count|pluralize }}<span class="govuk-visually-hidden"> for {{ search_query }}</span>
                                 </p>
                             {% else %}
-                                <p class="added-margin-bottom">No results found. Please try again.</p>
+                                <p class="govuk-body govuk-!-font-weight-bold">No results found. Please try again.</p>
                             {% endif %}
                         {% else %}
-                            <p>
-                                <p class="added-margin-bottom">Search for articles and resources</p>
-                            </p>
+                                <p class="govuk-body govuk-!-font-weight-bold">Search for articles and resources</p>
                         {% endif %}
-                        <a href="{% url 'search:feedback' %}?page={{ page_obj.number }}&q={{ search_query }}"
-                        class="font-xsmall link">Did you find what you were looking for?</a>
                     </div>
                 </div>
             </div>
