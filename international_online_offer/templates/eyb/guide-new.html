@@ -125,16 +125,19 @@
                     <h3 class="govuk-heading-s tab-content__title">{{ rent_data_content.title }}</h3>
                     <div class="tab-content__figure">
                         <div class="tab-content__value--tablet govuk-heading-m govuk-!-margin-bottom-0">
-                            £{{ rent_data_content.value|default:'-'|intcomma }}
+                            £{{ rent_data_content.value|floatformat:0|intcomma }}
                         </div>
                         <div class="tab-content__value--mobile govuk-heading-l govuk-!-margin-bottom-0">
-                            £{{ rent_data_content.value|default:'-'|intcomma }}
+                            £{{ rent_data_content.value|floatformat:0|intcomma }} 
                         </div>
                         <div class="tab-content__description">per calendar month</div>
                     </div>
                     <div class="tab-content__explanation">{{ rent_data_content.explanation }}</div>
                 </div>
                 {% endfor %}
+                {% if rent_data.tabs|length == 0 %}
+                No data available for this region
+                {% endif %}
                 {% endcapture %}
                 {% include '_tile.html' with caption=triage_data.sector title="Setting up a base in the UK" size="l" content=tile_content %}
 
