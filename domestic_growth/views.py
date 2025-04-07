@@ -301,7 +301,7 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
     def get_initial(self):
         triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
-        
+
         if triage_data and getattr(triage_data, self.triage_field_name) is not None:
             return {
                 self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) is True else 'NO',
