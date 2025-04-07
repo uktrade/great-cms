@@ -5,7 +5,6 @@ import types
 from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
-from inspect import currentframe, getframeinfo
 from numbers import Number
 from uuid import UUID
 
@@ -25,12 +24,13 @@ from wagtail.rich_text import RichText
 from core.blocks import (
     ArticleListingLinkBlock,
     CountryGuideIndustryBlock,
+    DataTableBlock,
     IndividualStatisticBlock,
     PerformanceDashboardDataBlock,
     PullQuoteBlock,
     RouteSectionBlock,
 )
-from core.models import AltTextImage, GreatMedia, RelatedContentCTA
+from core.models import UKEACTA, AltTextImage, GreatMedia, RelatedContentCTA
 
 
 class Command(BaseCommand):
@@ -64,10 +64,6 @@ class Command(BaseCommand):
             help='Show summary output only, do not update data',
         )
 
-    def get_line_number(self):
-        f = currentframe()
-        return getframeinfo(f).lineno
-
     def string_contains_html(self, value):
         return bool(BeautifulSoup(value, 'html.parser').find())
 
@@ -78,8 +74,9 @@ class Command(BaseCommand):
 
         updated = True
         for item in self.fields_to_report:
-            if item == field:
-                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
+            if item:
+                if item == field:
+                    self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
                 updated = False
 
         if not updated:
@@ -171,7 +168,7 @@ class Command(BaseCommand):
             if updated:
                 block_updated = True
         else:
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
+            self.stdout.write(self.style.WARNING('LINE NUMBER 172'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
             sys.exit(-1)
 
@@ -208,6 +205,8 @@ class Command(BaseCommand):
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
+            if field_name in ('link_page',):
+                continue
             if isinstance(field_value, str):
                 updated, new_value = self.process_string_field(page_title, field_name, field_value)
                 if updated:
@@ -231,7 +230,7 @@ class Command(BaseCommand):
             elif isinstance(field_value, EmbedValue):
                 continue
             else:
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
+                self.stdout.write(self.style.WARNING('LINE NUMBER 234'))
                 self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
                 sys.exit(-1)
         return block_updated, block
@@ -318,13 +317,14 @@ class Command(BaseCommand):
                 continue
             if field_name in ('icon',):
                 continue
-
             if field_name in ('subsections',):
                 updated, new_subsections = self.process_stream_block(page_title, field_value)
                 if updated:
                     block_updated = True
             elif field_name in ('case_study'):
-                updated, new_case_study = self.process_countryguidecasestudyblock_block(page_title, field_value)
+                updated, new_case_study = self.process_countryguidecasestudyblock_block(
+                    page_title, field_value
+                )  # noqa C901
                 if updated:
                     block_updated = True
             elif field_name in ('statistics',):
@@ -344,24 +344,54 @@ class Command(BaseCommand):
             block.value = new_value
         return updated, block
 
+    def process_articlelistinglinkblock_block(self, page_title, block):
+        block_updated = False
+        for field_name, field_value in block.items():
+            if not field_value:
+                continue
+            if field_name in ('link_page',):
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                block[field_name] = field_value
+                block_updated = True
+        return block_updated, block
+
+    def process_datatableblock_block(self, page_title, block):
+        block_updated = False
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                block[field_name] = field_value
+                block_updated = True
+        return block_updated, block
+
     def process_listblock_block(self, page_title, block):
         block_updated = False
         for item in block.value:
-            if isinstance(item, RelatedContentCTA):
-                updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
-                if updated:
-                    block.value[item].link_text = new_link_text
-                    block_updated = True
-            else:
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
-                self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
-                sys.exit(-1)
+            if item:
+                if isinstance(item, RelatedContentCTA):
+                    updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
+                    if updated:
+                        block.value[item].link_text = new_link_text
+                        block_updated = True
+                elif isinstance(item, UKEACTA):
+                    continue
+                else:
+                    self.stdout.write(self.style.WARNING('LINE NUMBER 370'))
+                    self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
+                    sys.exit(-1)
 
         return block_updated, block
 
     def process_block(self, page_title, block):  # noqa C901
 
         block_updated = False
+
+        if block.block_type == 'content_module':
+            return block_updated
 
         self.stdout.write(
             self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}')
@@ -398,7 +428,9 @@ class Command(BaseCommand):
         elif isinstance(block.block, StructBlock):
             self.process_structblock_block(page_title, block)
         elif isinstance(block.block, ArticleListingLinkBlock):
-            pass
+            updated, new_block = self.process_articlelistinglinkblock_block(page_title, block)
+            if updated:
+                block_updated = True
         elif isinstance(block.block, CharBlock):
             updated, new_block = self.process_charblock_block(page_title, block)
             if updated:
@@ -407,8 +439,12 @@ class Command(BaseCommand):
             updated, new_block = self.process_listblock_block(page_title, block)
             if updated:
                 block_updated = True
+        elif isinstance(block.block, DataTableBlock):
+            updated, new_block = self.process_datatableblock_block(page_title, block)
+            if updated:
+                block_updated = True
         else:
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
+            self.stdout.write(self.style.WARNING('LINE NUMBER 434'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
         return block_updated
@@ -442,7 +478,7 @@ class Command(BaseCommand):
                     value[index] = new_item
                     block_updated = True
             else:
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
+                self.stdout.write(self.style.WARNING('LINE NUMBER 468'))
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
                 sys.exit(-1)
         return block_updated, value
@@ -473,7 +509,7 @@ class Command(BaseCommand):
             updated, new_value = self.process_list_field(page.title, field, value)
         else:
             updated = False
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {self.get_line_number()}'))
+            self.stdout.write(self.style.WARNING('LINE NUMBER 499'))
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
             sys.exit(-1)
 
