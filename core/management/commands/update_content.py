@@ -16,10 +16,11 @@ from django.db.models.base import ModelState
 from wagtail.blocks.field_block import CharBlock, RichTextBlock
 from wagtail.blocks.list_block import ListBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
-from wagtail.blocks.struct_block import StructBlock
+from wagtail.blocks.struct_block import StructBlock, StructValue
 from wagtail.embeds.blocks import EmbedValue
 from wagtail.models import Site
 from wagtail.rich_text import RichText
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 from core.blocks import (
     ArticleListingLinkBlock,
@@ -234,6 +235,8 @@ class Command(BaseCommand):
                     block_updated = True
             elif isinstance(field_value, EmbedValue):
                 continue
+            elif isinstance(field_value, StructValue):
+                pass
             else:
                 self.stdout.write(self.style.WARNING('LINE NUMBER 234'))
                 self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
@@ -364,16 +367,18 @@ class Command(BaseCommand):
 
     def process_datatableblock_block(self, page_title, block):
         block_updated = False
-        for row in block:
+        data = block.value['data']
+        for row in data:
             for cell in row:
-                if isinstance(cell.value, str):
-                    updated, new_value = self.process_string_field(page_title, 'NOTAPPLICABLE', cell.value)
-                    if updated:
-                        block_updated = True
-                else:
-                    self.stdout.write(self.style.WARNING('LINE NUMBER 372'))
-                    self.stdout.write(self.style.WARNING(f'Unhandled Data Block Cell Type: {type(cell.value)}'))
-                    sys.exit(-1)
+                if cell:
+                    if isinstance(cell, str):
+                        updated, new_value = self.process_string_field(page_title, 'NOTAPPLICABLE', cell)
+                        if updated:
+                            block_updated = True
+                    else:
+                        self.stdout.write(self.style.WARNING('LINE NUMBER 372'))
+                        self.stdout.write(self.style.WARNING(f'Unhandled Data Block Cell Type: {type(cell)}'))
+                        sys.exit(-1)
 
         return block_updated, block
 
@@ -452,6 +457,8 @@ class Command(BaseCommand):
             updated, new_block = self.process_datatableblock_block(page_title, block)
             if updated:
                 block_updated = True
+        elif isinstance(block.block, SnippetChooserBlock):
+            pass
         else:
             self.stdout.write(self.style.WARNING('LINE NUMBER 434'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
