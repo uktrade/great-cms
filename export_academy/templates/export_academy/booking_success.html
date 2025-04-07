@@ -84,7 +84,7 @@
 {% endblock feedback_reporter %}
 {% block body_js %}
     {{ block.super }}
-    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form-gds.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             new CsatFormHandler('csat-form');

@@ -298,14 +298,12 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
-
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service
         if 'satisfaction_rating' in form.declared_fields:
             form.declared_fields['satisfaction_rating'].label = self.get_service_csat_heading(hcsat_service_name)
 
-        ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
 
         if hcsat and hcsat.stage == HCSatStage.COMPLETED.value:
@@ -315,6 +313,7 @@ class HCSATMixin:
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else HCSatStage.NOT_STARTED.value
 
+        ctx.update({'hcsat_form': form(stage=ctx['hcsat_form_stage'])})
         return ctx
 
     def set_is_csat_complete(self, request, context):
