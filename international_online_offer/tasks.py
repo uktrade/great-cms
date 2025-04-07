@@ -12,15 +12,16 @@ from international_online_offer.services import (
 from datetime import timedelta
 from django.utils import timezone
 
+
 @app.task
 def rescore_eyb_users():
     """
     Function that will be called periodically to update EYB users high/low value investor scoring
-    based on most recent Gross Value Add bandings from Data Workspace, but only for records modified 
+    based on most recent Gross Value Add bandings from Data Workspace, but only for records modified
     within the last 6 months.
     """
     # Get the date 6 months ago
-    six_months_ago = timezone.now() - timedelta(days=6*30)  # Approximation of 6 months
+    six_months_ago = timezone.now() - timedelta(days=6 * 30)  # Approximation of 6 months
 
     gva_scoring_criteria = get_all_sectors_gva_scoring_criteria()
     dbt_sectors = get_dbt_sectors()
