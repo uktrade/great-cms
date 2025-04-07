@@ -241,7 +241,18 @@ ul.list-bullet li:before,
 }
 
 .search-results-list {
-  padding-top: $x-large-padding;
+  background-color: #fff;
+}
+
+.search-results-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-results-form-group {
+  margin: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 .results-wrapper {
