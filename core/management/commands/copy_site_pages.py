@@ -5,8 +5,6 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from wagtail.models import Page, Site
 
-INTERNATIONAL_FOLDER = 'international'
-
 
 class Command(BaseCommand):
     help = 'Copy wagtail pages from one site to another'
@@ -54,9 +52,8 @@ class Command(BaseCommand):
 
             for child in source_page.get_children():
                 if child.id == self.international_page_tree.id:
-                    self.stdout.write(f'HalSkip: {child.title}')
+                    self.stdout.write(f'Skip: {child.title}')
                     continue
-                self.stdout.write(f'HalDelete: {child.title}/{child.id}')
                 self.copy_with_safe_paths(child, new_page)
 
             return new_page
