@@ -84,7 +84,7 @@ class Command(BaseCommand):
 
         if self.string_contains_html(value):
             updated, new_source = self.replace_richtextbox(page_title, source=value)
-            return updated
+            return updated, new_source
 
         if value.lower() in self.values_to_ignore:
             return False, value
@@ -478,7 +478,6 @@ class Command(BaseCommand):
                 continue
             updated = self.process_block(page_title, block)
             if updated:
-                self.report_page_needs_updating(page_title, block.block_type, block.block_value)
                 block_updated = True
         return block_updated, value
 
@@ -535,14 +534,10 @@ class Command(BaseCommand):
 
         fields = [key for key, value in page.specific.__dict__.items() if not isinstance(value, self.CALLABLES)]
 
-        for field in fields:
-            updated = False
-            value = getattr(page, field, None)
-            if value:
-                updated = self.update_field(page.specific, field, value)
-                if updated:
-                    self.report_page_needs_updating(page.title, field, value)
-
+        for field_name in fields:
+            field_value = page.specific.__dict__[field_name]
+            if field_value:
+                self.update_field(page.specific, field_name, field_value)
         for child in page.get_children():
             if child.live:
                 self.update_page(child)
