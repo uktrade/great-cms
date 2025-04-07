@@ -72,6 +72,11 @@ class Command(BaseCommand):
         if self.string_contains_html(value):
             return self.replace_richtextbox(page_title, source=value)
 
+        if not isinstance(value, str):
+            self.stdout.write(self.style.WARNING('LINE NUMBER 76'))
+            self.stdout.write(self.style.WARNING(f'NOT A STRING! {type(value)}'))
+            sys.exit(-1)
+
         updated = True
         for item in self.fields_to_report:
             if item:
