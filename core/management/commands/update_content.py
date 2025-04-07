@@ -28,6 +28,7 @@ from core.blocks import (
     CountryGuideIndustryBlock,
     DataTableBlock,
     IndividualStatisticBlock,
+    LinkStructValue,
     PerformanceDashboardDataBlock,
     PullQuoteBlock,
     RouteSectionBlock,
@@ -55,6 +56,8 @@ class Command(BaseCommand):
         'greatest',
         'greatly',
         'greatness',
+        'www.hotfix.great.uktrade.digital',
+        'hotfix.great.uktrade.digital',
     )
 
     def add_arguments(self, parser):
@@ -197,6 +200,32 @@ class Command(BaseCommand):
                 block_updated = True
         return block_updated, field_value
 
+    def process_structvalue_block(self, page_title, field_name, field_value):  # noqa C901
+        block_updated = False
+        for name, value in field_value.items():
+            if value:
+                if isinstance(value, str):
+                    updated, new_value = self.process_string_field(page_title, field_name, value)
+                    if updated:
+                        self.report_page_needs_updating(page_title, field_name, value)
+                        block_updated = True
+                elif isinstance(value, LinkStructValue):
+                    for ln, lv in value.items():
+                        if lv:
+                            updated, new_value = self.process_string_field(page_title, field_name, lv)
+                            if updated:
+                                self.report_page_needs_updating(page_title, field_name, lv)
+                                block_updated = True
+                elif isinstance(value, bool):
+                    continue
+                else:
+                    frameinfo = getframeinfo(currentframe())
+                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
+                    sys.exit(-1)
+
+        return block_updated, field_value
+
     def process_structblock_block(self, page_title, block):  # noqa C901
         block_updated = False
         for field_name, field_value in block.value.items():
@@ -232,7 +261,10 @@ class Command(BaseCommand):
             elif isinstance(field_value, EmbedValue):
                 continue
             elif isinstance(field_value, StructValue):
-                pass
+                updated, new_value = self.process_structvalue_block(page_title, field_name, field_value)
+                if updated:
+                    self.report_page_needs_updating(page_title, field_name, field_value)
+                    block_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
                 self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
