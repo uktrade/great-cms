@@ -48,13 +48,12 @@ class Command(BaseCommand):
         'https://great.uat.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
     }
 
-    values_to_skip = (
+    values_to_report = (
         'Great',
         'great',
-        'www.hotfix.great.uktrade.digital',
-        'hotfix.great.uktrade.digital',
-        'https://www.hotfix.great.uktrade.digital',
     )
+
+    values_to_skip = ('events.great.gov.uk',)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -77,25 +76,35 @@ class Command(BaseCommand):
     def string_contains_html(self, value):
         return bool(BeautifulSoup(value, 'html.parser').find())
 
-    def replace_string(self, page_title, field, value):  # noqa C901
+    def replace_string(self, page_title, field, original_value):  # noqa C901
 
         updated = False
 
-        if self.string_contains_html(value):
-            updated, new_source = self.replace_richtextbox(page_title, source=value)
-            return updated, new_source
+        for item in self.values_to_skip:
+            if item in original_value:
+                return False, original_value
+
+        value = original_value
+
+        if self.string_contains_html(original_value):
+            updated, new_source = self.replace_richtextbox(page_title, source=original_value)
+            return False, new_source
 
         for item in self.strings_to_replace:
-            if item in value:
-                value = value.replace(item, self.strings_to_replace[item])
+            if item in original_value:
+                value = original_value.replace(item, self.strings_to_replace[item])
                 updated = True
 
-        for item in self.values_to_skip:
-            if item in value:
-                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
+        if not updated:
+            for item in self.values_to_report:
+                if item in original_value:
+                    self.stdout.write(
+                        self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{original_value}')
+                    )
 
         if updated:
-            self.report_page_needs_updating(page_title, field, value)
+            self.report_page_needs_updating(page_title, field, original_value)
+
         return updated, value
 
     def replace_richtextbox_text(self, page_title, source):
@@ -114,7 +123,6 @@ class Command(BaseCommand):
         return updated, str(soup)
 
     def replace_richtextbox_links(self, page_title, source):
-
         updated = False
         soup = BeautifulSoup(source, 'html.parser')
         a_tags = soup.find_all('a', href=True)
@@ -132,18 +140,19 @@ class Command(BaseCommand):
 
     def replace_richtextbox(self, page_title, block=None, source=None):
         block_updated = False
-        updated, new_source = self.replace_richtextbox_text(page_title, block.value.source if block else source)
+        item = block.value.source if block else source
+        updated, item = self.replace_richtextbox_text(page_title, block.value.source if block else source)
         if updated:
             block_updated = True
-        updated, new_source = self.replace_richtextbox_links(page_title, new_source)
+        updated, item = self.replace_richtextbox_links(page_title, item)
         if updated:
             block_updated = True
 
-        return block_updated, new_source
+        return block_updated, item
 
     def process_richtext_block(self, page_title, block):
-        updated, new_source = self.replace_richtextbox(page_title, block=block)
-        return updated, block
+        updated, new_block = self.replace_richtextbox(page_title, block=block)
+        return updated, new_block
 
     def process_stream_block(self, page_title, block):
         block_updated = False
@@ -171,41 +180,49 @@ class Command(BaseCommand):
         alt_text = field_value.alt_text
         if alt_text:
             updated, new_alt_text = self.replace_string(page_title, 'alt_text', alt_text)
+            if updated:
+                field_value.alt_text = new_alt_text
+
         return updated, field_value
 
-    def process_greatmedia_field(self, page_title, field_name, field_value):
+    def process_greatmedia_field(self, page_title, field_name, block):
         block_updated = False
-        description = field_value.description
+        description = block.description
         if description:
-            updated, new_description = self.replace_string(page_title, 'description', description)
+            updated, new_value = self.replace_string(page_title, 'description', description)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
-        transcript = field_value.transcript
+        transcript = block.transcript
         if transcript:
-            updated, new_transcript = self.replace_string(page_title, 'transcript', transcript)
+            updated, new_value = self.replace_string(page_title, 'transcript', transcript)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
-        subtitles_en = field_value.subtitles_en
+        subtitles_en = block.subtitles_en
         if subtitles_en:
-            updated, new_subtitles_en = self.replace_string(page_title, 'subtitles_en', subtitles_en)
+            updated, new_value = self.replace_string(page_title, 'subtitles_en', subtitles_en)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
-        return block_updated, field_value
+        return block_updated, BlockingIOError
 
-    def process_structvalue_block(self, page_title, field_name, field_value):  # noqa C901
+    def process_structvalue_block(self, page_title, field_name, block):  # noqa C901
         block_updated = False
-        for name, value in field_value.items():
+        for name, value in block.items():
             if value:
                 if isinstance(value, str):
                     updated, new_value = self.process_string_field(page_title, field_name, value)
                     if updated:
                         self.report_page_needs_updating(page_title, field_name, value)
+                        setattr(block, name, new_value)
                         block_updated = True
                 elif isinstance(value, LinkStructValue):
                     for ln, lv in value.items():
                         if lv:
                             updated, new_value = self.process_string_field(page_title, field_name, lv)
                             if updated:
+                                setattr(block, name, new_value)
                                 self.report_page_needs_updating(page_title, field_name, lv)
                                 block_updated = True
                 elif isinstance(value, bool):
@@ -213,10 +230,10 @@ class Command(BaseCommand):
                 else:
                     frameinfo = getframeinfo(currentframe())
                     self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
+                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
                     sys.exit(-1)
 
-        return block_updated, field_value
+        return block_updated, block
 
     def process_structblock_block(self, page_title, block):  # noqa C901
         block_updated = False
@@ -229,25 +246,30 @@ class Command(BaseCommand):
                 updated, new_value = self.process_string_field(page_title, field_name, field_value)
                 if updated:
                     self.report_page_needs_updating(page_title, field_name, field_value)
+                    setattr(block, field_name, new_value)
                     block_updated = True
             elif isinstance(field_value, RichText):
                 updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(page_title, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, AltTextImage):
                 updated, new_value = self.process_alttextimage_field(page_title, field_name, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, GreatMedia):
                 updated, new_value = self.process_greatmedia_field(page_title, field_name, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, EmbedValue):
@@ -255,6 +277,7 @@ class Command(BaseCommand):
             elif isinstance(field_value, StructValue):
                 updated, new_value = self.process_structvalue_block(page_title, field_name, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             else:
@@ -277,6 +300,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_string(page_title, field_name, field_value)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
@@ -293,6 +317,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_string(page_title, field_name, field_value)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
@@ -309,6 +334,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
@@ -319,6 +345,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_string(page_title, field_name, field_value)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
@@ -331,6 +358,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_string(page_title, field_name, field_value)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
@@ -342,33 +370,36 @@ class Command(BaseCommand):
             if field_name in ('icon',):
                 continue
             if field_name in ('subsections',):
-                updated, new_subsections = self.process_stream_block(page_title, field_value)
+                updated, new_value = self.process_stream_block(page_title, field_value)
                 if updated:
                     self.report_page_needs_updating(page_title, field_name, field_value)
+                    setattr(block, field_name, new_value)
                     block_updated = True
             elif field_name in ('case_study'):
-                updated, new_case_study = self.process_countryguidecasestudyblock_block(
-                    page_title, field_value
-                )  # noqa C901
+                updated, new_value = self.process_countryguidecasestudyblock_block(page_title, field_value)  # noqa C901
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif field_name in ('statistics',):
-                updated, new_case_study = self.process_stream_block(page_title, field_value)
+                updated, new_value = self.process_stream_block(page_title, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             else:
                 updated, new_value = self.replace_string(page_title, field_name, field_value)
                 if updated:
+                    setattr(block, field_name, new_value)
                     block_updated = True
         return block_updated, block
 
     def process_charblock_block(self, page_title, block):
+        # NOTINDEV
         updated = False
         updated, new_value = self.replace_string(page_title, block.block_type, block.value)
         if updated:
-            block.value = new_value
+            pass
         return updated, block
 
     def process_articlelistinglinkblock_block(self, page_title, block):
@@ -380,10 +411,12 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_string(page_title, field_name, field_value)
             if updated:
+                setattr(block, field_name, new_value)
                 block_updated = True
         return block_updated, block
 
     def process_datatableblock_block(self, page_title, block):
+        # NOTINDEV
         block_updated = False
         data = block.value['data']
         for row in data:
@@ -403,12 +436,14 @@ class Command(BaseCommand):
         return block_updated, block
 
     def process_listblock_block(self, page_title, block):
+        # NOTINDEV
         block_updated = False
         for item in block.value:
             if item:
                 if isinstance(item, RelatedContentCTA):
                     updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
                     if updated:
+                        # setattr(block, field_name, new_value)
                         block_updated = True
                 elif isinstance(item, UKEACTA):
                     continue
@@ -424,12 +459,15 @@ class Command(BaseCommand):
 
         block_updated = False
 
+        new_block = block
+
         if block.block_type == 'content_module':
-            return block_updated
+            return False, block
 
         if isinstance(block.block, RichTextBlock):
             updated, new_block = self.process_richtext_block(page_title, block)
             if updated:
+                setattr(block, 'source', new_block)
                 block_updated = True
         elif isinstance(block.block, StreamBlock):
             updated, new_block = self.process_stream_block(page_title, block)
@@ -480,10 +518,12 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
             self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
             sys.exit(-1)
-        return block_updated
+        return block_updated, new_block
 
     def process_streamvalue_field(self, page_title, value):
-        block_updated = False
+        field_updated = False
+        new_value = value
+        cnt = 0
         for block in value:
             if block.block_type.lower() in (
                 'button',
@@ -496,26 +536,30 @@ class Command(BaseCommand):
                 'table',
             ):
                 continue
-            updated = self.process_block(page_title, block)
+            updated, new_value = self.process_block(page_title, block)
             if updated:
-                block_updated = True
-        return block_updated, value
+                value[cnt] = block
+                field_updated = True
+            cnt += 1
+
+        return field_updated, value
 
     def process_list_field(self, page_title, field, value):
-        block_updated = False
+        value_updated = False
         enumerate_list = tuple(enumerate(value))
         for index, item in enumerate_list:
             if isinstance(item, str):
                 updated, new_item = self.replace_string(page_title, field, item)
                 if updated:
                     self.report_page_needs_updating(page_title, field, item)
-                    block_updated = True
+                    value[index] = new_item
+                    value_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
                 self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
                 sys.exit(-1)
-        return block_updated, value
+        return value_updated, value
 
     def update_field(self, page, field, value):
 
@@ -532,35 +576,43 @@ class Command(BaseCommand):
             or isinstance(value, ModelState)
             or isinstance(value, UUID)
         ):
-            return False
+            return False, value
 
         if isinstance(value, str):
-            updated, new_value = self.process_string_field(page.title, field, value)
+            updated, value = self.process_string_field(page.title, field, value)
         elif isinstance(value, StreamValue):
-            updated, new_value = self.process_streamvalue_field(page.title, value)
+            updated, value = self.process_streamvalue_field(page.title, value)
         elif isinstance(value, list):
-            updated, new_value = self.process_list_field(page.title, field, value)
+            updated, value = self.process_list_field(page.title, field, value)
         else:
             frameinfo = getframeinfo(currentframe())
             self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
             self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
             sys.exit(-1)
 
-        return updated
+        return updated, value
 
-    def update_page(self, page):
+    def update_page(self, page, dry_run=True):
 
         self.stdout.write(self.style.SUCCESS(f'Processing Page: {page.title}'))
 
         fields = [key for key, value in page.specific.__dict__.items() if not isinstance(value, self.CALLABLES)]
 
+        field_updated = False
         for field_name in fields:
             field_value = page.specific.__dict__[field_name]
             if field_value:
-                self.update_field(page.specific, field_name, field_value)
+                updated, new_value = self.update_field(page.specific, field_name, field_value)
+                if updated and not dry_run:
+                    field_updated = True
+                    setattr(page, field_name, new_value)
+                    self.stdout.write(self.style.SUCCESS(f'Updated field: {field_name}'))
+        if field_updated and not dry_run:
+            page.save()
+
         for child in page.get_children():
             if child.live:
-                self.update_page(child)
+                self.update_page(child, dry_run)
 
     @transaction.atomic
     def handle(self, *args, **options):  # noqa: C901
@@ -568,6 +620,7 @@ class Command(BaseCommand):
         #     self.stdout.write(self.style.WARNING('Running in env other than hotfix is disabled - exiting'))
         #     return
         hostname = options['hostname']
+        dry_run = options['dry_run']
 
         try:
             site = Site.objects.get(hostname=hostname)
@@ -582,6 +635,6 @@ class Command(BaseCommand):
 
         for page in pages_to_update:
             if page.live:
-                self.update_page(page=page)
+                self.update_page(page=page, dry_run=dry_run)
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
