@@ -928,7 +928,7 @@ class SpendView(GA360Mixin, FormView):  # /PS-IGNORE
 class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):  # /PS-IGNORE
     form_class = forms.LoginForm
     template_name = 'eyb/login.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/?login=true'
+    success_url = '/greatgovuk/international/expand-your-business-in-the-uk/guide/?login=true'
 
     def __init__(self):
         super().__init__()
@@ -972,7 +972,7 @@ class SignUpView(
     TemplateView,  # /PS-IGNORE
 ):
     template_name = 'eyb/signup.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/'
+    success_url = '/greatgovuk/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
         code_expired_error = {'field': '__all__', 'error_message': 'The security code has expired. New code sent'}
@@ -993,7 +993,7 @@ class SignUpView(
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
         return render(
-            request, self.template_name, {'form': form, 'back_url': '/international/expand-your-business-in-the-uk/'}
+            request, self.template_name, {'form': form, 'back_url': '/greatgovuk/international/expand-your-business-in-the-uk/'}
         )
 
     def get_login_url(self):
