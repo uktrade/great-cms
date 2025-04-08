@@ -312,8 +312,10 @@ class HCSATMixin:
             hcsat.save()
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else HCSatStage.NOT_STARTED.value
+        from core.forms import HCSATForm
 
-        ctx.update({'hcsat_form': form(stage=ctx['hcsat_form_stage'])})
+        if form == HCSATForm:
+            ctx.update({'hcsat_form': form(stage=ctx['hcsat_form_stage'])})
         return ctx
 
     def set_is_csat_complete(self, request, context):
