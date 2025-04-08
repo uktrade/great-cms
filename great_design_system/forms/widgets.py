@@ -25,11 +25,20 @@ class GDSWidgetMixin(widgets.Widget):
     field = None
     help_text_class_name = ''
 
-    def __init__(self, data_module_attrs={}, fieldset=False, linked_conditional_reveal_fields=[], *args, **kwargs):
+    def __init__(
+        self,
+        container_css_classes='',
+        data_module_attrs={},
+        fieldset=False,
+        linked_conditional_reveal_fields=[],
+        *args,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         self.fieldset = fieldset
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.data_module_attrs = data_module_attrs
+        self.container_css_classes = container_css_classes
 
     def get_context(self, name, value, attrs):
         ctx = super().get_context(name, value, attrs)
@@ -87,6 +96,12 @@ class CreateOptionMixin:
                     self.linked_conditional_reveal_fields if hasattr(self, 'linked_conditional_reveal_fields') else []
                 )
         return reveal_fields
+
+    def get_exclusive(self, value):
+        if hasattr(self.field, 'exclusive_choice'):
+            if value == self.field.exclusive_choice:
+                return True
+        return False
 
     def get_option_help_text(self, value):
 
@@ -164,6 +179,7 @@ class CreateOptionMixin:
             'template_name': self.option_template_name,
             'wrap_label': True,
             'reveals': self.get_option_reveal_fields(value),
+            'exclusive': self.get_exclusive(value),
         }
 
         options.update(**self.get_option_help_text(value))
@@ -280,6 +296,25 @@ class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
     option_template_name = '_option.html'
     use_fieldset = True
     help_text_class_name = 'govuk-radios__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
+
+
+class CheckboxSelectConditionalReveal(ChoiceWidget):
+    """
+    New widget that will play nicely with the great-design-system
+    """
+
+    input_type = 'checkbox'
+    template_class_name = 'checkboxes'
+    template_name = '_multiple_input.html'
+    option_template_name = '_option_conditional_reveal.html'
+    option_reveal_template_name = '_reveal_input.html'
+    use_fieldset = True
+    help_text_class_name = 'govuk-checkboxes__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)

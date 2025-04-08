@@ -22,7 +22,7 @@ from great_design_system.forms.fields import (
     URLField,
     UUIDField,
 )
-from great_design_system.forms.forms import Form
+from great_design_system.forms.forms import Form, ModelForm
 from great_design_system.forms.widgets import (  # noqa
     CheckboxSelectMultiple,
     CheckboxSelectMultipleSmall,
@@ -33,6 +33,7 @@ from great_design_system.forms.widgets import (  # noqa
     PasswordInput,
     RadioSelect,
     RadioSelectConditionalReveal,
+    CheckboxSelectConditionalReveal,
     ReCaptchaV3,
     SelectOne,
     Textarea,
@@ -41,6 +42,7 @@ from great_design_system.forms.widgets import (  # noqa
 
 __all__ = [
     'Form',
+    'ModelForm',
     'CharField',
     'ChoiceField',
     'DateField',
@@ -67,6 +69,7 @@ __all__ = [
     'CreateOptionMixin',
     'EmailInput',
     'RadioSelectConditionalReveal',
+    'CheckboxSelectConditionalReveal',
     'HiddenInput',
     'RadioSelect',
     'ReCaptchaV3',

@@ -34,6 +34,13 @@ class GDSDivFormRenderer(DjangoTemplates):
                     / 'great-design-system'
                     / 'dist'
                     / 'components'
+                    / 'error-summary',
+                    settings.ROOT_DIR
+                    / 'node_modules'
+                    / '@uktrade'
+                    / 'great-design-system'
+                    / 'dist'
+                    / 'components'
                     / 'hint',
                     settings.ROOT_DIR
                     / 'node_modules'
