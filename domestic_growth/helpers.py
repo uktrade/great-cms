@@ -197,3 +197,16 @@ def get_trade_association_results(trade_associations, sector, sub_sector):
     return {
         'sub_sector_and_sector_only_tas': sub_sector_tas + sector_only_tas,
     }
+
+
+def get_change_answers_link(request: HttpRequest) -> str:
+
+    if PRE_START_GUIDE_URL in request.path:
+        triage_start_url = reverse('domestic_growth:domestic-growth-pre-start-location')
+    else:
+        triage_start_url = reverse('domestic_growth:domestic-growth-existing-location')
+
+    if request.GET.get('session_id', False):
+        return triage_start_url + f"?session_id={request.GET.get('session_id')}"
+
+    return triage_start_url

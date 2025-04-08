@@ -12,6 +12,7 @@ from domestic_growth.constants import (
     START_UP_GUIDE_URL,
 )
 from domestic_growth.helpers import (
+    get_change_answers_link,
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
@@ -222,3 +223,30 @@ def test_get_triage_drop_off_point_existing(mock_get_dbt_sectors):
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=8')
     redirect_url = get_triage_drop_off_point(req)
     assert redirect_url is None
+
+
+@pytest.mark.parametrize(
+    'guide_url, session_id_qs_param, expected_redirect_url',
+    (
+        (ESTABLISHED_GUIDE_URL, None, '/support-in-uk/existing/location/'),
+        (START_UP_GUIDE_URL, None, '/support-in-uk/existing/location/'),
+        (PRE_START_GUIDE_URL, None, '/support-in-uk/pre-start/location/'),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
+        (START_UP_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
+        (PRE_START_GUIDE_URL, '1234', '/support-in-uk/pre-start/location/?session_id=1234'),
+    ),
+)
+@pytest.mark.django_db
+def test_get_change_your_answers_link(guide_url, session_id_qs_param, expected_redirect_url):
+    factory = RequestFactory()
+
+    if session_id_qs_param:
+        req = factory.get(guide_url + f'?session_id={session_id_qs_param}')
+    else:
+        req = factory.get(guide_url)
+        req.session = mock.Mock()
+        req.session.session_key = '1234'
+
+    redirect_url = get_change_answers_link(req)
+
+    assert redirect_url == expected_redirect_url
