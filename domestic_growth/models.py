@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -253,7 +255,15 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -372,7 +382,15 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -576,7 +594,15 @@ class DomesticGrowthDynamicChildGuidePage(
         currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
