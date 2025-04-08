@@ -395,11 +395,10 @@ class Command(BaseCommand):
         return block_updated, block
 
     def process_charblock_block(self, page_title, block):
-        # NOTINDEV
         updated = False
         updated, new_value = self.replace_string(page_title, block.block_type, block.value)
         if updated:
-            pass
+            block.value = new_value
         return updated, block
 
     def process_articlelistinglinkblock_block(self, page_title, block):
@@ -416,15 +415,17 @@ class Command(BaseCommand):
         return block_updated, block
 
     def process_datatableblock_block(self, page_title, block):
-        # NOTINDEV
         block_updated = False
         data = block.value['data']
+        row_cnt = 0
         for row in data:
+            cell_cnt = 0
             for cell in row:
                 if cell:
                     if isinstance(cell, str):
                         updated, new_value = self.process_string_field(page_title, 'NOTAPPLICABLE', cell)
                         if updated:
+                            block.value['data'][row_cnt][cell_cnt] = new_value
                             self.report_page_needs_updating(page_title, row, cell)
                             block_updated = True
                     else:
@@ -432,18 +433,24 @@ class Command(BaseCommand):
                         self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                         self.stdout.write(self.style.WARNING(f'Unhandled Data Block Cell Type: {type(cell)}'))
                         sys.exit(-1)
+                cell_cnt += 1
+            row_cnt += 1
 
         return block_updated, block
 
     def process_listblock_block(self, page_title, block):
-        # NOTINDEV
         block_updated = False
+        cnt = 0
         for item in block.value:
             if item:
                 if isinstance(item, RelatedContentCTA):
                     updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
                     if updated:
-                        # setattr(block, field_name, new_value)
+                        block.value[cnt].link_text = new_link_text
+                        block_updated = True
+                    updated, new_link = self.process_streamvalue_field(page_title, item.link)
+                    if updated:
+                        block.value[cnt].link = new_link
                         block_updated = True
                 elif isinstance(item, UKEACTA):
                     continue
@@ -452,6 +459,7 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                     self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
                     sys.exit(-1)
+            cnt += 1
 
         return block_updated, block
 
@@ -608,7 +616,7 @@ class Command(BaseCommand):
                     setattr(page, field_name, new_value)
                     self.stdout.write(self.style.SUCCESS(f'Updated field: {field_name}'))
         if field_updated and not dry_run:
-            page.save()
+            page.specific.save_revision().publish()
 
         for child in page.get_children():
             if child.live:
