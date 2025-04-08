@@ -22,6 +22,7 @@ FEEDBACK_CONTACT_URL = '/contact/feedback/'
 
 DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE = '/support/export-support/'
 
+
 def get_dashboard_url(request):
     """
     Returns the default dashboard URL depending on site url.
@@ -37,6 +38,3 @@ def get_dashboard_url(request):
         return '/export-from-uk/dashboard/'
     else:
         return '/dashboard/'
-
-
-

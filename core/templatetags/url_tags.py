@@ -29,7 +29,7 @@ def get_intended_destination(
 
     # Get dashboard as default destination if None
     if not default_destination:
-        default_destination=cms_slugs.get_dashboard_url(request)
+        default_destination = cms_slugs.get_dashboard_url(request)
 
     skip_list = [
         # List of full URL paths (not just starts of paths)
