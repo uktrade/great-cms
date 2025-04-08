@@ -96,10 +96,9 @@
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkHref=more_associations_link %}
+                {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText="View more associations for this sector" actionLinkHref=more_associations_link %}
                 {% endif %}
 
-                
                 {% capture tile_content %}
                 {% for base in bases %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}

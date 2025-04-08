@@ -5,15 +5,7 @@
           id="market-data-location-select-form"
           action="#market-data">
         {% csrf_token %}
-        {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
-        <input type="hidden" name="dynamic" id="dynamic" value="true" />
-        {% include 'international/includes/form_field.html' with field=market_data_location_select_form.market_data_location %}
-        <div class="govuk-grid-column-one-quarter">
-            <button type="submit"
-                    id="change-market-data-location"
-                    class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
-                    data-module="govuk-button">Change</button>
-        </div>
+        {{ market_data_location_select_form }}
     </form>
     <div class="figures__list" id="market-data-figures">
         <div class="figures__figure">
