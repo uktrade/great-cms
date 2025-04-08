@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -16,6 +18,7 @@ from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import (
+    get_change_answers_link,
     get_events,
     get_trade_association_results,
     get_trade_associations_file,
@@ -252,7 +255,15 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -269,6 +280,8 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
+
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -369,7 +382,15 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -388,6 +409,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         context['south_of_scotland_enterprises_admin_districts'] = (
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -572,7 +594,15 @@ class DomesticGrowthDynamicChildGuidePage(
         currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -585,6 +615,7 @@ class DomesticGrowthDynamicChildGuidePage(
         context['events'] = get_events()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 

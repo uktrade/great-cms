@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.core.management import call_command
+from django.utils import timezone
 
 from config.celery import app
 from international_online_offer.core import scorecard
@@ -7,10 +10,6 @@ from international_online_offer.services import (
     get_all_sectors_gva_scoring_criteria,
     get_dbt_sectors,
 )
-
-
-from datetime import timedelta
-from django.utils import timezone
 
 
 @app.task

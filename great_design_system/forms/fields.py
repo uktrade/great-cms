@@ -43,9 +43,11 @@ class GDSBoundField(BoundField):
 class GDSFieldMixin:
     def __init__(
         self,
+        exclusive_choice='None',
         linked_conditional_reveal=None,
         linked_conditional_reveal_fields=[],
         linked_conditional_reveal_choice='yes',
+        hide_on_page_load=False,
         choice_help_text=[],
         container_css_classes='govuk-form-group',
         *args,
@@ -60,12 +62,20 @@ class GDSFieldMixin:
         self.linked_conditional_reveal = linked_conditional_reveal
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
+        self.exclusive_choice = exclusive_choice
+        self.hide_on_page_load = hide_on_page_load
         self.choice_help_text = choice_help_text
 
     @property
     def container_css_classes(self):
         widget_class = getattr(self.widget, 'container_css_classes', '')
-        return f'{self._container_css_classes} {widget_class}'
+
+        # This is helpful on forms where we need hide/show logic
+        # show_on_page_load will always be added to form-groups as default
+        # hide_on_page_load will be used on form groups that will not display until criteria is met.
+        page_load_class = 'great-hidden' if self.hide_on_page_load else ''
+
+        return f'{self._container_css_classes} {widget_class} {page_load_class}'
 
     def get_bound_field(self, form, field_name):
         return GDSBoundField(form, self, field_name)

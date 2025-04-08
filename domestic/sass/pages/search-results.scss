@@ -65,7 +65,6 @@
   }
 
   .actions {
-    padding-top: #{30px + $spacing-1};
     position: relative;
   }
 
@@ -98,6 +97,11 @@
     position: absolute;
     top: 0;
     width: 100%;
+  }
+
+  .search-results-form {
+    display: flex;
+    align-items: center;
   }
 
   .search-button {
@@ -136,10 +140,7 @@
 }
 
 #search-results-list {
-  padding-top: $x-large-padding;
-  .description {
-    margin-bottom: $spacing-3;
-  }
+  background-color: #fff;
 }
 
 #id_result_found, #id_contactable{

@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
@@ -14,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+from wagtailcache.cache import nocache_page
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -961,6 +963,7 @@ class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):  # /PS-IGNORE
         return render(request, self.template_name, {'form': form})
 
 
+@method_decorator(nocache_page, name='get')
 class SignUpView(
     GA360Mixin,  # /PS-IGNORE
     sso_mixins.ResendVerificationMixin,
