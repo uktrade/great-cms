@@ -3,6 +3,8 @@ from uuid import UUID, uuid4
 
 from django.db.models.base import Model
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import FormView
 from pydantic import HttpUrl
 
@@ -27,6 +29,7 @@ from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 
 
+@method_decorator(never_cache, name='dispatch')
 class BaseTriageFormView(FormView):
 
     session_id: str = ''
@@ -301,7 +304,8 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
     def get_initial(self):
         triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
-        if triage_data:
+
+        if triage_data and getattr(triage_data, self.triage_field_name) is not None:
             return {
-                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) else 'NO',
+                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) is True else 'NO',
             }

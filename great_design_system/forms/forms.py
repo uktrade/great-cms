@@ -1,25 +1,71 @@
 from django import forms
-from django.forms.utils import ErrorList
+from django.forms.utils import ErrorDict, ErrorList
 from django.template.loader import render_to_string
 from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext as _
 
 
 class GDSErrorList(ErrorList):
+    """
+    This is used to point field error messaging to the gds __error.html file
+    """
+
     template_name = '_error.html'
 
     def get_context(self):
         ctx = super().get_context()
-        ctx.update({'error_class': 'govuk-error-message'})
+        ctx.update({'error_class': 'govuk-error-message great-ds-error-message'})
         return ctx
+
+
+class GDSErrorDict(ErrorDict):
+    """
+    This is used to render the the error summary
+    """
+
+    template_name = '_error-summary.html'
+
+    def __init__(
+        self,
+        *args,
+        disable_auto_focus=False,
+        error_id='',
+        error_title='There was a problem',
+        error_description='There was a problem with the form submission',
+        renderer=None,
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        self.error_title = error_title
+        self.disable_auto_focus = disable_auto_focus
+        self.error_description = error_description
+        self.error_id = error_id
+
+    def get_context(self):
+        context = super().get_context()
+        context.update(
+            {
+                'title': self.error_title,
+                'disable_auto_focus': self.disable_auto_focus,
+                'description': self.error_description,
+                'id': self.error_id,
+            }
+        )
+        return context
 
 
 class GDSFormMixin:
     use_required_attribute = False
+
+    # Default error options
     error_css_class = 'govuk-form-group--error'
     error_summary_heading = None
+    error_id = ''
+    error_title = 'There was a problem'
+    error_description = 'There was a problem with the form submission'
+    error_disable_auto_focus = False
 
-    def __init__(self, is_gds_form=True, error_class=GDSErrorList, *args, **kwargs):
+    def __init__(self, is_gds_form=True, error_class=GDSErrorList, dict_error_class=GDSErrorDict, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.is_gds_form = is_gds_form
         self.error_class = error_class
@@ -35,6 +81,31 @@ class Form(GDSFormMixin, forms.Form):
         if not isinstance(errors_str, SafeString):
             errors_str = mark_safe(errors_str)
         return errors_str
+
+    def full_clean(self):
+        """
+        Clean all of self.data and populate self._errors and self.cleaned_data.
+        """
+        self._errors = GDSErrorDict(
+            renderer=self.renderer,
+            disable_auto_focus=self.error_disable_auto_focus,
+            error_id=self.error_id,
+            error_title=self.error_title,
+            error_description=self.error_description,
+        )
+
+        if not self.is_bound:  # Stop further processing.
+            return
+
+        self.cleaned_data = {}
+        # If the form is permitted to be empty, and none of the form data has
+        # changed from the initial data, short circuit any validation.
+        if self.empty_permitted and not self.has_changed():
+            return
+
+        self._clean_fields()
+        self._clean_form()
+        self._post_clean()
 
     def create_linked_reveal_option_fields(self, bf):
         # Create a list of linked conditional reveal fields.
@@ -81,14 +152,30 @@ class Form(GDSFormMixin, forms.Form):
 
     def visible_fields(self):
         """
-        Return a list of BoundField objects that aren't hidden fields.
+        Return a list of BoundField objects that aren't hidden fields and
+        are not hide_on_page_load.
         The opposite of the hidden_fields() method.
         """
-        return [field for field in self if not field.is_hidden and not field.field.linked_conditional_reveal]
+        return [
+            field
+            for field in self
+            if not field.is_hidden and not field.field.linked_conditional_reveal and not field.field.hide_on_page_load
+        ]
 
     def is_hidden_reveal_fields(self):
         """
-        Return a list of all the BoundField objects that are hidden fields.
+        Return a list of all the BoundField objects that are linked_conditional_reveal fields.
         Useful for manual form layout in templates.
         """
         return [field for field in self if field.field.linked_conditional_reveal]
+
+    def is_hide_on_page_load_fields(self):
+        """
+        Return a list of all the BoundField objects that are hide_on_page_load fields.
+        Useful for manual form layout in templates.
+        """
+        return [field for field in self if field.field.hide_on_page_load]
+
+
+class ModelForm(Form, forms.ModelForm):
+    pass
