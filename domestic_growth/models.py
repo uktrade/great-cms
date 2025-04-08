@@ -682,7 +682,7 @@ class ExistingBusinessTriage(TimeStampedModel):
     turnover = models.CharField(
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
-    currently_export = models.BooleanField(default=False, null=True, blank=True)
+    currently_export = models.BooleanField(null=True, blank=True)
 
 
 @register_snippet
