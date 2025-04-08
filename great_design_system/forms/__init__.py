@@ -24,6 +24,7 @@ from great_design_system.forms.fields import (
 )
 from great_design_system.forms.forms import Form, ModelForm
 from great_design_system.forms.widgets import (  # noqa
+    CheckboxSelectConditionalReveal,
     CheckboxSelectMultiple,
     CheckboxSelectMultipleSmall,
     ChoiceWidget,
@@ -33,7 +34,6 @@ from great_design_system.forms.widgets import (  # noqa
     PasswordInput,
     RadioSelect,
     RadioSelectConditionalReveal,
-    CheckboxSelectConditionalReveal,
     ReCaptchaV3,
     SelectOne,
     Textarea,
