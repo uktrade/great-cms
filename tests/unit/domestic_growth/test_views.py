@@ -404,6 +404,16 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
             'currently_export',
             'YES',
         ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessCurrentlyExportFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-exporter'),
+            '1234',
+            'currently_export',
+            False,
+            'currently_export',
+            'NO',
+        ),
     ),
 )
 @pytest.mark.django_db
