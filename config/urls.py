@@ -121,9 +121,9 @@ if settings.DEBUG:
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
 
 # Great International
-urlpatterns = [path('international/', include(international.urls))] + urlpatterns
+urlpatterns = [path('greatgovuk/international/', include(international.urls))] + urlpatterns
 urlpatterns = [
-    path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
+    path('greatgovuk/international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
 ] + urlpatterns
 urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
 urlpatterns = [path('international/buy-from-the-uk/', include(international_buy_from_the_uk.urls))] + urlpatterns
