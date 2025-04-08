@@ -23,9 +23,7 @@
                         <h1>Exporting from the UK to {% change_country_name_to_include_the page.heading %}: A market guide</h1>
                         {% if page.notification_title %}
                             <section class="landing-page-section great-ds-bg-white govuk-!-padding-bottom-6">
-                                <div class="container">
-                                    {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
-                                </div>
+                                {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
                             </section>
                         {% endif %}
                         <h2 class="visually-hidden">Overview</h2>
