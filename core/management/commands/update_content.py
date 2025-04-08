@@ -44,20 +44,16 @@ class Command(BaseCommand):
     strings_to_replace = {
         'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
         'great.gov.uk': 'hotfix.great.uktrade.digital',
+        'https://great.dev.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
+        'https://great.uat.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
     }
 
     values_to_skip = (
         'Great',
         'great',
-    )
-
-    values_to_ignore = (
-        'greater',
-        'greatest',
-        'greatly',
-        'greatness',
         'www.hotfix.great.uktrade.digital',
         'hotfix.great.uktrade.digital',
+        'https://www.hotfix.great.uktrade.digital',
     )
 
     def add_arguments(self, parser):
@@ -89,18 +85,14 @@ class Command(BaseCommand):
             updated, new_source = self.replace_richtextbox(page_title, source=value)
             return updated, new_source
 
-        if value.lower() in self.values_to_ignore:
-            return False, value
-
         for item in self.strings_to_replace:
             if item in value:
                 value = value.replace(item, self.strings_to_replace[item])
                 updated = True
 
-        if not updated:
-            for item in self.values_to_skip:
-                if item in value:
-                    self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
+        for item in self.values_to_skip:
+            if item in value:
+                self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{value}'))
 
         if updated:
             self.report_page_needs_updating(page_title, field, value)
@@ -434,10 +426,6 @@ class Command(BaseCommand):
 
         if block.block_type == 'content_module':
             return block_updated
-
-        self.stdout.write(
-            self.style.SUCCESS(f'Processing Block type:type(value) - {block.block_type}:{type(block.value)}')
-        )
 
         if isinstance(block.block, RichTextBlock):
             updated, new_block = self.process_richtext_block(page_title, block)
