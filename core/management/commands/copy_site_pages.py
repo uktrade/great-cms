@@ -3,11 +3,13 @@ import uuid
 import sentry_sdk
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from wagtail.models import Site
+from wagtail.models import Page, Site
 
 
 class Command(BaseCommand):
     help = 'Copy wagtail pages from one site to another'
+
+    international_page_tree = None
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -17,6 +19,12 @@ class Command(BaseCommand):
             '--dest', type=str, required=True, help='Destination site hostname (e.g., www.dev.bgs.uktrade.digital)'
         )
         parser.add_argument('--skip-root', action='store_true', help='Skip copying the root page')
+
+    def set_international_page_tree(self, source_root):
+        international_folder = Page.objects.get(
+            slug='international', path__startswith=source_root.path, depth=source_root.depth + 1
+        )
+        self.international_page_tree = international_folder
 
     def copy_with_safe_paths(self, source_page, destination_parent):
 
@@ -43,12 +51,27 @@ class Command(BaseCommand):
                 revision.publish()
 
             for child in source_page.get_children():
+                if child.id == self.international_page_tree.id:
+                    self.stdout.write(f'Skip: {child.title}')
+                    continue
                 self.copy_with_safe_paths(child, new_page)
 
             return new_page
         except Exception as e:
             self.stderr.write(self.style.ERROR(f'Failed to copy {source_page.title} (ID: {source_page.id}): {str(e)}'))
             sentry_sdk.capture_exception(e)
+
+    def copy_international(self, destination_parent):
+
+        if self.international_page_tree:
+            new_international = self.international_page_tree.copy(
+                recursive=True,
+                to=destination_parent,
+                keep_live=True,
+            )
+            self.stdout.write(f'Successfully copied: {new_international.title}')
+        else:
+            self.stdout.write('international_page_tree is None')
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -74,12 +97,18 @@ class Command(BaseCommand):
             pages_to_copy = [source_root]
             self.stdout.write('Copying entire tree including root')
 
-        # Delete pages if they exist
+        # Delete non BGS pages if they already exist
         for page in dest_root.get_children():
-            self.stdout.write(f'Deleting existing page: {page.title}')
-            page.delete()
+            if f'{page.content_type}'.split('|')[0].strip() != 'domestic_growth':
+                self.stdout.write(f'Deleting existing page: {page.title}')
+                page.delete()
+            else:
+                self.stdout.write(f'Skip: {page.title}')
 
+        self.set_international_page_tree(source_root)
         for page in pages_to_copy:
             self.copy_with_safe_paths(source_page=page, destination_parent=dest_root)
+
+        self.copy_international(destination_parent=dest_root)
 
         self.stdout.write(self.style.SUCCESS('Copy operation complete'))
