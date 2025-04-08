@@ -1,7 +1,10 @@
+from django.contrib.sites.shortcuts import get_current_site
+
 # CMS SLUGS slugs that are referenced in the code base. These are considered constants
 # If CMS slugs change they should be changed here to prevent 404.
 
 DASHBOARD_URL = '/dashboard/'
+
 LOGIN_URL = '/login/'
 SIGNUP_URL = '/signup/'
 
@@ -18,3 +21,22 @@ CONTACT_URL = '/contact/'
 FEEDBACK_CONTACT_URL = '/contact/feedback/'
 
 DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE = '/support/export-support/'
+
+def get_dashboard_url(request):
+    """
+    Returns the default dashboard URL depending on site url.
+
+    This function exists purely as technical debt for the transition period
+    where both great.gov.uk and the business growth service exist. Depending
+    on the root url, it will return one of two default DASHBOARD_URL paths.
+    """
+
+    domain = get_current_site(request).domain
+
+    if any(word in domain for word in ['bgs', 'business']):
+        return '/export-from-uk/dashboard/'
+    else:
+        return '/dashboard/'
+
+
+

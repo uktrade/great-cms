@@ -15,7 +15,7 @@ register = template.Library()
 @register.simple_tag
 def get_intended_destination(
     request,
-    default_destination=cms_slugs.DASHBOARD_URL,
+    default_destination=None,
 ):
     """For the given request, which should have been redirected
     to a login / sign up view, extract a relative path to use as an
@@ -26,6 +26,11 @@ def get_intended_destination(
     If a referring URL is not a local path, or is in a skip-list, just
     return the default post-authentication destination
     """
+
+    # Get dashboard as default destination if None
+    if not default_destination:
+        default_destination=cms_slugs.get_dashboard_url(request)
+
     skip_list = [
         # List of full URL paths (not just starts of paths)
         # which mean we redirect to default_destination after
