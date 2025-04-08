@@ -104,8 +104,8 @@
                                             <p class="govuk-body great-ds-max-width-70 govuk-!-margin-bottom-0">{{ page.primary_regional_support_intro_ni }}</p>
                                         {% endif %}
                                     {% endif %}
-                                </div>
-                                {% include 'includes/_growth-hub.html' %}
+                                </div>                                
+                                {% include 'includes/_growth-hub.html' with local_support_data=local_support_data %}
                             </div>
                         {% endwith %}
                         {% if local_support_data.chambers_of_commerce|length > 0 %}
