@@ -178,7 +178,7 @@
     {% if page.notification_title %}
         <section class="landing-page-section govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-bg-light-blue ">
             <div class="container">
-                {% include '_inset-text.html' with label=page.notification_title insetText=page.notification_body|richtext labelLevel="4" %}
+                {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
             </div>
         </section>
     {% endif %}

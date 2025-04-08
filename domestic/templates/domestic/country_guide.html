@@ -24,7 +24,7 @@
                         {% if page.notification_title %}
                             <section class="landing-page-section great-ds-bg-white govuk-!-padding-bottom-6">
                                 <div class="container">
-                                    {% include '_inset-text.html' with label=page.notification_title insetText=page.notification_body|richtext labelLevel="4" %}
+                                    {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
                                 </div>
                             </section>
                         {% endif %}
