@@ -16,6 +16,7 @@ from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import (
+    get_change_answers_link,
     get_events,
     get_trade_association_results,
     get_trade_associations_file,
@@ -270,6 +271,8 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         else:
             context['trade_associations'] = None
 
+        context['change_answers_link'] = get_change_answers_link(request)
+
         return context
 
 
@@ -388,6 +391,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         context['south_of_scotland_enterprises_admin_districts'] = (
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -585,6 +589,7 @@ class DomesticGrowthDynamicChildGuidePage(
         context['events'] = get_events()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
