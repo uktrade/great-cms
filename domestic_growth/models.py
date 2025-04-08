@@ -19,7 +19,7 @@ from domestic_growth.helpers import (
     get_events,
     get_trade_association_results,
     get_trade_associations_file,
-    get_triage_data,
+    get_triage_data_with_sectors,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -244,7 +244,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
         trade_associations = get_trade_associations_file()
 
         postcode = triage_data['postcode']
@@ -361,16 +361,12 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
 
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
-
-        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
-            # we have the business type and some additional triage fields
-            pass
 
         if postcode and sector:
             context['qs'] = f'?postcode={postcode}&sector={sector}'
@@ -567,15 +563,11 @@ class DomesticGrowthDynamicChildGuidePage(
     def get_context(self, request):
         context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
 
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
-
-        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
-            # we have the business type and some additional triage fields
-            pass
 
         currently_export = triage_data.get('currently_export', False)
 
@@ -690,7 +682,7 @@ class ExistingBusinessTriage(TimeStampedModel):
     turnover = models.CharField(
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
-    currently_export = models.BooleanField(default=False, null=True, blank=True)
+    currently_export = models.BooleanField(null=True, blank=True)
 
 
 @register_snippet

@@ -21,7 +21,7 @@ from domestic_growth.forms import (
     StartingABusinessLocationForm,
     StartingABusinessSectorForm,
 )
-from domestic_growth.helpers import get_triage_data_for_form_init
+from domestic_growth.helpers import get_triage_data
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
@@ -67,7 +67,7 @@ class BaseTriageFormView(FormView):
         return url
 
     def get_initial(self):
-        triage_data = get_triage_data_for_form_init(self.triage_model, self.session_id)
+        triage_data = get_triage_data(self.triage_model, self.session_id)
         if triage_data:
             return {self.triage_field_name: getattr(triage_data, self.triage_field_name, None)}
 
@@ -130,7 +130,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().get_url_with_optional_session_id_param(PRE_START_GUIDE_URL)
 
     def get_initial(self):
-        triage_data = get_triage_data_for_form_init(StartingABusinessTriage, self.session_id)
+        triage_data = get_triage_data(StartingABusinessTriage, self.session_id)
         if triage_data:
             return {
                 'sector': getattr(triage_data, 'sector_id', None),
@@ -196,7 +196,7 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
         )
 
     def get_initial(self):
-        triage_data = get_triage_data_for_form_init(ExistingBusinessTriage, self.session_id)
+        triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
         if triage_data:
             return {
                 'sector': getattr(triage_data, 'sector_id', None),
@@ -300,8 +300,9 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
         return {'back_url': back_url, **ctx_data}
 
     def get_initial(self):
-        triage_data = get_triage_data_for_form_init(ExistingBusinessTriage, self.session_id)
-        if triage_data:
+        triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
+
+        if triage_data and getattr(triage_data, self.triage_field_name) is not None:
             return {
-                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) else 'NO',
+                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) is True else 'NO',
             }
