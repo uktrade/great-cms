@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -16,10 +18,11 @@ from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.helpers import (
+    get_change_answers_link,
     get_events,
-    get_triage_data,
-    get_trade_associations_file,
     get_trade_association_results,
+    get_trade_associations_file,
+    get_triage_data_with_sectors,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -244,7 +247,7 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
     def get_context(self, request):
         context = super(DomesticGrowthGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
         trade_associations = get_trade_associations_file()
 
         postcode = triage_data['postcode']
@@ -252,7 +255,15 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         sub_sector = triage_data.get('sub_sector', None)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -269,6 +280,8 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
+
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -361,19 +374,23 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
     def get_context(self, request):
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
 
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
-        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
-            # we have the business type and some additional triage fields
-            pass
-
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -392,6 +409,7 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         context['south_of_scotland_enterprises_admin_districts'] = (
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -567,20 +585,24 @@ class DomesticGrowthDynamicChildGuidePage(
     def get_context(self, request):
         context = super(DomesticGrowthDynamicChildGuidePage, self).get_context(request)
 
-        triage_data, business_type = get_triage_data(request)
+        triage_data = get_triage_data_with_sectors(request)
 
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
 
-        if business_type == constants.ESTABLISHED_OR_START_UP_BUSINESS_TYPE:
-            # we have the business type and some additional triage fields
-            pass
-
         currently_export = triage_data.get('currently_export', False)
 
         if postcode and sector:
-            context['qs'] = f'?postcode={postcode}&sector={sector}'
+            params = {
+                'postcode': postcode,
+                'sector': sector,
+            }
+
+            if request.GET.get('session_id', False):
+                params['session_id'] = request.GET.get('session_id')
+
+            context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
             context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
@@ -593,6 +615,7 @@ class DomesticGrowthDynamicChildGuidePage(
         context['events'] = get_events()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['change_answers_link'] = get_change_answers_link(request)
 
         return context
 
@@ -690,7 +713,7 @@ class ExistingBusinessTriage(TimeStampedModel):
     turnover = models.CharField(
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
-    currently_export = models.BooleanField(default=False, null=True, blank=True)
+    currently_export = models.BooleanField(null=True, blank=True)
 
 
 @register_snippet

@@ -1,7 +1,7 @@
 import hashlib
 import mimetypes
-from urllib.parse import unquote, urlparse
 from datetime import datetime
+from urllib.parse import unquote, urlparse
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
@@ -2074,6 +2074,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_menu_items(self, request=None):
         parent_page = self.get_parent_page()
         menu_items = []
+        bgs_menu_items = []
 
         multiple_languages = len(settings.LANGUAGES) > 1
 
@@ -2086,6 +2087,19 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             menu_items = [{'href': parent_url, 'text': _('Home'), 'isCurrent': parent_url_clean == self.url}]
 
             menu_items.extend(
+                [
+                    {
+                        'href': (
+                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
+                        ),
+                        'text': child.title,
+                        'isCurrent': self.url == child.url,
+                    }
+                    for child in parent_page.get_children().live()
+                ]
+            )
+
+            bgs_menu_items.extend(
                 [
                     {
                         'href': (

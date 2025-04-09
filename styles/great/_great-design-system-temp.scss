@@ -798,76 +798,57 @@ $great-design-system-mint-green: #8ce2d0;
   background-position: 95% 5%;
 }
 
+.bgs-section-logo--regions {
+  background-size: 250px;
+  background-position: 100% -230px;
+}
+
 .bgs-section-logo--yorkshire {
   background-image: url('/static/images/yorkshire.svg');
-  background-size: 225px;
-  background-position: 100% -82px;
 }
 
 .bgs-section-logo--west-midlands {
   background-image: url('/static/images/west-midlands.svg');
-  background-size: 225px;
-  background-position: 100% -118px;
 }
 
 .bgs-section-logo--east-of-england {
   background-image: url('/static/images/east-of-england.svg');
-  background-size: 225px;
-  background-position: 100% -141px;
 }
 
 .bgs-section-logo--south-east {
   background-image: url('/static/images/south-east.svg');
-  background-size: 225px;
-  background-position: 100% -172px;
 }
 
 .bgs-section-logo--south-west {
   background-image: url('/static/images/south-west.svg');
-  background-size: 225px;
-  background-position: 100% -172px;
 }
 
 .bgs-section-logo--scotland {
   background-image: url('/static/images/scotland.svg');
-  background-size: 259px;
-  background-position: 109% -48px;
 }
 
 .bgs-section-logo--northern-ireland {
   background-image: url('/static/images/northern-ireland.svg');
-  background-size: 251px;
-  background-position: 109% -98px;
 }
 
 .bgs-section-logo--east-midlands {
   background-image: url('/static/images/east-midlands.svg');
-  background-size: 225px;
-  background-position: 100% -120px;
 }
 
 .bgs-section-logo--london {
   background-image: url('/static/images/london.svg');
-  background-size: 225px;
-  background-position: 100% -166px;
 }
 
 .bgs-section-logo--north-west {
   background-image: url('/static/images/north-west.svg');
-  background-size: 225px;
-  background-position: 100% -91px;
 }
 
 .bgs-section-logo--north-east {
   background-image: url('/static/images/north-east.svg');
-  background-size: 225px;
-  background-position: 100% -71px;
 }
 
 .bgs-section-logo--wales {
   background-image: url('/static/images/wales.svg');
-  background-size: 225px;
-  background-position: 100% -159px;
 }
 
 .bgs-home-cta-banner {
@@ -1032,6 +1013,83 @@ $great-design-system-mint-green: #8ce2d0;
       &:first-of-type {
         font-weight: bold;
       }
+    }
+  }
+}
+
+.great-ds-back-link--white {
+  color: $great-white !important;
+  &::before {
+    color: $great-white !important;
+    border-color: $great-white !important;
+  }
+}
+
+.bgs-triage-background {
+  background-image: url(/static/images/triage-bg.jpg) !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.autocomplete__option:hover {
+  .bgs-sector-lookup-second-row {
+    color: white;
+  }
+}
+
+.autocomplete__option:focus {
+  color: white;
+  .bgs-sector-lookup-second-row {
+    color: white;
+  }
+}
+
+.autocomplete__option--odd {
+  background-color: $great-light-blue;
+}
+
+.autocomplete__option--odd:hover {
+  background-color: #1d70b8;
+  .bgs-sector-lookup-second-row {
+    color: white;
+  }
+}
+
+.autocomplete__option--odd:focus {
+  background-color: #1d70b8;
+  color: white;
+  .bgs-sector-lookup-second-row {
+    color: white;
+  }
+}
+
+.prepend-search-icon {
+  .autocomplete__wrapper {
+    .autocomplete__input {
+      text-indent: 32px;
+      background-image: url('../static/icons/icon-search.svg');
+      background-repeat: no-repeat;
+      background-size: 18px;
+      background-position: 10px 50%;
+    }
+  }
+}
+
+.triage-form-container {
+  width: calc(100% - 30px);
+  margin-left: 15px;
+  margin-right: 15px;
+  @media only screen and (min-width: 901px) {
+    width: 810px;
+  }
+}
+
+.autocomplete__wrapper {
+  // temporarily adding as 5px bottom margin is being added to autocomplete drop down items
+  ul {
+    li {
+      margin-bottom: 0px !important;
     }
   }
 }

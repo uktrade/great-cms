@@ -25,23 +25,6 @@ $tablet: 900px;
   }
 }
 
-#personalisation-bar {
-  button {
-    height: 45px;
-  }
-}
-
-.shared-personalisation-bar {
-  background-color: #363566;
-
-  button {
-    background-color: #363566;
-  }
-  span.menu-link {
-    font-weight: $font-weight-semi-bold;
-  }
-}
-
 blockquote,
 .box,
 .box:before {
