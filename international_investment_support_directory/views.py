@@ -236,6 +236,8 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
                     form.is_valid()
                 return self.form_valid(form)
             else:
+                form_data.update({'stage': HCSatStage.SUBMITTED.value})
+                form = form_class(**form_data)
                 return self.form_invalid(form)
 
     def send_email(self, form):

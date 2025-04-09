@@ -140,6 +140,8 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
 
             return self.form_valid(form)
         else:
+            form_data.update({'stage': HCSatStage.SUBMITTED.value})
+            form = form_class(**form_data)
             return self.form_invalid(form)
 
     def form_invalid(self, form):

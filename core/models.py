@@ -1065,6 +1065,8 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
                 form.is_valid()
             return self.form_valid(form, request)
         else:
+            form_data.update({'stage': HCSatStage.SUBMITTED.value})
+            form = form_class(**form_data)
             return self.form_invalid(form, request)
 
     def form_invalid(self, form, request):
