@@ -22,7 +22,7 @@ from domestic_growth.helpers import (
     get_events,
     get_trade_association_results,
     get_trade_associations_file,
-    get_triage_data_with_sectors
+    get_triage_data_with_sectors,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 

@@ -34,7 +34,6 @@ from great_design_system.forms.widgets import (  # noqa
     PasswordInput,
     RadioSelect,
     RadioSelectConditionalReveal,
-    CheckboxSelectConditionalReveal,
     ReCaptchaV3,
     SelectOne,
     Textarea,
