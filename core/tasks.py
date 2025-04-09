@@ -133,3 +133,8 @@ def submit_hcsat_feedback_to_forms_api():
 @app.task
 def obsfucate_personal_details():
     call_command('obsfucate_personal_details')
+
+
+@app.task
+def copy_site_pages(source, dest):
+    call_command('copy_site_pages', source=source, dest=dest)
