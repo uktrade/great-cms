@@ -7,11 +7,7 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
-from domestic_growth.constants import (
-    PRE_START_GUIDE_URL, 
-    START_UP_GUIDE_URL, 
-    ESTABLISHED_GUIDE_URL
-)
+from domestic_growth.constants import PRE_START_GUIDE_URL, START_UP_GUIDE_URL, ESTABLISHED_GUIDE_URL
 from domestic_growth.helpers import get_triage_drop_off_point, create_request_for_path
 
 
@@ -166,13 +162,13 @@ def domestic_header(request):
     pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
     startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
     established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
-    
+
     # Get the appropriate URLs
     pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
     startup_triage_url = get_triage_drop_off_point(startup_request)
     established_triage_url = get_triage_drop_off_point(established_request)
     existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
-    
+
     return {
         'header_classes': '',
         'isInternational': False,
