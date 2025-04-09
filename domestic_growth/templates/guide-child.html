@@ -97,7 +97,7 @@
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-third">
-                    {% include 'includes/_email-guide-form.html' %}
+                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form %}
                     {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                 </div>
             </div>
