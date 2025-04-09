@@ -54,8 +54,6 @@ class Command(BaseCommand):
 
     values_to_report = ('great',)
 
-    values_to_skip = ('events.great.gov.uk',)
-
     def add_arguments(self, parser):
         parser.add_argument(
             '--hostname', type=str, required=True, help='Site hostname (e.g., www.dev.bgs.uktrade.digital)'
@@ -83,10 +81,6 @@ class Command(BaseCommand):
 
         original_value = original_value.lower()
 
-        for item in self.values_to_skip:
-            if item in original_value:
-                return False, original_value
-
         value = original_value
 
         if self.string_contains_html(original_value):
@@ -98,12 +92,8 @@ class Command(BaseCommand):
                 value = original_value.replace(item, self.strings_to_replace[item])
                 updated = True
 
-        if not updated and dry_run:
-            for item in self.values_to_report:
-                if item in original_value:
-                    self.stdout.write(
-                        self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{original_value}')
-                    )
+        if any(item in original_value for item in self.values_to_report) and dry_run:
+            self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{original_value}'))
 
         if updated:
             self.report_page_needs_updating(page_title, field, original_value)
@@ -141,21 +131,20 @@ class Command(BaseCommand):
         updated, new_value = self.replace_string(page_title, field, value, dry_run)
         return updated, new_value
 
-    def replace_richtextbox(self, page_title, block=None, source=None):
+    def replace_richtextbox(self, page_title, source=None):
         block_updated = False
-        item = block.value.source if block else source
-        updated, item = self.replace_richtextbox_text(page_title, block.value.source if block else source)
+        updated, source = self.replace_richtextbox_text(page_title, source)
         if updated:
             block_updated = True
-        updated, item = self.replace_richtextbox_links(page_title, item)
+        updated, source = self.replace_richtextbox_links(page_title, source)
         if updated:
             block_updated = True
 
-        return block_updated, item
+        return block_updated, source
 
     def process_richtext_block(self, page_title, block):
-        updated, new_block = self.replace_richtextbox(page_title, block=block)
-        return updated, new_block
+        updated, new_source = self.replace_richtextbox(page_title, source=block.value.source)
+        return updated, new_source
 
     def process_stream_block(self, page_title, block, dry_run):
         block_updated = False
@@ -255,13 +244,13 @@ class Command(BaseCommand):
                     setattr(block, field_name, new_value)
                     block_updated = True
             elif isinstance(field_value, RichText):
-                updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
+                updated, new_source = self.replace_richtextbox(page_title, source=field_value.source)
                 if updated:
-                    setattr(block, field_name, new_value)
+                    setattr(block, field_name, new_source)
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, StreamValue):
-                updated, new_value = self.process_streamvalue_field(page_title, field_value)
+                updated, new_value = self.process_streamvalue_field(page_title, field_value, dry_run)
                 if updated:
                     setattr(block, field_name, new_value)
                     self.report_page_needs_updating(page_title, field_name, field_value)
@@ -351,7 +340,7 @@ class Command(BaseCommand):
                 continue
             updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
             if updated:
-                original_values[field_name] = new_value
+                original_values[field_name].source = new_value
                 block_updated = True
 
         if block_updated:
@@ -530,9 +519,9 @@ class Command(BaseCommand):
             return False, block
 
         if isinstance(block.block, RichTextBlock):
-            updated, new_block = self.process_richtext_block(page_title, block)
+            updated, new_source = self.process_richtext_block(page_title, block)
             if updated:
-                block.value.source = new_block
+                block.value.source = new_source
                 block_updated = True
         elif isinstance(block.block, StreamBlock):
             updated, new_block = self.process_stream_block(page_title, block, dry_run)
@@ -609,7 +598,10 @@ class Command(BaseCommand):
                 continue
             updated, new_block = self.process_block(page_title, block, dry_run)
             if updated:
-                value[cnt] = new_block
+                try:
+                    value[cnt] = new_block
+                except Exception as e:
+                    str(e)
                 field_updated = True
             cnt += 1
 
@@ -684,9 +676,12 @@ class Command(BaseCommand):
 
         if field_updated and not dry_run:
             try:
-                page.save_revision().publish()
+                page.specific.save_revision().publish()
             except ValidationError as ve:
                 self.stdout.write(self.style.ERROR(f'ERROR Saving Page: {page.title} - {str(ve)}'))
+            except RuntimeError as re:
+                self.stdout.write(self.style.ERROR(f'ERROR Saving Page: {page.title} - {str(re)}'))
+
         for child in page.get_children():
             if child.live:
                 self.update_page(child, dry_run)
