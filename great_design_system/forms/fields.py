@@ -39,6 +39,10 @@ class GDSBoundField(BoundField):
         """
         return f'{self.field.widget.help_text_class_name} govuk-hint'
 
+    @property
+    def id_for_container(self):
+        return f'id_{self.name}_container'
+
 
 class GDSFieldMixin:
     def __init__(

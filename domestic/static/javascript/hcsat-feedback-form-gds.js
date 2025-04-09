@@ -120,7 +120,7 @@ class CsatFormHandler {
 
                 errors[field].forEach(error => {
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `<a href="#id_${field}">${error}</a>`;
+                    listItem.innerHTML = `<a href="#id_${field}_container">${error}</a>`;
                     this.errorList.appendChild(listItem);
                 });
             });
