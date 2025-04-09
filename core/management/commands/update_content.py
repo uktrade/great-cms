@@ -191,29 +191,25 @@ class Command(BaseCommand):
 
     def process_greatmedia_field(self, page_title, block):  # noqa C901
 
-        original_values = self.create_original_vales(block)
         block_updated = False
 
         if block.description:
             updated, new_value = self.replace_string(page_title, 'description', block.description)
             if updated:
-                original_values['description'] = new_value
+                block.description = new_value
                 block_updated = True
 
         if block.transcript:
             updated, new_value = self.replace_string(page_title, 'transcript', block.transcript)
             if updated:
-                original_values['transcript'] = new_value
+                block.transcript = new_value
                 block_updated = True
 
         if block.subtitles_en:
             updated, new_value = self.replace_string(page_title, 'subtitles_en', block.subtitles_en)
             if updated:
-                original_values['subtitles_en'] = new_value
+                block.subtitles_en = new_value
                 block_updated = True
-
-        if block_updated:
-            block = original_values
 
         return block_updated, block
 
@@ -297,15 +293,15 @@ class Command(BaseCommand):
                 sys.exit(-1)
         return block_updated, block
 
-    def create_original_vales(self, block):
+    def create_original_vales(self, items):
         original = {}
-        for field_name, field_value in block.value.items():
+        for field_name, field_value in items:
             original[field_name] = field_value
         return original
 
     def process_pullquoteblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -321,7 +317,7 @@ class Command(BaseCommand):
 
     def process_routesectionblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -343,7 +339,7 @@ class Command(BaseCommand):
 
     def process_performancedashboarddatablock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -365,7 +361,7 @@ class Command(BaseCommand):
 
     def process_individualstatisticblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -381,7 +377,7 @@ class Command(BaseCommand):
 
     def process_countryguidecasestudyblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -399,8 +395,7 @@ class Command(BaseCommand):
     def process_countryguideindustryblock_block(self, page_title, block, dry_run):  # noqa C901
         block_updated = False
 
-        original_values = self.create_original_vales(block)
-
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -444,7 +439,7 @@ class Command(BaseCommand):
 
     def process_articlelistinglinkblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -511,7 +506,7 @@ class Command(BaseCommand):
 
     def process_supporttopiccardblock_block(self, page_title, block):
         block_updated = False
-        original_values = self.create_original_vales(block)
+        original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
@@ -685,7 +680,7 @@ class Command(BaseCommand):
                 if updated and not dry_run:
                     field_updated = True
                     setattr(page, field_name, new_value)
-                    self.stdout.write(self.style.SUCCESS(f'Updated field: {field_name}'))
+                    self.stdout.write(self.style.SUCCESS(f'Updated page:field: {page.title}:{field_name}'))
 
         if field_updated and not dry_run:
             try:
