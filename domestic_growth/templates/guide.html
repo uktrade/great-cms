@@ -1,172 +1,236 @@
 {% extends 'includes/base.html' %}
-
-{% block head_title %}Domestic Growth - Guide page{% endblock %}
-
+{% load get_region_bg_class get_url_favicon_and_domain from content_tags %}
+{% block head_title %}{{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
 {% block content %}
-    <section class="great-ds-bg-blue govuk-!-padding-bottom-9">
-        <div class="great-ds-container govuk-!-padding-top-8">
+    <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
+             style="background-image: url({{ hero_image_url }})">
+        <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="great-ds-bg-white govuk-!-padding-6">
-                        {% if page.hero_title %}
-                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
-                            {{ page.hero_title }}
-                        </h1>
+                        {% if page.hero_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{ page.hero_title }}</h1>{% endif %}
+                        {% if page.hero_intro %}<p class="govuk-body govuk-!-margin-bottom-6">{{ page.hero_intro }}</p>{% endif %}
+                        {% if sector %}
+                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1 govuk-!-margin-bottom-1" %}
                         {% endif %}
-
-                        {% if page.hero_intro %}
-                        <p class="govuk-body govuk-!-margin-bottom-6">
-                            {{ page.hero_intro }}
-                        </p>
-                        {% endif %}
-
-                        {% if local_support_data.postcode_data.country %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.country type="error" %}
-                        {% endif %}
-
-                        {% if local_support_data.postcode_data.region %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.region type="information" %}
-                        {% endif %}
-
                         {% if local_support_data.postcode_data.admin_district %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="success" %}
+                            {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
                         {% endif %}
+                        {% include "includes/_change-answers.html" with change_answers_link=change_answers_link %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="govuk-service-navigation" data-module="govuk-service-navigation">
+    <div class="govuk-service-navigation great-ds-bg-white"
+         data-module="govuk-service-navigation">
         <div class="great-ds-container">
             <div class="govuk-service-navigation__container">
-            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-                <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
-                Menu
-                </button>
-                <ul class="govuk-service-navigation__list" id="navigation">
-                    {% with child_page_length=page.get_children|length %}
-                        {% if child_page_length > 0 %}
-                        <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
-                            <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}" aria-current="true">
-                                <strong class="govuk-service-navigation__active-fallback">{{ page.hero_title }}</strong>
-                            </a>
-                        </li>
-                        {% else %}
-                        <li class="govuk-service-navigation__item">
-                            <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
-                                {{ page.hero_title }}
-                            </a>
-                        </li>
-                        {% endif %}
-                    {% endwith %}
-
-                    {% for child_page in page.get_children %}
-                        {% with page=child_page.specific parent_page_title=page.page_title %}
-                        <li class="govuk-service-navigation__item">
-                            <a class="govuk-service-navigation__link" href="{{ page.get_url }}{{ qs }}">
-                                {{ page.title }}
-                            </a>
-                        </li>
+                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                    <button type="button"
+                            class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                            aria-controls="navigation"
+                            hidden>Menu</button>
+                    <ul class="govuk-service-navigation__list" id="navigation">
+                        {% with child_page_length=page.get_children|length %}
+                            {% if child_page_length > 0 %}
+                                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                                    <a class="govuk-service-navigation__link"
+                                       href="{{ page.get_url }}{{ qs }}"
+                                       aria-current="true">
+                                        <strong class="govuk-service-navigation__active-fallback">{{ page.body_title }}</strong>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="govuk-service-navigation__item">
+                                    <a class="govuk-service-navigation__link"
+                                       href="{{ page.get_url }}{{ qs }}">{{ page.hero_title }}</a>
+                                </li>
+                            {% endif %}
                         {% endwith %}
-                    {% endfor %}
-                </ul>
-            </nav>
+                        {% for child_page in page.get_children %}
+                            {% with page=child_page.specific parent_page_title=page.page_title %}
+                                <li class="govuk-service-navigation__item">
+                                    <a class="govuk-service-navigation__link"
+                                       href="{{ page.get_url }}{{ qs }}">{{ page.title }}</a>
+                                </li>
+                            {% endwith %}
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-
     <section class="great great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    {% if page.body_title %}
-                    <h2 class="govuk-heading-l govuk-!-margin-bottom-3">
-                        {{ page.body_title }}
-                    </h2>
-                    {% endif %}
-
-                    {% if page.body_intro %}
-                    <p class="govuk-caption-l govuk-!-margin-bottom-6">
-                        {{ page.body_intro }}
-                    </p>
-                    {% endif %}
-
+                    {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
+                    {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
-                    <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Your regional connections</h3>
-
-                        {% if local_support_data.growth_hubs|length > 0 %}
-                            {% with local_support_data.growth_hubs|first as nearest_growth_hub %}
-                                <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_growth_hub.name }}</h4>
-                                <p class="govuk-body">Your local Government-backed Growth Hub can provide free advice, funding, and training to help your business succeed.</p>
-                                <address>
-                                    <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_growth_hub.contacts.website }}">{{ nearest_growth_hub.contacts.website }}</a><br />
-                                    {% if nearest_growth_hub.contacts.email %}
-                                        <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_growth_hub.contacts.email }}">{{ nearest_growth_hub.contacts.email }}</a><br />
+                        {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
+                            <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
+                                <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2 {% if region_bg_class %}bgs-section-logo bgs-section-logo--regions {{ region_bg_class }}{% endif %}">
+                                    {% if country == 'england' %}
+                                        {% if page.primary_regional_support_title_england %}
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_england }}</h3>
+                                        {% endif %}
+                                        {% if page.primary_regional_support_intro_england %}
+                                            <p class="govuk-body great-ds-max-width-70 govuk-!-margin-bottom-0">
+                                                {{ page.primary_regional_support_intro_england }}
+                                            </p>
+                                        {% endif %}
+                                    {% elif country == 'scotland' %}
+                                        {% if page.primary_regional_support_title_scotland %}
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_scotland }}</h3>
+                                        {% endif %}
+                                        {% if page.primary_regional_support_intro_scotland %}
+                                            <p class="govuk-body great-ds-max-width-70 govuk-!-margin-bottom-0">
+                                                {{ page.primary_regional_support_intro_scotland }}
+                                            </p>
+                                        {% endif %}
+                                    {% elif country == 'wales' %}
+                                        {% if page.primary_regional_support_title_wales %}
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_wales }}</h3>
+                                        {% endif %}
+                                        {% if page.primary_regional_support_intro_wales %}
+                                            <p class="govuk-body great-ds-max-width-70 govuk-!-margin-bottom-0">{{ page.primary_regional_support_intro_wales }}</p>
+                                        {% endif %}
+                                    {% elif country == 'northern ireland' %}
+                                        {% if page.primary_regional_support_title_ni %}
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.primary_regional_support_title_ni }}</h3>
+                                        {% endif %}
+                                        {% if page.primary_regional_support_intro_ni %}
+                                            <p class="govuk-body great-ds-max-width-70 govuk-!-margin-bottom-0">{{ page.primary_regional_support_intro_ni }}</p>
+                                        {% endif %}
                                     {% endif %}
-                                    <strong class="govuk-!-font-weight-bold">Phone</strong> {{ nearest_growth_hub.contacts.phone }}
-                                </address>
-                            {% endwith %}
-                            <hr />
-                        {% endif %}
-
-                        {% if local_support_data.chambers_of_commerce|length > 0 %}
-                            {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
-                                <h4 class="govuk-heading-xs govuk-!-margin-bottom-3">{{ nearest_chamber_of_commerce.name }}</h4>
-                                <p class="govuk-body">Joining your local Chamber of Commerce can connect you with businesses, get support with trade, and help with lobbying policies that benefit you.</p>
-                                <address>
-                                    <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_chamber_of_commerce.contacts.website }}">{{ nearest_chamber_of_commerce.contacts.website }}</a><br />
-                                    {% if nearest_chamber_of_commerce.contacts.email %}
-                                        <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_chamber_of_commerce.contacts.email }}">{{ nearest_chamber_of_commerce.contacts.email }}</a><br />
-                                    {% endif %}
-                                    <strong class="govuk-!-font-weight-bold">Phone</strong> {{ nearest_chamber_of_commerce.contacts.phone }}
-                                </address>
-                            {% endwith %}
-                        {% endif %}
-                    </div>
-                    {% endif %}
-
-                    {% if trade_associations %}
-                    <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Trade associations</h3>
-
-                        {% for ta in trade_associations %}
-                            <div {% if forloop.counter > 3 %}data-hidden-ta class="govuk-!-display-none"{% endif %}>
-                                {% include "_card.html" with href=ta.website_link type="unmounted" title=ta.association_name description=ta.brief_description id=ta.association_name classes="great-ds-card--full" hideArrow="true"  %}
+                                </div>                                
+                                {% include 'includes/_growth-hub.html' with local_support_data=local_support_data %}
                             </div>
-                        {% endfor %}
-
-                        <div class="govuk-!-margin-top-6">
-                            <button data-hidden-ta-trigger class="great-ds-button great-ds-button--secondary">Show more</button>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {% if local_support_data.postcode_data.country %}
-                    <div class="great-ds-bg-white great-ds-border-top-grey-3 govuk-!-padding-6 govuk-!-margin-bottom-6">
-                        <h3 class="govuk-heading-m govuk-!-margin-bottom-4">Business support service</h3>
-
-                        {% with country=local_support_data.postcode_data.country|lower %}
-                            {% include 'includes/_business-support-service.html' with country=country %} 
                         {% endwith %}
-                    </div>
+                        {% if local_support_data.chambers_of_commerce|length > 0 %}
+                            <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
+                                {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
+                                    <h4 class="govuk-heading-xs govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h4>
+                                    <img src="/static/images/coc-{{ nearest_chamber_of_commerce.digest }}.png"
+                                         alt=""
+                                         aria-hidden="true" />
+                                    {% if page.chamber_of_commerce_intro %}
+                                        <p class="govuk-body great-ds-max-width-70">{{ page.chamber_of_commerce_intro }}</p>
+                                    {% endif %}
+                                    <address class="great-ds-address">
+                                        {% if nearest_chamber_of_commerce.contacts.website and nearest_chamber_of_commerce.contacts.website_label %}
+                                            <div class="great-ds-address__row">
+                                                <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_chamber_of_commerce.contacts.website }}">{{ nearest_chamber_of_commerce.contacts.website_label }}</a>
+                                            </div>
+                                        {% endif %}
+                                        {% if nearest_chamber_of_commerce.contacts.email %}
+                                            <div class="great-ds-address__row">
+                                                <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_chamber_of_commerce.contacts.email }}">{{ nearest_chamber_of_commerce.contacts.email }}</a>
+                                            </div>
+                                        {% endif %}
+                                        {% if nearest_chamber_of_commerce.contacts.phone %}
+                                            <div class="great-ds-address__row">
+                                                <strong class="govuk-!-font-weight-bold">Phone</strong> <span>{{ nearest_chamber_of_commerce.contacts.phone }}</span>
+                                            </div>
+                                        {% endif %}
+                                        {% if nearest_chamber_of_commerce.contacts.contact_form and nearest_chamber_of_commerce.contacts.contact_form_label %}
+                                            <div class="great-ds-address__row">
+                                                <strong class="govuk-!-font-weight-bold">Message</strong> <a href="{{ nearest_chamber_of_commerce.contacts.contact_form }}">{{ nearest_chamber_of_commerce.contacts.contact_form_label }}</a>
+                                            </div>
+                                        {% endif %}
+                                    </address>
+                                {% endwith %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if trade_associations %}
+                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow"
+                             id="trade-associations">
+                            <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
+                                {% if page.trade_associations_title %}
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
+                                {% endif %}
+                                {% if page.trade_associations_intro %}
+                                    <p class="govuk-body govuk-!-margin-bottom-0">{{ page.trade_associations_intro }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
+                                {% if trade_associations.sub_sector_and_sector_only_tas %}
+                                    {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
+                                        <div {% if forloop.counter > 3 %}data-hidden-ta="true"  class="govuk-!-display-none"{% endif %}>
+                                            <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
+                                                {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                                    <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
+                                                        <img class="great-ds-card__metadata-icon"
+                                                             src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
+                                                             alt=""
+                                                             aria-hidden="true"
+                                                             onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                                        <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                                    </div>
+                                                {% endwith %}
+                                                {% if sub_sector and ta.type == 'sub_sector' %}
+                                                    {% include "includes/_sector-tag.html" with text=sub_sector %}
+                                                {% endif %}
+                                                {% if sector and ta.type == 'sector' %}
+                                                    {% include "includes/_sector-tag.html" with text=sector %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% elif trade_associations.sector_tas %}
+                                    {% for ta in trade_associations.sector_tas %}
+                                        <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                            <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
+                                                {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                                    <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
+                                                        <img class="great-ds-card__metadata-icon"
+                                                             src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
+                                                             alt=""
+                                                             aria-hidden="true"
+                                                             onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                                        <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                                    </div>
+                                                {% endwith %}
+                                                {% if sector %}
+                                                    {% include "includes/_sector-tag.html" with text=sector %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="govuk-!-padding-6 great-ds-bg-light-blue">
+                                        <p class="govuk-body">
+                                            To view trade associations <a href="" class="govuk-link">enter your sector or industry</a>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1">
+                                <button data-hidden-ta-trigger
+                                        class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
+                                    Show more
+                                </button>
+                                <button data-show-ta-trigger
+                                        class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
+                                    Show less
+                                </button>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
+                <div class="govuk-grid-column-one-third">{% include 'includes/_email-guide-form.html' %}</div>
+            </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">{% include 'includes/_business-support-service.html' with country=country %}</div>
             </div>
         </div>
     </section>
 {% endblock %}
-
 {% block body_js %}
     {{ block.super }}
-
-    <script>
-        const hidden_ta_trigger = document.querySelector('[data-hidden-ta-trigger]');
-
-        hidden_ta_trigger.addEventListener('click', (e) => {
-            document.querySelectorAll('[data-hidden-ta]').forEach(el => el.classList = '');
-            hidden_ta_trigger.remove();
-        });
-    </script>
+    <script type="text/javascript" src="/static/js/trade-associations.js"></script>
 {% endblock %}

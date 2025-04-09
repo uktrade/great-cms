@@ -7,7 +7,7 @@
       event.preventDefault();
       grecaptcha.execute('{{ public_key }}', {action: 'form'})
         .then(function(token) {
-          var element = document.querySelector('#id_captcha');
+          var element = document.querySelector('#id_captcha') || document.querySelector('#id_help-captcha');
           element.value = token;
           form.submit();
         });

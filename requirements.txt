@@ -240,7 +240,7 @@ factory-boy==3.3.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==37.0.2
+faker==37.1.0
     # via factory-boy
 filelock==3.18.0
     # via virtualenv
@@ -289,7 +289,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.5.0
+kombu==5.5.1
     # via celery
 l18n==2021.3
     # via wagtail
@@ -454,7 +454,7 @@ python-dateutil==2.9.0.post0
     #   opensearch-py
     #   pandas
     #   python-crontab
-python-dotenv==1.0.1
+python-dotenv==1.1.0
     # via pydantic-settings
 python-ipware==3.0.0
     # via django-ipware
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.23.1
+sentry-sdk==2.24.1
     # via -r requirements.in
 sigauth==5.3.0
     # via

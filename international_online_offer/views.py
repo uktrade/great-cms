@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
@@ -14,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+from wagtailcache.cache import nocache_page
 
 from core.helpers import check_url_host_is_safelisted
 from directory_sso_api_client import sso_api_client
@@ -961,6 +963,7 @@ class LoginView(GA360Mixin, sso_mixins.SignInMixin, TemplateView):  # /PS-IGNORE
         return render(request, self.template_name, {'form': form})
 
 
+@method_decorator(nocache_page, name='get')
 class SignUpView(
     GA360Mixin,  # /PS-IGNORE
     sso_mixins.ResendVerificationMixin,
@@ -1166,6 +1169,8 @@ class FeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
 class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
     template_name = 'eyb/trade_associations.html'
 
+    MAX_PER_PAGE = 18
+
     def get_template(self, request):
         return self.template_name
 
@@ -1189,9 +1194,12 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
                 Q(link_valid=True) & (Q(sector__icontains=triage_data.sector) | Q(sector__in=trade_association_sectors))
             )
 
-        page = self.request.GET.get('page', 1)
-        paginator = Paginator(all_trade_associations, 20)
-        all_trade_associations = paginator.page(page)
+        paginator = Paginator(all_trade_associations, self.MAX_PER_PAGE)
+        page_obj = paginator.get_page(self.request.GET.get('page', 1))
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
 
         breadcrumbs = [
             {'name': 'Home', 'url': '/international/'},
@@ -1203,7 +1211,8 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
 
         context_data = super().get_context_data(
             triage_data=triage_data,
-            all_trade_associations=all_trade_associations,
+            page_obj=page_obj,
+            elided_page_range=elided_page_range,
             breadcrumbs=breadcrumbs,
             **kwargs,
         )

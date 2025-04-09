@@ -13,11 +13,13 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
+from core.templatetags.bgs_tags import is_bgs_site
 from core.templatetags.content_tags import (
     add_anchor_classes,
     change_country_name_to_include_the,
     extract_domain,
     get_backlinked_url,
+    get_card_meta_data_by_url,
     get_category_title_for_lesson,
     get_exopps_country_slug,
     get_icon_path,
@@ -25,10 +27,15 @@ from core.templatetags.content_tags import (
     get_international_icon_path,
     get_lesson_progress_for_topic,
     get_link_blocks,
+    get_region_bg_class,
+    get_region_for_finance_and_support_snippet,
+    get_region_for_find_a_grant_snippet,
+    get_region_name,
     get_template_translation_enabled,
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    get_url_favicon_and_domain,
     get_visa_and_travel_country_slug,
     get_visa_and_travel_url_for_eu_countries,
     h3_if,
@@ -1251,3 +1258,91 @@ def test_split_title(title, expected_output):
 )
 def test_is_cheg_excluded_country(country_code, expected_output):
     assert is_cheg_excluded_country(country_code) == expected_output
+
+
+def test_is_bgs_site_false():
+    path = 'https://www.hotfix.great.uktrade.digital/'
+    assert is_bgs_site(path) is False
+
+
+def test_is_bgs_site_true():
+    path = 'https://www.hotfix.bgs.uktrade.digital/'
+    assert is_bgs_site(path) is True
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        ('www.gov.uk', {'text': 'GOV.UK', 'icon_name': 'govuk'}),
+        ('www.wrong.uk', {'text': False, 'icon_name': False}),
+    ),
+)
+def test_get_card_meta_data_by_url(input_url, expected_output):
+    assert get_card_meta_data_by_url(input_url) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London'}, 'bgs-section-logo--london'),
+        ({'country': 'Scotland'}, 'bgs-section-logo--scotland'),
+        ({'region': 'Something'}, None),
+    ),
+)
+def test_get_region_bg_class(input_data, expected_output):
+    assert get_region_bg_class(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_url, expected_output',
+    (
+        ('https://www.gov.uk', {'filename': 'gov', 'domain': 'gov.uk'}),
+        ('https://www.wrong.uk', {'filename': 'wrong', 'domain': 'wrong.uk'}),
+    ),
+)
+def test_get_url_favicon_and_domain(input_url, expected_output):
+    assert get_url_favicon_and_domain(input_url) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London', 'country': 'England'}, 'london'),
+        ({'country': 'Northern Ireland'}, 'northern-ireland'),
+        ({'region': 'Something'}, None),
+    ),
+)
+def test_get_region_for_finance_and_support_snippet(input_data, expected_output):
+    assert get_region_for_finance_and_support_snippet(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ({'region': 'London', 'country': 'England'}, 'London'),
+        ({'country': 'Northern Ireland'}, 'Northern Ireland'),
+    ),
+)
+def test_get_region_name(input_data, expected_output):
+    assert get_region_name(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ('North East', '4'),
+        ('North West', '5'),
+        ('Yorkshire and The Humber', '3'),
+        ('East Midlands', '8'),
+        ('West Midlands', '8'),
+        ('East of England', '3'),
+        ('London', '3'),
+        ('South East', '6'),
+        ('South West', '7'),
+        ('Scotland', '9'),
+        ('Wales', '10'),
+        ('Northern Ireland', '11'),
+    ),
+)
+def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
+    assert get_region_for_find_a_grant_snippet(input_data) == expected_output

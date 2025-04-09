@@ -1,0 +1,19 @@
+<div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-2 govuk-!-margin-bottom-2">
+    {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id content=content %}
+
+    {% if locationTagText %}
+    <div class="govuk-!-margin-bottom-3">
+        {% include "includes/_location-tag.html" with text=locationTagText %}
+    </div>
+    {% endif %}
+
+    {% if sub_sector and sub_sector in content.sub_sector %}
+    <div class="govuk-!-margin-bottom-3">
+        {% include "includes/_sector-tag.html" with text=sub_sector %}
+    </div>
+    {% elif sector and sector in content.sector %}
+    <div class="govuk-!-margin-bottom-3">
+        {% include "includes/_sector-tag.html" with text=sector %}
+    </div>
+    {% endif %}
+</div>

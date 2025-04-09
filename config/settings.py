@@ -103,6 +103,8 @@ INSTALLED_APPS = [
     'wagtail_localize',
     'wagtail_localize.locales',
     'domestic_growth.apps.DomesticGrowthConfig',
+    'great_design_system',
+    'wagtail.contrib.frontend_cache',
 ]
 
 MIDDLEWARE = [
@@ -146,7 +148,9 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'breadcrumbs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'card',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'header-bgs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'footer-bgs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'button',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'details',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'accordion',
@@ -157,11 +161,22 @@ TEMPLATES = [
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'pagination',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'input',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'label',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'hint',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'card',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'error-message',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'error-summary',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'textarea',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'forms',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'widgets',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'title-arrow',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'cookie-banner',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'cookie-modal',
-            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'hero',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'select',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tabs',
             ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tag',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'back-link',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'tile',
+            ROOT_DIR / 'node_modules' / '@uktrade' / 'great-design-system' / 'dist' / 'components' / 'results-list',
             ROOT_DIR
             / 'node_modules'
             / '@uktrade'
@@ -184,6 +199,7 @@ TEMPLATES = [
                 'great_components.context_processors.urls_processor',
                 'great_components.context_processors.header_footer_processor',
                 'core.context_processors.domestic_footer',
+                'core.context_processors.footer_bgs',
                 'core.context_processors.international_footer',
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
@@ -205,6 +221,8 @@ TEMPLATES = [
         },
     },
 ]
+
+FORM_RENDERER = 'great_design_system.forms.renderers.GDSDivFormRenderer'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -537,38 +555,25 @@ if ELASTIC_APM_ENABLED:
     }
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
-# How do we power search?
-FEATURE_OPENSEARCH = env.feature_opensearch
-if FEATURE_OPENSEARCH:  # Power search via Opensearch
-    decoded_opensearch_url = unquote(env.opensearch_url)
+# Wagtail search
+decoded_opensearch_url = unquote(env.opensearch_url)
 
-    connections.create_connection(
-        alias='default',
-        hosts=[decoded_opensearch_url],
-        connection_class=RequestsHttpConnection,
-    )
-    WAGTAILSEARCH_BACKENDS = {
-        'default': {
-            'BACKEND': 'wagtail.search.backends.elasticsearch7',
-            'AUTO_UPDATE': True,
-            'URLS': [decoded_opensearch_url],
-            'INDEX': 'great-cms',
-            'TIMEOUT': 5,
-            'OPTIONS': {},
-            'INDEX_SETTINGS': {},
-        }
+connections.create_connection(
+    alias='default',
+    hosts=[decoded_opensearch_url],
+    connection_class=RequestsHttpConnection,
+)
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.search.backends.elasticsearch7',
+        'AUTO_UPDATE': True,
+        'URLS': [decoded_opensearch_url],
+        'INDEX': 'great-cms',
+        'TIMEOUT': 5,
+        'OPTIONS': {},
+        'INDEX_SETTINGS': {},
     }
-
-else:  # Power search via Activity Stream  # TODO: Remove once Opensearch implemented on PROD
-    services = {item['instance_name']: item for item in env.opensearch_service}
-    OPENSEARCH_INSTANCE_NAME = (
-        env.opensearch_instance_name if env.opensearch_instance_name else env.opensearch_service[0]['instance_name']
-    )
-    connections.create_connection(
-        alias='default',
-        hosts=[services[OPENSEARCH_INSTANCE_NAME]['credentials']['uri']],
-        connection_class=RequestsHttpConnection,
-    )
+}
 
 OPENSEARCH_CASE_STUDY_INDEX = env.elasticsearch_case_study_index
 
@@ -892,9 +897,6 @@ FEATURE_GREAT_ERROR = env.feature_great_error
 
 FEATURE_GUIDED_JOURNEY = env.feature_guided_journey
 FEATURE_UNGUIDED_JOURNEY = env.feature_unguided_journey
-FEATURE_OPENSEARCH = env.feature_opensearch
-FEATURE_SEARCH_PREVIEW = env.feature_search_preview
-FEATURE_ACTIVITY_STREAM = env.feature_activity_stream
 FEATURE_GUIDED_JOURNEY_EXTRAS = env.feature_guided_journey_extras
 FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH = env.feature_guided_journey_enhanced_search
 
@@ -1079,3 +1081,21 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
 FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+
+FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
+wagtail_cf = {}
+for cf_distribution in FRONTEND_CACHE_DISTRIBUTION_ID.split('|'):
+    if cf_distribution:
+        cf_hostnames = [hostname for hostname in cf_distribution.split(':')[1].split(',') if hostname]
+        cf_id = cf_distribution.split(':')[0]
+        cf_dist = {
+            'BACKEND': 'core.cache.GreatCloudfrontBackend',
+            'DISTRIBUTION_ID': cf_id,
+            'HOSTNAMES': cf_hostnames,
+        }
+        wagtail_cf[cf_id] = cf_dist
+
+WAGTAILFRONTENDCACHE = wagtail_cf
+CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
+
+BGS_SITE = env.bgs_site

@@ -1,9 +1,10 @@
 import wagtail_factories
 
 from domestic_growth.models import (
-    DomesticGrowthHomePage,
-    DomesticGrowthGuidePage,
     DomesticGrowthChildGuidePage,
+    DomesticGrowthDynamicChildGuidePage,
+    DomesticGrowthGuidePage,
+    DomesticGrowthHomePage,
 )
 
 
@@ -32,3 +33,12 @@ class DomesticGrowthChildGuidePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = DomesticGrowthChildGuidePage
+
+
+class DomesticGrowthDynamicChildGuidePageFactory(wagtail_factories.PageFactory):
+    title = 'dynamic-child-guidepage'
+    live = True
+    slug = 'dynamic-child-guidepage'
+
+    class Meta:
+        model = DomesticGrowthDynamicChildGuidePage

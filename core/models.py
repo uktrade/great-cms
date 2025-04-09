@@ -1,5 +1,6 @@
 import hashlib
 import mimetypes
+from datetime import datetime
 from urllib.parse import unquote, urlparse
 
 from django.conf import settings
@@ -2040,6 +2041,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     review_reminder_sent = models.DateTimeField(blank=True, null=True)
 
+    # Pass in as function so that datetime.now() is not evaluated on model definition.
+    def get_datetime_one_year_ahead():
+        now = datetime.now()
+        return now.replace(year=now.year + 1)
+
+    expiry_date = models.DateTimeField(default=get_datetime_one_year_ahead)
+
     search_fields = Page.search_fields + [  # Inherit search_fields from Page
         index.SearchField('page_title'),
         index.SearchField('page_subheading'),
@@ -2066,6 +2074,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_menu_items(self, request=None):
         parent_page = self.get_parent_page()
         menu_items = []
+        bgs_menu_items = []
 
         multiple_languages = len(settings.LANGUAGES) > 1
 
@@ -2078,6 +2087,19 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             menu_items = [{'href': parent_url, 'text': _('Home'), 'isCurrent': parent_url_clean == self.url}]
 
             menu_items.extend(
+                [
+                    {
+                        'href': (
+                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
+                        ),
+                        'text': child.title,
+                        'isCurrent': self.url == child.url,
+                    }
+                    for child in parent_page.get_children().live()
+                ]
+            )
+
+            bgs_menu_items.extend(
                 [
                     {
                         'href': (

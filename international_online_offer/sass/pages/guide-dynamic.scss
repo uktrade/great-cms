@@ -1,0 +1,277 @@
+@use '../../../styles/sizes/sizes' as sizes;
+
+@import 'styles/great/_colors.scss';
+
+.hero-tile-container {
+	margin-top: -150px;
+	position: relative;
+	z-index: 1;
+}
+
+.region-map {
+	display: none;
+
+	@media (min-width: sizes.$tablet-size) {
+		display: block;
+		background-image: url("/static/svg/regions/uk-all.svg");
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position-x: right;
+		background-position-y: top;
+		width: 100%;
+		height: 260px;
+	}
+}
+
+.map-location {
+	display: none;
+
+	@media (min-width: sizes.$tablet-size) {
+		display: block;
+		text-align: right;
+	}
+}
+
+.icon {
+	width: 60px;
+}
+
+.essential-topics {
+	padding: 15px var(--vertical-padding) 25px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+
+	@media (min-width: sizes.$tablet-size) {
+		padding: 30px;
+		gap: 20px;
+	}
+
+	&__list {
+		display: grid;
+		gap: 20px;
+		margin: 0;
+		padding: 0;
+
+		@media (min-width: sizes.$tablet-size) {
+			grid-template-columns: 1fr 1fr;
+			gap: 30px;
+		}
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		border: 2px solid #bdbdbd;
+		border-radius: 10px;
+		list-style: none;
+		padding: 15px;
+		font-weight: bold;
+
+		@media (min-width: sizes.$tablet-size) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			flex-direction: row;
+			align-items: center;
+		}
+	}
+
+}
+
+.great-ds-title-arrow-wrapper {
+	justify-content: space-between;
+	flex-direction: row;
+	gap: 0;
+	display: flex;
+}
+
+.figures {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			flex-direction: row;
+			gap: 30px;
+		}
+	}
+
+	&__figure {
+		display: grid;
+		grid-template:
+			"icon value"
+			"icon description"
+			/ 60px 1fr;
+		row-gap: 5px;
+		column-gap: 15px;
+		flex: 1 1;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__value {
+		grid-area: value;
+		margin: 0;
+	}
+
+	&__description {
+		grid-area: description;
+		margin: 0;
+	}
+
+	&__disclaimer {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		color: $great-text-dark-grey;
+		margin: 0;
+
+		@media (min-width: sizes.$donknowhowtonameit-size) {
+			display: block;
+		}
+	}
+}
+
+.rich-link {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+	padding-bottom: 20px;
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1;
+		gap: 5px;
+	}
+
+	&__image {
+		display: none;
+
+		@media (min-width: sizes.$tablet-size) {
+			display: initial;
+			width: 140px;
+		}
+	}
+
+	&__website {
+		color: $great-text-dark-grey;
+	}
+
+	& > * {
+		margin: 0;
+	}
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+		border-bottom: 1px solid #bdbdbd;
+	}
+}
+
+.tab-content {
+	padding-bottom: 20px;
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+		border-bottom: 1px solid #bdbdbd;
+	}
+
+	@media (min-width: sizes.$tablet-size) {
+		display: grid;
+		grid-template:
+			" icon title"
+			" icon figure"
+			" icon explanation"
+			/ 60px auto;
+		gap: 10px;
+	}
+
+	@media (min-width: sizes.$donknowhowtonameit-size) {
+		grid-template:
+			" icon  .    title  title title"
+			" icon  .    .      .     ." 5px
+			" icon  .    figure .     explanation"
+			/ 60px  10px auto   30px  auto;
+	}
+
+	&__icon {
+		grid-area: icon;
+	}
+
+	&__title {
+		grid-area: title;
+		margin: 0;
+	}
+
+	&__figure {
+		grid-area: figure;
+	}
+
+	&__description {
+		grid-area: description;
+	}
+
+	&__explanation {
+		grid-area: explanation;
+	}
+
+	&__value {
+		margin: 0;
+
+		&--mobile {
+			@media (min-width: sizes.$donknowhowtonameit-size) {
+				display: none;
+			}
+		}
+
+		&--tablet {
+			@media (max-width: sizes.$donknowhowtonameit-size) {
+				display: none;
+			}
+		}
+	}
+}
+
+.link-list {
+		list-style: none;
+		margin: 0;
+
+		&__item {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			margin: 0;
+			padding: 15px 0;
+			border-bottom: 1px solid #bdbdbd;
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&:last-child {
+				padding-bottom: 0;
+				border-bottom: none;
+			}
+
+			& > *:not(:first-child) {
+				margin-bottom: 0;
+			}
+		}
+	}

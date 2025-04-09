@@ -1003,7 +1003,7 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self._make_country_guide_pages(markets_topic_page, 21)
         output = markets_topic_page.get_context(request)
 
-        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(len(output['page_obj']), 18)
         self.assertEqual(output['sortby'], 'last_published_at')
 
     def test_get_context__pagination(self):
@@ -1017,9 +1017,9 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
         request = RequestFactory().get('/?page=1')  # 1-18 should be on page 1
         output = markets_topic_page.get_context(request)
-        self.assertEqual(len(output['paginated_results']), 18)
+        self.assertEqual(len(output['page_obj']), 18)
         self.assertEqual(
-            output['paginated_results'][0],
+            output['page_obj'][0],
             CountryGuidePage.objects.first(),
         )
         output = markets_topic_page.get_context(request)
@@ -1027,10 +1027,10 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         request = RequestFactory().get('/?page=2')  # 19-21 should be on page 2
         output = markets_topic_page.get_context(request)
 
-        self.assertEqual(len(output['paginated_results']), 3)
+        self.assertEqual(len(output['page_obj']), 3)
         # final result should be the last CGP
         self.assertEqual(
-            output['paginated_results'][2],
+            output['page_obj'][2],
             CountryGuidePage.objects.order_by('title').last(),
         )
 
@@ -1043,7 +1043,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self._make_country_guide_pages(markets_topic_page, 21)
 
         for bad_args in (
-            '?page=112312312312413124',  # will raise EmptyPage
             '?page=BAD WORDS',  # will raise PageNotAnInteger
             '?page=;delete * from auth_user',  # will raise PageNotAnInteger
             '?page=;delete%20*%20from%20auth_user',  # will raise PageNotAnInteger
@@ -1053,10 +1052,10 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
                 output = markets_topic_page.get_context(request)
 
-                self.assertEqual(len(output['paginated_results']), 18)
+                self.assertEqual(len(output['page_obj']), 18)
                 # defaults to the first page of results
                 self.assertEqual(
-                    output['paginated_results'][0],
+                    output['page_obj'][0],
                     CountryGuidePage.objects.first(),
                 )
 

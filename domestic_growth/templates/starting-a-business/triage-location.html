@@ -1,0 +1,17 @@
+{% extends 'includes/base_triage.html' %}
+{% block form %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="govuk-form-group">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+            </h2>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">Where will your business be based?</h1>
+            <label class="govuk-body govuk-!-margin-bottom-4" for="id_postcode">
+                Enter the postcode and we’ll show you support and information services closest to you.
+            </label>
+            <div class="govuk-!-margin-top-4">{{ form }}</div>
+        </div>
+        {% include '_button.html' with text='Continue' %}
+    </form>
+{% endblock %}

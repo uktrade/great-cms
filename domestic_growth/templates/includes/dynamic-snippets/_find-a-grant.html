@@ -1,0 +1,3 @@
+<div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-2 govuk-!-margin-bottom-2">
+    {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url|add:"grants?searchTerm=&fields.grantLocation.en-US="|add:region description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+</div>

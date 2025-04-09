@@ -12,6 +12,7 @@ from domestic.helpers import (
     get_sector_and_market_promo_data_helper,
     get_sector_widget_data_helper,
 )
+from domestic_growth.models import DomesticGrowthContent
 
 register = template.Library()
 
@@ -186,18 +187,6 @@ def get_meta_description(page):
     return description if description is not None else ''
 
 
-# TODO? Reimplement, if we can't address this better at the Wagtail level
-# @register.filter
-# def add_href_target(value, request):
-#     soup = BeautifulSoup(value, 'html.parser')
-#     for element in soup.findAll('a', attrs={'href': re.compile('^http')}):
-#         if request.META['HTTP_HOST'] not in element.attrs['href']:
-#             element.attrs['target'] = '_blank'
-#             element.attrs['title'] = 'Opens in a new window'
-#             element.attrs['rel'] = 'noopener noreferrer'
-#     return str(soup)
-
-
 def get_pagination_url(request, page_param_name):
     """Remove pagination param from request url"""
     url = request.path
@@ -208,16 +197,47 @@ def get_pagination_url(request, page_param_name):
     return f'{url}?'
 
 
-@register.inclusion_tag('components/pagination/pagination.html', takes_context=True)
-def pagination(context, pagination_page, page_param_name='page'):
-    paginator = pagination_page.paginator
-    pagination_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
-    return {
-        'page_param_name': page_param_name,
-        'pagination': pagination_page,
-        'url': pagination_url,
-        'pages_after_current': paginator.num_pages - pagination_page.number,
+@register.inclusion_tag('_numbered_pagination.html', takes_context=True)
+def pagination(context, page_obj, page_param_name='page', elided_page_range=None, hover_classes=None):
+    current_url = get_pagination_url(request=context['request'], page_param_name=page_param_name)
+
+    context = {
+        'currentPageURL': current_url,
+        'elidedPageRange': elided_page_range,
+        'elidedPageStr': '…',  # Copied from django pagination output
+        'pageParamName': page_param_name,
+        'hoverClasses': hover_classes,
     }
+
+    context['previousPageNumber'] = page_obj.previous_page_number() if page_obj.has_previous() else None
+    context['currentPageNumber'] = page_obj.number
+    context['nextPageNumber'] = page_obj.next_page_number() if page_obj.has_next() else None
+    context['lastPageNumber'] = page_obj.paginator.num_pages
+
+    return context
+
+
+@register.filter
+def pagination_obj_range_lower_limit(page_obj):
+    current_page_number = page_obj.number
+    per_page = page_obj.paginator.per_page
+
+    lower_limit = per_page * current_page_number
+
+    return lower_limit
+
+
+@register.filter
+def pagination_obj_range_upper_limit(page_obj):
+    total_objects = page_obj.paginator.count
+    current_page_number = page_obj.number
+    per_page = page_obj.paginator.per_page
+
+    upper_limit = per_page * (current_page_number + 1)
+
+    if upper_limit > total_objects:
+        upper_limit = total_objects
+    return upper_limit
 
 
 @register.inclusion_tag('components/message_box.html')
@@ -425,12 +445,11 @@ def render_event_details_hero(
     event_dates,
 ):
 
-    # event string should read '4:05pm' instead of '04:05pm', so remove leading '0'
-    event_date_hour = event_dates.strftime('%I')
-    if int(event_date_hour) < 10:
-        event_date_hour = event_date_hour[1]
+    # Convert to local timezone to ensure correct time display
+    local_event_date = timezone.localtime(event_dates)
 
-    event_date_string = event_dates.strftime('%A %d %B at ') + event_date_hour + event_dates.strftime(':%M%p')
+    # Use %-I to get hour without leading zero in 12-hour format ('4:05pm' instead of '04:05pm')
+    event_date_string = local_event_date.strftime('%A %d %B at %-I:%M%p')
 
     if event_type:
         caption = event_type.capitalize() + ' event'
@@ -532,3 +551,31 @@ def get_lte_hero_image_path_from_class(title):
         return str(title_to_image_path_map[title])
     else:
         return ''
+
+
+@register.filter
+def regional_snippet(snippet, region):
+    content_snippets = DomesticGrowthContent.objects.all()
+
+    filtered_snippets = list(
+        content_snippets.filter(content_id__contains=str(snippet.content_id), region__contains=str(region))
+    )
+
+    if len(filtered_snippets) >= 1:
+        return filtered_snippets[0]
+
+    return None
+
+
+@register.filter
+def sector_snippet(snippet, sector):
+    content_snippets = DomesticGrowthContent.objects.all()
+
+    filtered_snippets = list(
+        content_snippets.filter(content_id__contains=str(snippet.content_id), sector__contains=str(sector))
+    )
+
+    if len(filtered_snippets) >= 1:
+        return filtered_snippets[0]
+
+    return None

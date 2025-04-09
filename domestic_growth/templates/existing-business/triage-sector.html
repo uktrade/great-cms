@@ -1,0 +1,48 @@
+{% extends 'includes/base_triage.html' %}
+{% load static %}
+{% block form %}
+    <form method="post" autocomplete="off" data-target-market-form>
+        {% csrf_token %}
+        <div class="govuk-form-group">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+            </h2>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">What is your sector or industry?</h1>
+            <div class="govuk-body govuk-!-margin-bottom-4">
+                <label for="js-sector-select">We’ll show you support and information relevant to your sector or industry.</label>
+            </div>
+            <div class="{% if form.errors %} govuk-form-group--error{% endif %}">
+                <div class="govuk-!-margin-bottom-2">
+                    {% include 'international/includes/form_field.html' with field=form.sector help_class='govuk-label great-font-bold js-enabled-only' inputWrapperClass='prepend-search-icon' %}
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
+                <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
+                    <div class="govuk-checkboxes__item">
+                        {{ form.cant_find_sector }}
+                        <label class="govuk-label govuk-checkboxes__label" for="id_cant_find_sector">{{ form.cant_find_sector.label }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include '_button.html' with text='Continue' %}
+    </form>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
+    <script type="text/javascript">
+        const onSubmitBusinessDetails = () => {
+            if (!document.getElementById('js-sector-select').value) {
+                document.getElementById('js-sector-select-select').value = '';
+            }
+        }
+    </script>
+    <script type="text/javascript"
+            src="{% static 'javascript/sector-lookup.js' %}"></script>
+    <script>
+        const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
+        GreatFrontend.SectorLookup.init(sectorData=allSectors)
+    </script>
+    <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
+{% endblock %}

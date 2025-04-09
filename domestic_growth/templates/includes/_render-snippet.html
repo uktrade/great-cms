@@ -1,0 +1,66 @@
+{% load is_a_dynamic_snippet get_url_favicon_and_domain get_region_for_finance_and_support_snippet get_region_name get_region_for_find_a_grant_snippet from content_tags %}
+{% load regional_snippet sector_snippet from component_tags %}
+
+{% with card_meta_data=content.url|get_url_favicon_and_domain %}
+    {% if content.content_id|is_a_dynamic_snippet %}
+        {% for snippet_id, snippet_name in dynamic_snippet_names %}
+            {% if content.content_id == snippet_id %}
+                {% if snippet_name == 'Scottish Enterprise' and local_support_data %}
+                    {% if local_support_data.postcode_data.admin_district in scottish_enterprise_admin_districts %}
+                        {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
+                    {% endif %}
+                {% elif snippet_name == 'Highlands & Islands Enterprise' and local_support_data %}
+                    {% if local_support_data.postcode_data.admin_district in highlands_and_islands_admin_districts %}
+                        {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
+                    {% endif %}
+                {% elif snippet_name == 'South of Scotland Enterprise' and local_support_data %}
+                    {% if local_support_data.postcode_data.admin_district in south_of_scotland_enterprises_admin_districts %}
+                        {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
+                    {% endif %}
+                {% elif snippet_name == 'Finance and support for your business' and local_support_data %}
+                    {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region=local_support_data.postcode_data|get_region_for_finance_and_support_snippet region_name=local_support_data.postcode_data|get_region_name %}
+                {% elif snippet_name == 'Talk to an International Trade Adviser' and turnover not in ita_excluded_turnovers %}
+                    {% include "includes/dynamic-snippets/_ita.html" with content=content %}
+                {% elif snippet_name == 'Find a grant' and local_support_data %}
+                    {% with region_name=local_support_data.postcode_data|get_region_name %}
+                        {% include 'includes/dynamic-snippets/_find-a-grant.html' with content=content region=region_name|get_region_for_find_a_grant_snippet %}
+                    {% endwith %}
+                {% elif snippet_name == 'British Business Bank Regional funds' and local_support_data %}
+                    {% with region_name=local_support_data.postcode_data|get_region_name %}
+                        {% with snippet_content=content|regional_snippet:region_name %}
+                            {% if snippet_content %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content locationTagText=region_name %}
+                            {% endif %}
+                        {% endwith %}
+                    {% endwith %}
+                {% elif snippet_name == 'Contracts finder' or snippet_name == 'Apprenticeships placeholder' and local_support_data %}
+                    {% with country_name=local_support_data.postcode_data.country %}
+                        {% with snippet_content=content|regional_snippet:country_name %}
+                            {% if snippet_content %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content locationTagText=country_name %}
+                            {% endif %}
+                        {% endwith %}
+                    {% endwith %}
+                {% elif snippet_name == 'Innovate UK Catapult Network' and sector %}
+                    {% with snippet_content=content|sector_snippet:sector %}
+                        {% if snippet_content %}
+                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                        {% endif %}
+                    {% endwith %}
+                {% elif snippet_name == 'Innovate UK Business Connect' and sector  %}
+                    {% with snippet_content=content|sector_snippet:sector %}
+                        {% if snippet_content %}
+                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                        {% else %}
+                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-2 govuk-!-margin-bottom-2">
+            {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+        </div>
+    {% endif %}
+{% endwith %}

@@ -4,7 +4,7 @@ from urllib.parse import unquote_plus
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db import models
 from django.http import Http404
 from django.utils.functional import cached_property
@@ -654,17 +654,6 @@ class MarketsTopicLandingPage(
             pages=market_pages_qs.distinct(),
         )
 
-    def paginate_data(self, request, pages):
-        paginator = Paginator(pages, self.MAX_PER_PAGE)
-
-        try:
-            paginated_results = paginator.page(request.GET.get('page', 1))
-        except (EmptyPage, PageNotAnInteger):
-            # By default, return the first page
-            paginated_results = paginator.page(1)
-
-        return paginated_results
-
     def get_regions_list(self, request):
         selected = set(request.GET.getlist(self.REGION_QUERYSTRING_NAME))
         # chain unselected items queryset onto selected items queryset to sort selected items ahead of unselected
@@ -712,7 +701,15 @@ class MarketsTopicLandingPage(
     def get_context(self, request):
         context = super().get_context(request)
         relevant_markets = self.get_relevant_markets(request)
-        paginated_results = self.paginate_data(request, relevant_markets)
+
+        paginator = Paginator(relevant_markets, self.MAX_PER_PAGE)
+        page_obj = paginator.get_page(request.GET.get('page', 1))
+        elided_page_range = [
+            page_num
+            for page_num in page_obj.paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1)
+        ]
+        context['page_obj'] = page_obj
+        context['elided_page_range'] = elided_page_range
 
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self._get_sortby(request)
@@ -729,8 +726,19 @@ class MarketsTopicLandingPage(
         context['number_of_regions'] = len(context['selected_regions'])
         context['number_of_trading_blocs'] = len(context['selected_trading_blocs'])
 
-        context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
+
+        context['markets_sort_form'] = domestic_forms.MarketsSortForm()
+        context['markets_filters_form'] = domestic_forms.MarketsFilterForm(
+            init_data={
+                'sector_list': self.get_sector_list(request),
+                'selected_sectors': self.get_selected_sectors(request),
+                'region_list': self.get_regions_list(request),
+                'selected_regions': self.get_selected_regions(request),
+                'trading_bloc_list': self.get_trading_bloc_list(request),
+                'selected_trading_blocs': self.get_selected_trading_blocs(request),
+            }
+        )
 
         return context
 
@@ -876,7 +884,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         blank=True,
         verbose_name='CTA 4 link',
     )
-
+    notification_title = models.TextField(null=True, blank=True)
+    notification_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,

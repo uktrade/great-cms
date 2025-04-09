@@ -1,0 +1,37 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Domestic Growth - Tell us a little more
+{% endblock %}
+{% block head_css %}
+    <link href="{% static 'core/css/accessible-autocomplete.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+    {{ block.super }}
+{% endblock %}
+{% if back_url %}
+    {% block breadcrumbs_block %}
+        <div class="great great-bg-dark-blue">
+            <div class="great great-container great-bg-dark-blue">
+                <div class="govuk-grid-row govuk-!-padding-left-3">
+                    {% include "_back-link.html" with linkHref=back_url linkClass='great-ds-back-link--white' %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endif %}
+{% block content %}
+    <div class="great bgs-triage-background">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="triage-form-container govuk-!-margin-left-3 govuk-!-margin-right-3 govuk-!-margin-bottom-7 govuk-!-margin-top-6">
+                    <div class="great-bg-white govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-6 govuk-!-padding-bottom-7">
+                        {% block form %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block feedback_reporter %}{% endblock %}
+{% endblock %}
