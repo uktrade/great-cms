@@ -130,6 +130,7 @@ class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
             url='www.url.com',
             region='London',
             sector='Aerospace',
+            sub_sector='Manufacturing and assembly',
             is_dynamic=False,
             show_image=False,
         )
@@ -140,6 +141,7 @@ class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(snippet.url, 'www.url.com')
         self.assertEqual(snippet.region, 'London')
         self.assertEqual(snippet.sector, 'Aerospace')
+        self.assertEqual(snippet.sub_sector, 'Manufacturing and assembly')
         self.assertEqual(snippet.is_dynamic, False)
         self.assertEqual(snippet.show_image, False)
 

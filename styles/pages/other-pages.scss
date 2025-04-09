@@ -61,11 +61,6 @@
   background-color: $color-background-color;
 }
 
-section#search-results-information {
-  background-color: $color-main-background;
-  margin-bottom: 0;
-}
-
 #report-a-trade-barrier {
   background-color: $color-main-background;
 }
@@ -118,6 +113,10 @@ section#search-results-information {
 
 section.report-trade-barrier {
   background-color: $color-main-background;
+}
+
+section.report-trade-barrier {
+  padding-bottom: 30px;
 }
 
 #teaser-section,
@@ -236,8 +235,30 @@ ul.list-bullet li:before,
   background-color: $color-main-text;
 }
 
+section#search-results-information {
+  background-color: $color-main-background;
+  margin-bottom: 0;
+  padding: 0 0 20px;
+}
+
+#search-results-information .container {
+  overflow: visible;
+}
+
 .search-results-list {
-  padding-top: $x-large-padding;
+  background-color: #fff;
+  padding: 0 !important;
+}
+
+.search-results-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-results-form-group {
+  margin: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 .results-wrapper {

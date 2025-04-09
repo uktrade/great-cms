@@ -3,6 +3,9 @@
 {% load wagtailcore_tags %}
 {% load static_absolute from directory_components %}
 {% load int_canonical_url_tags %}
+{% load bgs_tags %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -91,7 +94,11 @@
             {% endblock %}
         {% endif %}
         {% block body_header %}
-            {% include "_header.html" with use_domestic_logo=international_header_context.use_domestic_logo header_classes=international_header_context.header_classes hideMainNav=international_header_context.hideMainNav isInternational=international_header_context.isInternational mobileSiteLink=international_header_context.mobileSiteLink sso_is_logged_in=international_header_context.sso_is_logged_in isAuthenticated=international_header_context.isAuthenticated hideSearch=international_header_context.hideSearch hideMenuOnDesktop=international_header_context.hideMenuOnDesktop domesticLink=international_header_context.domesticLink internationalLink=international_header_context.internationalLink searchFormAction=international_header_context.searchFormAction navItemsList=international_header_context.navItemsList menuItemsList=international_header_context.menuItemsList actionLinkList=international_header_context.actionLinkList siteTitle=international_header_context.siteTitle %}
+            {% if bgs_site %}
+                {% include "_header-bgs.html" with header_classes=bgs_header_context.header_classes sso_is_logged_in=bgs_header_context.sso_is_logged_in isAuthenticated=bgs_header_context.isAuthenticated hideSearch=bgs_header_context.hideSearch hideMenuOnDesktop=bgs_header_context.hideMenuOnDesktop searchFormAction=bgs_header_context.searchFormAction menuItemsList=bgs_header_context.menuItemsList %}
+            {% else %}
+                {% include "_header.html" with use_domestic_logo=international_header_context.use_domestic_logo header_classes=international_header_context.header_classes hideMainNav=international_header_context.hideMainNav isInternational=international_header_context.isInternational mobileSiteLink=international_header_context.mobileSiteLink sso_is_logged_in=international_header_context.sso_is_logged_in isAuthenticated=international_header_context.isAuthenticated hideSearch=international_header_context.hideSearch hideMenuOnDesktop=international_header_context.hideMenuOnDesktop domesticLink=international_header_context.domesticLink internationalLink=international_header_context.internationalLink searchFormAction=international_header_context.searchFormAction navItemsList=international_header_context.navItemsList menuItemsList=international_header_context.menuItemsList actionLinkList=international_header_context.actionLinkList siteTitle=international_header_context.siteTitle %}
+            {% endif %}
         {% endblock %}
         {% block maintenance_banner %}
             {% include 'components/great/migration_notice_banner.html' %}
@@ -115,7 +122,11 @@
             </section>
         {% endblock %}
         {% block body_footer %}
-            {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
+            {% if bgs_site %}
+                {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
+            {% else %}
+                {% include "_footer.html" with isInternational=international_footer_context.is_international currentYear=international_footer_context.current_year footerLinks=international_footer_context.footer_links logoLinkHref=international_footer_context.logo_link_href %}
+            {% endif %}
         {% endblock %}
         {% block body_js %}
             <script src="{% static 'great_design_system_scripts.js' %}"></script>

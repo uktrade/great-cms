@@ -3,7 +3,7 @@ from uuid import UUID
 
 import pytest
 from django.test.client import RequestFactory
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
@@ -329,3 +329,112 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     assert existing_business_triage_obj.when_set_up == when_set_up
     assert existing_business_triage_obj.turnover == turnover
     assert existing_business_triage_obj.currently_export is False
+
+
+@pytest.mark.parametrize(
+    'model,form_view,form_url,session_id,model_field_name,model_field_value,form_field_name,form_field_value',
+    (
+        (
+            StartingABusinessTriage,
+            StartingABusinessLocationFormView,
+            reverse_lazy('domestic_growth:domestic-growth-pre-start-location'),
+            '1234',
+            'postcode',
+            'BT80 9ER',  # /PS-IGNORE
+            'postcode',
+            'BT80 9ER',  # /PS-IGNORE
+        ),
+        (
+            StartingABusinessTriage,
+            StartingABusinessSectorFormView,
+            reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'),
+            '1234',
+            'sector_id',
+            'SL0003',
+            'sector',
+            'SL0003',
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessLocationFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-location'),
+            '1234',
+            'postcode',
+            'BT80 9ER',  # /PS-IGNORE
+            'postcode',
+            'BT80 9ER',  # /PS-IGNORE
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessSectorFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-sector'),
+            '1234',
+            'sector_id',
+            'SL0003',
+            'sector',
+            'SL0003',
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessWhenSetupFormView,
+            reverse_lazy('domestic_growth:domestic-growth-when-set-up'),
+            '1234',
+            'when_set_up',
+            LESS_THAN_3_YEARS_AGO,
+            'when_set_up',
+            LESS_THAN_3_YEARS_AGO,
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessTurnoverFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-turnover'),
+            '1234',
+            'turnover',
+            '2M_TO_5M',
+            'turnover',
+            '2M_TO_5M',
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessCurrentlyExportFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-exporter'),
+            '1234',
+            'currently_export',
+            True,
+            'currently_export',
+            'YES',
+        ),
+        (
+            ExistingBusinessTriage,
+            ExistingBusinessCurrentlyExportFormView,
+            reverse_lazy('domestic_growth:domestic-growth-existing-exporter'),
+            '1234',
+            'currently_export',
+            False,
+            'currently_export',
+            'NO',
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_triage_form_init(
+    mock_get_dbt_sectors,
+    model,
+    form_view,
+    form_url,
+    session_id,
+    model_field_name,
+    model_field_value,
+    form_field_name,
+    form_field_value,
+):
+
+    data = {'session_id': session_id, model_field_name: model_field_value}
+
+    model.objects.create(**data)
+
+    factory = RequestFactory()
+
+    req = factory.get(f'{form_url}?session_id={session_id}')
+    view = form_view.as_view()(req)
+    assert view.context_data['form'].initial[form_field_name] == form_field_value

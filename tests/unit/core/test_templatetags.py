@@ -28,10 +28,14 @@ from core.templatetags.content_tags import (
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_region_bg_class,
+    get_region_for_finance_and_support_snippet,
+    get_region_for_find_a_grant_snippet,
+    get_region_name,
     get_template_translation_enabled,
     get_text_blocks,
     get_topic_blocks,
     get_topic_title_for_lesson,
+    get_url_favicon_and_domain,
     get_visa_and_travel_country_slug,
     get_visa_and_travel_url_for_eu_countries,
     h3_if,
@@ -49,10 +53,6 @@ from core.templatetags.content_tags import (
     tag_text_mapper,
     url_type,
     val_to_int,
-    get_url_favicon_and_domain,
-    get_region_for_finance_and_support_snippet,
-    get_region_name,
-    get_region_for_find_a_grant_snippet,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar

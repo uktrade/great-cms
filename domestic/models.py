@@ -884,7 +884,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         blank=True,
         verbose_name='CTA 4 link',
     )
-
+    notification_title = models.TextField(null=True, blank=True)
+    notification_body = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,

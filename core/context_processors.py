@@ -235,6 +235,137 @@ def domestic_header(request):
         'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
+        'bgs_header_context': {
+            'header_classes': '',
+            'sso_is_logged_in': request.user.is_authenticated,
+            'isAuthenticated': request.user.is_authenticated,
+            'hideSearch': False,
+            'hideMenuOnDesktop': False,
+            'searchFormAction': reverse_lazy('search:search'),
+            'search_icon': search_icon,
+            'menu_icon': menu_icon,
+            'menuItemsList': [
+                {
+                    'icon': '/static/icons/start-icon.svg',
+                    'href': '/support-in-uk/pre-start/location/',
+                    'text': 'Starting a business',
+                    'isCurrent': '/export' in request.path,
+                    'overviewText': 'Get support and information',
+                    'description': """Tell us about your plans and we'll connect you to expert guidance and
+ support for setting up your business.""",
+                },
+                {
+                    'icon': '/static/icons/run-icon.svg',
+                    'href': '/support-in-uk/existing/location/',
+                    'text': 'Running and growing a business',
+                    'isCurrent': '/invest' in request.path,
+                    'overviewText': 'Get support and information',
+                    'description': """Tell us a bit about your business and we'll link you up to the right
+ resources to help it thrive.""",
+                },
+                {
+                    'icon': '/static/icons/export-icon.svg',
+                    'href': '/greatgovuk/',
+                    'text': 'Selling overseas from the UK',
+                    'overviewText': 'Start exporting',
+                    'children': [
+                        {'href': '/greatgovuk/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
+                        {'href': '/greatgovuk/export-support/', 'text': 'Export support'},
+                        {
+                            'href': '/greatgovuk/export-academy/',
+                            'text': 'UK Export Academy',
+                            'isCurrent': '/export-support/' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/learn/categories/',
+                            'text': 'Learn to export',
+                            'isCurrent': '/learn/categories/' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/services/',
+                            'text': 'Export resources',
+                            'requiresAuth': True,
+                            'isCurrent': '/services/' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/dashboard/',
+                            'text': 'Export dashboard',
+                            'requiresAuth': True,
+                            'isCurrent': '/compare-countries' in request.path,
+                        },
+                        {
+                            'href': reverse_lazy('core:compare-countries'),
+                            'text': 'Where to export',
+                            'isCurrent': '/compare-countries' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/export-plan/',
+                            'text': 'Make an export plan',
+                            'requiresAuth': True,
+                            'isCurrent': '/export-plan' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/profile/',
+                            'text': 'Export account',
+                            'requiresAuth': True,
+                            'isCurrent': '/profile' in request.path,
+                        },
+                        {
+                            'text': 'Sign out of export account services',
+                            'attributes': 'onclick="signOut()"',
+                            'button': True,
+                            'requiresAuth': True,
+                        },
+                        {
+                            'text': 'Sign in to export account services',
+                            'href': reverse_lazy('core:login'),
+                            'button': True,
+                            'requiresNoAuth': True,
+                        },
+                    ],
+                },
+                {
+                    'icon': '/static/icons/expand-icon.svg',
+                    'href': '/greatgovuk/international/',
+                    'text': 'Investing and expanding in the UK',
+                    'overviewText': 'Start investing',
+                    'children': [
+                        {
+                            'href': '/greatgovuk/international/expand-your-business-in-the-uk/',
+                            'text': 'Expand your business in the UK',
+                            'isCurrent': '/expand-your-business-in-the-uk' in request.path,
+                        },
+                        {
+                            'href': '/greatgovuk/international/investment/',
+                            'text': 'Investment opportunities',
+                            'isCurrent': (
+                                '/international/investment/' == request.path
+                                or (
+                                    '/international/investment/' in request.path and '?back=' in request.get_full_path()
+                                )
+                            ),
+                        },
+                        {
+                            'href': '/greatgovuk/international/buy-from-the-uk/',
+                            'text': 'Buy from the UK',
+                            'isCurrent': '/international/buy-from-the-uk/' in request.path,
+                        },
+                        {
+                            'href': '#',
+                            'text': 'Sign out of expand your business in the UK',
+                            'requiresAuth': True,
+                            'attributes': 'onclick="signOut()"',
+                        },
+                        {
+                            'href': reverse_lazy('international_online_offer:login'),
+                            'text': 'Sign in to expand your business in the UK',
+                            'requiresNoAuth': True,
+                            'isCurrent': '/expand-your-business-in-the-uk/login/' in request.path,
+                        },
+                    ],
+                },
+            ],
+        },
     }
 
 
@@ -254,6 +385,11 @@ def microsite_header(request):
         'hideMenuOnDesktop': True,
         'subnavItemsList': '',
         'mobileSiteLink': '',
+        'bgs_header_campaign_context': {
+            'rtl': get_language_bidi(),
+            'hideSearch': True,
+            'hideMenuOnDesktop': True,
+        },
     }
 
 
@@ -388,4 +524,102 @@ def microsite_footer(request):
                 'text': 'Accessibility',
             },
         ],
+    }
+
+
+def footer_bgs(request):
+    return {
+        'footer_bgs_context': {
+            'currentYear': str(datetime.now().year),
+            'upperFooterSection': [
+                [
+                    {
+                        'href': '#TBC',
+                        'text': 'Starting a business',
+                        'title': 'Export support for UK businesses',
+                        'isHeading': 'true',
+                    }
+                ],
+                [
+                    {
+                        'href': '#TBC',
+                        'text': 'Running and growing a business',
+                        'title': 'Running and growing a business',
+                        'isHeading': 'true',
+                    }
+                ],
+                [
+                    {
+                        'href': '',
+                        'text': 'Selling overseas from the UK',
+                        'title': 'Selling overseas from the UK',
+                        'isHeading': 'true',
+                    },
+                    {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
+                    {'href': '/export-from-uk/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {
+                        'href': '/export-from-uk/export-academy/',
+                        'text': 'UK Export Academy',
+                        'title': 'UK Export Academy',
+                    },
+                    {
+                        'href': '/export-from-uk/learn/categories/',
+                        'text': 'Learn to export',
+                        'title': 'Learn to export',
+                    },
+                    {'href': '/export-from-uk/services', 'text': 'Export resources', 'title': 'Export resources'},
+                ],
+                [
+                    {
+                        'href': '/international/',
+                        'text': 'Investing and expanding in the UK',
+                        'title': 'Investing and expanding in the UK',
+                        'isHeading': 'true',
+                    },
+                    {
+                        'href': '/international/expand-your-business-in-the-uk/',
+                        'text': 'Expand your business in the UK',
+                        'title': 'Expand your business in the UK',
+                    },
+                    {
+                        'href': '/international/investment/',
+                        'text': 'Investment opportunities',
+                        'title': 'Investment opportunities',
+                    },
+                    {'href': 'international/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
+                ],
+            ],
+            'lowerFooterSection': [
+                [
+                    {'href': '/privacy/', 'text': 'Privacy', 'title': 'Privacy'},
+                    {'href': '/cookies/', 'text': 'Cookies', 'title': 'Cookies'},
+                    {
+                        'href': '/accessibility-statement/',
+                        'text': 'Accessibility statement',
+                        'title': 'Accessibility statement',
+                    },
+                ],
+                [
+                    {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
+                    {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
+                ],
+                [
+                    {'href': '#TBC', 'text': 'About this website', 'title': 'About this website'},
+                    {
+                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'text': 'Help using this website',
+                        'title': 'Help using this website',
+                    },
+                ],
+                [
+                    {
+                        'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+                        'text': 'Department for Business and Trade on GOV.UK',
+                        'title': 'Department for Business and Trade on GOV.UK',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    }
+                ],
+            ],
+        }
     }

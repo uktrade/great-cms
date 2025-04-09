@@ -1,9 +1,9 @@
 {% extends 'includes/base.html' %}
-
-{% block head_title %}Domestic Growth - Guide child page{% endblock %}
+{% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
 {% block content %}
-    <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero" style="background-image: url({{ hero_image_url }});">
-        <div class="great-ds-container govuk-!-padding-top-8">
+    <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
+             style="background-image: url({{ hero_image_url }})">
+        <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     <div class="great-ds-bg-white govuk-!-padding-6">
@@ -14,13 +14,12 @@
                             <p class="govuk-body govuk-!-margin-bottom-6">{{ page.get_parent.hero_intro }}</p>
                         {% endif %}
                         {% if sector %}
-                            {% include "_tag.html" with text=sector type="success" %}
+                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1 govuk-!-margin-bottom-1" %}
                         {% endif %}
                         {% if local_support_data.postcode_data.admin_district %}
-                            {% include "_tag.html" with text=local_support_data.postcode_data.admin_district type="information" %}
+                            {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
                         {% endif %}
-
-                        {% include "includes/_change-answers.html" %}
+                        {% include "includes/_change-answers.html" with change_answers_link=change_answers_link %}
                     </div>
                 </div>
             </div>
@@ -68,23 +67,32 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
                     {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
-                    {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-3">{{ page.body_intro }}</p>{% endif %}
+                    {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-9">{{ page.body_intro }}</p>{% endif %}
                     {% if page.body_sections %}
                         {% for section in page.body_sections %}
-                        <div class="govuk-!-margin-bottom-6 govuk-!-padding-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}" {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
-                            <h3 class="govuk-heading-m govuk-!-margin-bottom-3">{{ section.value.title }}</h3>
-                            <p class="govuk-caption">{{ section.value.intro }}</p>
-
-                            {% for content in section.value.content %}
-                                {% include "includes/_render-snippet.html" with content=content %}
-                            {% endfor %}
-
-                            {% if section.value.link_text and section.value.link_url %}
-                                <div class="great-ds-cta-banner__action-link-container">
-                                    {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                            <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}"
+                                 {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
+                                <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
+                                    {% if section.value.title %}
+                                        <h3 class="govuk-heading-s {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
+                                            {{ section.value.title }}
+                                        </h3>
+                                    {% endif %}
+                                    {% if section.value.intro %}<p class="govuk-caption govuk-!-margin-bottom-0">{{ section.value.intro }}</p>{% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
+                                <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
+                                    {% for content in section.value.content %}
+                                        {% include "includes/_render-snippet.html" with content=content %}
+                                    {% endfor %}
+                                </div>
+                                {% if section.value.link_text and section.value.link_url %}
+                                    <div class="govuk-!-padding-6 great-ds-border-top-light-grey-2">
+                                        <div class="great-ds-cta-banner__action-link-container">
+                                            {% include "_action-link.html" with linkText=section.value.link_text linkHref=section.value.link_url %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -93,15 +101,10 @@
                     {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                 </div>
             </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    {% include 'includes/_business-support-service.html' with country=country %}
-                </div>
+            <div class="govuk-grid-row govuk-!-margin-top-6">
+                <div class="govuk-grid-column-full">{% include 'includes/_business-support-service.html' with country=country %}</div>
             </div>
         </div>
     </section>
 {% endblock %}
-{% block body_js %}
-    {{ block.super }}
-{% endblock %}
-
+{% block body_js %}{{ block.super }}{% endblock %}
