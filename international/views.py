@@ -132,11 +132,10 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         form = form_class(**form_data)
 
         if form.is_valid():
-            if self.is_find_a_supplier_submission():
-                if 'buy-from-the-uk' in self.request.GET.get('next', ''):
-                    form_data.update({'instance': hcsat})
-                    form = form_class(**form_data)
-                    form.is_valid()
+            if 'buy-from-the-uk' in self.request.GET.get('next', ''):
+                form_data.update({'instance': hcsat})
+                form = form_class(**form_data)
+                form.is_valid()
 
             return self.form_valid(form)
         else:
