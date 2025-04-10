@@ -46,13 +46,17 @@ class Command(BaseCommand):
     strings_to_replace = {
         'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
         'great.gov.uk': 'hotfix.great.uktrade.digital',
+        'Great.gov.uk': 'hotfix.great.uktrade.digital',
         'great.dev.uktrade.digital': 'hotfix.great.uktrade.digital',
         'great.uat.uktrade.digital': 'hotfix.great.uktrade.digital',
         'https://great.dev.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
         'https://great.uat.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
     }
 
-    values_to_report = ('great',)
+    values_to_report = (
+        'great',
+        'Great',
+    )
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -78,9 +82,6 @@ class Command(BaseCommand):
     def replace_string(self, page_title, field, original_value, dry_run=False):  # noqa C901
 
         updated = False
-
-        original_value = original_value.lower()
-
         value = original_value
 
         if self.string_contains_html(original_value):
@@ -217,7 +218,7 @@ class Command(BaseCommand):
                         if lv:
                             updated, new_value = self.process_string_field(page_title, field_name, lv, dry_run)
                             if updated:
-                                setattr(block, name, new_value)
+                                block[name][ln] = new_value
                                 self.report_page_needs_updating(page_title, field_name, lv)
                                 block_updated = True
                 elif isinstance(value, bool):
@@ -241,30 +242,30 @@ class Command(BaseCommand):
                 updated, new_value = self.process_string_field(page_title, field_name, field_value, dry_run)
                 if updated:
                     self.report_page_needs_updating(page_title, field_name, field_value)
-                    setattr(block, field_name, new_value)
+                    block.value[field_name] = new_value
                     block_updated = True
             elif isinstance(field_value, RichText):
                 updated, new_source = self.replace_richtextbox(page_title, source=field_value.source)
                 if updated:
-                    setattr(block, field_name, new_source)
+                    block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(page_title, field_value, dry_run)
                 if updated:
-                    setattr(block, field_name, new_value)
+                    block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, AltTextImage):
                 updated, new_value = self.process_alttextimage_field(page_title, field_name, field_value)
                 if updated:
-                    setattr(block, field_name, new_value)
+                    block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, GreatMedia):
                 updated, new_value = self.process_greatmedia_field(page_title, field_value)
                 if updated:
-                    setattr(block, field_name, new_value)
+                    block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, EmbedValue):
@@ -272,7 +273,7 @@ class Command(BaseCommand):
             elif isinstance(field_value, StructValue):
                 updated, new_value = self.process_structvalue_block(page_title, field_name, field_value, dry_run)
                 if updated:
-                    setattr(block, field_name, new_value)
+                    block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             else:
@@ -364,14 +365,14 @@ class Command(BaseCommand):
 
         return block_updated, block
 
-    def process_countryguidecasestudyblock_block(self, page_title, block):
+    def process_countryguidecasestudyblock_block(self, page_title, block, dry_run):
         block_updated = False
         original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
 
-            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            updated, new_value = self.replace_string(page_title, field_name, field_value, dry_run)
             if updated:
                 original_values[field_name] = new_value
                 block_updated = True
@@ -598,10 +599,17 @@ class Command(BaseCommand):
                 continue
             updated, new_block = self.process_block(page_title, block, dry_run)
             if updated:
-                try:
-                    value[cnt] = new_block
-                except Exception as e:
-                    str(e)
+                if new_block is block:
+                    frameinfo = getframeinfo(currentframe())
+                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                    self.stdout.write(
+                        self.style.WARNING(
+                            'ERROR Types Not the same <block_type>:<existing type><new type> - '
+                            f'{block.block_type}:{type(block)}:{type(new_block)}'
+                        )
+                    )
+                    sys.exit(-1)
+                value[cnt] = new_block
                 field_updated = True
             cnt += 1
 
@@ -662,14 +670,24 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Processing Page: {page.title}'))
 
-        fields = [key for key, value in page.__dict__.items() if not isinstance(value, self.CALLABLES)]
+        fields = [key for key, value in page.specific.__dict__.items() if not isinstance(value, self.CALLABLES)]
 
         field_updated = False
         for field_name in fields:
-            field_value = page.__dict__[field_name]
+            field_value = page.specific.__dict__[field_name]
             if field_value:
                 updated, new_value = self.update_field(page, field_name, field_value, dry_run)
-                if updated and not dry_run:
+                if updated:
+                    if field_value is new_value:
+                        frameinfo = getframeinfo(currentframe())
+                        self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                        self.stdout.write(
+                            self.style.WARNING(
+                                'ERROR Types Not the same <field_name>:<existing type><new type> - '
+                                ' {field_name}:{type(field_value)}:{type(new_value)}'
+                            )
+                        )
+                        sys.exit(-1)
                     field_updated = True
                     setattr(page, field_name, new_value)
                     self.stdout.write(self.style.SUCCESS(f'Updated page:field: {page.title}:{field_name}'))
@@ -707,6 +725,6 @@ class Command(BaseCommand):
 
         for page in pages_to_update:
             if page.live:
-                self.update_page(page=page.specific, dry_run=dry_run)
+                self.update_page(page, dry_run=dry_run)
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
