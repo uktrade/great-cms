@@ -7,6 +7,8 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
+from domestic_growth.constants import PRE_START_GUIDE_URL, START_UP_GUIDE_URL, ESTABLISHED_GUIDE_URL
+from domestic_growth.helpers import get_triage_drop_off_point, create_request_for_path
 
 
 def javascript_components(request):
@@ -156,6 +158,17 @@ def domestic_header(request):
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
 
+    # Create request objects for each guide type
+    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+
+    # Get the appropriate URLs
+    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+    startup_triage_url = get_triage_drop_off_point(startup_request)
+    established_triage_url = get_triage_drop_off_point(established_request)
+    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
+
     return {
         'header_classes': '',
         'isInternational': False,
@@ -247,7 +260,7 @@ def domestic_header(request):
             'menuItemsList': [
                 {
                     'icon': '/static/icons/start-icon.svg',
-                    'href': '/support-in-uk/pre-start/location/',
+                    'href': pre_start_url,
                     'text': 'Starting a business',
                     'isCurrent': '/export' in request.path,
                     'overviewText': 'Get support and information',
@@ -256,7 +269,7 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/run-icon.svg',
-                    'href': '/support-in-uk/existing/location/',
+                    'href': existing_url,
                     'text': 'Running and growing a business',
                     'isCurrent': '/invest' in request.path,
                     'overviewText': 'Get support and information',
