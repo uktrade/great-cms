@@ -634,5 +634,47 @@ def footer_bgs(request):
                     }
                 ],
             ],
-        }
+        },
+        'footer_bgs_microsite_context': {
+            'currentYear': str(datetime.now().year),
+            'upperFooterSection': [
+                [
+                    {'href': '/privacy/', 'text': 'Privacy', 'title': 'Privacy'},
+                    {'href': '/cookies/', 'text': 'Cookies', 'title': 'Cookies'},
+                    {
+                        'href': '/accessibility-statement/',
+                        'text': 'Accessibility statement',
+                        'title': 'Accessibility statement',
+                    },
+                ],
+                [
+                    {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
+                    {
+                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'text': 'Help using this website',
+                        'title': 'Help using this website',
+                    },
+                ],
+            ],
+            'lowerFooterSection': [
+                [
+                    {
+                        'href': '/',
+                        'text': 'Find support and information for your business on Business.gov.uk',
+                        'title': 'Find support and information for your business on Business.gov.uk',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    },
+                ],
+                [
+                    {
+                        'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+                        'text': 'Department for Business and Trade on GOV.UK',
+                        'title': 'Department for Business and Trade on GOV.UK',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    }
+                ],
+            ],
+        },
     }
