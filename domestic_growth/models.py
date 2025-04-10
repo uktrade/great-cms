@@ -23,6 +23,7 @@ from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
+    get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
@@ -32,21 +33,29 @@ from international_online_offer.core.helpers import get_hero_image_by_sector
 
 class EmailGuideFormMixin:
     email_guide_form = EmailGuideForm
+    send_email_address = None
+    send_success = False
 
     def serve(self, request, *args, **kwargs):
         if request.method == 'POST':
             self.email_guide_form = EmailGuideForm(data=request.POST)
 
             if self.email_guide_form.is_valid():
+                self.send_email_address = self.email_guide_form.cleaned_data['email']
                 action = actions.GovNotifyEmailAction(
-                    email_address=self.email_guide_form.cleaned_data['email'],
+                    email_address=self.send_email_address,
                     template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                    form_url=request.get_full_path(),
+                    form_url=get_guide_url(request),
                 )
-                response = action.save({'guide_url': request.build_absolute_uri()})
+                response = action.save({'guide_url': get_guide_url(request)})
                 response.raise_for_status()
-            else:
-                pass
+                # reset form after successful send
+                self.email_guide_form = EmailGuideForm()
+                self.send_success = True
+        elif request.method == 'GET':
+            # reset on page load
+            self.send_email_address = None
+            self.send_success = False
 
         return super().serve(request, *args, **kwargs)
 
@@ -309,6 +318,8 @@ class DomesticGrowthGuidePage(
 
         context['change_answers_link'] = get_change_answers_link(request)
         context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
@@ -440,6 +451,8 @@ class DomesticGrowthChildGuidePage(
         )
         context['change_answers_link'] = get_change_answers_link(request)
         context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
@@ -647,6 +660,8 @@ class DomesticGrowthDynamicChildGuidePage(
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['change_answers_link'] = get_change_answers_link(request)
         context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 

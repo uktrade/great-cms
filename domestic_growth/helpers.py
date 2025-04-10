@@ -210,3 +210,7 @@ def get_change_answers_link(request: HttpRequest) -> str:
         return triage_start_url + f"?session_id={request.GET.get('session_id')}"
 
     return triage_start_url
+
+
+def get_guide_url(request: HttpRequest) -> str:
+    return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
