@@ -622,7 +622,6 @@ def footer_bgs(request):
                 ],
             ],
         },
-
         'footer_bgs_microsite_context': {
             'currentYear': str(datetime.now().year),
             'upperFooterSection': [
@@ -664,5 +663,5 @@ def footer_bgs(request):
                     }
                 ],
             ],
-        }
+        },
     }
