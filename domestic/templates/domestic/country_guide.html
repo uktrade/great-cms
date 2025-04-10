@@ -22,8 +22,8 @@
                     <div class="column-three-quarters-l teaser">
                         <h1>Exporting from the UK to {% change_country_name_to_include_the page.heading %}: A market guide</h1>
                         {% if page.notification_title %}
-                            <section class="landing-page-section report-trade-barrier ">
-                                {% include 'components/informative_banner.html' with banner_heading=page.notification_title banner_content=page.notification_body|richtext heading_level='h4' %}
+                            <section class="landing-page-section great-ds-bg-white govuk-!-padding-bottom-6">
+                                {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
                             </section>
                         {% endif %}
                         <h2 class="visually-hidden">Overview</h2>
