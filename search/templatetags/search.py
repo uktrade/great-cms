@@ -42,7 +42,7 @@ def format_for_results_list(search_results):
             or getattr(result.specific, 'page_subheading', '')
             or 'No description available'
         )
-        
+
         formatted_result = {
             'title': result.seo_title or result.title,
             'href': result.url,
