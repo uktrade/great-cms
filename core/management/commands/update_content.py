@@ -70,11 +70,7 @@ class Command(BaseCommand):
         )
 
     def report_page_needs_updating(self, page_title, field_name, field_value):
-        self.stdout.write(
-            self.style.WARNING(
-                f'FIELD NEEDS UPDATING - <page>:<field_name>:<field_value> - {page_title}:{field_name}:{field_value}'
-            )
-        )
+        self.stdout.write(self.style.WARNING(f'FIELD NEEDS UPDATING - <page>:<field_name> - {page_title}:{field_name}'))
 
     def string_contains_html(self, value):
         return bool(BeautifulSoup(value, 'html.parser').find())
@@ -85,7 +81,7 @@ class Command(BaseCommand):
         value = original_value
 
         if self.string_contains_html(original_value):
-            updated, new_source = self.replace_richtextbox(page_title, source=original_value)
+            updated, new_source = self.replace_richtextbox(page_title, original_value)
             return updated, new_source
 
         for item in self.strings_to_replace:
@@ -132,8 +128,9 @@ class Command(BaseCommand):
         updated, new_value = self.replace_string(page_title, field, value, dry_run)
         return updated, new_value
 
-    def replace_richtextbox(self, page_title, source=None):
+    def replace_richtextbox(self, page_title, original_source):
         block_updated = False
+        source = original_source
         updated, source = self.replace_richtextbox_text(page_title, source)
         if updated:
             block_updated = True
@@ -141,10 +138,10 @@ class Command(BaseCommand):
         if updated:
             block_updated = True
 
-        return block_updated, source
+        return block_updated, original_source
 
-    def process_richtext_block(self, page_title, block):
-        updated, new_source = self.replace_richtextbox(page_title, source=block.value.source)
+    def process_richtext_block(self, page_title, source):
+        updated, new_source = self.replace_richtextbox(page_title, source)
         return updated, new_source
 
     def process_stream_block(self, page_title, block, dry_run):
@@ -245,9 +242,10 @@ class Command(BaseCommand):
                     block.value[field_name] = new_value
                     block_updated = True
             elif isinstance(field_value, RichText):
-                updated, new_source = self.replace_richtextbox(page_title, source=field_value.source)
+                updated, new_source = self.replace_richtextbox(page_title, field_value.source)
                 if updated:
-                    block.value[field_name] = new_source
+                    field_value.source = new_source
+                    block.value[field_name] = field_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, StreamValue):
@@ -339,7 +337,7 @@ class Command(BaseCommand):
                 'data_value',
             ):
                 continue
-            updated, new_value = self.replace_richtextbox(page_title, source=field_value.source)
+            updated, new_value = self.replace_richtextbox(page_title, field_value.source)
             if updated:
                 original_values[field_name].source = new_value
                 block_updated = True
@@ -522,10 +520,11 @@ class Command(BaseCommand):
             return False, block
 
         if isinstance(block.block, RichTextBlock):
-            updated, new_source = self.process_richtext_block(page_title, block)
-            if updated:
-                block.value.source = new_source
-                block_updated = True
+            # updated, new_source = self.process_richtext_block(page_title, block.value.source)
+            # if updated:
+            #     block.value.source = new_source
+            #     block_updated = True
+            pass
         elif isinstance(block.block, StreamBlock):
             updated, new_block = self.process_stream_block(page_title, block, dry_run)
             if updated:
@@ -602,7 +601,7 @@ class Command(BaseCommand):
                 continue
             updated, new_block = self.process_block(page_title, block, dry_run)
             if updated:
-                if new_block is not block:
+                if type(new_block) is not type(block):
                     frameinfo = getframeinfo(currentframe())
                     self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                     self.stdout.write(
@@ -648,11 +647,9 @@ class Command(BaseCommand):
                             child.value[field_name] = new_value
                             block_updated = True
                     elif isinstance(child.value[field_name], RichText):
-                        updated, new_value = self.replace_richtextbox(
-                            page_title, field_name, child.value[field_name], dry_run
-                        )
+                        updated, new_source = self.replace_richtextbox(page_title, child.value[field_name].source)
                         if updated:
-                            child.value[field_name] = new_value
+                            child.value[field_name].source = new_source
                             block_updated = True
                     elif isinstance(child.value[field_name], AltTextImage):
                         updated, new_value = self.process_alttextimage_field(
@@ -717,7 +714,7 @@ class Command(BaseCommand):
             if field_value:
                 updated, new_value = self.update_field(page, field_name, field_value, dry_run)
                 if updated:
-                    if field_value is not new_value:
+                    if type(field_value) is not type(new_value):
                         frameinfo = getframeinfo(currentframe())
                         self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                         self.stdout.write(
@@ -729,7 +726,7 @@ class Command(BaseCommand):
                         sys.exit(-1)
                     field_updated = True
                     setattr(page, field_name, new_value)
-                    self.stdout.write(self.style.SUCCESS(f'Updated page:field: {page.title}:{field_name}'))
+                    self.stdout.write(self.style.SUCCESS(f'UPDATE <page>:<field> - {page.title}:{field_name}'))
 
         if field_updated and not dry_run:
             try:
@@ -738,6 +735,8 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f'ERROR Saving Page: {page.title} - {str(ve)}'))
             except RuntimeError as re:
                 self.stdout.write(self.style.ERROR(f'ERROR Saving Page: {page.title} - {str(re)}'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'ERROR Saving Page: {page.title} - {str(e)}'))
 
         for child in page.get_children():
             if child.live:
