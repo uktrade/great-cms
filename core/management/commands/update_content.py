@@ -599,7 +599,7 @@ class Command(BaseCommand):
                 continue
             updated, new_block = self.process_block(page_title, block, dry_run)
             if updated:
-                if new_block is block:
+                if new_block is not block:
                     frameinfo = getframeinfo(currentframe())
                     self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                     self.stdout.write(
@@ -678,7 +678,7 @@ class Command(BaseCommand):
             if field_value:
                 updated, new_value = self.update_field(page, field_name, field_value, dry_run)
                 if updated:
-                    if field_value is new_value:
+                    if field_value is not new_value:
                         frameinfo = getframeinfo(currentframe())
                         self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
                         self.stdout.write(
