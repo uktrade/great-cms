@@ -176,8 +176,10 @@
         {% endif %}
     {% endif %}
     {% if page.notification_title %}
-        <section class="landing-page-section report-trade-barrier govuk-!-padding-top-7 govuk-!-padding-bottom-0 great-bg-light-blue">
-            {% include 'components/informative_banner.html' with banner_heading=page.notification_title banner_content=page.notification_body|richtext heading_level='h4' %}
+        <section class="landing-page-section govuk-!-padding-top-6 govuk-!-padding-bottom-6 great-bg-light-blue ">
+            <div class="container">
+                {% include '_inset-text.html' with label=page.notification_title html=page.notification_body|richtext labelLevel="4" %}
+            </div>
         </section>
     {% endif %}
     {% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %}
@@ -253,7 +255,9 @@
     {% endif %}
     {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
         <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30{% if features.FEATURE_DIGITAL_POINT_OF_ENTRY %} great-bg-white{% endif %}">
-            {% include 'components/informative_banner.html' with banner_heading='Report a trade barrier' banner_content='Tell us about trade barriers affecting your ability to trade so we can help fix them. <br><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
+            <div class="great-container">
+                {% include '_inset-text.html' with label='Report a trade barrier' html='<p class="govuk-!-margin-bottom-1">Tell us about trade barriers affecting your ability to trade so we can help fix them.</p><a href="/report-trade-barrier/">How to report a trade barrier</a>' %}
+            </div>
         </section>
     {% endif %}
     {% if not features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
@@ -437,7 +441,7 @@
     {% if features.FEATURE_GUIDED_JOURNEY_ENHANCED_SEARCH and features.FEATURE_GUIDED_JOURNEY_EXTRAS %}
         <script type="text/javascript"
                 src="{% static 'javascript/accessible-autocomplete.v3.min.js' %}"></script>
-        {{ sic_sector_data | json_script:'sic_sector_data'}}
+        {{ sic_sector_data | json_script:'sic_sector_data' }}
         <div data-great-init-js=""></div>
         <script type="text/javascript"
                 src="{% static 'javascript/great.make-or-do-search-enhanced.js' %}"></script>
