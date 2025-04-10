@@ -152,12 +152,12 @@ class Command(BaseCommand):
 
         new_block = block
         if isinstance(block, StreamValue):
-            updated, new_block = self.process_streamvalue_field(page_title, block)
+            updated, new_block = self.process_streamvalue_field(page_title, block, dry_run)
             if updated:
                 self.report_page_needs_updating(page_title, block.block_type, block.value)
                 block_updated = True
         elif isinstance(block, StreamValue.StreamChild):
-            updated, new_block = self.process_streamvalue_field(page_title, block.value, dry_run)
+            updated, new_block = self.process_streamchild_field(page_title, block, dry_run)
             if updated:
                 self.report_page_needs_updating(page_title, block.block_type, block.value)
                 block_updated = True
@@ -247,7 +247,7 @@ class Command(BaseCommand):
             elif isinstance(field_value, RichText):
                 updated, new_source = self.replace_richtextbox(page_title, source=field_value.source)
                 if updated:
-                    block.value[field_name] = new_value
+                    block.value[field_name] = new_source
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, StreamValue):
@@ -367,8 +367,8 @@ class Command(BaseCommand):
 
     def process_countryguidecasestudyblock_block(self, page_title, block, dry_run):
         block_updated = False
-        original_values = self.create_original_vales(block.value.items())
-        for field_name, field_value in block.value.items():
+        original_values = self.create_original_vales(block.items())
+        for field_name, field_value in block.items():
             if not field_value:
                 continue
 
@@ -398,7 +398,9 @@ class Command(BaseCommand):
                     original_values[field_name] = new_value
                     block_updated = True
             elif field_name in ('case_study'):
-                updated, new_value = self.process_countryguidecasestudyblock_block(page_title, field_value)  # noqa C901
+                updated, new_value = self.process_countryguidecasestudyblock_block(
+                    page_title, field_value, dry_run
+                )  # noqa C901
                 if updated:
                     original_values[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
@@ -469,7 +471,7 @@ class Command(BaseCommand):
 
         return block_updated, block
 
-    def process_listblock_block(self, page_title, block):
+    def process_listblock_block(self, page_title, block, dry_run):
         block_updated = False
         cnt = 0
         for item in block.value:
@@ -479,7 +481,7 @@ class Command(BaseCommand):
                     if updated:
                         block.value[cnt].link_text = new_link_text
                         block_updated = True
-                    updated, new_link = self.process_streamvalue_field(page_title, item.link)
+                    updated, new_link = self.process_streamvalue_field(page_title, item.link, dry_run)
                     if updated:
                         block.value[cnt].link = new_link
                         block_updated = True
@@ -545,7 +547,7 @@ class Command(BaseCommand):
             if updated:
                 block_updated = True
         elif isinstance(block.block, CountryGuideIndustryBlock):
-            updated, new_block = self.process_countryguideindustryblock_block(page_title, block)
+            updated, new_block = self.process_countryguideindustryblock_block(page_title, block, dry_run)
             if updated:
                 block_updated = True
 
@@ -558,11 +560,11 @@ class Command(BaseCommand):
             if updated:
                 block_updated = True
         elif isinstance(block.block, ListBlock):
-            updated, new_block = self.process_listblock_block(page_title, block)
+            updated, new_block = self.process_listblock_block(page_title, block, dry_run)
             if updated:
                 block_updated = True
         elif isinstance(block.block, DataTableBlock):
-            updated, new_block = self.process_datatableblock_block(page_title, block)
+            updated, new_block = self.process_datatableblock_block(page_title, block, dry_run)
             if updated:
                 block_updated = True
         elif isinstance(block.block, SupportTopicCardBlock):
@@ -596,6 +598,7 @@ class Command(BaseCommand):
                 'case_study',
                 'table',
             ):
+                cnt += 1
                 continue
             updated, new_block = self.process_block(page_title, block, dry_run)
             if updated:
@@ -631,6 +634,42 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
                 sys.exit(-1)
         return value_updated, value
+
+    def process_streamchild_field(self, page_title, block, dry_run):  # noqa C901
+        block_updated = False
+        for child in block.value:
+            for field_name in child.value:
+                if child.value[field_name]:
+                    if isinstance(child.value[field_name], str):
+                        updated, new_value = self.replace_string(
+                            page_title, field_name, child.value[field_name], dry_run
+                        )
+                        if updated:
+                            child.value[field_name] = new_value
+                            block_updated = True
+                    elif isinstance(child.value[field_name], RichText):
+                        updated, new_value = self.replace_richtextbox(
+                            page_title, field_name, child.value[field_name], dry_run
+                        )
+                        if updated:
+                            child.value[field_name] = new_value
+                            block_updated = True
+                    elif isinstance(child.value[field_name], AltTextImage):
+                        updated, new_value = self.process_alttextimage_field(
+                            page_title, field_name, child.value[field_name]
+                        )
+                        if updated:
+                            child.value[field_name] = new_value
+                            block_updated = True
+                    else:
+                        frameinfo = getframeinfo(currentframe())
+                        self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                        self.stdout.write(
+                            self.style.WARNING(f'Unhandled StreamChild field type: {type(child.value[field_name],)}')
+                        )
+                        sys.exit(-1)
+
+            return block_updated, block
 
     def update_field(self, page, field, value, dry_run):
 
