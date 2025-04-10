@@ -101,9 +101,9 @@
                 <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
                     <div id="sign-up-confirm">
                         <h1 class="govuk-heading-l">Check your email</h1>
-                        <div class="govuk-inset-text">
-                            We've sent an email to: <strong>{{ request.GET.email }}</strong>
-                        </div>
+                        <!-- djlint:off T027-->
+                        {% include '_inset-text.html' with html="We've sent an email to: <strong>"|add:request.GET.email|add:"</strong>" %}
+                        <!-- djlint:on -->
                         <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
                         <p class="govuk-body">
                             Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.
