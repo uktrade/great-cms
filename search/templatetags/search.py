@@ -1,5 +1,6 @@
 from django import template
 from django.template.defaultfilters import stringfilter
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -30,21 +31,23 @@ def format_for_results_list(search_results):
     formatted_results = []
 
     for result in search_results:
+        description = (
+            result.search_description
+            or getattr(result.specific, 'seo_description', '')
+            or getattr(result.specific, 'search_description', '')
+            or getattr(result.specific, 'featured_description', '')
+            or getattr(result.specific, 'heading_teaser', '')
+            or getattr(result.specific, 'teaser', '')
+            or getattr(result.specific, 'page_teaser', '')
+            or getattr(result.specific, 'page_subheading', '')
+            or 'No description available'
+        )
+        
         formatted_result = {
             'title': result.seo_title or result.title,
             'href': result.url,
             'type': map_search_result_type(result.content_type),
-            'description': (
-                result.search_description
-                or getattr(result.specific, 'seo_description', '')
-                or getattr(result.specific, 'search_description', '')
-                or getattr(result.specific, 'featured_description', '')
-                or getattr(result.specific, 'heading_teaser', '')
-                or getattr(result.specific, 'teaser', '')
-                or getattr(result.specific, 'page_teaser', '')
-                or getattr(result.specific, 'page_subheading', '')
-                or 'No description available'
-            ),
+            'description': mark_safe(description),
         }
 
         # Add metadata if available
