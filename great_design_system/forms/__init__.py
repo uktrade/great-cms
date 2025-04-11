@@ -25,6 +25,7 @@ from great_design_system.forms.fields import (
 )
 from great_design_system.forms.forms import Form, ModelForm
 from great_design_system.forms.widgets import (  # noqa
+    CheckboxInput,
     CheckboxSelectConditionalReveal,
     CheckboxSelectMultiple,
     CheckboxSelectMultipleSmall,
@@ -37,6 +38,7 @@ from great_design_system.forms.widgets import (  # noqa
     RadioSelect,
     RadioSelectConditionalReveal,
     ReCaptchaV3,
+    Select,
     SelectDateWidget,
     SelectOne,
     Textarea,
@@ -84,6 +86,8 @@ __all__ = [
     'SelectDateWidget',
     'TypeDateWidget',
     'SelectOne',
+    'Select',
+    'CheckboxInput',
     'PasswordInput',
     'CheckboxSelectMultiple',
     'CheckboxSelectMultipleSmall',
