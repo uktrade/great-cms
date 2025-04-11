@@ -192,6 +192,8 @@ class BaseSettings(PydanticBaseSettings):
     international_investment_notify_user_template_id: str = '37b5fa22-0850-49f5-af1f-5c2984ca0309'
     international_investment_agent_email: str = ''
 
+    domestic_growth_email_guide_template_id: str = '112a0c49-ed1d-48e0-be6b-2def33122cb9'
+
     dnb_api_username: str = ''
     dnb_api_password: str = ''
     dnb_api_renew_access_token_seconds_remaining: int = 20
