@@ -24,6 +24,7 @@ from great_design_system.forms.fields import (
     UUIDField,
 )
 from great_design_system.forms.forms import Form, ModelForm
+from great_design_system.forms.validators import DateFieldDayValidator
 from great_design_system.forms.widgets import (  # noqa
     CheckboxInput,
     CheckboxSelectConditionalReveal,
@@ -91,4 +92,5 @@ __all__ = [
     'PasswordInput',
     'CheckboxSelectMultiple',
     'CheckboxSelectMultipleSmall',
+    'DateFieldDayValidator',
 ]
