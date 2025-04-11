@@ -2,6 +2,7 @@ import pytest
 
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.forms import (
+    EmailGuideForm,
     ExistingBusinessCurrentlyExportForm,
     ExistingBusinessLocationForm,
     ExistingBusinessSectorForm,
@@ -121,6 +122,14 @@ from domestic_growth.forms import (
             {},
             False,
             {'currently_export': 'Select if you currently export your products or services overseas'},
+        ),
+        (EmailGuideForm, {'email': 'test@example.com'}, True, {}),  # /PS-IGNORE
+        (EmailGuideForm, {}, False, {'email': 'Enter an email address'}),
+        (
+            EmailGuideForm,
+            {'email': 'example.com'},
+            False,
+            {'email': 'Enter an email address in the correct format, like name@example.com'},  # /PS-IGNORE
         ),
     ),
 )

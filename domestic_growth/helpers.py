@@ -212,5 +212,18 @@ def get_change_answers_link(request: HttpRequest) -> str:
     return triage_start_url
 
 
+def create_request_for_path(request, path):
+    """
+    Creates a new HttpRequest object with the provided path,
+    copying session and session_id from the request.
+    """
+    new_request = HttpRequest()
+    new_request.path = path
+    new_request.session = request.session
+    if 'session_id' in request.GET:
+        new_request.GET = request.GET
+    return new_request
+
+
 def get_guide_url(request: HttpRequest) -> str:
     return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
