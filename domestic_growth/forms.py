@@ -6,11 +6,10 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
 from great_design_system.forms import Form
-
-# from django.forms import Form
 from great_design_system.forms.widgets import CheckboxInput, RadioSelect, TextInput
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
+from regex import EMAIL_ADDRESS_REGEX
 
 
 class StartingABusinessLocationForm(Form):
@@ -147,3 +146,20 @@ class ExistingBusinessCurrentlyExportForm(Form):
             'required': 'Select if you currently export your products or services overseas',
         },
     )
+
+
+class EmailGuideForm(Form):
+    email = CharField(
+        label='Email address',
+        widget=TextInput(attrs={'autocomplete': 'email', 'type': 'email', 'spellcheck': 'false'}),
+        required=True,
+        error_messages={
+            'required': 'Enter an email address',
+        },
+    )
+
+    def clean(self):
+        email = self.data.get('email')
+
+        if email and not EMAIL_ADDRESS_REGEX.match(email):
+            self.add_error('email', 'Enter an email address in the correct format, like name@example.com')  # /PS-IGNORE

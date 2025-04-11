@@ -735,6 +735,9 @@ DNB_API_USERNAME = env.dnb_api_username
 DNB_API_PASSWORD = env.dnb_api_password
 DNB_API_RENEW_ACCESS_TOKEN_SECONDS_REMAINING = env.dnb_api_renew_access_token_seconds_remaining
 
+# Domestic growth
+DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID = env.domestic_growth_email_guide_template_id
+
 # geo location
 if is_copilot():
     GEOIP_PATH = '/tmp'
