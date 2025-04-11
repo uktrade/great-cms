@@ -29,15 +29,18 @@ from great_design_system.forms.widgets import (  # noqa
     CheckboxSelectMultipleSmall,
     ChoiceWidget,
     CreateOptionMixin,
+    DateInput,
     EmailInput,
     HiddenInput,
     PasswordInput,
     RadioSelect,
     RadioSelectConditionalReveal,
     ReCaptchaV3,
+    SelectDateWidget,
     SelectOne,
     Textarea,
     TextInput,
+    TypeDateWidget,
 )
 
 __all__ = [
@@ -75,6 +78,9 @@ __all__ = [
     'ReCaptchaV3',
     'Textarea',
     'TextInput',
+    'DateInput',
+    'SelectDateWidget',
+    'TypeDateWidget',
     'SelectOne',
     'PasswordInput',
     'CheckboxSelectMultiple',

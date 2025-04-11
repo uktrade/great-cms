@@ -18,20 +18,7 @@ class GDSBoundField(BoundField):
         return f'{css_classes} {self.field.container_css_classes}'
 
     def field_attrs(self):
-        attrs = {}
-        if self.field.widget.input_type == 'password':
-            attrs = {
-                'data-module': 'govuk-password-input',
-                'data-show-password-text': 'Show',
-                'data-hide-password-text': 'Hide',
-                'data-show-password-aria-label-text': 'Show password',
-                'data-hide-password-aria-label-text': 'Hide password',
-                'data-password-shown-announcement-text': 'Password shown',
-                'data-password-hidden-announcement-text': 'Password Hidden',
-            }
-            data_module_attrs = self.field.widget.data_module_attrs
-            attrs.update(**data_module_attrs)
-        return attrs
+        return self.field.attrs
 
     def help_text_css_classes(self):
         """
@@ -43,15 +30,30 @@ class GDSBoundField(BoundField):
     def id_for_container(self):
         return f'id_{self.name}_container'
 
+    @property
+    def is_page_heading(self):
+        return self.field.is_page_heading
+
+    @property
+    def legend(self):
+        if self.use_fieldset:
+            return {'isPageHeading': self.is_page_heading, 'text': self.label}
+        return {}
+
 
 class GDSFieldMixin:
     def __init__(
         self,
+        is_page_heading=False,
         exclusive_choice='None',
         linked_conditional_reveal=None,
         linked_conditional_reveal_fields=[],
         linked_conditional_reveal_choice='yes',
         hide_on_page_load=False,
+        counter=False,
+        max_length=0,
+        max_words=0,
+        threshold=0,
         choice_help_text=[],
         container_css_classes='govuk-form-group',
         *args,
@@ -67,7 +69,12 @@ class GDSFieldMixin:
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
         self.exclusive_choice = exclusive_choice
+        self.is_page_heading = is_page_heading
         self.hide_on_page_load = hide_on_page_load
+        self.counter = counter
+        self.max_length = max_length
+        self.max_words = max_words
+        self.threshold = threshold
         self.choice_help_text = choice_help_text
 
     @property
@@ -79,7 +86,22 @@ class GDSFieldMixin:
         # hide_on_page_load will be used on form groups that will not display until criteria is met.
         page_load_class = 'great-hidden' if self.hide_on_page_load else ''
 
-        return f'{self._container_css_classes} {widget_class} {page_load_class}'
+        counter_class = 'govuk-character-count' if self.counter else ''
+
+        return f'{self._container_css_classes} {widget_class} {page_load_class} {counter_class}'
+
+    @property
+    def attrs(self):
+        attr_dict = {}
+        if self.counter:
+            attr_dict.update({'data-module': 'govuk-character-count'})
+        if self.max_length > 0:
+            attr_dict.update({'data-maxlength': self.max_length})
+        if self.max_words > 0:
+            attr_dict.update({'data-maxwords': self.max_words})
+        if self.threshold > 0:
+            attr_dict.update({'data-threshold': self.threshold})
+        return attr_dict
 
     def get_bound_field(self, form, field_name):
         return GDSBoundField(form, self, field_name)

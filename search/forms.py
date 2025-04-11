@@ -21,6 +21,7 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, ReCaptchaFormMixin, forms.Form):
         label='Whether yes or no, please let us know what you were searching for',
         widget=forms.Textarea(attrs={'class': 'govuk-!-width-one-half', 'rows': 5, 'cols': 15}),
         max_length=1000,
+        counter=True,
         error_messages={
             'max_length': ('Information on what you were searching for must be no more than 1,000 characters'),
         },
