@@ -44,9 +44,10 @@ def test_consent_field_mixin__privacy_url():
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid',
+    'form, form_data, form_is_valid, error_messages',
     (
         (
+            HCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -55,8 +56,10 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             True,
+            {},
         ),
         (
+            HCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['OTHER'],
@@ -65,8 +68,10 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             True,
+            {},
         ),
         (
+            HCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['OTHER'],
@@ -75,11 +80,12 @@ def test_consent_field_mixin__privacy_url():
                 'likelihood_of_return': 'LIKELY',
             },
             False,
+            {'service_improvements_feedback': ['Your feedback must be 1200 characters or less']},
         ),
     ),
 )
 @pytest.mark.django_db
-def test_csat_user_feedback_form_validation(form_data, is_valid):
-    data = form_data
-    form = HCSATForm(data)
-    assert form.is_valid() == is_valid
+def test_csat_user_feedback_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(data=form_data)
+    assert form.is_valid() == form_is_valid
+    assert error_messages == form.errors

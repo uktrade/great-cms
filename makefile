@@ -40,6 +40,7 @@ pytest_codecov:
 
 # Usage: make pytest_single <path_to_file>::<method_name>
 pytest_single:
+	DEBUG=False \
 	ENV_FILES=$(ENV_FILES) \
 	pytest \
 	    $(ARGUMENTS)

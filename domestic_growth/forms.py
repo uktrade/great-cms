@@ -3,7 +3,6 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
-
 from great_design_system import forms
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors

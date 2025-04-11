@@ -3,6 +3,8 @@ from django import forms
 from django.core import validators
 from django.forms.boundfield import BoundField
 
+from great_design_system.forms import DateFieldDayValidator
+
 
 class GDSBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None, tag=None):
@@ -145,3 +147,10 @@ BooleanField = field_factory(forms.BooleanField)
 
 class ReCaptchaField(ReCaptchaField):
     pass
+
+
+class DateField(DateField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.validators.append(DateFieldDayValidator())
