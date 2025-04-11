@@ -1,5 +1,6 @@
 from captcha.fields import ReCaptchaField  # noqa
 from django import forms
+from django.core import validators
 from django.forms.boundfield import BoundField
 from django.core import validators
 
@@ -140,6 +141,7 @@ TypedChoiceField = field_factory(forms.TypedChoiceField)
 TypedMultipleChoiceField = field_factory(forms.TypedMultipleChoiceField)
 URLField = field_factory(forms.URLField)
 UUIDField = field_factory(forms.UUIDField)
+BooleanField = field_factory(forms.BooleanField)
 
 
 class ReCaptchaField(ReCaptchaField):

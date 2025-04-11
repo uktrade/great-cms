@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+from directory_forms_api_client import actions
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -14,17 +15,49 @@ from wagtail.snippets.models import register_snippet
 from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
+from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
+    get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
+
+
+class EmailGuideFormMixin:
+    email_guide_form = EmailGuideForm
+    send_email_address = None
+    send_success = False
+
+    def serve(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            self.email_guide_form = EmailGuideForm(data=request.POST)
+
+            if self.email_guide_form.is_valid():
+                self.send_email_address = self.email_guide_form.cleaned_data['email']
+                action = actions.GovNotifyEmailAction(
+                    email_address=self.send_email_address,
+                    template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
+                    form_url=get_guide_url(request),
+                )
+                response = action.save({'guide_url': get_guide_url(request)})
+                response.raise_for_status()
+                # reset form after successful send
+                self.email_guide_form = EmailGuideForm()
+                self.send_success = True
+        elif request.method == 'GET':
+            # reset on page load
+            self.send_email_address = None
+            self.send_success = False
+
+        return super().serve(request, *args, **kwargs)
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):
@@ -169,7 +202,9 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
         return context
 
 
-class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+class DomesticGrowthGuidePage(
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthGuidePagePanels, Page
+):
     template = 'guide.html'
 
     cache_control = 'no-cache'
@@ -282,11 +317,16 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
             context['trade_associations'] = None
 
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
 
-class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+class DomesticGrowthChildGuidePage(
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page
+):
     template = 'guide-child.html'
 
     cache_control = 'no-cache'
@@ -410,12 +450,15 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
 
 class DomesticGrowthDynamicChildGuidePage(
-    WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthDynamicChildGuidePagePanels, Page
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthDynamicChildGuidePagePanels, Page
 ):
     template = 'dynamic-guide-child.html'
 
@@ -616,6 +659,9 @@ class DomesticGrowthDynamicChildGuidePage(
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 

@@ -84,6 +84,7 @@ SplitDateTimeWidget = widget_factory(widgets.SplitDateTimeWidget)
 SplitHiddenDateTimeWidget = widget_factory(widgets.SplitHiddenDateTimeWidget)
 SelectDateWidget = widget_factory(widgets.SelectDateWidget)
 ChoiceWidget = widget_factory(widgets.ChoiceWidget)
+Select = widget_factory(widgets.Select)
 
 
 class CreateOptionMixin:

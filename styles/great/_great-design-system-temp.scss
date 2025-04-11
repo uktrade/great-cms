@@ -1093,3 +1093,8 @@ $great-design-system-mint-green: #8ce2d0;
     }
   }
 }
+
+// font weight of strong tag getting overwritten to 400
+.email-address-playback{
+  font-weight: 600 !important;
+}

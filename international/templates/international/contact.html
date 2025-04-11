@@ -28,9 +28,7 @@
                 <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
                 <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
                 <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
-                <div class="govuk-inset-text">
-                    We cannot put you in touch with investment advisers, nor reply to you with investment advice.
-                </div>
+                {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
             </div>
         </div>
         <form method="post" novalidate action="{{ request.build_absolute_uri }}">
