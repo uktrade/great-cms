@@ -23,7 +23,7 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, ReCaptchaFormMixin, forms.Form):
         max_length=1000,
         counter=True,
         error_messages={
-            'max_length': ('Information on what you were searching for must be no more than 1,000 characters'),
+            'max_length': ('Information on what you were searching for must be no more than 1000 characters'),
         },
     )
     from_search_query = forms.CharField(widget=forms.HiddenInput(), required=False)

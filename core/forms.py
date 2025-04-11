@@ -130,6 +130,7 @@ class HCSATForm(mixins.HCSATFormMixin, gds_forms.ModelForm):
         label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
+        counter=True,
         required=False,
         error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
         widget=gds_forms.Textarea(

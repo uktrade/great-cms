@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.forms.boundfield import BoundField
+from django.core import validators
 
 
 class GDSBoundField(BoundField):
@@ -51,9 +52,10 @@ class GDSFieldMixin:
         linked_conditional_reveal_choice='yes',
         hide_on_page_load=False,
         counter=False,
-        max_length=0,
-        max_words=0,
-        threshold=0,
+        min_length=None,
+        max_length=None,
+        max_words=None,
+        threshold=None,
         choice_help_text=[],
         container_css_classes='govuk-form-group',
         *args,
@@ -76,6 +78,11 @@ class GDSFieldMixin:
         self.max_words = max_words
         self.threshold = threshold
         self.choice_help_text = choice_help_text
+
+        if min_length is not None:
+            self.validators.append(validators.MinLengthValidator(int(min_length)))
+        if max_length is not None:
+            self.validators.append(validators.MaxLengthValidator(int(max_length)))
 
     @property
     def container_css_classes(self):
