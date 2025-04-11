@@ -2,7 +2,6 @@ from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.core import validators
 from django.forms.boundfield import BoundField
-from django.core import validators
 
 
 class GDSBoundField(BoundField):
