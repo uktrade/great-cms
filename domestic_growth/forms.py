@@ -6,7 +6,6 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
 from great_design_system.forms import Form
-# from django.forms import Form
 from great_design_system.forms.widgets import CheckboxInput, RadioSelect, TextInput
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
@@ -163,6 +162,4 @@ class EmailGuideForm(Form):
         email = self.data.get('email')
 
         if email and not EMAIL_ADDRESS_REGEX.match(email):
-            self.add_error(
-                'email', 'Enter an email address in the correct format, like name@example.com'  #  /PS-IGNORE
-            )
+            self.add_error('email', 'Enter an email address in the correct format, like name@example.com')  # /PS-IGNORE

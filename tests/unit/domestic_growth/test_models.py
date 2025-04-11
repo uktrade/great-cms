@@ -95,7 +95,7 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.trade_associations_intro, 'Test intro')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as MockGovNotifyEmailAction:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
             try:
                 page = DomesticGrowthGuidePageFactory(
                     hero_title='Test title',
@@ -128,7 +128,7 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             assert response.status_code is status.HTTP_200_OK
 
-            MockGovNotifyEmailAction.assert_called_once_with(
+            mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
                 form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
@@ -147,7 +147,7 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.body_intro, 'Test intro')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as MockGovNotifyEmailAction:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
             try:
                 page = DomesticGrowthChildGuidePageFactory(
                     body_title='Test title',
@@ -167,7 +167,7 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             assert response.status_code is status.HTTP_200_OK
 
-            MockGovNotifyEmailAction.assert_called_once_with(
+            mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,  # /PS-IGNORE
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
                 form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
@@ -194,7 +194,7 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
         self.assertEqual(page.page_b_body_intro, 'Test intro b')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as MockGovNotifyEmailAction:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
             try:
                 page = DomesticGrowthDynamicChildGuidePageFactory(
                     page_a_type='interested_in_exporting',
@@ -218,7 +218,7 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
 
             assert response.status_code is status.HTTP_200_OK
 
-            MockGovNotifyEmailAction.assert_called_once_with(
+            mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,  # /PS-IGNORE
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
                 form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
