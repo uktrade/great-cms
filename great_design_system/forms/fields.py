@@ -2,9 +2,35 @@ from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.core import validators
 from django.forms.boundfield import BoundField
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+import datetime
 
-from great_design_system.forms import DateFieldDayValidator
 
+def validate_day_is_within_range(value):
+    try:
+        value = int(value)
+        if value < 1 or value > 31:
+            raise ValidationError(f'"{value}" is not between 1 and 31', params={'value': value})
+    except ValueError:
+        raise ValidationError(f'"{value}" must be a number between 1 and 31', params={'value': value})
+
+    
+def validate_month_is_within_range(value):
+    try:
+        value = int(value)
+        if value < 1 or value > 12:
+            raise ValidationError(f'"{value}" is not between 1 and 12', params={'value': value})
+    except ValueError:
+        raise ValidationError(f'"{value}" must be a number between 1 and 12', params={'value': value})
+    
+def validate_year_is_within_range(value):
+    try:
+        value = int(value)
+        if value >= 2025:
+            raise ValidationError('Year can not be in the past', params={'value': value})
+    except ValueError:
+        raise ValidationError(f'"{value}" must be a number equals to or above 2025', params={'value': value})
 
 class GDSBoundField(BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None, tag=None):
@@ -149,8 +175,19 @@ class ReCaptchaField(ReCaptchaField):
     pass
 
 
-class DateField(DateField):
+class TypeDateField(DateField):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.validators.append(DateFieldDayValidator())
+    def pre_validation(self, value):
+        year, month, day = value.split('-')
+        validate_day_is_within_range(day)
+        validate_month_is_within_range(month)
+        validate_year_is_within_range(year)
+
+
+
+    def clean(self, value):
+        """
+        Run the bespoke day, month & year validation
+        """
+        self.pre_validation(value)
+        return super().clean(value)

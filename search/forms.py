@@ -12,7 +12,7 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm, ReCaptchaFormMixin, forms.Form):
     error_description = 'There was a problem with the form submission'
     error_disable_auto_focus = False
 
-    test_date = forms.DateField(widget=forms.TypeDateWidget())
+    test_date = forms.TypeDateField(widget=forms.TypeDateWidget())
 
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
