@@ -7,13 +7,25 @@ from django.utils.translation import gettext_lazy as _
 import datetime
 
 
-def validate_day_is_within_range(value):
+def validate_day_month_year_is_within_range(value):
+
+    year, month, day = value.split('-')
+    errors = []
     try:
-        value = int(value)
-        if value < 1 or value > 31:
-            raise ValidationError(f'"{value}" is not between 1 and 31', params={'value': value})
+        day = int(day)
+        if day < 1 or day > 31:
+            errors.append(f'"{day}" is not between 1 and 31')
+        month = int(month)
+        if month < 1 or month > 12:
+            errors.append(f'"{month}" is not between 1 and 12')
+        year = int(year)
+        if year <= 2025:
+            errors.append(f'"{year}" must be a number equals to or above 2025')
     except ValueError:
-        raise ValidationError(f'"{value}" must be a number between 1 and 31', params={'value': value})
+        # will default to built in message
+        pass
+    if errors:
+        raise ValidationError(errors)
 
     
 def validate_month_is_within_range(value):
@@ -177,17 +189,9 @@ class ReCaptchaField(ReCaptchaField):
 
 class TypeDateField(DateField):
 
-    def pre_validation(self, value):
-        year, month, day = value.split('-')
-        validate_day_is_within_range(day)
-        validate_month_is_within_range(month)
-        validate_year_is_within_range(year)
-
-
-
     def clean(self, value):
         """
         Run the bespoke day, month & year validation
         """
-        self.pre_validation(value)
+        validate_day_month_year_is_within_range(value)
         return super().clean(value)
