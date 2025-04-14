@@ -33,6 +33,7 @@ class GDSErrorDict(ErrorDict):
         error_title='There was a problem',
         error_description='There was a problem with the form submission',
         renderer=None,
+        hide_error_summary=True,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -40,6 +41,7 @@ class GDSErrorDict(ErrorDict):
         self.disable_auto_focus = disable_auto_focus
         self.error_description = error_description
         self.error_id = error_id
+        self.hide_error_summary = hide_error_summary
 
     def get_context(self):
         context = super().get_context()
@@ -49,6 +51,7 @@ class GDSErrorDict(ErrorDict):
                 'disable_auto_focus': self.disable_auto_focus,
                 'description': self.error_description,
                 'id': self.error_id,
+                'hide_error_summary': self.hide_error_summary,
             }
         )
         return context
@@ -86,12 +89,15 @@ class Form(GDSFormMixin, forms.Form):
         """
         Clean all of self.data and populate self._errors and self.cleaned_data.
         """
+
+        hide_error_summary = True if len(self.visible_fields()) == 1 else False
         self._errors = GDSErrorDict(
             renderer=self.renderer,
             disable_auto_focus=self.error_disable_auto_focus,
             error_id=self.error_id,
             error_title=self.error_title,
             error_description=self.error_description,
+            hide_error_summary=hide_error_summary,
         )
 
         if not self.is_bound:  # Stop further processing.

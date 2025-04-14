@@ -87,7 +87,7 @@ def get_session_id(request: HttpRequest) -> str:
     # give preference to the session_id in a qs parameter
     if request.GET.get('session_id', False):
         session_id = request.GET.get('session_id')
-    elif request.session.session_key:
+    elif hasattr(request.session, 'session_key'):
         session_id = request.session.session_key
 
     return session_id
@@ -223,3 +223,7 @@ def create_request_for_path(request, path):
     if 'session_id' in request.GET:
         new_request.GET = request.GET
     return new_request
+
+
+def get_guide_url(request: HttpRequest) -> str:
+    return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'

@@ -1,5 +1,11 @@
+from unittest.mock import patch
+
+from django.test.client import RequestFactory
+from elasticsearch.exceptions import TransportError
+from rest_framework import status
 from wagtail.test.utils import WagtailPageTests
 
+from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
 from domestic_growth.models import DomesticGrowthCard, DomesticGrowthContent
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
@@ -88,6 +94,46 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.trade_associations_title, 'Test title')
         self.assertEqual(page.trade_associations_intro, 'Test intro')
 
+    def test_can_email_guide(self):
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+            try:
+                page = DomesticGrowthGuidePageFactory(
+                    hero_title='Test title',
+                    hero_intro='Test intro',
+                    body_title='Test title',
+                    body_intro='Test intro',
+                    primary_regional_support_title_england='Test title',
+                    primary_regional_support_intro_england='Test intro',
+                    primary_regional_support_title_scotland='Test title',
+                    primary_regional_support_intro_scotland='Test intro',
+                    primary_regional_support_title_ni='Test title',
+                    primary_regional_support_intro_ni='Test intro',
+                    primary_regional_support_title_wales='Test title',
+                    primary_regional_support_intro_wales='Test intro',
+                    chamber_of_commerce_intro='Test intro',
+                    trade_associations_title='Test title',
+                    trade_associations_intro='Test intro',
+                    slug='test-email-guide',
+                )
+            except TransportError:
+                # Page is created at this point. Error caused by being unable to add page to Opensearch index.
+                pass
+
+            factory = RequestFactory()
+            test_email = 'test@example.com'  # /PS-IGNORE
+            test_session_id = '12345'
+
+            req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
+            response = page.serve(req)
+
+            assert response.status_code is status.HTTP_200_OK
+
+            mock_gov_uk_notify_action.assert_called_once_with(
+                email_address=test_email,
+                template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
+                form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
+            )
+
 
 class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_can_create_page(self):
@@ -99,6 +145,33 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
         self.assertEqual(page.body_title, 'Test title')
         self.assertEqual(page.body_intro, 'Test intro')
+
+    def test_can_email_guide(self):
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+            try:
+                page = DomesticGrowthChildGuidePageFactory(
+                    body_title='Test title',
+                    body_intro='Test intro',
+                    slug='test-email-guide',
+                )
+            except TransportError:
+                # Page is created at this point. Error caused by being unable to add page to Opensearch index.
+                pass
+
+            factory = RequestFactory()
+            test_email = 'test@example.com'  # /PS-IGNORE
+            test_session_id = '12345'
+
+            req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
+            response = page.serve(req)
+
+            assert response.status_code is status.HTTP_200_OK
+
+            mock_gov_uk_notify_action.assert_called_once_with(
+                email_address=test_email,  # /PS-IGNORE
+                template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
+                form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
+            )
 
 
 class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
@@ -119,6 +192,37 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
         self.assertEqual(page.page_b_type, 'not_interested_in_exporting')
         self.assertEqual(page.page_b_body_title, 'Test title b')
         self.assertEqual(page.page_b_body_intro, 'Test intro b')
+
+    def test_can_email_guide(self):
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+            try:
+                page = DomesticGrowthDynamicChildGuidePageFactory(
+                    page_a_type='interested_in_exporting',
+                    page_a_body_title='Test title a',
+                    page_a_body_intro='Test intro a',
+                    page_b_type='not_interested_in_exporting',
+                    page_b_body_title='Test title b',
+                    page_b_body_intro='Test intro b',
+                    slug='test-email-guide',
+                )
+            except TransportError:
+                # Page is created at this point. Error caused by being unable to add page to Opensearch index.
+                pass
+
+            factory = RequestFactory()
+            test_email = 'test@example.com'  # /PS-IGNORE
+            test_session_id = '12345'
+
+            req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
+            response = page.serve(req)
+
+            assert response.status_code is status.HTTP_200_OK
+
+            mock_gov_uk_notify_action.assert_called_once_with(
+                email_address=test_email,  # /PS-IGNORE
+                template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
+                form_url=f'http://testserver/test-email-guide?session_id={test_session_id}',
+            )
 
 
 class DomesticGrowthContentTests(SetUpLocaleMixin, WagtailPageTests):
