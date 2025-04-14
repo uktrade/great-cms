@@ -1095,6 +1095,78 @@ $great-design-system-mint-green: #8ce2d0;
 }
 
 // font weight of strong tag getting overwritten to 400
-.email-address-playback{
+.email-address-playback {
   font-weight: 600 !important;
+}
+
+// Design QA amends which will be resolved in Design System at a later date
+#bgs-homepage-hero {
+  h1 {
+    @media only screen and (min-width: 640px) and (max-width: 1023px) {
+      width: 125%;
+    }
+
+    @media only screen and (max-width: 640px) {
+      margin-top: -20px;
+    }
+  }
+}
+
+#bgs-homepage-explore-cards {
+  .great-ds-title-arrow__text {
+    @media only screen and (max-width: 640px) {
+      margin-bottom: 5px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      font-size: 21px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      font-size: 24px;
+      margin-right: 0;
+    }
+  }
+
+  .great-ds-card__content {
+    @media only screen and (min-width: 640px) {
+      margin-top: 0;
+    }
+  }
+
+  .great-ds-card-container {
+    @media only screen and (max-width: 640px) {
+      gap: 10px;
+    }
+  }
+}
+
+#bgs-homepage-guidance {
+  .great-ds-card-container {
+    @media only screen and (max-width: 640px) {
+      gap: 15px;
+    }
+  }
+}
+
+#bgs-homepage-news {
+  .great-ds-card__image {
+    @media only screen and (max-width: 640px) {
+      display: block;
+    }
+  }
+}
+
+#bgs-homepage-benefits {
+  .govuk-grid-row {
+    @media only screen and (min-width: 640px) and (max-width: 1440px) {
+      display: flex;
+    }
+  }
+
+  .bgs-benefit-card > div {
+    @media only screen and (min-width: 640px) and (max-width: 1440px) {
+      height: 100%;
+    }
+  }
 }

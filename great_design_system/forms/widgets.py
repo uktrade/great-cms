@@ -1,5 +1,9 @@
+import datetime
+
 from captcha.widgets import ReCaptchaV3
 from django.forms import widgets
+from django.utils import formats
+from django.utils.formats import get_format
 from django.utils.text import slugify
 
 
@@ -31,6 +35,7 @@ class GDSWidgetMixin(widgets.Widget):
         data_module_attrs={},
         fieldset=False,
         linked_conditional_reveal_fields=[],
+        choices=[],
         *args,
         **kwargs,
     ):
@@ -39,8 +44,9 @@ class GDSWidgetMixin(widgets.Widget):
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.data_module_attrs = data_module_attrs
         self.container_css_classes = container_css_classes
+        self.choices = choices
 
-    def get_context(self, name, value, attrs):
+    def get_context(self, name, value, attrs, subwidget_label=''):
         ctx = super().get_context(name, value, attrs)
         field = self.field
         linked_conditional_reveal_fields = (
@@ -48,6 +54,7 @@ class GDSWidgetMixin(widgets.Widget):
         )
         ctx['field'] = field
         ctx['linked_conditional_reveal_fields'] = linked_conditional_reveal_fields
+        ctx['subwidget_label'] = subwidget_label
         return ctx
 
 
@@ -77,6 +84,7 @@ SplitDateTimeWidget = widget_factory(widgets.SplitDateTimeWidget)
 SplitHiddenDateTimeWidget = widget_factory(widgets.SplitHiddenDateTimeWidget)
 SelectDateWidget = widget_factory(widgets.SelectDateWidget)
 ChoiceWidget = widget_factory(widgets.ChoiceWidget)
+Select = widget_factory(widgets.Select)
 
 
 class CreateOptionMixin:
@@ -251,6 +259,20 @@ class Textarea(Textarea):
     input_type = 'text'
     template_name = '_textarea.html'
 
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        field = context['field']
+        context['widget'].update(
+            {
+                'counter': field.counter,
+                'max_length': field.max_length,
+                'max_length_info': f'You can enter up to  {field.max_length} characters',
+                'max_words': field.max_words,
+                'max_words_info': f'You can enter up to  {field.max_words} words',
+            }
+        )
+        return context
+
 
 class TextInput(TextInput):
     """
@@ -337,6 +359,65 @@ class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
         context['widget']['template_class_name'] = self.template_class_name
         context['widget']['is_small'] = self.is_small
         return context
+
+
+class TypeDateWidget(SelectDateWidget):
+
+    template_name = '_date_input.html'
+    input_type = 'text'
+    date_widget = TextInput
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        base_attrs = context['widget']['attrs']
+        base_attrs.update({'class': 'govuk-input govuk-input--width-4'})
+        date_context = {}
+        year_name = self.year_field % name
+        date_context['year'] = self.date_widget(attrs).get_context(
+            name=year_name,
+            value=context['widget']['value']['year'],
+            attrs={**base_attrs, 'id': 'id_%s' % year_name},
+        )
+        base_attrs.update({'class': 'govuk-input govuk-input--width-2'})
+        month_name = self.month_field % name
+        date_context['month'] = self.date_widget(attrs).get_context(
+            name=month_name,
+            value=context['widget']['value']['month'],
+            attrs={**context['widget']['attrs'], 'id': 'id_%s' % month_name},
+        )
+        day_name = self.day_field % name
+        date_context['day'] = self.date_widget(
+            attrs,
+        ).get_context(
+            name=day_name,
+            value=context['widget']['value']['day'],
+            attrs={**context['widget']['attrs'], 'id': 'id_%s' % day_name},
+        )
+        subwidgets = []
+        for field in self._parse_date_fmt():
+            subwidgets.append([date_context[field]['widget'], field.title])
+        context['widget']['subwidgets'] = subwidgets
+        return context
+
+    def value_from_datadict(self, data, files, name):
+        y = data.get(self.year_field % name)
+        m = data.get(self.month_field % name)
+        d = data.get(self.day_field % name)
+        if y == m == d == '':
+            return None
+        if y is not None and m is not None and d is not None:
+            input_format = get_format('DATE_INPUT_FORMATS')[0]
+            input_format = formats.sanitize_strftime_format(input_format)
+            try:
+                date_value = datetime.date(int(y), int(m), int(d))
+            except ValueError:
+                # Return pseudo-ISO dates with zeros for any unselected values,
+                # e.g. '2017-0-23'.
+                return '%s-%s-%s' % (y or 0, m or 0, d or 0)
+            except OverflowError:
+                return '0-0-0'
+            return date_value.strftime(input_format)
+        return data.get(name)
 
 
 class ReCaptchaV3(ReCaptchaV3, HiddenInput):

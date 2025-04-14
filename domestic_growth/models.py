@@ -201,6 +201,8 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
+        context['card_urls'] = helpers.get_homepage_card_urls(request)
+
         return context
 
 
