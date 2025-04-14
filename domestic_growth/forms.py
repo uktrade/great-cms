@@ -12,6 +12,7 @@ from regex import EMAIL_ADDRESS_REGEX
 
 class StartingABusinessLocationForm(forms.Form):
     postcode = forms.CharField(
+        is_page_heading=True,
         label='Postcode',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         max_length=10,
