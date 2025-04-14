@@ -227,3 +227,19 @@ def create_request_for_path(request, path):
 
 def get_guide_url(request: HttpRequest) -> str:
     return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
+
+
+def save_email_as_guide_recipient(request: HttpRequest, email: str):
+    """
+    Saves an email address to the relevent guide receipient table
+    """
+    session_id = get_session_id(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, session_id)
+    recipient_model = (
+        domestic_growth_models.StartingABusinessGuideEmailRecipient
+        if type(triage_data) is domestic_growth_models.StartingABusinessTriage
+        else domestic_growth_models.ExistingBusinessGuideEmailRecipient
+    )
+
+    recipient_model.objects.create(email=email, triage=triage_data)
