@@ -725,7 +725,7 @@ class Command(BaseCommand):
                         )
                         sys.exit(-1)
                     field_updated = True
-                    setattr(page, field_name, new_value)
+                    setattr(page.specific, field_name, new_value)
                     self.stdout.write(self.style.SUCCESS(f'UPDATE <page>:<field> - {page.title}:{field_name}'))
 
         if field_updated and not dry_run:
