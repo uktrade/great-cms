@@ -39,6 +39,14 @@ from domestic_growth.forms import (
             {'sector': "Enter your sector or industry and select the closest result, or select 'I don't know yet'"},
         ),
         (
+            StartingABusinessSectorForm,
+            {'sector': 'SL0003', 'dont_know_sector_yet': True},
+            False,
+            {
+                'sector': "Enter your sector or industry and select the closest result, or select 'I don't know yet'"  # NOQA: E501
+            },  # NOQA: E501
+        ),
+        (
             StartingABusinessLocationForm,
             {
                 'postcode': 'BT809AQ',  # /PS-IGNORE
@@ -79,6 +87,14 @@ from domestic_growth.forms import (
         (
             ExistingBusinessSectorForm,
             {},
+            False,
+            {
+                'sector': "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'"  # NOQA: E501
+            },  # NOQA: E501
+        ),
+        (
+            ExistingBusinessSectorForm,
+            {'sector': 'SL0003', 'cant_find_sector': True},
             False,
             {
                 'sector': "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'"  # NOQA: E501

@@ -1,7 +1,10 @@
 {% extends 'includes/base_triage.html' %}
 {% load static %}
 {% block form %}
-    <form method="post" autocomplete="off" data-target-market-form>
+    <form method="post"
+          autocomplete="off"
+          data-target-market-form
+          onsubmit="return onSubmitBusinessDetails()">
         {% csrf_token %}
         <div class="govuk-form-group">
             <h2 class="govuk-caption-l">
