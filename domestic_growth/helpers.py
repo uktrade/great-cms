@@ -7,7 +7,11 @@ from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
-from domestic_growth.constants import PRE_START_GUIDE_URL, START_UP_GUIDE_URL, ESTABLISHED_GUIDE_URL
+from domestic_growth.constants import (
+    ESTABLISHED_GUIDE_URL,
+    PRE_START_GUIDE_URL,
+    START_UP_GUIDE_URL,
+)
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
@@ -227,6 +231,22 @@ def create_request_for_path(request, path):
 
 def get_guide_url(request: HttpRequest) -> str:
     return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
+
+
+def save_email_as_guide_recipient(request: HttpRequest, email: str):
+    """
+    Saves an email address to the relevent guide receipient table
+    """
+    session_id = get_session_id(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, session_id)
+    recipient_model = (
+        domestic_growth_models.StartingABusinessGuideEmailRecipient
+        if type(triage_data) is domestic_growth_models.StartingABusinessTriage
+        else domestic_growth_models.ExistingBusinessGuideEmailRecipient
+    )
+
+    recipient_model.objects.create(email=email, triage=triage_data)
 
 
 def get_homepage_card_urls(request: HttpRequest) -> str:

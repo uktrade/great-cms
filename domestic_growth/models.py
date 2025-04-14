@@ -27,6 +27,7 @@ from domestic_growth.helpers import (
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
+    save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -49,7 +50,8 @@ class EmailGuideFormMixin:
                 )
                 response = action.save({'guide_url': get_guide_url(request)})
                 response.raise_for_status()
-                # reset form after successful send
+                # save and reset form after successful send
+                save_email_as_guide_recipient(request, self.send_email_address)
                 self.email_guide_form = EmailGuideForm()
                 self.send_success = True
         elif request.method == 'GET':
@@ -734,9 +736,6 @@ class DomesticGrowthContent(index.Indexed, models.Model):
 
 
 class StartingABusinessTriage(TimeStampedModel):
-    # never assume email is unique in this table as users can complete the triage in different
-    # browsers / incognito mode
-    email = models.CharField(max_length=255, null=True, blank=True)
     # the session_id is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
     session_id = models.CharField(max_length=40, unique=True)
@@ -745,10 +744,12 @@ class StartingABusinessTriage(TimeStampedModel):
     postcode = models.CharField(max_length=8, null=True, blank=True)
 
 
+class StartingABusinessGuideEmailRecipient(TimeStampedModel):
+    email = models.EmailField(max_length=255)
+    triage = models.ForeignKey(StartingABusinessTriage, on_delete=models.DO_NOTHING)
+
+
 class ExistingBusinessTriage(TimeStampedModel):
-    # never assume email is unique in this table as users can complete the triage in different
-    # browsers / incognito mode
-    email = models.CharField(max_length=255, null=True, blank=True)
     # the session_id is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
     session_id = models.CharField(max_length=40, unique=True)
@@ -762,6 +763,11 @@ class ExistingBusinessTriage(TimeStampedModel):
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
     currently_export = models.BooleanField(null=True, blank=True)
+
+
+class ExistingBusinessGuideEmailRecipient(TimeStampedModel):
+    email = models.EmailField(max_length=255)
+    triage = models.ForeignKey(ExistingBusinessTriage, on_delete=models.DO_NOTHING)
 
 
 @register_snippet
