@@ -1,50 +1,26 @@
+import datetime
+
 from captcha.fields import ReCaptchaField  # noqa
 from django import forms
 from django.core import validators
-from django.forms.boundfield import BoundField
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-import datetime
+from django.forms.boundfield import BoundField
+from django.forms.utils import pretty_name
 
-
-def validate_day_month_year_is_within_range(value):
-
-    year, month, day = value.split('-')
-    errors = []
-    try:
-        day = int(day)
-        if day < 1 or day > 31:
-            errors.append(f'"{day}" is not between 1 and 31')
-        month = int(month)
-        if month < 1 or month > 12:
-            errors.append(f'"{month}" is not between 1 and 12')
-        year = int(year)
-        if year <= 2025:
-            errors.append(f'"{year}" must be a number equals to or above 2025')
-    except ValueError:
-        # will default to built in message
-        pass
-    if errors:
-        raise ValidationError(errors)
-
-    
-def validate_month_is_within_range(value):
-    try:
-        value = int(value)
-        if value < 1 or value > 12:
-            raise ValidationError(f'"{value}" is not between 1 and 12', params={'value': value})
-    except ValueError:
-        raise ValidationError(f'"{value}" must be a number between 1 and 12', params={'value': value})
-    
-def validate_year_is_within_range(value):
-    try:
-        value = int(value)
-        if value >= 2025:
-            raise ValidationError('Year can not be in the past', params={'value': value})
-    except ValueError:
-        raise ValidationError(f'"{value}" must be a number equals to or above 2025', params={'value': value})
 
 class GDSBoundField(BoundField):
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        if self.field.label is None:
+            self.field.name = pretty_name(self.name)
+        else:
+            self.field.name = self.field.label
+
     def label_tag(self, contents=None, attrs=None, label_suffix=None, tag=None):
         attrs = attrs or {}
         attrs['class'] = attrs.get('class', '') + ' govuk-label '
@@ -98,6 +74,7 @@ class GDSFieldMixin:
         threshold=None,
         choice_help_text=[],
         container_css_classes='govuk-form-group',
+        name=None,
         *args,
         **kwargs,
     ):
@@ -116,6 +93,7 @@ class GDSFieldMixin:
         self.counter = counter
         self.max_length = max_length
         self.max_words = max_words
+        self.name = name
         self.threshold = threshold
         self.choice_help_text = choice_help_text
 
@@ -187,11 +165,218 @@ class ReCaptchaField(ReCaptchaField):
     pass
 
 
-class TypeDateField(DateField):
+class TypedDateField(DateField):
+
+    DAY_LOW_HIGH_THRESHOLD = [1, 31]
+    MONTH_LOW_HIGH_THRESHOLD = [1, 12]
+    subwidget_error_class = 'govuk-input--error'
+
+    def __init__(
+        self,
+        accept_future=True,
+        accept_past=True,
+        accept_today=True,
+        date_thresholds=[],  # ['dd/mm/yyyy', 'dd/mm/yyyy'] or ['dd/mm/yyyy']
+        accept_match_date_threshold=True,
+        accept_before_date_threshold=True,
+        accept_above_date_threshold=True,
+        *args,
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        # datefield will check valid dates against these kwarg
+        # given dates can be in the future
+        self.accept_future = accept_future
+        # given dates can be in the past
+        self.accept_past = accept_past
+        # given dates can be today
+        self.accept_today = accept_today
+        # list of 1 or 2 dates.
+        self.date_thresholds = date_thresholds
+        # given date can be before date threshold
+        self.accept_before_date_threshold = accept_before_date_threshold
+        # given date can be after date threshold
+        self.accept_above_date_threshold = accept_above_date_threshold
+        # given date can be between the date_thresholds
+        self.accept_match_date_threshold = accept_match_date_threshold
+
+    def converted_date_str(self, string, date_type):
+        is_wrong_format_string = '{self.name} must be a real date.'
+        date_dict = {
+            'date': string,
+            'type': date_type,
+            'error': [f'{self.label} must include a valid {date_type}'],
+            'is_blank_string': '',
+            'exceeds_high_threshold': False,
+            'below_low_threshold': False,
+            'is_wrong_format_string': '',
+        }
+        try:
+            date = int(string)
+            date_dict.update({'date': date, 'error': []})
+
+            # Wrong format examples:
+            # 1: day = 'T'
+            # 2: day = '32'
+            # 3: month = '13'
+            # 3: year = '200'
+            # 4: year = '20251'
+            incorrect_year_format = False if date_type == 'year' and len(str(date)) != 4 else True
+            incorrect_day_format = (
+                False
+                if date_type == 'day'
+                and date >= self.DAY_LOW_HIGH_THRESHOLD[0]
+                and date >= self.DAY_LOW_HIGH_THRESHOLD[1]
+                else True
+            )
+            incorrect_month_format = (
+                False
+                if date_type == 'month'
+                and date >= self.MONTH_LOW_HIGH_THRESHOLD[0]
+                and date <= self.MONTH_LOW_HIGH_THRESHOLD[1]
+                else True
+            )
+            if str(date).isnumeric() is False or any(
+                [incorrect_year_format, incorrect_day_format, incorrect_month_format]
+            ):
+                date_dict.update({'is_wrong_format_string': is_wrong_format_string})
+
+        except ValueError:
+            date = string
+
+        # Check for blank date fields
+        # We catch the 'all fields missing' corner case in the gds_validation method
+        if any(date == '', date == 0, date == '0'):
+            date_dict.update({'is_blank_string': date_dict['type']})
+
+        return date_dict
+
+    def _past_present_future(self, date, today, error_dict, error_string_start):
+        # If the date is in the future when it needs to be in the past
+        if date >= today and (self.accept_past and not self.accept_future):
+            error_string_end = 'in the past'
+            if self.accept_today and date != today:
+                error_string_end = f'today or {error_string_end}'
+
+        # If the date is in the past when it needs to be in the future
+        elif date <= today and (self.accept_future and not self.accept_past):
+            error_string_end = 'in the future'
+            if self.accept_today and date != today:
+                error_string_end = f'today or {error_string_end}'
+
+        return [f'{error_string_start} {error_string_end}.', error_dict]
+
+    def _date_threshold(self, thresholds, date, error_dict, error_string_start):
+
+        pretty_low_date = thresholds[0].strftime('%m %B %Y')
+        pretty_high_date = '' if len(thresholds) == 1 else thresholds[1].strftime('%m %B %Y')
+
+        # If the date must be between 2 dates
+        if len(thresholds) == 2 and date < thresholds[0] or date > thresholds[1]:
+            error_string_end = f'between {pretty_low_date} and {pretty_high_date}'
+
+        # If the date is after a date threshold but must be before
+        elif date >= thresholds[0] and (self.accept_before_date_threshold and not self.accept_after_date_threshold):
+            error_string_end = f'before {pretty_low_date}'
+            if self.accept_match_date_threshold and date != thresholds[0]:
+                error_string_end = f'the same as or {error_string_end}'
+
+        # If the date is before a date threshold but must be after
+        elif date <= thresholds[0] and (self.accept_after_date_threshold and not self.accept_before_date_threshold):
+            error_string_end = f'after {pretty_low_date}'
+            if self.accept_match_date_threshold and date != thresholds[0]:
+                error_string_end = f'the same as or {error_string_end}'
+
+        return [f'{error_string_start} {error_string_end}.', error_dict]
+
+    def gds_validation_on_valid_datetime_string(self, value):
+
+        error_string_start = f'{self.name} must be'
+        error_dict = {
+            'day': self.subwidget_error_class,
+            'month': self.subwidget_error_class,
+            'year': self.subwidget_error_class,
+        }
+        errors = ['', {'day': '', 'month': '', 'year': ''}]
+
+        if value is None:
+            return errors
+
+        today = datetime.datetime.today().date()
+        date = self.strptime(value, '%d/%m/%Y')
+
+        # this may need sorting to ensure lowest date is index 0
+        thresholds = [self.strptime(threshold, '%d/%m/%Y') for threshold in self.date_thresholds]
+
+        # Work through past, present and future logic
+        if any([self.accept_past is False, self.accept_today is False, self.accept_future is False]):
+            errors = self._past_present_future(date, today, errors, error_dict, error_string_start)
+        # Work through defined date threshold logic
+        elif any([thresholds, self.accept_before_date_threshold is False, self.accept_above_date_threshold]):
+            errors = self._date_threshold(thresholds, date, errors, error_dict, error_string_start)
+
+        return errors
+
+    def gds_validation_on_invalid_date_string(self, value):
+
+        error_dict = {'day': '', 'month': '', 'year': ''}
+        errors = ['', error_dict]
+
+        year, month, day = value.split('-')
+
+        day = self.converted_date_str(day, 'day')
+        month = self.converted_date_str(month, 'month')
+        year = self.converted_date_str(year, 'year')
+
+        _is_blank_list = [day['is_blank_string'], month['is_blank_string'], year['is_blank_string']]
+        _is_wrong_format_list = [
+            day['is_wrong_format_string'],
+            month['is_wrong_format_string'],
+            year['is_wrong_format_string'],
+        ]
+
+        # Handle blank field logic
+        if any(_is_blank_list):
+            error_string_start = f'{self.name} must include a'
+            error_string_end = ' and '.join(filter(None, _is_blank_list))
+            error_dict.update(
+                {
+                    'day': self.subwidget_error_class if day['is_blank_string'] else '',
+                    'month': self.subwidget_error_class if month['is_blank_string'] else '',
+                    'year': self.subwidget_error_class if year['is_blank_string'] else '',
+                }
+            )
+
+            if year['is_blank_string'] and day['is_blank_string'] == '' and month['is_blank_string'] == '':
+                error_string = 'Year must include 4 numbers'
+            else:
+                error_string = f'{error_string_start} {error_string_end}.'
+            errors = [error_string, error_dict]
+
+        # Handle wrong format logic
+        if any(_is_wrong_format_list):
+            error_dict.update(
+                {
+                    'day': self.subwidget_error_class if day['is_wrong_format_string'] else '',
+                    'month': self.subwidget_error_class if month['is_wrong_format_string'] else '',
+                    'year': self.subwidget_error_class if year['is_wrong_format_string'] else '',
+                }
+            )
+            errors = ['{self.name} must be a real date.', error_dict]
+        return errors
 
     def clean(self, value):
         """
         Run the bespoke day, month & year validation
         """
-        validate_day_month_year_is_within_range(value)
+        try:
+            datetime.datetime.strptime(value, '%d/%m/%Y')
+            # Scenario 1: valid date has been posted
+            errors = self.gds_validation_on_valid_datetime_string(value)
+        except ValueError:
+            # Scenario 2: invalid date has been posted
+            errors = self.gds_validation_on_invalid_date_string(value)
+        if errors:
+            raise ValidationError(errors[0])
+
         return super().clean(value)
