@@ -96,10 +96,9 @@
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkHref=more_associations_link %}
+                {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText="View more associations for this sector" actionLinkHref=more_associations_link %}
                 {% endif %}
 
-                
                 {% capture tile_content %}
                 {% for base in bases %}
                     {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
@@ -108,13 +107,7 @@
                     id="rent-data-location-select-form"
                     action="#rent-data-location-select-form">
                     {% csrf_token %}
-                    {% include 'international/includes/form_field.html' with field=rent_data_location_select_form.rent_data_location %}
-                    <div class="govuk-grid-column-one-quarter">
-                        <button type="submit"
-                                id="change-rent-data-location"
-                                class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
-                                data-module="govuk-button">Change</button>
-                    </div>
+                    {{rent_data_location_select_form}}
                 </form>
                 <div class="govuk-!-margin-bottom-6"></div>
                 {% for rent_data_content in rent_data.tabs %}

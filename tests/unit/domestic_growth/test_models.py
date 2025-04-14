@@ -6,7 +6,11 @@ from rest_framework import status
 from wagtail.test.utils import WagtailPageTests
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
-from domestic_growth.models import DomesticGrowthCard, DomesticGrowthContent
+from domestic_growth.models import (
+    DomesticGrowthCard,
+    DomesticGrowthContent,
+    ExistingBusinessTriage,
+)
 from tests.helpers import SetUpLocaleMixin
 from .factories import (
     DomesticGrowthChildGuidePageFactory,
@@ -122,6 +126,7 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_session_id = '12345'
+            ExistingBusinessTriage.objects.create(session_id=test_session_id)
 
             req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
             response = page.serve(req)
@@ -161,6 +166,7 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_session_id = '12345'
+            ExistingBusinessTriage.objects.create(session_id=test_session_id)
 
             req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
             response = page.serve(req)
@@ -212,6 +218,7 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_session_id = '12345'
+            ExistingBusinessTriage.objects.create(session_id=test_session_id)
 
             req = factory.post(f'/test-email-guide?session_id={test_session_id}', {'email': test_email})
             response = page.serve(req)

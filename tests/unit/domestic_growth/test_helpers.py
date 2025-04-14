@@ -16,8 +16,14 @@ from domestic_growth.helpers import (
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
+    save_email_as_guide_recipient,
 )
-from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
+from domestic_growth.models import (
+    ExistingBusinessGuideEmailRecipient,
+    ExistingBusinessTriage,
+    StartingABusinessGuideEmailRecipient,
+    StartingABusinessTriage,
+)
 
 
 @pytest.mark.parametrize(
@@ -250,3 +256,29 @@ def test_get_change_your_answers_link(guide_url, session_id_qs_param, expected_r
     redirect_url = get_change_answers_link(req)
 
     assert redirect_url == expected_redirect_url
+
+
+@pytest.mark.parametrize(
+    'triage_model, triage_recipient_model, guide_url',
+    (
+        (ExistingBusinessTriage, ExistingBusinessGuideEmailRecipient, ESTABLISHED_GUIDE_URL),
+        (ExistingBusinessTriage, ExistingBusinessGuideEmailRecipient, START_UP_GUIDE_URL),
+        (StartingABusinessTriage, StartingABusinessGuideEmailRecipient, PRE_START_GUIDE_URL),
+    ),
+)
+@pytest.mark.django_db
+def test_save_email_as_guide_recipient(triage_model, triage_recipient_model, guide_url):
+    factory = RequestFactory()
+
+    session_id = '12345'
+    emails = ['example@test.com', 'example2@test2.com']  # /PS-IGNORE
+
+    triage = triage_model.objects.create(session_id=session_id)
+
+    req = factory.get(guide_url + f'?session_id={session_id}')
+
+    for email in emails:
+        save_email_as_guide_recipient(req, email)
+        assert triage_recipient_model.objects.filter(email=email).exists()
+        triage_recipient_record = triage_recipient_model.objects.get(email=email)
+        assert triage.id == triage_recipient_record.triage_id
