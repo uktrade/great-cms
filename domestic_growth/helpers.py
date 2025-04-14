@@ -7,7 +7,7 @@ from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
-from domestic_growth.constants import PRE_START_GUIDE_URL
+from domestic_growth.constants import PRE_START_GUIDE_URL, START_UP_GUIDE_URL, ESTABLISHED_GUIDE_URL
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
@@ -227,3 +227,18 @@ def create_request_for_path(request, path):
 
 def get_guide_url(request: HttpRequest) -> str:
     return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
+
+
+def get_homepage_card_urls(request: HttpRequest) -> str:
+    # Create request objects for each guide type
+    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+
+    # Get the appropriate URLs
+    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+    startup_triage_url = get_triage_drop_off_point(startup_request)
+    established_triage_url = get_triage_drop_off_point(established_request)
+    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
+
+    return {'pre_start_url': pre_start_url, 'existing_url': existing_url}
