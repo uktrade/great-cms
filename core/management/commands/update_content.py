@@ -29,6 +29,7 @@ from core.blocks import (
     CountryGuideIndustryBlock,
     DataTableBlock,
     IndividualStatisticBlock,
+    ITAQuoteBlock,
     LinkStructValue,
     PerformanceDashboardDataBlock,
     PullQuoteBlock,
@@ -44,13 +45,10 @@ class Command(BaseCommand):
     CALLABLES = types.FunctionType, types.MethodType
 
     strings_to_replace = {
+        'https://www.great.gov.uk': 'https://www.hotfix.great.uktrade.digital',
         'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
-        'great.gov.uk': 'hotfix.great.uktrade.digital',
-        'Great.gov.uk': 'hotfix.great.uktrade.digital',
-        'great.dev.uktrade.digital': 'hotfix.great.uktrade.digital',
-        'great.uat.uktrade.digital': 'hotfix.great.uktrade.digital',
-        'https://great.dev.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
-        'https://great.uat.uktrade.digital': 'https://www.hotfix.great.uktrade.digital',
+        # 'great.gov.uk': 'hotfix.great.uktrade.digital',
+        # 'Great.gov.uk': 'hotfix.great.uktrade.digital',
     }
 
     values_to_report = (
@@ -138,7 +136,7 @@ class Command(BaseCommand):
         if updated:
             block_updated = True
 
-        return block_updated, original_source
+        return block_updated, source
 
     def process_richtext_block(self, page_title, source):
         updated, new_source = self.replace_richtextbox(page_title, source)
@@ -510,6 +508,22 @@ class Command(BaseCommand):
 
         return block_updated, block
 
+    def process_itaquoteblock_block(self, page_title, block):
+        block_updated = False
+        original_values = self.create_original_vales(block.value.items())
+        for field_name, field_value in block.value.items():
+            if not field_value:
+                continue
+            updated, new_value = self.replace_string(page_title, field_name, field_value)
+            if updated:
+                original_values[field_name] = new_value
+                block_updated = True
+
+        if block_updated:
+            block.value = original_values
+
+        return block_updated, block
+
     def process_block(self, page_title, block, dry_run):  # noqa C901
 
         block_updated = False
@@ -520,17 +534,20 @@ class Command(BaseCommand):
             return False, block
 
         if isinstance(block.block, RichTextBlock):
-            # updated, new_source = self.process_richtext_block(page_title, block.value.source)
-            # if updated:
-            #     block.value.source = new_source
-            #     block_updated = True
-            pass
+            updated, new_source = self.process_richtext_block(page_title, block.value.source)
+            if updated:
+                block.value.source = new_source
+                block_updated = True
         elif isinstance(block.block, StreamBlock):
             updated, new_block = self.process_stream_block(page_title, block, dry_run)
             if updated:
                 block_updated = True
         elif isinstance(block.block, PullQuoteBlock):
             updated, new_block = self.process_pullquoteblock_block(page_title, block)
+            if updated:
+                block_updated = True
+        elif isinstance(block.block, ITAQuoteBlock):
+            updated, new_block = self.process_itaquoteblock_block(page_title, block)
             if updated:
                 block_updated = True
         elif isinstance(block.block, RouteSectionBlock):
@@ -687,6 +704,20 @@ class Command(BaseCommand):
 
         if not value:
             return False, value
+
+        # if page.title in (
+        #     'Choosing the right export opportunities',
+        #     'How to create an export plan',
+        #     'How to understand your export market size and its segments',
+        #     'How to research current export market conditions',
+        #     'How to assess ease of entry into a new export market',
+        #     'Researching local infrastructure',
+        #     'Information you need to choose a target country',
+        #     'Understanding customer demand vs ease of entry in an export market',
+        #     'How to choose the right route to market',
+        # ) and field == 'body':
+        #     breakpoint()
+        #     pass
 
         if isinstance(value, str):
             updated, value = self.process_string_field(page.title, field, value, dry_run)
