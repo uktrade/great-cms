@@ -430,7 +430,7 @@ class WagtailAdminDBTSectors(WagtailAdminPageForm):
 
 
 class DynamicGuideBCIRegionSelectForm(gds_forms.Form):
-    market_data_location = ChoiceField(
+    market_data_location = gds_forms.ChoiceField(
         label='Data for',
         choices=choices.REGION_CHOICES,
         widget=gds_forms.SelectOne(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
@@ -438,7 +438,7 @@ class DynamicGuideBCIRegionSelectForm(gds_forms.Form):
 
 
 class DynamicGuideRentDataSelectForm(gds_forms.Form):
-    rent_data_location = ChoiceField(
+    rent_data_location = gds_forms.ChoiceField(
         label='Average rent data for',
         choices=choices.REGION_CHOICES,
         widget=gds_forms.SelectOne(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
@@ -446,7 +446,7 @@ class DynamicGuideRentDataSelectForm(gds_forms.Form):
 
 
 class DynamicGuideSalaryDataSelectForm(gds_forms.Form):
-    salary_data_location = ChoiceField(
+    salary_data_location = gds_forms.ChoiceField(
         label='Average annual salary data for',
         choices=choices.REGION_CHOICES,
         widget=gds_forms.SelectOne(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),

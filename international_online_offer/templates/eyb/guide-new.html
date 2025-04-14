@@ -107,13 +107,7 @@
                     id="rent-data-location-select-form"
                     action="#rent-data-location-select-form">
                     {% csrf_token %}
-                    {% include 'international/includes/form_field.html' with field=rent_data_location_select_form.rent_data_location %}
-                    <div class="govuk-grid-column-one-quarter">
-                        <button type="submit"
-                                id="change-rent-data-location"
-                                class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
-                                data-module="govuk-button">Change</button>
-                    </div>
+                    {{rent_data_location_select_form}}
                 </form>
                 <div class="govuk-!-margin-bottom-6"></div>
                 {% for rent_data_content in rent_data.tabs %}
