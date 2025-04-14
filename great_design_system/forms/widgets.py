@@ -208,7 +208,6 @@ class RadioSelect(ChoiceWidget):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -227,7 +226,6 @@ class RadioSelectConditionalReveal(ChoiceWidget):
     option_template_name = '_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -242,7 +240,6 @@ class SelectOne(ChoiceWidget):
 
     template_name = '_select.html'
     option_template_name = '_select_option.html'
-    help_text_class_name = 'govuk-radios__hint'
     template_class_name = 'select'
 
     def get_context(self, name, value, attrs):
@@ -317,7 +314,6 @@ class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -336,7 +332,6 @@ class CheckboxSelectConditionalReveal(ChoiceWidget):
     option_template_name = '_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-checkboxes__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -352,7 +347,6 @@ class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
