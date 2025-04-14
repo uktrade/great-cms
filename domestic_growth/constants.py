@@ -107,3 +107,7 @@ SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS = (
     'Dumfries and Galloway',
     'Scottish Borders',
 )
+
+INTERNAL_GREAT_DOMAIN = 'great.gov.uk'
+
+INTERNAL_BUSINESS_DOMAIN = 'business.gov.uk'

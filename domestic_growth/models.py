@@ -293,15 +293,9 @@ class DomesticGrowthGuidePage(
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -425,15 +419,9 @@ class DomesticGrowthChildGuidePage(
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -640,15 +628,9 @@ class DomesticGrowthDynamicChildGuidePage(
 
         currently_export = triage_data.get('currently_export', False)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
