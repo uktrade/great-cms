@@ -46,7 +46,7 @@ from search.forms import FeedbackForm
             },
             False,
             {
-                'search_target': ['Information on what you were searching for must be no more than 1,000 characters'],
+                'search_target': ['Information on what you were searching for must be no more than 1000 characters'],
             },
         ),
     ),
