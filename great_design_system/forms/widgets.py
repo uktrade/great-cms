@@ -339,6 +339,25 @@ class CheckboxSelectConditionalReveal(ChoiceWidget):
         return context
 
 
+class CheckboxSelectConditionalReveal(ChoiceWidget):
+    """
+    New widget that will play nicely with the great-design-system
+    """
+
+    input_type = 'checkbox'
+    template_class_name = 'checkboxes'
+    template_name = '_multiple_input.html'
+    option_template_name = '_option_conditional_reveal.html'
+    option_reveal_template_name = '_reveal_input.html'
+    use_fieldset = True
+    help_text_class_name = 'govuk-checkboxes__hint'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['template_class_name'] = self.template_class_name
+        return context
+
+
 class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
 
     input_type = 'checkbox'
