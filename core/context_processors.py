@@ -269,8 +269,7 @@ def domestic_header(request):
                     'text': 'Starting a business',
                     'isCurrent': pre_start_url in request.path,
                     'overviewText': (
-                        'Get support and information'
-                        '<span class="govuk-visually-hidden"> starting a business</span>'
+                        'Get support and information' '<span class="govuk-visually-hidden"> starting a business</span>'
                     ),
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
