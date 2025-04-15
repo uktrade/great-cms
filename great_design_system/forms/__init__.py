@@ -2,7 +2,6 @@ from great_design_system.forms.fields import (
     BooleanField,
     CharField,
     ChoiceField,
-    DateField,
     DateTimeField,
     DecimalField,
     DurationField,
@@ -19,6 +18,7 @@ from great_design_system.forms.fields import (
     SlugField,
     TimeField,
     TypedChoiceField,
+    TypedDateField,
     TypedMultipleChoiceField,
     URLField,
     UUIDField,
@@ -43,7 +43,7 @@ from great_design_system.forms.widgets import (  # noqa
     SelectOne,
     Textarea,
     TextInput,
-    TypeDateWidget,
+    TypedDateWidget,
 )
 
 __all__ = [
@@ -51,7 +51,7 @@ __all__ = [
     'ModelForm',
     'CharField',
     'ChoiceField',
-    'DateField',
+    'TypedDateField',
     'DateTimeField',
     'DecimalField',
     'DurationField',
@@ -84,11 +84,12 @@ __all__ = [
     'TextInput',
     'DateInput',
     'SelectDateWidget',
-    'TypeDateWidget',
+    'TypedDateWidget',
     'SelectOne',
     'Select',
     'CheckboxInput',
     'PasswordInput',
     'CheckboxSelectMultiple',
     'CheckboxSelectMultipleSmall',
+    'DateFieldDayValidator',
 ]
