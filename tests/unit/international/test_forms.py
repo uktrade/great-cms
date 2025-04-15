@@ -4,45 +4,68 @@ from international.forms import ContactForm, InternationalHCSATForm
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid',
+    'form, form_data, form_is_valid, error_messages',
     (
         (
+            ContactForm,
             {
                 'full_name': 'Jane Bloggs',
                 'email': 'test@test.com',  # /PS-IGNORE
                 'how_we_can_help': 'Please help me login',
             },
             True,
+            {},
         ),
         (
+            ContactForm,
             {
                 'full_name': '',
                 'email': '',
                 'how_we_can_help': '',
             },
             False,
+            {
+                'email': ['Enter your email address'],
+                'full_name': ['Enter your name'],
+                'how_we_can_help': ['Enter information on what you were trying to do'],
+            },
         ),
         (
+            ContactForm,
             {
                 'full_name': 'Joe Bloggs',
                 'email': 'incorrect email',
                 'how_we_can_help': 'Please help me login',
             },
             False,
+            {'email': ['Enter an email address in the correct format, like name@example.com']},
+        ),
+        (
+            ContactForm,
+            {
+                'full_name': 'Joe Bloggs',
+                'email': 'test@test.com',
+                'how_we_can_help': 'x' * 1001,
+            },
+            False,
+            {
+                'how_we_can_help': ['Information on what you were trying to do must be no more than 1,000 characters'],
+            },
         ),
     ),
 )
 @pytest.mark.django_db
-def test_contact_form_validation(form_data, is_valid):
-    data = form_data
-    form = ContactForm(data)
-    assert form.is_valid() == is_valid
+def test_contact_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(data=form_data)
+    assert form.is_valid() == form_is_valid
+    assert error_messages == form.errors
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid',
+    'form, form_data, form_is_valid, error_messages',
     (
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -53,8 +76,10 @@ def test_contact_form_validation(form_data, is_valid):
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -69,8 +94,10 @@ def test_contact_form_validation(form_data, is_valid):
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -81,8 +108,10 @@ def test_contact_form_validation(form_data, is_valid):
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -93,8 +122,10 @@ def test_contact_form_validation(form_data, is_valid):
                 'service_improvements_feedback': 'This is some feedback',
             },
             True,
+            {},
         ),
         (
+            InternationalHCSATForm,
             {
                 'satisfaction': 'VERY_SATISFIED',
                 'experience': ['NOT_FIND_LOOKING_FOR'],
@@ -105,11 +136,12 @@ def test_contact_form_validation(form_data, is_valid):
                 'service_improvements_feedback': 'This is some feedback',
             },
             False,
+            {'service_specific_feedback_other': ['Ensure this value has at most 100 characters (it has 101).']},
         ),
     ),
 )
 @pytest.mark.django_db
-def test_hcsat_user_feedback_form_validation(form_data, is_valid):
-    data = form_data
-    form = InternationalHCSATForm(data)
-    assert form.is_valid() == is_valid
+def test_hcsat_user_feedback_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(data=form_data)
+    assert form.is_valid() == form_is_valid
+    assert error_messages == form.errors

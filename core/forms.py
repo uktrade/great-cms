@@ -1,33 +1,25 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import (
-    BooleanField,
-    CharField,
-    CheckboxSelectMultiple,
-    ChoiceField,
-    HiddenInput,
-    ModelForm,
-    MultipleChoiceField,
-    RadioSelect,
-    Textarea,
-    TextInput,
-)
+from django.forms import BooleanField, CharField, HiddenInput, Textarea, TextInput
 from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from core import constants, models
+from core import constants, mixins, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
+from great_design_system import forms as gds_forms
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
     f'<a href="{TERMS_URL}" target="_blank">terms and '
     'conditions</a> of the great.gov.uk service.'
 )
+
+TERMS_CHOICES = [[True, TERMS_LABEL]]
 
 
 class NoOperationForm(forms.Form):
@@ -74,13 +66,10 @@ class CompaniesHouseSearchForm(forms.Form):
     term = forms.CharField()
 
 
-class ConsentFieldMixin(forms.Form):
-    contact_consent = forms.MultipleChoiceField(
+class ConsentFieldMixin(gds_forms.Form):
+    contact_consent = gds_forms.MultipleChoiceField(
         # label is set in init to avoid circular dependency
-        widget=forms.CheckboxSelectInlineLabelMultiple(
-            attrs={'id': 'checkbox-multiple'},
-            use_nice_ids=True,
-        ),
+        widget=gds_forms.CheckboxSelectMultiple(),
         choices=constants.CONSENT_CHOICES,
         required=False,
     )
@@ -107,50 +96,58 @@ class ConsentFieldMixin(forms.Form):
         return super().order_fields(field_order)
 
 
-class HCSATForm(ModelForm):
-    satisfaction_rating = ChoiceField(
+class HCSATForm(mixins.HCSATFormMixin, gds_forms.ModelForm):
+
+    error_id = 'hcsat_error'
+
+    satisfaction_rating = gds_forms.ChoiceField(
         label='Overall, how would you rate your experience with this service today?',
         choices=constants.SATISFACTION_CHOICES,
-        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        widget=gds_forms.RadioSelect(container_css_classes='csat-step-1'),
         required=False,
     )
-    experienced_issues = MultipleChoiceField(
+    experienced_issues = gds_forms.MultipleChoiceField(
         label='Did you experience any of the following issues?',
         help_text='Select all that apply.',
         choices=constants.EXPERIENCE_CHOICES,
-        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=gds_forms.CheckboxSelectMultiple(container_css_classes='csat-step-2'),
         required=False,
         error_messages={
             'required': "Select issues you experienced, or select 'I did not experience any issues'",
         },
+        linked_conditional_reveal_fields=['other_detail'],
+        linked_conditional_reveal_choice='OTHER',
     )
-    other_detail = CharField(
+    other_detail = gds_forms.CharField(
         label='Please describe the issue',
         min_length=2,
         max_length=255,
         required=False,
-        widget=TextInput(attrs={'class': 'govuk-input great-font-main'}),
+        widget=gds_forms.TextInput(attrs={'class': 'govuk-!-width-two-thirds'}, container_css_classes='csat-step-2'),
+        linked_conditional_reveal='experienced_issues',
     )
-    service_improvements_feedback = CharField(
+    service_improvements_feedback = gds_forms.CharField(
         label='How could we improve this service?',
         help_text="Don't include any personal information, like your name or email address.",
         max_length=1200,
+        counter=True,
         required=False,
         error_messages={'max_length': 'Your feedback must be 1200 characters or less'},
-        widget=Textarea(
+        widget=gds_forms.Textarea(
+            container_css_classes='csat-step-2',
             attrs={
-                'class': 'govuk-textarea govuk-js-character-count great-font-main',
+                'class': 'govuk-!-width-two-thirds govuk-js-character-count',
                 'rows': 6,
                 'id': 'id_service_improvements_feedback',
                 'name': 'withHint',
                 'aria-describedby': 'id_service_improvements_feedback-info id_service_improvements_feedback-hint',
-            }
+            },
         ),
     )
-    likelihood_of_return = ChoiceField(
+    likelihood_of_return = gds_forms.ChoiceField(
         label='How likely are you to use this service again?',
         choices=constants.LIKELIHOOD_CHOICES,
-        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        widget=gds_forms.RadioSelect(container_css_classes='csat-step-2'),
         required=False,
     )
 

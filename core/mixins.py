@@ -10,6 +10,7 @@ from great_components import helpers as great_components_helpers
 
 from core import cms_slugs, models
 from core.constants import HCSatStage
+from great_design_system import forms
 
 logger = logging.getLogger(__name__)
 
@@ -235,6 +236,56 @@ class GuidedJourneyMixin:
         )
 
 
+class ReCaptchaFormMixin(forms.Form):
+    captcha = forms.ReCaptchaField(widget=forms.ReCaptchaV3())
+
+
+class HCSATFormMixin:
+
+    def __init__(self, stage=HCSatStage.NOT_STARTED.value, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # What hide_on_page_load should be depending on stage
+        init_field_config = {
+            'satisfaction_rating': False,
+            'experienced_issues': True,
+            'other_detail': True,
+            'service_improvements_feedback': True,
+            'likelihood_of_return': True,
+            'service_specific_feedback': True,
+            'service_specific_feedback_other': True,
+        }
+
+        submitted_config = {
+            'satisfaction_rating': True,
+            'experienced_issues': False,
+            'other_detail': False,
+            'service_improvements_feedback': False,
+            'likelihood_of_return': False,
+            'service_specific_feedback': False,
+            'service_specific_feedback_other': True,
+        }
+
+        completed_config = {
+            'satisfaction_rating': True,
+            'experienced_issues': True,
+            'other_detail': True,
+            'service_improvements_feedback': True,
+            'likelihood_of_return': True,
+            'service_specific_feedback': True,
+            'service_specific_feedback_other': True,
+        }
+
+        stage_config = {
+            HCSatStage.NOT_STARTED.value: init_field_config,
+            HCSatStage.SUBMITTED.value: submitted_config,
+            HCSatStage.COMPLETED.value: completed_config,
+        }
+
+        for key, value in self.fields.items():
+            value.hide_on_page_load = stage_config[stage][key]
+
+
 class HCSATMixin:
     is_international_hcsat = False
 
@@ -247,14 +298,12 @@ class HCSATMixin:
         return None
 
     def set_csat_and_stage(self, request, ctx, hcsat_service_name, form):
-
         hcsat = self.get_hcsat(request, hcsat_service_name)
 
         # all csat instances use the same form object, so customise initial heading depending on service
         if 'satisfaction_rating' in form.declared_fields:
             form.declared_fields['satisfaction_rating'].label = self.get_service_csat_heading(hcsat_service_name)
 
-        ctx['hcsat_form'] = form
         ctx['hcsat'] = hcsat
 
         if hcsat and hcsat.stage == HCSatStage.COMPLETED.value:
@@ -263,7 +312,10 @@ class HCSATMixin:
             hcsat.save()
         else:
             ctx['hcsat_form_stage'] = hcsat.stage if hcsat else HCSatStage.NOT_STARTED.value
+        from core.forms import HCSATForm
 
+        if form == HCSATForm:
+            ctx.update({'hcsat_form': form(stage=ctx['hcsat_form_stage'])})
         return ctx
 
     def set_is_csat_complete(self, request, context):
@@ -319,23 +371,30 @@ class HCSATNonFormPageMixin(HCSATMixin):
 
         hcsat = self.get_hcsat(request, self.hcsat_service_name)
         post_data = request.POST
+
+        form_data = {'data': post_data}
         if 'cancelButton' in post_data:
             """
             Redirect user if 'cancelButton' is found in the POST data
             """
             if hcsat:
-                hcsat.stage = HCSatStage.COMPLETED.value
+                stage = HCSatStage.COMPLETED.value
+                hcsat.stage = stage
                 hcsat.save()
+                form_data.update({'stage': stage})
             return HttpResponseRedirect(self.get_success_url(request))
 
-        form = form_class(post_data)
+        form = form_class(**form_data)
 
         if form.is_valid():
             if hcsat:
-                form = form_class(post_data, instance=hcsat)
+                form_data.update({'instance': hcsat})
+                form = form_class(**form_data)
                 form.is_valid()
             return self.form_valid(form, request)
         else:
+            form_data.update({'stage': HCSatStage.SUBMITTED.value})
+            form = form_class(**form_data)
             return self.form_invalid(form, request)
 
     def form_invalid(self, form, request):
