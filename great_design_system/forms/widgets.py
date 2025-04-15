@@ -1,9 +1,5 @@
-import datetime
-
 from captcha.widgets import ReCaptchaV3
 from django.forms import widgets
-from django.utils import formats
-from django.utils.formats import get_format
 from django.utils.text import slugify
 
 
@@ -355,16 +351,24 @@ class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
         return context
 
 
-class TypeDateWidget(SelectDateWidget):
+class TypedDateWidget(SelectDateWidget):
 
     template_name = '_date_input.html'
     input_type = 'text'
     date_widget = TextInput
 
+    def _add_error_classes(self, classes, error_dict, key):
+        return f'{classes} {error_dict[1][key]}'
+
     def get_context(self, name, value, attrs):
+
         context = super().get_context(name, value, attrs)
         base_attrs = context['widget']['attrs']
-        base_attrs.update({'class': 'govuk-input govuk-input--width-4'})
+        try:
+            errors = self.field.gds_validation_on_valid_date_string(value)
+        except ValueError:
+            errors = self.field.gds_validation_on_invalid_date_string(value)
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-4', errors, 'year')})
         date_context = {}
         year_name = self.year_field % name
         date_context['year'] = self.date_widget(attrs).get_context(
@@ -372,13 +376,14 @@ class TypeDateWidget(SelectDateWidget):
             value=context['widget']['value']['year'],
             attrs={**base_attrs, 'id': 'id_%s' % year_name},
         )
-        base_attrs.update({'class': 'govuk-input govuk-input--width-2'})
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-2', errors, 'month')})
         month_name = self.month_field % name
         date_context['month'] = self.date_widget(attrs).get_context(
             name=month_name,
             value=context['widget']['value']['month'],
             attrs={**context['widget']['attrs'], 'id': 'id_%s' % month_name},
         )
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-2', errors, 'day')})
         day_name = self.day_field % name
         date_context['day'] = self.date_widget(
             attrs,
@@ -392,26 +397,6 @@ class TypeDateWidget(SelectDateWidget):
             subwidgets.append([date_context[field]['widget'], field.title])
         context['widget']['subwidgets'] = subwidgets
         return context
-
-    def value_from_datadict(self, data, files, name):
-        y = data.get(self.year_field % name)
-        m = data.get(self.month_field % name)
-        d = data.get(self.day_field % name)
-        if y == m == d == '':
-            return None
-        if y is not None and m is not None and d is not None:
-            input_format = get_format('DATE_INPUT_FORMATS')[0]
-            input_format = formats.sanitize_strftime_format(input_format)
-            try:
-                date_value = datetime.date(int(y), int(m), int(d))
-            except ValueError:
-                # Return pseudo-ISO dates with zeros for any unselected values,
-                # e.g. '2017-0-23'.
-                return '%s-%s-%s' % (y or 0, m or 0, d or 0)
-            except OverflowError:
-                return '0-0-0'
-            return date_value.strftime(input_format)
-        return data.get(name)
 
 
 class ReCaptchaV3(ReCaptchaV3, HiddenInput):
