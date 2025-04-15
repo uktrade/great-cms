@@ -286,7 +286,11 @@ def domestic_header(request):
                     'text': 'Selling overseas from the UK',
                     'overviewText': 'Start exporting',
                     'children': [
-                        {'href': '/export-from-uk/markets/', 'text': 'Market Guides', 'isCurrent': '/markets' in request.path},
+                        {
+                            'href': '/export-from-uk/markets/',
+                            'text': 'Market Guides',
+                            'isCurrent': '/markets' in request.path,
+                        },
                         {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
                         {
                             'href': '/export-from-uk/export-academy/',
@@ -357,9 +361,7 @@ def domestic_header(request):
                             'text': 'Investment opportunities',
                             'isCurrent': (
                                 '/invest-in-uk/investment/' == request.path
-                                or (
-                                    '/invest-in-uk/investment/' in request.path and '?back=' in request.get_full_path()
-                                )
+                                or ('/invest-in-uk/investment/' in request.path and '?back=' in request.get_full_path())
                             ),
                         },
                         {
