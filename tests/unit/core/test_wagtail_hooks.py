@@ -207,7 +207,7 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=223)
+    expected_duration = timedelta(seconds=211)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -246,7 +246,7 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=347)
+    expected_duration = timedelta(seconds=336)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -284,7 +284,7 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
     revision = detail_page.save_revision()
     revision.publish()
 
-    expected_duration = timedelta(seconds=198)
+    expected_duration = timedelta(seconds=187)
 
     detail_page.refresh_from_db()
     assert detail_page.estimated_read_duration != expected_duration
@@ -333,7 +333,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(mock
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=73)  # Updated from 52 to 73 to account for CTA
+    expected_duration = timedelta(seconds=62)  # Updated from 52 to 73 to account for CTA
 
     # show the live version is not updated yet
     assert detail_page.has_unpublished_changes is True
@@ -369,7 +369,7 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(mock
     # NOTE: for a reason unrelated to the point of _this_ test, the readtime
     # of the published page CAN BE calculated as slightly longer than the draft.
     # This may be in part due to the page having a very small amount of content.
-    assert detail_page.estimated_read_duration == timedelta(seconds=73)
+    assert detail_page.estimated_read_duration == expected_duration
 
 
 @pytest.mark.django_db
@@ -413,7 +413,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(mock_render_cta,
 
     detail_page.refresh_from_db()
 
-    expected_duration = timedelta(seconds=73)  # Updated from 52 to 73 to account for CTA
+    expected_duration = timedelta(seconds=62)  # Updated from 52 to 73 to account for CTA
 
     # show the live version is updated yet
     assert detail_page.estimated_read_duration == expected_duration
@@ -444,7 +444,7 @@ def test__set_read_time__passes_through_is_post_creation(mock_render_cta, rf, do
     ) as mocked_update_data_for_appropriate_version:
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
-    expected_seconds = 73
+    expected_seconds = 62
     mocked_update_data_for_appropriate_version.assert_called_once_with(
         page=detail_page,
         force_page_update=is_post_creation_val,

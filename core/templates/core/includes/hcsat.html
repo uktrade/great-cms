@@ -20,27 +20,6 @@
                     <h2 class="govuk-fieldset__legend govuk-!-margin-bottom-0">Thank you for helping us to improve this service</h2>
                 </div>
             </div>
-            <div class="govuk-error-summary govuk-!-margin-bottom-3 {% if not hcsat_form.errors %}great-hidden{% endif %}"
-                 id="error-summary"
-                 aria-labelledby="error-summary-title"
-                 role="alert"
-                 tabindex="-1"
-                 data-module="error-summary">
-                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list great-font-main">
-                        {% for field in hcsat_form %}
-                            {% if field.errors %}
-                                {% for error in field.errors %}
-                                    <li>
-                                        <a href="#{{ field.auto_id }}">{{ error }}</a>
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
         </div>
         <div id="info-message"
              class="govuk-grid-column-two-thirds {% if hcsat_stage != 1 %}great-hidden{% endif %}">
@@ -60,199 +39,18 @@
           id="csat-form"
           class="govuk-!-margin-top-0">
         {% csrf_token %}
-        <div id="csat-step-1"
-             class="govuk-grid-row{% if hcsat_stage == 1 or hcsat_stage == 2 %} great-hidden{% endif %}">
-            <div class="govuk-grid-column-two-thirds">
-                <div id="satisfaction_group"
-                     class="govuk-form-group{% if hcsat_form.satisfaction_rating.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
-                            <h2 class="govuk-fieldset__heading"
-                                id="{{ hcsat_form.satisfaction_rating.auto_id }}">
-                                {{ hcsat_form.satisfaction_rating.label }}
-                            </h2>
-                        </legend>
-                        <div class="govuk-radios"
-                             data-module="govuk-radios"
-                             id="satisfaction_rating">
-                            {% for satisfaction_rating in hcsat_form.satisfaction_rating %}
-                                <div class="govuk-radios__item">
-                                    {{ satisfaction_rating.tag }}
-                                    <label class="govuk-label govuk-radios__label"
-                                           for="id_satisfaction_rating_{{ forloop.counter0 }}">
-                                        {{ satisfaction_rating.choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-        <div id="csat-step-2"
-             class="govuk-grid-row{% if not hcsat_stage or hcsat_stage == 2 or hcsat_stage == 0 %} great-hidden{% endif %}">
-            <div class="govuk-grid-column-two-thirds">
-                <div id="experience_group"
-                     class="govuk-form-group{% if hcsat_form.experienced_issues.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset "
-                              aria-describedby="experience-hint {% if hcsat_form.experienced_issues.errors %}csat-experience-error-message{% endif %}">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
-                            <h2 class="govuk-fieldset__heading"
-                                id="{{ hcsat_form.experienced_issues.auto_id }}">
-                                {{ hcsat_form.experienced_issues.label }}
-                            </h2>
-                        </legend>
-                        <div id="experience-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
-                        <p id="csat-experience-error-message"
-                           class="govuk-error-message{% if not hcsat_form.experienced_issues.errors %} great-hidden{% endif %}">
-                            <span class="govuk-visually-hidden">Error:</span> Select issues you experienced, or select ‘I did not experience any issues’
-                        </p>
-                        <div class="govuk-checkboxes"
-                             data-module="govuk-checkboxes"
-                             id="experience">
-                            {% for experienced_issue in hcsat_form.experienced_issues %}
-                                {% if experienced_issue.data.value == 'NO_ISSUE' %}
-                                    <div class="govuk-checkboxes__divider great-font-bold">Or</div>
-                                {% endif %}
-                                <div class="govuk-checkboxes__item">
-                                    <input {% if experienced_issue.data.value in hcsat_form.experienced_issues.value %}checked{% endif %}
-                                           {% if experienced_issue.data.value == 'NO_ISSUE' %}data-behaviour="exclusive"{% endif %}
-                                           {% if experienced_issue.data.value == 'OTHER' %}data-aria-controls="conditional-experience-{{ forloop.counter0 }}"{% endif %}
-                                           type="checkbox"
-                                           name="experienced_issues"
-                                           value="{{ experienced_issue.data.value }}"
-                                           class="govuk-checkboxes__input"
-                                           id="{{ experienced_issue.id_for_label }}">
-                                    <label class="govuk-label govuk-checkboxes__label"
-                                           for="{{ experienced_issue.id_for_label }}">
-                                        {{ experienced_issue.choice_label }}
-                                    </label>
-                                </div>
-                                {% if experienced_issue.data.value == 'OTHER' %}
-                                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                                         id="conditional-experience-{{ forloop.counter0 }}">
-                                        <div id="other_detail_group">
-                                            <div class="govuk-form-group">
-                                                {% include './hcsat_form_field.html' with field=hcsat_form.other_detail custom_error='Enter the issue you experienced' %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                </div>
-                <div id="likelihood_of_return_group"
-                     class="govuk-form-group{% if hcsat_form.likelihood_of_return.errors %} govuk-form-group--error{% endif %}">
-                    <fieldset class="govuk-fieldset "
-                              {% if hcsat_form.likelihood_of_return.errors %}aria-describedby="csat-likelihood-of-return-error-message"{% endif %}>
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
-                            <h2 class="govuk-fieldset__heading"
-                                id="{{ hcsat_form.likelihood_of_return.auto_id }}">
-                                {{ hcsat_form.likelihood_of_return.label }}
-                            </h2>
-                        </legend>
-                        <p id="csat-likelihood-of-return-error-message"
-                           class="govuk-error-message{% if not hcsat_form.likelihood_of_return.errors %} great-hidden{% endif %}">
-                            <span class="govuk-visually-hidden">Error:</span> Select how likely you are to use this service again
-                        </p>
-                        <div class="govuk-radios"
-                             data-module="govuk-radios"
-                             id="likelihood_of_return">
-                            {% for likelihood_of_return_level in hcsat_form.likelihood_of_return %}
-                                <div class="govuk-radios__item">
-                                    {{ likelihood_of_return_level.tag }}
-                                    <label class="govuk-label govuk-radios__label"
-                                           for="{{ likelihood_of_return_level.id_for_label }}">
-                                        {{ likelihood_of_return_level.choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                </div>
-                {% if hcsat_form.service_specific_feedback %}
-                    <div id="service_specific_feedback_group"
-                         class="govuk-form-group{% if hcsat_form.service_specific_feedback.errors %} govuk-form-group--error{% endif %}">
-                        <fieldset class="govuk-fieldset "
-                                  aria-describedby="service-feedback-hint {% if hcsat_form.experienced_issues.errors %}csat-service-feedback-error-message{% endif %}">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-4">
-                                <h2 class="govuk-fieldset__heading"
-                                    id="{{ hcsat_form.service_specific_feedback.auto_id }}">
-                                    {{ hcsat_form.service_specific_feedback.label }}
-                                </h2>
-                            </legend>
-                            <div id="service-feedback-hint" class="govuk-hint govuk-!-margin-bottom-3">Select all that apply.</div>
-                            <p id="csat-service-feedback-error-message"
-                               class="govuk-error-message{% if not hcsat_form.service_specific_feedback.errors %} great-hidden{% endif %}">
-                                <span class="govuk-visually-hidden">Error:</span> Select what you wanted to get out of the service today, or select ‘Dont't know / prefer not to say’
-                            </p>
-                            <div class="govuk-checkboxes"
-                                 data-module="govuk-checkboxes"
-                                 id="service-specific-feedback">
-                                {% for feedback in hcsat_form.service_specific_feedback %}
-                                    <div class="govuk-checkboxes__item">
-                                        <input {% if feedback.data.value in hcsat_form.service_specific_feedback.value %}checked{% endif %}
-                                               {% if feedback.data.value == 'OTHER' %}data-aria-controls="conditional-experience-{{ forloop.counter0 }}"{% endif %}
-                                               type="checkbox"
-                                               name="service_specific_feedback"
-                                               value="{{ feedback.data.value }}"
-                                               class="govuk-checkboxes__input"
-                                               id="{{ feedback.id_for_label }}">
-                                        <label class="govuk-label govuk-checkboxes__label"
-                                               for="{{ feedback.id_for_label }}">{{ feedback.choice_label }}</label>
-                                    </div>
-                                    {% if feedback.data.value == 'OTHER' %}
-                                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                                             id="conditional-experience-{{ forloop.counter0 }}">
-                                            <div id="other_feedback_group">
-                                                <div class="govuk-form-group">
-                                                    {% include './hcsat_form_field.html' with field=hcsat_form.service_specific_feedback_other custom_error='Enter your answer' %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </fieldset>
-                    </div>
-                {% endif %}
-                <div id="service_improvements_feedback_group"
-                     class="govuk-form-group great-font-main govuk-character-count{% if hcsat_form.service_improvements_feedback.errors %} govuk-form-group--error{% endif %}"
-                     data-module="govuk-character-count"
-                     data-maxlength="1200">
-                    <h2 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--l"
-                               for="{{ hcsat_form.service_improvements_feedback.id_for_label }}">
-                            {{ hcsat_form.service_improvements_feedback.label }}
-                        </label>
-                    </h2>
-                    <div id="id_service_improvements_feedback-hint" class="govuk-hint">
-                        {{ hcsat_form.service_improvements_feedback.help_text }}
-                    </div>
-                    <p id="exceeding-characters-error"
-                       class="govuk-error-message great-hidden">
-                        <span>Your feedback must be 1200 characters or less</span>
-                    </p>
-                    {{ hcsat_form.service_improvements_feedback }}
-                    <div id="id_service_improvements_feedback-info"
-                         class="govuk-hint {% if hcsat_form.service_improvements_feedback.errors %}great-error-red govuk-error-message great-font-bold{% endif %}">
-                        You can enter up to 1200 characters
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{hcsat_form}}
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-one-half-from-desktop great-actions-group{% if hcsat_stage == 2 %} great-hidden{% endif %}">
                 {% if hcsat_stage == 0 %}
-                    {% include './submit_button.html' with button_text='Submit and continue' %}
+                    {% include '_button.html' with input=True text='Submit and continue' type='submit' %}
                 {% else %}
-                    {% include './submit_button.html' with button_text='Submit feedback' %}
+                    {% include '_button.html' with input=True text='Submit feedback' type='submit' %}
                 {% endif %}
                 {% if hcsat_stage != 1 %}
-                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary great-hidden' button_text='Cancel' %}
+                    {% include '_button.html' with input=True text='Cancel' type='submit' name='cancelButton' classes='govuk-button--secondary great-hidden' %}
                 {% else %}
-                    {% include './submit_button.html' with button_name='cancelButton' button_classes='govuk-button--secondary' button_text='Cancel' %}
+                    {% include '_button.html' with input=True text='Cancel' type='submit' name='cancelButton' classes='govuk-button--secondary' %}
                 {% endif %}
             </div>
         </div>
