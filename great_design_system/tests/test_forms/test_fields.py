@@ -61,9 +61,7 @@ class TypedDateForm(Form):
         accept_before_date_threshold=False,
         accept_match_date_threshold=False,
     )
-    my_threshold_with_start_and_end = TypedDateField(
-        required=False, date_thresholds=[threshold_str, threshold_end_str]
-    )
+    my_threshold_with_start_and_end = TypedDateField(required=False, date_thresholds=[threshold_str, threshold_end_str])
 
 
 @pytest.mark.parametrize(
@@ -160,9 +158,7 @@ class TypedDateForm(Form):
                 'my_accept_above_date_threshold_and_match': [
                     f'My accept above date threshold and match must be the same as or after {threshold_pstr}.'
                 ],
-                'my_accept_above_date_threshold': [
-                    f'My accept above date threshold must be after {threshold_pstr}.'
-                ],
+                'my_accept_above_date_threshold': [f'My accept above date threshold must be after {threshold_pstr}.'],
                 'my_threshold_with_start_and_end': [
                     f'My threshold with start and end must be between {threshold_pstr} and {threshold_end_pstr}.'
                 ],
@@ -260,9 +256,7 @@ class TypedDateForm(Form):
                 'my_accept_before_date_threshold': [
                     f'My accept before date threshold must be before {threshold_pstr}.'
                 ],
-                'my_accept_above_date_threshold': [
-                    f'My accept above date threshold must be after {threshold_pstr}.'
-                ],
+                'my_accept_above_date_threshold': [f'My accept above date threshold must be after {threshold_pstr}.'],
             },
         ),
     ),
