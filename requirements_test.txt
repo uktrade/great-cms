@@ -120,7 +120,7 @@ colorama==0.4.6
     # via djlint
 configargparse==1.7
     # via locust
-coverage[toml]==7.7.1
+coverage[toml]==7.8.0
     # via
     #   pytest-codecov
     #   pytest-cov
@@ -355,7 +355,7 @@ gitdb==4.0.12
     # via gitpython
 gitpython==3.1.44
     # via -r requirements_test.in
-googleapis-common-protos==1.69.2
+googleapis-common-protos==1.70.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -419,14 +419,14 @@ jsbeautifier==1.15.4
     # via
     #   cssbeautifier
     #   djlint
-json5==0.10.0
+json5==0.12.0
     # via djlint
 jsonschema==3.2.0
     # via
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.5.1
+kombu==5.5.2
     # via celery
 l18n==2021.3
     # via wagtail
@@ -589,7 +589,7 @@ pre-commit==3.8.0
     #   django-log-formatter-asim
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via
     #   click-repl
     #   ipython
@@ -663,13 +663,13 @@ pytest==8.3.5
     #   pytest-django
     #   pytest-sugar
     #   pytest-xdist
-pytest-codecov==0.6.1
+pytest-codecov==0.7.0
     # via -r requirements_test.in
-pytest-cov==6.0.0
+pytest-cov==6.1.1
     # via
     #   -r requirements_test.in
     #   pytest-codecov
-pytest-django==4.10.0
+pytest-django==4.11.1
     # via -r requirements_test.in
 pytest-sugar==1.0.0
     # via -r requirements_test.in
@@ -714,9 +714,9 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-pyzmq==26.3.0
+pyzmq==26.4.0
     # via locust
-qrcode==8.0
+qrcode==8.1
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
@@ -764,9 +764,9 @@ ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
 s3transfer==0.6.2
     # via boto3
-selenium==4.30.0
+selenium==4.31.0
     # via -r requirements_test.in
-sentry-sdk==2.24.1
+sentry-sdk==2.26.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -823,7 +823,7 @@ tablib==3.5.0
     # via -r requirements.in
 telepath==0.3.1
     # via wagtail
-termcolor==2.5.0
+termcolor==3.0.1
     # via pytest-sugar
 tinycss2==1.4.0
     # via
@@ -875,7 +875,7 @@ typing-extensions==4.12.2
     #   pypdf
     #   selenium
     #   wagtail-localize
-tzdata==2025.1
+tzdata==2025.2
     # via
     #   celery
     #   django-celery-beat
@@ -908,7 +908,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.29.3
+virtualenv==20.30.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
