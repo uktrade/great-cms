@@ -147,8 +147,9 @@ def domestic_header(request):
         '15.2203 10.8569 14.6097 11.9999 13.6196L16.4385 17.3914L18 15.5071Z"/></svg>'
     )
     menu_icon = (
-        '<svg aria-hidden="true" class="great-ds-icon-svg great-ds-icon--menu" width="16" height="17" viewBox="0 0 16 17" '
-        'xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="great-ds-icon--menu-bars" '
+        '<svg aria-hidden="true" class="great-ds-icon-svg great-ds-icon--menu" width="16" height="17" '
+        'viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" '
+        'class="great-ds-icon--menu-bars"'
         'd="M1 3.5C1 2.94687 1.44687 2.5 2 2.5H14C14.5531 2.5 15 2.94687 15 3.5C15 4.05313 14.5531 4.5 14 '
         '4.5H2C1.44687 4.5 1 4.05313 1 3.5ZM1 8.5C1 7.94688 1.44687 7.5 2 7.5H14C14.5531 7.5 15 7.94688 15 '
         '8.5C15 9.05312 14.5531 9.5 14 9.5H2C1.44687 9.5 1 9.05312 1 8.5ZM15 13.5C15 14.0531 14.5531 14.5 14 '

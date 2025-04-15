@@ -149,7 +149,10 @@ class ExistingBusinessCurrentlyExportForm(forms.Form):
     currently_export = forms.ChoiceField(
         is_page_heading=True,
         label='Do you currently export your products or services overseas?',
-        help_text='We’ll show technical support if you’re exporting and introductory information for exporting if you’re not.',
+        help_text=(
+            'We’ll show technical support if you’re exporting and '
+            'introductory information for exporting if you’re not.'
+        ),
         required=True,
         widget=forms.RadioSelect,
         choices=(('YES', 'Yes'), ('NO', 'No')),
