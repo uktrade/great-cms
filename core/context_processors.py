@@ -135,7 +135,7 @@ def services_home_links(request):
 
 def domestic_header(request):
     search_icon = (
-        '<svg xmlns="http://www.w3.org/2000/svg" class="great-ds-icon-svg" width="20" height="20" '
+        '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="great-ds-icon-svg" width="20" height="20" '
         'viewBox="0 0 18 18" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" '
         'd="M7.77589 13.722C6.26697 13.8589 4.79933 13.386 3.64011 12.4016C1.2472 10.3681 0.933108 6.74217 '
         '2.94069 4.31856C4.06024 2.96784 5.66793 2.27198 7.28695 2.27198C8.57164 2.27198 9.86443 2.7113 '
@@ -147,7 +147,7 @@ def domestic_header(request):
         '15.2203 10.8569 14.6097 11.9999 13.6196L16.4385 17.3914L18 15.5071Z"/></svg>'
     )
     menu_icon = (
-        '<svg class="great-ds-icon-svg great-ds-icon--menu" width="16" height="17" viewBox="0 0 16 17" '
+        '<svg class="great-ds-icon-svg great-ds-icon--menu" aria-hidden="true" width="16" height="17" viewBox="0 0 16 17" '
         'xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="great-ds-icon--menu-bars" '
         'd="M1 3.5C1 2.94687 1.44687 2.5 2 2.5H14C14.5531 2.5 15 2.94687 15 3.5C15 4.05313 14.5531 4.5 14 '
         '4.5H2C1.44687 4.5 1 4.05313 1 3.5ZM1 8.5C1 7.94688 1.44687 7.5 2 7.5H14C14.5531 7.5 15 7.94688 15 '
@@ -266,8 +266,8 @@ def domestic_header(request):
                     'icon': '/static/icons/start-icon.svg',
                     'href': pre_start_url,
                     'text': 'Starting a business',
-                    'isCurrent': '/export' in request.path,
-                    'overviewText': 'Get support and information',
+                    'isCurrent': pre_start_url in request.path,
+                    'overviewText': 'Get support and information<span class="govuk-visually-hidden"> starting a business</span>',
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
                 },
@@ -275,37 +275,36 @@ def domestic_header(request):
                     'icon': '/static/icons/run-icon.svg',
                     'href': existing_url,
                     'text': 'Running and growing a business',
-                    'isCurrent': '/invest' in request.path,
-                    'overviewText': 'Get support and information',
+                    'isCurrent': existing_url in request.path,
+                    'overviewText': 'Get support and information<span class="govuk-visually-hidden"> running and growing a business</span>',
                     'description': """Tell us a bit about your business and we'll link you up to the right
  resources to help it thrive.""",
                 },
                 {
                     'icon': '/static/icons/export-icon.svg',
-                    'href': '/greatgovuk/',
+                    'href': '/export-from-uk/',
                     'text': 'Selling overseas from the UK',
                     'overviewText': 'Start exporting',
                     'children': [
-                        {'href': '/greatgovuk/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
-                        {'href': '/greatgovuk/export-support/', 'text': 'Export support'},
+                        {'href': '/export-from-uk/markets/', 'text': 'Market Guides', 'isCurrent': '/markets' in request.path},
+                        {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
                         {
-                            'href': '/greatgovuk/export-academy/',
+                            'href': '/export-from-uk/export-academy/',
                             'text': 'UK Export Academy',
                             'isCurrent': '/export-support/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/learn/categories/',
+                            'href': '/export-from-uk/learn/categories/',
                             'text': 'Learn to export',
                             'isCurrent': '/learn/categories/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/services/',
+                            'href': '/export-from-uk/services/',
                             'text': 'Export resources',
-                            'requiresAuth': True,
                             'isCurrent': '/services/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/dashboard/',
+                            'href': '/export-from-uk/dashboard/',
                             'text': 'Export dashboard',
                             'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
@@ -313,16 +312,17 @@ def domestic_header(request):
                         {
                             'href': reverse_lazy('core:compare-countries'),
                             'text': 'Where to export',
+                            'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/export-plan/',
+                            'href': '/export-from-uk/export-plan/',
                             'text': 'Make an export plan',
                             'requiresAuth': True,
                             'isCurrent': '/export-plan' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/profile/',
+                            'href': '/export-from-uk/profile/',
                             'text': 'Export account',
                             'requiresAuth': True,
                             'isCurrent': '/profile' in request.path,
@@ -343,29 +343,29 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
-                    'href': '/greatgovuk/international/',
+                    'href': '/invest-in-uk/international/',
                     'text': 'Investing and expanding in the UK',
                     'overviewText': 'Start investing',
                     'children': [
                         {
-                            'href': '/greatgovuk/international/expand-your-business-in-the-uk/',
+                            'href': '/invest-in-uk/expand-your-business-in-the-uk/',
                             'text': 'Expand your business in the UK',
                             'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/international/investment/',
+                            'href': '/invest-in-uk/investment/',
                             'text': 'Investment opportunities',
                             'isCurrent': (
-                                '/international/investment/' == request.path
+                                '/invest-in-uk/investment/' == request.path
                                 or (
-                                    '/international/investment/' in request.path and '?back=' in request.get_full_path()
+                                    '/invest-in-uk/investment/' in request.path and '?back=' in request.get_full_path()
                                 )
                             ),
                         },
                         {
-                            'href': '/greatgovuk/international/buy-from-the-uk/',
+                            'href': '/invest-in-uk/buy-from-the-uk/',
                             'text': 'Buy from the UK',
-                            'isCurrent': '/international/buy-from-the-uk/' in request.path,
+                            'isCurrent': '/buy-from-the-uk/' in request.path,
                         },
                         {
                             'href': '#',
@@ -545,21 +545,32 @@ def microsite_footer(request):
 
 
 def footer_bgs(request):
+    # Create request objects for each guide type
+    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+
+    # Get the appropriate URLs
+    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+    startup_triage_url = get_triage_drop_off_point(startup_request)
+    established_triage_url = get_triage_drop_off_point(established_request)
+    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
+
     return {
         'footer_bgs_context': {
             'currentYear': str(datetime.now().year),
             'upperFooterSection': [
                 [
                     {
-                        'href': '#TBC',
+                        'href': pre_start_url,
                         'text': 'Starting a business',
-                        'title': 'Export support for UK businesses',
+                        'title': 'Starting a business',
                         'isHeading': 'true',
                     }
                 ],
                 [
                     {
-                        'href': '#TBC',
+                        'href': existing_url,
                         'text': 'Running and growing a business',
                         'title': 'Running and growing a business',
                         'isHeading': 'true',
@@ -588,22 +599,22 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '/international/',
+                        'href': '/invest-in-uk/',
                         'text': 'Investing and expanding in the UK',
                         'title': 'Investing and expanding in the UK',
                         'isHeading': 'true',
                     },
                     {
-                        'href': '/international/expand-your-business-in-the-uk/',
+                        'href': '/invest-in-uk/expand-your-business-in-the-uk/',
                         'text': 'Expand your business in the UK',
                         'title': 'Expand your business in the UK',
                     },
                     {
-                        'href': '/international/investment/',
+                        'href': '/invest-in-uk/investment/',
                         'text': 'Investment opportunities',
                         'title': 'Investment opportunities',
                     },
-                    {'href': 'international/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
+                    {'href': '/invest-in-uk/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
                 ],
             ],
             'lowerFooterSection': [
@@ -621,9 +632,9 @@ def footer_bgs(request):
                     {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
                 ],
                 [
-                    {'href': '#TBC', 'text': 'About this website', 'title': 'About this website'},
+                    {'href': '/support-in-uk/', 'text': 'About this website', 'title': 'About this website'},
                     {
-                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'href': '/help-using-this-website/',
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },
