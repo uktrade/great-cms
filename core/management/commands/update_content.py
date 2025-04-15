@@ -117,7 +117,7 @@ class Command(BaseCommand):
         for tag in a_tags:
             for value in self.strings_to_replace:
                 if value in tag['href']:
-                    self.report_page_needs_updating(page_title, 'link', source)
+                    self.report_page_needs_updating(page_title, 'text', source)
                     tag['href'] = tag['href'].replace(value, self.strings_to_replace[value])
                     updated = True
         return updated, str(soup)
@@ -476,12 +476,15 @@ class Command(BaseCommand):
                     updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
                     if updated:
                         block.value[cnt].link_text = new_link_text
+                        block.value[cnt].save()
                         block_updated = True
                     updated, new_link = self.process_streamvalue_field(page_title, item.link, dry_run)
                     if updated:
                         block.value[cnt].link = new_link
+                        block.value[cnt].save()
                         block_updated = True
                 elif isinstance(item, UKEACTA):
+                    cnt += 1
                     continue
                 else:
                     frameinfo = getframeinfo(currentframe())
@@ -490,7 +493,7 @@ class Command(BaseCommand):
                     sys.exit(-1)
             cnt += 1
 
-        return block_updated, block
+            return block_updated, block
 
     def process_supporttopiccardblock_block(self, page_title, block):
         block_updated = False
@@ -508,16 +511,27 @@ class Command(BaseCommand):
 
         return block_updated, block
 
-    def process_itaquoteblock_block(self, page_title, block):
+    def process_itaquoteblock_block(self, page_title, block):  # noqa C901
         block_updated = False
         original_values = self.create_original_vales(block.value.items())
         for field_name, field_value in block.value.items():
             if not field_value:
                 continue
-            updated, new_value = self.replace_string(page_title, field_name, field_value)
-            if updated:
-                original_values[field_name] = new_value
-                block_updated = True
+            if isinstance(field_value, str):
+                updated, new_value = self.replace_string(page_title, field_name, field_value)
+                if updated:
+                    original_values[field_name] = new_value
+                    block_updated = True
+            elif isinstance(field_value, RichText):
+                updated, new_source = self.replace_richtextbox(page_title, field_value.source)
+                if updated:
+                    original_values[field_name].source = new_source
+                    block_updated = True
+            else:
+                frameinfo = getframeinfo(currentframe())
+                self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(field_value)}'))
+                sys.exit(-1)
 
         if block_updated:
             block.value = original_values
@@ -704,20 +718,6 @@ class Command(BaseCommand):
 
         if not value:
             return False, value
-
-        # if page.title in (
-        #     'Choosing the right export opportunities',
-        #     'How to create an export plan',
-        #     'How to understand your export market size and its segments',
-        #     'How to research current export market conditions',
-        #     'How to assess ease of entry into a new export market',
-        #     'Researching local infrastructure',
-        #     'Information you need to choose a target country',
-        #     'Understanding customer demand vs ease of entry in an export market',
-        #     'How to choose the right route to market',
-        # ) and field == 'body':
-        #     breakpoint()
-        #     pass
 
         if isinstance(value, str):
             updated, value = self.process_string_field(page.title, field, value, dry_run)
