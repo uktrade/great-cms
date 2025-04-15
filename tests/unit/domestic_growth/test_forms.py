@@ -58,7 +58,7 @@ from domestic_growth.forms import (
             StartingABusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (
             ExistingBusinessSectorForm,
