@@ -52,13 +52,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             StartingABusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (
             ExistingBusinessSectorForm,
@@ -82,7 +82,7 @@ from domestic_growth.forms import (
             False,
             {
                 'sector': "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'"  # NOQA: E501
-            },
+            },  # NOQA: E501
         ),
         (
             ExistingBusinessLocationForm,
@@ -98,13 +98,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             ExistingBusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (ExistingBusinessWhenSetUpForm, {'when_set_up': LESS_THAN_3_YEARS_AGO}, True, {}),
         (ExistingBusinessWhenSetUpForm, {}, False, {'when_set_up': 'Select when you set up your business'}),
@@ -114,7 +114,7 @@ from domestic_growth.forms import (
             ExistingBusinessTurnoverForm,
             {},
             False,
-            {'turnover': 'Select last financial year\'s turnover, or select \'Prefer not to say\''},
+            {'turnover': 'Select last financial year’s turnover, or select ‘Prefer not to say’'},
         ),
         (ExistingBusinessCurrentlyExportForm, {'currently_export': 'YES'}, True, {}),
         (
