@@ -370,7 +370,10 @@ class TypedDateWidget(SelectDateWidget):
 
         context = super().get_context(name, value, attrs)
         base_attrs = context['widget']['attrs']
-        errors = self.field.gds_validation_on_valid_datetime_string(value)
+        try:
+            errors = self.field.gds_validation_on_valid_date_string(value)
+        except ValueError:
+            errors = self.field.gds_validation_on_invalid_date_string(value)
         base_attrs.update({'class': self._add_error_classes('govuk-input--width-4', errors, 'year')})
         date_context = {}
         year_name = self.year_field % name

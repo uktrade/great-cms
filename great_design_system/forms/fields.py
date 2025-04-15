@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.forms.boundfield import BoundField
 from django.forms.utils import pretty_name
 
+from great_design_system.forms.widgets import TypedDateWidget
+
 
 class GDSBoundField(BoundField):
 
@@ -167,6 +169,7 @@ class ReCaptchaField(ReCaptchaField):
 
 class TypedDateField(DateField):
 
+    widget = TypedDateWidget
     DAY_LOW_HIGH_THRESHOLD = [1, 31]
     MONTH_LOW_HIGH_THRESHOLD = [1, 12]
     subwidget_error_class = 'govuk-input--error'
@@ -201,7 +204,8 @@ class TypedDateField(DateField):
         self.accept_match_date_threshold = accept_match_date_threshold
 
     def converted_date_str(self, string, date_type):
-        is_wrong_format_string = '{self.name} must be a real date.'
+        is_wrong_format_string = f'{self.name} must be a real date.'
+
         date_dict = {
             'date': string,
             'type': date_type,
@@ -213,6 +217,11 @@ class TypedDateField(DateField):
         }
         try:
             date = int(string)
+        except ValueError:
+            date_dict.update({'is_wrong_format_string': is_wrong_format_string})
+            return date_dict
+
+        if type(date) is int:
             date_dict.update({'date': date, 'error': []})
 
             # Wrong format examples:
@@ -225,71 +234,95 @@ class TypedDateField(DateField):
             incorrect_day_format = (
                 False
                 if date_type == 'day'
-                and date >= self.DAY_LOW_HIGH_THRESHOLD[0]
-                and date >= self.DAY_LOW_HIGH_THRESHOLD[1]
+                and (date < self.DAY_LOW_HIGH_THRESHOLD[0] or date > self.DAY_LOW_HIGH_THRESHOLD[1])
                 else True
             )
             incorrect_month_format = (
                 False
                 if date_type == 'month'
-                and date >= self.MONTH_LOW_HIGH_THRESHOLD[0]
-                and date <= self.MONTH_LOW_HIGH_THRESHOLD[1]
+                and (date < self.MONTH_LOW_HIGH_THRESHOLD[0] or date > self.MONTH_LOW_HIGH_THRESHOLD[1])
                 else True
             )
-            if str(date).isnumeric() is False or any(
-                [incorrect_year_format, incorrect_day_format, incorrect_month_format]
-            ):
+            if any([incorrect_year_format is False, incorrect_day_format is False, incorrect_month_format is False]):
                 date_dict.update({'is_wrong_format_string': is_wrong_format_string})
-
-        except ValueError:
-            date = string
 
         # Check for blank date fields
         # We catch the 'all fields missing' corner case in the gds_validation method
-        if any(date == '', date == 0, date == '0'):
+        if any([date == '', date == 0, date == '0']):
             date_dict.update({'is_blank_string': date_dict['type']})
 
         return date_dict
 
-    def _past_present_future(self, date, today, error_dict, error_string_start):
-        # If the date is in the future when it needs to be in the past
-        if date >= today and (self.accept_past and not self.accept_future):
-            error_string_end = 'in the past'
-            if self.accept_today and date != today:
-                error_string_end = f'today or {error_string_end}'
+    def _past_present_future(self, date, today, errors, error_dict, error_string_start):
 
-        # If the date is in the past when it needs to be in the future
-        elif date <= today and (self.accept_future and not self.accept_past):
-            error_string_end = 'in the future'
-            if self.accept_today and date != today:
-                error_string_end = f'today or {error_string_end}'
+        error_combinations = {
+            'before': 'in the past',
+            'current': 'today',
+            'after': 'in the future',
+            'current_and_before': 'today or in the past',
+            'current_and_after': 'today or in the future',
+        }
 
-        return [f'{error_string_start} {error_string_end}.', error_dict]
+        error_end = self._get_date_error(
+            date, today, self.accept_past, self.accept_today, self.accept_future, error_combinations
+        )
 
-    def _date_threshold(self, thresholds, date, error_dict, error_string_start):
+        if error_end:
+            errors = [f'{error_string_start} {error_end}.', error_dict]
+        return errors
 
-        pretty_low_date = thresholds[0].strftime('%m %B %Y')
-        pretty_high_date = '' if len(thresholds) == 1 else thresholds[1].strftime('%m %B %Y')
+    def _get_date_error(self, date, date_marker, before, current, after, error_combinations):
+        if date == date_marker:
+            if not current:
+                return error_combinations['after'] if not before else error_combinations['before']
+            return None
 
-        # If the date must be between 2 dates
-        if len(thresholds) == 2 and date < thresholds[0] or date > thresholds[1]:
-            error_string_end = f'between {pretty_low_date} and {pretty_high_date}'
+        if not after and not before and current:
+            return error_combinations['current']
 
-        # If the date is after a date threshold but must be before
-        elif date >= thresholds[0] and (self.accept_before_date_threshold and not self.accept_after_date_threshold):
-            error_string_end = f'before {pretty_low_date}'
-            if self.accept_match_date_threshold and date != thresholds[0]:
-                error_string_end = f'the same as or {error_string_end}'
+        if date < date_marker and not before:
+            return error_combinations['current_and_after'] if current else error_combinations['after']
 
-        # If the date is before a date threshold but must be after
-        elif date <= thresholds[0] and (self.accept_after_date_threshold and not self.accept_before_date_threshold):
-            error_string_end = f'after {pretty_low_date}'
-            if self.accept_match_date_threshold and date != thresholds[0]:
-                error_string_end = f'the same as or {error_string_end}'
+        if date > date_marker and not after:
+            return error_combinations['current_and_before'] if current else error_combinations['before']
 
-        return [f'{error_string_start} {error_string_end}.', error_dict]
+        return None
 
-    def gds_validation_on_valid_datetime_string(self, value):
+    def _date_threshold(self, thresholds, date, errors, error_dict, error_string_start):
+
+        pretty_low_date = thresholds[0].strftime('%d %B %Y')
+        pretty_high_date = '' if len(thresholds) == 1 else thresholds[1].strftime('%d %B %Y')
+
+        error_combinations = {
+            'before': f'before {pretty_low_date}',
+            'current': pretty_low_date,
+            'after': f'after {pretty_low_date}',
+            'current_and_before': f'the same as or before {pretty_low_date}',
+            'current_and_after': f'the same as or after {pretty_low_date}',
+            'between': f'between {pretty_low_date} and {pretty_high_date}',
+        }
+
+        error_end = self._get_date_error(
+            date,
+            thresholds[0],
+            self.accept_before_date_threshold,
+            self.accept_match_date_threshold,
+            self.accept_above_date_threshold,
+            error_combinations,
+        )
+
+        # Corner case - If the given date must be between 2 dates
+        if len(thresholds) == 2:
+            low = thresholds[0]
+            high = thresholds[1]
+            if date < low or date > high:
+                error_end = error_combinations['between']
+        if error_end:
+            errors = [f'{error_string_start} {error_end}.', error_dict]
+
+        return errors
+
+    def gds_validation_on_valid_date_string(self, value):
 
         error_string_start = f'{self.name} must be'
         error_dict = {
@@ -307,12 +340,13 @@ class TypedDateField(DateField):
 
         # this may need sorting to ensure lowest date is index 0
         thresholds = [self.strptime(threshold, '%d/%m/%Y') for threshold in self.date_thresholds]
+        thresholds.sort()
 
         # Work through past, present and future logic
         if any([self.accept_past is False, self.accept_today is False, self.accept_future is False]):
             errors = self._past_present_future(date, today, errors, error_dict, error_string_start)
         # Work through defined date threshold logic
-        elif any([thresholds, self.accept_before_date_threshold is False, self.accept_above_date_threshold]):
+        elif any([thresholds, self.accept_before_date_threshold is False, self.accept_above_date_threshold is False]):
             errors = self._date_threshold(thresholds, date, errors, error_dict, error_string_start)
 
         return errors
@@ -329,6 +363,7 @@ class TypedDateField(DateField):
         year = self.converted_date_str(year, 'year')
 
         _is_blank_list = [day['is_blank_string'], month['is_blank_string'], year['is_blank_string']]
+
         _is_wrong_format_list = [
             day['is_wrong_format_string'],
             month['is_wrong_format_string'],
@@ -336,7 +371,7 @@ class TypedDateField(DateField):
         ]
 
         # Handle blank field logic
-        if any(_is_blank_list):
+        if any([True for date_type in _is_blank_list if date_type != '']):
             error_string_start = f'{self.name} must include a'
             error_string_end = ' and '.join(filter(None, _is_blank_list))
             error_dict.update(
@@ -348,13 +383,13 @@ class TypedDateField(DateField):
             )
 
             if year['is_blank_string'] and day['is_blank_string'] == '' and month['is_blank_string'] == '':
-                error_string = 'Year must include 4 numbers'
+                error_string = 'Year must include 4 numbers.'
             else:
                 error_string = f'{error_string_start} {error_string_end}.'
             errors = [error_string, error_dict]
 
         # Handle wrong format logic
-        if any(_is_wrong_format_list):
+        elif any(_is_wrong_format_list):
             error_dict.update(
                 {
                     'day': self.subwidget_error_class if day['is_wrong_format_string'] else '',
@@ -362,21 +397,27 @@ class TypedDateField(DateField):
                     'year': self.subwidget_error_class if year['is_wrong_format_string'] else '',
                 }
             )
-            errors = ['{self.name} must be a real date.', error_dict]
+            errors = [f'{self.name} must be a real date.', error_dict]
         return errors
 
     def clean(self, value):
         """
         Run the bespoke day, month & year validation
         """
-        try:
-            datetime.datetime.strptime(value, '%d/%m/%Y')
-            # Scenario 1: valid date has been posted
-            errors = self.gds_validation_on_valid_datetime_string(value)
-        except ValueError:
-            # Scenario 2: invalid date has been posted
-            errors = self.gds_validation_on_invalid_date_string(value)
-        if errors:
-            raise ValidationError(errors[0])
+        if value:
+            try:
+                date_obj = datetime.datetime.strptime(value, '%d/%m/%Y')
+                day, month, year = date_obj.strftime('%d/%m/%Y').split('/')
+                if len(year) != 4:
+                    errors = self.gds_validation_on_invalid_date_string(f'{year}-{month}-{day}')
+                else:
+                    errors = self.gds_validation_on_valid_date_string(value)
+            except (ValueError, TypeError):
+                errors = self.gds_validation_on_invalid_date_string(value)
+            if errors[0]:
+                raise ValidationError(errors[0])
+        elif self.required and value is None:
+            errors = f'{self.name} must be a real date.'
+            raise ValidationError(errors)
 
         return super().clean(value)
