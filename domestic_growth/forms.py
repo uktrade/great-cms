@@ -21,6 +21,7 @@ class StartingABusinessLocationForm(forms.Form):
         validators=[is_valid_uk_postcode],
     )
 
+
 class StartingABusinessSectorForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -44,7 +45,11 @@ class StartingABusinessSectorForm(forms.Form):
         required=False,
         initial=False,
         label="I don't know yet",
-        widget=forms.CheckboxInput(attrs={'class': 'govuk-checkboxes__input',}),
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'govuk-checkboxes__input',
+            }
+        ),
     )
 
     def clean(self):
