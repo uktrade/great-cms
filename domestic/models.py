@@ -1576,6 +1576,8 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
     hero_teaser = models.CharField(
         help_text='Listing page heading. This is the large heading at the top of the page.',
         max_length=255,
+        null=True,
+        blank=True,
     )
 
     list_teaser = RichTextField(
