@@ -52,13 +52,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             StartingABusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (
             ExistingBusinessSectorForm,
@@ -98,13 +98,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             ExistingBusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (ExistingBusinessWhenSetUpForm, {'when_set_up': LESS_THAN_3_YEARS_AGO}, True, {}),
         (ExistingBusinessWhenSetUpForm, {}, False, {'when_set_up': 'Select when you set up your business'}),

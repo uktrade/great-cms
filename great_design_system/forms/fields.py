@@ -25,7 +25,7 @@ class GDSBoundField(BoundField):
         """
         Return a string of space-separated CSS classes for this field.
         """
-        return f'{self.field.widget.help_text_class_name} govuk-hint'
+        return f'{self.field.widget.help_text_class_name}'
 
     @property
     def id_for_container(self):
