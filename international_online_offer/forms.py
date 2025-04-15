@@ -18,13 +18,13 @@ from wagtail.admin.forms import WagtailAdminPageForm
 from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
+from great_design_system import forms as gds_forms
 from international.fields import DBTSectorsAPIMultipleChoiceField
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (
     get_countries_regions_territories,
     get_dbt_sectors,
 )
-from great_design_system import forms as gds_forms
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
