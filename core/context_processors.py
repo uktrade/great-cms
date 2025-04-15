@@ -147,7 +147,8 @@ def domestic_header(request):
         '15.2203 10.8569 14.6097 11.9999 13.6196L16.4385 17.3914L18 15.5071Z"/></svg>'
     )
     menu_icon = (
-        '<svg class="great-ds-icon-svg great-ds-icon--menu" aria-hidden="true" width="16" height="17" viewBox="0 0 16 17" '
+        '<svg class="great-ds-icon-svg great-ds-icon--menu" aria-hidden="true" width="16" height="17" '
+        'viewBox="0 0 16 17" '
         'xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="great-ds-icon--menu-bars" '
         'd="M1 3.5C1 2.94687 1.44687 2.5 2 2.5H14C14.5531 2.5 15 2.94687 15 3.5C15 4.05313 14.5531 4.5 14 '
         '4.5H2C1.44687 4.5 1 4.05313 1 3.5ZM1 8.5C1 7.94688 1.44687 7.5 2 7.5H14C14.5531 7.5 15 7.94688 15 '
@@ -267,7 +268,10 @@ def domestic_header(request):
                     'href': pre_start_url,
                     'text': 'Starting a business',
                     'isCurrent': pre_start_url in request.path,
-                    'overviewText': 'Get support and information<span class="govuk-visually-hidden"> starting a business</span>',
+                    'overviewText': (
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> starting a business</span>'
+                    ),
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
                 },
@@ -276,7 +280,10 @@ def domestic_header(request):
                     'href': existing_url,
                     'text': 'Running and growing a business',
                     'isCurrent': existing_url in request.path,
-                    'overviewText': 'Get support and information<span class="govuk-visually-hidden"> running and growing a business</span>',
+                    'overviewText': (
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> running and growing a business</span>'
+                    ),
                     'description': """Tell us a bit about your business and we'll link you up to the right
  resources to help it thrive.""",
                 },
