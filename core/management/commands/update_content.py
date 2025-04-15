@@ -51,11 +51,6 @@ class Command(BaseCommand):
         # 'Great.gov.uk': 'hotfix.great.uktrade.digital',
     }
 
-    values_to_report = (
-        'great',
-        'Great',
-    )
-
     def add_arguments(self, parser):
         parser.add_argument(
             '--hostname', type=str, required=True, help='Site hostname (e.g., www.dev.bgs.uktrade.digital)'
@@ -86,9 +81,6 @@ class Command(BaseCommand):
             if item in original_value:
                 value = original_value.replace(item, self.strings_to_replace[item])
                 updated = True
-
-        if any(item in original_value for item in self.values_to_report) and dry_run:
-            self.stdout.write(self.style.WARNING(f'SKIPPING page:field:value {page_title}:{field}:{original_value}'))
 
         if updated:
             self.report_page_needs_updating(page_title, field, original_value)
