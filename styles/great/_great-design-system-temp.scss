@@ -1017,7 +1017,11 @@ $great-design-system-mint-green: #8ce2d0;
   }
 }
 
+<<<<<<< HEAD
 .great-ds-back-link--white:not(:focus) {
+=======
+.great-ds-back-link--white {
+>>>>>>> master
   color: $great-white !important;
   &::before {
     color: $great-white !important;
@@ -1067,18 +1071,24 @@ $great-design-system-mint-green: #8ce2d0;
 .prepend-search-icon {
   .autocomplete__wrapper {
     .autocomplete__input {
+<<<<<<< HEAD
       height: 50px;
+=======
+>>>>>>> master
       text-indent: 32px;
       background-image: url('../static/icons/icon-search.svg');
       background-repeat: no-repeat;
       background-size: 18px;
       background-position: 10px 50%;
+<<<<<<< HEAD
 
       &:focus {
         outline: 3px solid #fd0;
         outline-offset: 0;
         box-shadow: inset 0 0 0 2px;
       }
+=======
+>>>>>>> master
     }
   }
 }
@@ -1087,7 +1097,10 @@ $great-design-system-mint-green: #8ce2d0;
   width: calc(100% - 30px);
   margin-left: 15px;
   margin-right: 15px;
+<<<<<<< HEAD
   margin-bottom: 140px;
+=======
+>>>>>>> master
   @media only screen and (min-width: 901px) {
     width: 810px;
   }
@@ -1101,6 +1114,7 @@ $great-design-system-mint-green: #8ce2d0;
     }
   }
 }
+<<<<<<< HEAD
 
 // font weight of strong tag getting overwritten to 400
 .email-address-playback {
@@ -1178,3 +1192,5 @@ $great-design-system-mint-green: #8ce2d0;
     }
   }
 }
+=======
+>>>>>>> master

@@ -31,6 +31,7 @@ def format_for_results_list(search_results):
     formatted_results = []
 
     for result in search_results:
+<<<<<<< HEAD
         description = (
             result.search_description
             or getattr(result.specific, 'seo_description', '')
@@ -43,11 +44,27 @@ def format_for_results_list(search_results):
             or 'No description available'
         )
 
+=======
+>>>>>>> master
         formatted_result = {
             'title': result.seo_title or result.title,
             'href': result.url,
             'type': map_search_result_type(result.content_type),
+<<<<<<< HEAD
             'description': mark_safe(description),
+=======
+            'description': (
+                result.search_description
+                or getattr(result.specific, 'seo_description', '')
+                or getattr(result.specific, 'search_description', '')
+                or getattr(result.specific, 'featured_description', '')
+                or getattr(result.specific, 'heading_teaser', '')
+                or getattr(result.specific, 'teaser', '')
+                or getattr(result.specific, 'page_teaser', '')
+                or getattr(result.specific, 'page_subheading', '')
+                or 'No description available'
+            ),
+>>>>>>> master
         }
 
         # Add metadata if available

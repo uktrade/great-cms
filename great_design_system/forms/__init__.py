@@ -25,7 +25,10 @@ from great_design_system.forms.fields import (
 )
 from great_design_system.forms.forms import Form, ModelForm
 from great_design_system.forms.widgets import (  # noqa
+<<<<<<< HEAD
     CheckboxInput,
+=======
+>>>>>>> master
     CheckboxSelectConditionalReveal,
     CheckboxSelectMultiple,
     CheckboxSelectMultipleSmall,

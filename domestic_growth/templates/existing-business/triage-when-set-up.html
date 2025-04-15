@@ -2,7 +2,20 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
+<<<<<<< HEAD
         {{ form }}
+=======
+        <div class="govuk-form-group">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business
+            </h2>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">When did you set it up?</h1>
+            <label class="govuk-body govuk-!-margin-bottom-4" for="id_when_set_up">
+                We’ll make sure the information provided is relevant to your business stage.
+            </label>
+            <div class="govuk-!-margin-top-4">{{ form }}</div>
+        </div>
+>>>>>>> master
         {% include '_button.html' with text='Continue' %}
     </form>
 {% endblock %}

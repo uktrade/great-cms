@@ -265,7 +265,11 @@ def domestic_header(request):
             'menuItemsList': [
                 {
                     'icon': '/static/icons/start-icon.svg',
+<<<<<<< HEAD
                     'href': pre_start_url,
+=======
+                    'href': '/support-in-uk/pre-start/location/',
+>>>>>>> master
                     'text': 'Starting a business',
                     'isCurrent': '/export' in request.path,
                     'overviewText': 'Get support and information',
@@ -274,7 +278,11 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/run-icon.svg',
+<<<<<<< HEAD
                     'href': existing_url,
+=======
+                    'href': '/support-in-uk/existing/location/',
+>>>>>>> master
                     'text': 'Running and growing a business',
                     'isCurrent': '/invest' in request.path,
                     'overviewText': 'Get support and information',

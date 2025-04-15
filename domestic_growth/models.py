@@ -1,6 +1,9 @@
 from urllib.parse import urlencode
 
+<<<<<<< HEAD
 from directory_forms_api_client import actions
+=======
+>>>>>>> master
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -23,11 +26,17 @@ from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
+<<<<<<< HEAD
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
     save_email_as_guide_recipient,
+=======
+    get_trade_association_results,
+    get_trade_associations_file,
+    get_triage_data_with_sectors,
+>>>>>>> master
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
 
@@ -321,9 +330,12 @@ class DomesticGrowthGuidePage(
             context['trade_associations'] = None
 
         context['change_answers_link'] = get_change_answers_link(request)
+<<<<<<< HEAD
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+=======
+>>>>>>> master
 
         return context
 
@@ -454,9 +466,12 @@ class DomesticGrowthChildGuidePage(
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
         context['change_answers_link'] = get_change_answers_link(request)
+<<<<<<< HEAD
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+=======
+>>>>>>> master
 
         return context
 
@@ -663,9 +678,12 @@ class DomesticGrowthDynamicChildGuidePage(
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['change_answers_link'] = get_change_answers_link(request)
+<<<<<<< HEAD
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+=======
+>>>>>>> master
 
         return context
 
@@ -763,11 +781,14 @@ class ExistingBusinessTriage(TimeStampedModel):
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
     currently_export = models.BooleanField(null=True, blank=True)
+<<<<<<< HEAD
 
 
 class ExistingBusinessGuideEmailRecipient(TimeStampedModel):
     email = models.EmailField(max_length=255)
     triage = models.ForeignKey(ExistingBusinessTriage, on_delete=models.DO_NOTHING)
+=======
+>>>>>>> master
 
 
 @register_snippet

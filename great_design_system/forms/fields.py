@@ -45,17 +45,23 @@ class GDSBoundField(BoundField):
 class GDSFieldMixin:
     def __init__(
         self,
+<<<<<<< HEAD
         is_page_heading=False,
+=======
+>>>>>>> master
         exclusive_choice='None',
         linked_conditional_reveal=None,
         linked_conditional_reveal_fields=[],
         linked_conditional_reveal_choice='yes',
         hide_on_page_load=False,
+<<<<<<< HEAD
         counter=False,
         min_length=None,
         max_length=None,
         max_words=None,
         threshold=None,
+=======
+>>>>>>> master
         choice_help_text=[],
         container_css_classes='govuk-form-group',
         *args,
@@ -71,12 +77,16 @@ class GDSFieldMixin:
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.linked_conditional_reveal_choice = linked_conditional_reveal_choice
         self.exclusive_choice = exclusive_choice
+<<<<<<< HEAD
         self.is_page_heading = is_page_heading
         self.hide_on_page_load = hide_on_page_load
         self.counter = counter
         self.max_length = max_length
         self.max_words = max_words
         self.threshold = threshold
+=======
+        self.hide_on_page_load = hide_on_page_load
+>>>>>>> master
         self.choice_help_text = choice_help_text
 
         if min_length is not None:
@@ -93,6 +103,7 @@ class GDSFieldMixin:
         # hide_on_page_load will be used on form groups that will not display until criteria is met.
         page_load_class = 'great-hidden' if self.hide_on_page_load else ''
 
+<<<<<<< HEAD
         counter_class = 'govuk-character-count' if self.counter else ''
 
         return f'{self._container_css_classes} {widget_class} {page_load_class} {counter_class}'
@@ -109,6 +120,9 @@ class GDSFieldMixin:
         if self.threshold > 0:
             attr_dict.update({'data-threshold': self.threshold})
         return attr_dict
+=======
+        return f'{self._container_css_classes} {widget_class} {page_load_class}'
+>>>>>>> master
 
     def get_bound_field(self, form, field_name):
         return GDSBoundField(form, self, field_name)

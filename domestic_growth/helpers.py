@@ -7,11 +7,15 @@ from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
+<<<<<<< HEAD
 from domestic_growth.constants import (
     ESTABLISHED_GUIDE_URL,
     PRE_START_GUIDE_URL,
     START_UP_GUIDE_URL,
 )
+=======
+from domestic_growth.constants import PRE_START_GUIDE_URL
+>>>>>>> master
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
@@ -91,7 +95,11 @@ def get_session_id(request: HttpRequest) -> str:
     # give preference to the session_id in a qs parameter
     if request.GET.get('session_id', False):
         session_id = request.GET.get('session_id')
+<<<<<<< HEAD
     elif hasattr(request.session, 'session_key'):
+=======
+    elif request.session.session_key:
+>>>>>>> master
         session_id = request.session.session_key
 
     return session_id
@@ -214,6 +222,7 @@ def get_change_answers_link(request: HttpRequest) -> str:
         return triage_start_url + f"?session_id={request.GET.get('session_id')}"
 
     return triage_start_url
+<<<<<<< HEAD
 
 
 def create_request_for_path(request, path):
@@ -262,3 +271,5 @@ def get_homepage_card_urls(request: HttpRequest) -> str:
     existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
 
     return {'pre_start_url': pre_start_url, 'existing_url': existing_url}
+=======
+>>>>>>> master

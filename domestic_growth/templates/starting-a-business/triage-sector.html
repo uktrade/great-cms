@@ -3,6 +3,7 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
+<<<<<<< HEAD
         <div class="govuk-form-group{% if form.errors %} govuk-form-group--error{% endif %}">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" aria-describedby="sector-hint">
@@ -10,6 +11,27 @@
                 </legend>
                 <div id="sector-hint" class="govuk-hint">
                     Enter your sector or industry and choose the closest match to get relevant information and support.
+=======
+        <div class="govuk-form-group">
+            <h2 class="govuk-caption-l">
+                <span class="govuk-visually-hidden">This section is</span>Tell us about your business idea
+            </h2>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">What is your sector or industry?</h1>
+            <div class="govuk-body govuk-!-margin-bottom-4">
+                <label for="js-sector-select">We’ll show you support and information relevant to your sector or industry.</label>
+            </div>
+            <div class="{% if form.errors %}govuk-form-group--error{% endif %}">
+                <div class="govuk-!-margin-bottom-2">
+                    {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-label great-font-bold js-enabled-only' %}
+                </div>
+                <p class="govuk-body govuk-!-margin-bottom-2">Or</p>
+                <div class="govuk-checkboxes  govuk-!-margin-bottom-6">
+                    <div class="govuk-checkboxes__item">
+                        {{ form.dont_know_sector_yet }}
+                        <label class="govuk-label govuk-checkboxes__label"
+                               for="id_dont_know_sector_yet">{{ form.dont_know_sector_yet.label }}</label>
+                    </div>
+>>>>>>> master
                 </div>
                 <div class="govuk-!-margin-bottom-2">
                     {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-label great-font-bold js-enabled-only' %}

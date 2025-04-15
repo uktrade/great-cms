@@ -1,28 +1,47 @@
+<<<<<<< HEAD
+=======
+from django.forms import BooleanField, CharField, ChoiceField, Select
+
+>>>>>>> master
 from core.validators import is_valid_uk_postcode
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
+<<<<<<< HEAD
 
 from great_design_system import forms
+=======
+from great_design_system.forms import Form
+
+# from django.forms import Form
+from great_design_system.forms.widgets import CheckboxInput, RadioSelect, TextInput
+>>>>>>> master
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 from regex import EMAIL_ADDRESS_REGEX
 
 
+<<<<<<< HEAD
 class StartingABusinessLocationForm(forms.Form):
     postcode = forms.CharField(
         is_page_heading=True,
         label='What is your postcode?',
         help_text='We’ll use this to show support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
+=======
+class StartingABusinessLocationForm(Form):
+    postcode = CharField(
+        label='Postcode',
+        widget=TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
+>>>>>>> master
         max_length=10,
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
     )
 
 
-class StartingABusinessSectorForm(forms.Form):
+class StartingABusinessSectorForm(Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
@@ -65,19 +84,26 @@ class StartingABusinessSectorForm(forms.Form):
             )
 
 
+<<<<<<< HEAD
 class ExistingBusinessLocationForm(forms.Form):
     postcode = forms.CharField(
         is_page_heading=True,
         label='What is your business postcode?',
         help_text='We’ll use this to show support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
+=======
+class ExistingBusinessLocationForm(Form):
+    postcode = CharField(
+        label='Postcode',
+        widget=TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
+>>>>>>> master
         max_length=10,
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],
     )
 
 
-class ExistingBusinessSectorForm(forms.Form):
+class ExistingBusinessSectorForm(Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
@@ -116,6 +142,7 @@ class ExistingBusinessSectorForm(forms.Form):
             )
 
 
+<<<<<<< HEAD
 class ExistingBusinessWhenSetUpForm(forms.Form):
     when_set_up = forms.ChoiceField(
         is_page_heading=True,
@@ -123,6 +150,13 @@ class ExistingBusinessWhenSetUpForm(forms.Form):
         help_text='We’ll make sure the information provided is relevant to your business stage.',
         required=True,
         widget=forms.RadioSelect,
+=======
+class ExistingBusinessWhenSetUpForm(Form):
+    when_set_up = ChoiceField(
+        label='',
+        required=True,
+        widget=RadioSelect,
+>>>>>>> master
         choices=EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
         error_messages={
             'required': 'Select when you set up your business',
@@ -130,6 +164,7 @@ class ExistingBusinessWhenSetUpForm(forms.Form):
     )
 
 
+<<<<<<< HEAD
 class ExistingBusinessTurnoverForm(forms.Form):
     turnover = forms.ChoiceField(
         is_page_heading=True,
@@ -137,6 +172,13 @@ class ExistingBusinessTurnoverForm(forms.Form):
         help_text='You may be eligible for some types of support depending on your turnover.',
         required=True,
         widget=forms.RadioSelect,
+=======
+class ExistingBusinessTurnoverForm(Form):
+    turnover = ChoiceField(
+        label='',
+        required=True,
+        widget=RadioSelect,
+>>>>>>> master
         choices=EXISTING_BUSINESS_TURNOVER_CHOICES,
         exclusive_choice='PREFER_NOT_TO_SAY',
         error_messages={
@@ -145,6 +187,7 @@ class ExistingBusinessTurnoverForm(forms.Form):
     )
 
 
+<<<<<<< HEAD
 class ExistingBusinessCurrentlyExportForm(forms.Form):
     currently_export = forms.ChoiceField(
         is_page_heading=True,
@@ -155,11 +198,19 @@ class ExistingBusinessCurrentlyExportForm(forms.Form):
         ),
         required=True,
         widget=forms.RadioSelect,
+=======
+class ExistingBusinessCurrentlyExportForm(Form):
+    currently_export = ChoiceField(
+        label='',
+        required=True,
+        widget=RadioSelect,
+>>>>>>> master
         choices=(('YES', 'Yes'), ('NO', 'No')),
         error_messages={
             'required': 'Select if you currently export your products or services overseas',
         },
     )
+<<<<<<< HEAD
 
 
 class EmailGuideForm(forms.Form):
@@ -177,3 +228,5 @@ class EmailGuideForm(forms.Form):
 
         if email and not EMAIL_ADDRESS_REGEX.match(email):
             self.add_error('email', 'Enter an email address in the correct format, like name@example.com')  # /PS-IGNORE
+=======
+>>>>>>> master
