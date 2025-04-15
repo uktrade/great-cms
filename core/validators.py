@@ -11,7 +11,7 @@ PHONE_INVALID_MESSAGE = 'Enter a valid UK telephone number'
 
 def is_valid_uk_postcode(value):
     if not validation.is_valid_postcode(value.replace(' ', '').upper()):
-        raise ValidationError(_('Enter a valid UK postcode'))
+        raise ValidationError(_('Enter a full UK postcode'))
 
 
 def validate_file_infection(file):

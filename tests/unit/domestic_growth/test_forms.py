@@ -52,7 +52,7 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             StartingABusinessLocationForm,
