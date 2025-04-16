@@ -1,18 +1,18 @@
 {% if local_support_data.support_hubs|length > 0 %}
     {% with local_support_data.support_hubs|first as nearest_growth_hub %}
     <div class="govuk-!-padding-6 bgs-growth-hub">
-        <h4 class="govuk-heading-xs govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_growth_hub.name }}</h4>
+        <h4 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_growth_hub.name }}</h4>
         <img src="/static/images/gh-{{ nearest_growth_hub.digest }}.png" alt="" aria-hidden="true" />
         <address class="great-ds-address">
             {% if nearest_growth_hub.contacts.website and nearest_growth_hub.contacts.website_label %}
             <div class="great-ds-address__row">
-                <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_growth_hub.contacts.website }}">{{ nearest_growth_hub.contacts.website_label }}</a>
+                <strong class="govuk-!-font-weight-bold">Website</strong> <a href="{{ nearest_growth_hub.contacts.website }}" class="govuk-link">{{ nearest_growth_hub.contacts.website_label }}</a>
             </div>
             {% endif %}
-            
+
             {% if nearest_growth_hub.contacts.email %}
             <div class="great-ds-address__row">
-                <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_growth_hub.contacts.email }}">{{ nearest_growth_hub.contacts.email }}</a>
+                <strong class="govuk-!-font-weight-bold">Email</strong> <a href="mailto:{{ nearest_growth_hub.contacts.email }}" class="govuk-link">{{ nearest_growth_hub.contacts.email }}</a>
             </div>
             {% endif %}
 
@@ -21,18 +21,18 @@
                 <strong class="govuk-!-font-weight-bold">Phone</strong> <span>{{ nearest_growth_hub.contacts.phone }}</span>
             </div>
             {% endif %}
+
+            {% if nearest_growth_hub.contacts.contact_form and nearest_growth_hub.contacts.contact_form_label %}
+            <div class="great-ds-address__row">
+                <strong class="govuk-!-font-weight-bold">Message</strong> <a href="{{ nearest_growth_hub.contacts.contact_form }}" class="govuk-link">{{ nearest_growth_hub.contacts.contact_form_label }}</a>
+            </div>
+            {% endif %}
         </address>
 
         {% if nearest_growth_hub.boundary_name %}
             <div class="govuk-!-margin-top-3">
                 {% include "includes/_location-tag.html" with text=nearest_growth_hub.boundary_name %}
             </div>
-        {% endif %}
-
-        {% if nearest_growth_hub.contacts.contact_form and nearest_growth_hub.contacts.contact_form_label %}
-        <div class="great-ds-address__row">
-            <strong class="govuk-!-font-weight-bold">Message</strong> <a href="{{ nearest_growth_hub.contacts.contact_form }}">{{ nearest_growth_hub.contacts.contact_form_label }}</a>
-        </div>
         {% endif %}
     </div>
     {% endwith %}
