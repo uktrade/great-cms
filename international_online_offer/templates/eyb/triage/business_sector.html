@@ -91,7 +91,7 @@
                     results.push(allSectors[i]);
                 }
             }
-            console.log(`results: ${results.length}`)
+            results = sortResults(results);
             populateResults(results);
         }
 
@@ -116,7 +116,6 @@
                     }
                 },
                 suggestion: (selectedSectorRow) => {
-                    console.log('inputValue got:', selectedSectorRow);
                     if (typeof selectedSectorRow !== 'object') {
                         return selectedSectorRow
                     }
@@ -129,6 +128,7 @@
                     }
                 }
             },
+            minLength: 2,
             onConfirm: function(selectedRow) {
                 // onConfirm seems to be triggered by autocomplete many times passing null
                 if (selectedRow) {
