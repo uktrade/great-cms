@@ -281,7 +281,7 @@ def domestic_header(request):
                     'children': [
                         {
                             'href': '/export-from-uk/markets/',
-                            'text': 'Market Guides',
+                            'text': 'Market guides',
                             'isCurrent': '/markets' in request.path,
                         },
                         {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
