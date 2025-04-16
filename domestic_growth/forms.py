@@ -52,16 +52,18 @@ class StartingABusinessSectorForm(forms.Form):
     )
 
     def clean(self):
-        # require either sector or explicit, I don't know yet
         cleaned_data = super().clean()
         sector = cleaned_data['sector']
         dont_know_sector_yet = cleaned_data['dont_know_sector_yet']
 
-        if not (sector or dont_know_sector_yet):
+        # require either sector or explicit, I don't know yet but not both
+        if (not (sector or dont_know_sector_yet)) or (sector and dont_know_sector_yet):
             self.add_error(
                 'sector',
                 "Enter your sector or industry and select the closest result, or select 'I don't know yet'",  # NOQA: E501
             )
+        else:
+            return cleaned_data
 
 
 class ExistingBusinessLocationForm(forms.Form):
@@ -108,11 +110,14 @@ class ExistingBusinessSectorForm(forms.Form):
         sector = cleaned_data['sector']
         cant_find_sector = cleaned_data['cant_find_sector']
 
-        if not (sector or cant_find_sector):
+        # require either sector or explicit, can't find sector but not both
+        if (not (sector or cant_find_sector)) or (sector and cant_find_sector):
             self.add_error(
                 'sector',
                 "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'",  # NOQA: E501
             )
+        else:
+            return cleaned_data
 
 
 class ExistingBusinessWhenSetUpForm(forms.Form):
