@@ -383,7 +383,7 @@ class BaseSettings(PydanticBaseSettings):
     frontend_cache_distribution_id: str = ''
     cf_invalidation_role_arn: str = ''
 
-    bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
+    bgs_site: str = 'http://greatcms.trade.great:8020/'
 
 
 class CIEnvironment(BaseSettings):
