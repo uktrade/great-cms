@@ -15,6 +15,9 @@
                     Enter your sector or industry and choose the closest match to get relevant information and support.
                 </div>
                 <div class="govuk-!-margin-bottom-2">
+                    <label class="govuk-visually-hidden" for="js-sector-select">
+                        What is your sector or industry?
+                    </label>
                     {% include 'international/includes/form_field.html' with field=form.sector inputWrapperClass='prepend-search-icon' help_class='govuk-label great-font-bold js-enabled-only' %}
                 </div>
                 <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-margin-left-2">or</p>
