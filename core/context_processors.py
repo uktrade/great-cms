@@ -7,12 +7,12 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
-# from domestic_growth.constants import (
-#     ESTABLISHED_GUIDE_URL,
-#     PRE_START_GUIDE_URL,
-#     START_UP_GUIDE_URL,
-# )
-# from domestic_growth.helpers import create_request_for_path, get_triage_drop_off_point
+from domestic_growth.constants import (
+    ESTABLISHED_GUIDE_URL,
+    PRE_START_GUIDE_URL,
+    START_UP_GUIDE_URL,
+)
+from domestic_growth.helpers import create_request_for_path, get_triage_drop_off_point
 
 
 def javascript_components(request):
