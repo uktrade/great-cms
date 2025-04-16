@@ -41,7 +41,6 @@
     </div>
 {% endblock %}
 {% block body_js %}
-    {% comment %} below JS migrated from business_details page {% endcomment %}
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
@@ -92,7 +91,7 @@
                     results.push(allSectors[i]);
                 }
             }
-            results = sortResults(results);
+            console.log(`results: ${results.length}`)
             populateResults(results);
         }
 
@@ -103,6 +102,7 @@
             defaultValue: '',
             templates: {
                 inputValue: (selectedSectorRow) => {
+                    
                     if (selectedSectorRow) {
                         if (selectedSectorRow.sub_sub_sector_name) {
                             return selectedSectorRow.sub_sub_sector_name;
@@ -116,6 +116,7 @@
                     }
                 },
                 suggestion: (selectedSectorRow) => {
+                    console.log('inputValue got:', selectedSectorRow);
                     if (typeof selectedSectorRow !== 'object') {
                         return selectedSectorRow
                     }
@@ -128,7 +129,6 @@
                     }
                 }
             },
-            minLength: 2,
             onConfirm: function(selectedRow) {
                 // onConfirm seems to be triggered by autocomplete many times passing null
                 if (selectedRow) {
