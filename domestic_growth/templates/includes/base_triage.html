@@ -1,5 +1,6 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Domestic Growth - Tell us a little more
