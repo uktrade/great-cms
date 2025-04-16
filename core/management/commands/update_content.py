@@ -463,16 +463,8 @@ class Command(BaseCommand):
         for item in block.value:
             if item:
                 if isinstance(item, RelatedContentCTA):
-                    updated, new_link_text = self.replace_string(page_title, 'link_text', item.link_text)
-                    if updated:
-                        block.value[cnt].link_text = new_link_text
-                        block.value[cnt].save()
-                        block_updated = True
-                    updated, new_link = self.process_streamvalue_field(page_title, item.link, dry_run)
-                    if updated:
-                        block.value[cnt].link = new_link
-                        block.value[cnt].save()
-                        block_updated = True
+                    cnt += 1
+                    continue
                 elif isinstance(item, UKEACTA):
                     cnt += 1
                     continue
