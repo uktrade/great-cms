@@ -248,7 +248,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.69.2
+googleapis-common-protos==1.70.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -289,7 +289,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.5.1
+kombu==5.5.2
     # via celery
 l18n==2021.3
     # via wagtail
@@ -406,7 +406,7 @@ polib==1.2.0
     # via wagtail-localize
 pre-commit==3.8.0
     # via django-log-formatter-asim
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via click-repl
 protobuf==4.25.6
     # via
@@ -472,7 +472,7 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-qrcode==8.0
+qrcode==8.1
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.24.1
+sentry-sdk==2.26.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -565,7 +565,7 @@ typing-extensions==4.12.2
     #   pydantic-core
     #   pypdf
     #   wagtail-localize
-tzdata==2025.1
+tzdata==2025.2
     # via
     #   celery
     #   django-celery-beat
@@ -596,7 +596,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.29.3
+virtualenv==20.30.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

@@ -2119,6 +2119,38 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
         return menu_items + external_links
 
+    # Return the children of the top level Microsite parent of current page
+    def get_bgs_menu_items(self, request=None):
+        parent_page = self.get_parent_page()
+        bgs_menu_items = []
+
+        multiple_languages = len(settings.LANGUAGES) > 1
+
+        if parent_page:
+            parent_url = parent_page.get_url()
+            if multiple_languages:
+                parent_url = persist_language_to_url(parent_url, request)
+
+            bgs_menu_items.extend(
+                [
+                    {
+                        'href': (
+                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
+                        ),
+                        'text': child.title,
+                        'isCurrent': self.url == child.url,
+                    }
+                    for child in parent_page.get_children().live()
+                ]
+            )
+
+        external_links = self.get_external_menu_link()
+        if external_links and multiple_languages:
+            for link in external_links:
+                link['url'] = persist_language_to_url(link['url'], request)
+
+        return bgs_menu_items + external_links
+
     def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()
         if parent_page and type(parent_page.specific) is MicrositePage:

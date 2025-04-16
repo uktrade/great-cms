@@ -7,6 +7,12 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
+from domestic_growth.constants import (
+    ESTABLISHED_GUIDE_URL,
+    PRE_START_GUIDE_URL,
+    START_UP_GUIDE_URL,
+)
+from domestic_growth.helpers import create_request_for_path, get_triage_drop_off_point
 
 
 def javascript_components(request):
@@ -129,7 +135,7 @@ def services_home_links(request):
 
 def domestic_header(request):
     search_icon = (
-        '<svg xmlns="http://www.w3.org/2000/svg" class="great-ds-icon-svg" width="20" height="20" '
+        '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="great-ds-icon-svg" width="20" height="20" '
         'viewBox="0 0 18 18" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" '
         'd="M7.77589 13.722C6.26697 13.8589 4.79933 13.386 3.64011 12.4016C1.2472 10.3681 0.933108 6.74217 '
         '2.94069 4.31856C4.06024 2.96784 5.66793 2.27198 7.28695 2.27198C8.57164 2.27198 9.86443 2.7113 '
@@ -141,8 +147,9 @@ def domestic_header(request):
         '15.2203 10.8569 14.6097 11.9999 13.6196L16.4385 17.3914L18 15.5071Z"/></svg>'
     )
     menu_icon = (
-        '<svg class="great-ds-icon-svg great-ds-icon--menu" width="16" height="17" viewBox="0 0 16 17" '
-        'xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="great-ds-icon--menu-bars" '
+        '<svg aria-hidden="true" class="great-ds-icon-svg great-ds-icon--menu" width="16" height="17" '
+        'viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" '
+        'class="great-ds-icon--menu-bars"'
         'd="M1 3.5C1 2.94687 1.44687 2.5 2 2.5H14C14.5531 2.5 15 2.94687 15 3.5C15 4.05313 14.5531 4.5 14 '
         '4.5H2C1.44687 4.5 1 4.05313 1 3.5ZM1 8.5C1 7.94688 1.44687 7.5 2 7.5H14C14.5531 7.5 15 7.94688 15 '
         '8.5C15 9.05312 14.5531 9.5 14 9.5H2C1.44687 9.5 1 9.05312 1 8.5ZM15 13.5C15 14.0531 14.5531 14.5 14 '
@@ -155,6 +162,17 @@ def domestic_header(request):
         '13.7122C11.5109 14.0959 12.1334 14.0959 12.5172 13.7122L13.2122 13.0172C13.5959 12.6334 13.5959 '
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
+
+    # Create request objects for each guide type
+    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+
+    # Get the appropriate URLs
+    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+    startup_triage_url = get_triage_drop_off_point(startup_request)
+    established_triage_url = get_triage_drop_off_point(established_request)
+    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
 
     return {
         'header_classes': '',
@@ -247,7 +265,7 @@ def domestic_header(request):
             'menuItemsList': [
                 {
                     'icon': '/static/icons/start-icon.svg',
-                    'href': '/support-in-uk/pre-start/location/',
+                    'href': pre_start_url,
                     'text': 'Starting a business',
                     'isCurrent': '/export' in request.path,
                     'overviewText': 'Get support and information',
@@ -256,7 +274,7 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/run-icon.svg',
-                    'href': '/support-in-uk/existing/location/',
+                    'href': existing_url,
                     'text': 'Running and growing a business',
                     'isCurrent': '/invest' in request.path,
                     'overviewText': 'Get support and information',
@@ -621,5 +639,47 @@ def footer_bgs(request):
                     }
                 ],
             ],
-        }
+        },
+        'footer_bgs_microsite_context': {
+            'currentYear': str(datetime.now().year),
+            'upperFooterSection': [
+                [
+                    {'href': '/privacy/', 'text': 'Privacy', 'title': 'Privacy'},
+                    {'href': '/cookies/', 'text': 'Cookies', 'title': 'Cookies'},
+                    {
+                        'href': '/accessibility-statement/',
+                        'text': 'Accessibility statement',
+                        'title': 'Accessibility statement',
+                    },
+                ],
+                [
+                    {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
+                    {
+                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'text': 'Help using this website',
+                        'title': 'Help using this website',
+                    },
+                ],
+            ],
+            'lowerFooterSection': [
+                [
+                    {
+                        'href': '/',
+                        'text': 'Find support and information for your business on Business.gov.uk',
+                        'title': 'Find support and information for your business on Business.gov.uk',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    },
+                ],
+                [
+                    {
+                        'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+                        'text': 'Department for Business and Trade on GOV.UK',
+                        'title': 'Department for Business and Trade on GOV.UK',
+                        'target': '_blank',
+                        'rel': 'noopener',
+                    }
+                ],
+            ],
+        },
     }

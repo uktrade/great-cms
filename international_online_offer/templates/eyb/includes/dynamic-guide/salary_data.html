@@ -6,15 +6,7 @@
           id="salary-data-location-select-form"
           action="#salary-data">
         {% csrf_token %}
-        {% comment %} remove below hidden input which is just to ensure that the dynamic query parameter is persisted for dev  {% endcomment %}
-        <input type="hidden" name="dynamic" id="dynamic" value="true" />
-        {% include 'international/includes/form_field.html' with field=salary_data_location_select_form.salary_data_location %}
-        <div class="govuk-grid-column-one-quarter">
-            <button type="submit"
-                    id="change-salary-data-location"
-                    class="govuk-button govuk-button--secondary govuk-!-margin-top-6"
-                    data-module="govuk-button">Change</button>
-        </div>
+        {{salary_data_location_select_form}}
     </form>
     <div class="figures__list" id="salary-data-figures">
         {% if entry_salary or mid_salary or executive_salary %}
