@@ -7,10 +7,7 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
-from domestic_growth.constants import (
-    PRE_START_TRIAGE_URL,
-    EXISTING_TRIAGE_URL,
-)
+from domestic_growth.constants import EXISTING_TRIAGE_URL, PRE_START_TRIAGE_URL
 
 
 def javascript_components(request):
