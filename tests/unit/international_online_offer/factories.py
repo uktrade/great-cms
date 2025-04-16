@@ -19,7 +19,7 @@ class TradeAssociationFactory(factory.django.DjangoModelFactory):
 
 
 class UserDataFactory(factory.django.DjangoModelFactory):
-    hashed_uuid = factory.fuzzy.FuzzyText(length=255)
+    hashed_uuid = factory.fuzzy.FuzzyText(length=200)
     company_name = factory.fuzzy.FuzzyText(length=255)
     company_location = factory.fuzzy.FuzzyText(length=255)
     duns_number = factory.fuzzy.FuzzyText(length=255)
