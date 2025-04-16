@@ -11,7 +11,7 @@ def is_bgs_site(root_url):
     return bgs_site(root_url)
 
 @register.filter
-def is_bgs_site(request_host):
+def is_bgs_host(request_host):
     """
     Template filter to check if the given host is a BGS site
     """
