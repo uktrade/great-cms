@@ -224,14 +224,8 @@ def create_request_for_path(request, path):
     new_request = HttpRequest()
     new_request.path = path
     new_request.session = request.session
-    new_request.META = request.META.copy()
-    new_request.META['PATH_INFO'] = path
-    new_request.META['REQUEST_METHOD'] = 'GET'
-    new_request.META['wsgi.url_scheme'] = 'https'
-    new_request.META['HTTP_X_FORWARDED_PROTO'] = 'https'
-    
     if 'session_id' in request.GET:
-        new_request.GET = request.GET.copy()
+        new_request.GET = request.GET
     return new_request
 
 
