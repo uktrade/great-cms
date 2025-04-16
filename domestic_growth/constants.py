@@ -28,6 +28,8 @@ START_UP_GUIDE_URL = '/support-in-uk/start-up-guide/'
 ESTABLISHED_GUIDE_URL = '/support-in-uk/established-guide/'
 PRE_START_BUSINESS_TYPE = 'pre_start'
 ESTABLISHED_OR_START_UP_BUSINESS_TYPE = 'established_or_startup'
+PRE_START_TRIAGE_URL = '/support-in-uk/pre-start/location/'
+EXISTING_TRIAGE_URL = '/support-in-uk/existing/location/'
 
 REGION_IMAGES = (
     ('North East', 'bgs-section-logo--north-east'),
@@ -107,3 +109,7 @@ SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS = (
     'Dumfries and Galloway',
     'Scottish Borders',
 )
+
+INTERNAL_GREAT_DOMAIN = 'great.gov.uk'
+
+INTERNAL_BUSINESS_DOMAIN = 'business.gov.uk'
