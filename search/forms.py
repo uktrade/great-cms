@@ -4,6 +4,40 @@ from great_design_system import forms
 
 
 class FeedbackForm(SaveOnlyInDatabaseAPIForm, forms.Form):
+
+    my_default_text_input = forms.CharField(
+        # required=<:bool><default=True>,
+        # label=<:str><default=None>,
+        # initial=<:str><default=None>,
+        # help_text=<:str><default=''>,
+        # error_messages=<:dir><default=None>,
+        # show_hidden_initial=False,
+        # validators=<:list><default=()>,
+        # localize=<:bool><default=False>,
+        # disabled=<:bool><default=False>,
+        # label_suffix=<:str><default=None>,
+        # max_length=<:int>,
+        # min_length=<:int>,
+        # strip=<:bool><default=True>,
+        # empty_value=<:str><default=''>,
+        # widget=<:forms.widgets><default=forms.TextInput>
+    )
+
+    my_tailored_text_input = forms.CharField(
+        required=True,
+        label='Example text input',
+        initial='This is an example',
+        help_text='This is help text',
+        error_messages={
+            'required': 'This will never show as required is set to False',
+            'invalid': 'This will show if you exceed the max_length arg or do not reach the min_length arg',
+        },
+        label_suffix='(with suffix)',
+        max_length=50,
+        min_length=10,
+        widget=forms.TextInput(attrs={'class': 'classes-you need', 'this': 'will-be-added-to-the-html-element'}),
+    )
+
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),

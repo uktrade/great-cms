@@ -58,7 +58,7 @@ class GDSErrorDict(ErrorDict):
 
 
 class GDSFormMixin:
-    use_required_attribute = False
+    # use_required_attribute = False
 
     # Default error options
     error_css_class = 'govuk-form-group--error'
