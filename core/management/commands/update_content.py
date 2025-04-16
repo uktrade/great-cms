@@ -47,8 +47,6 @@ class Command(BaseCommand):
     strings_to_replace = {
         'https://www.great.gov.uk': 'https://www.hotfix.great.uktrade.digital',
         'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
-        # 'great.gov.uk': 'hotfix.great.uktrade.digital',
-        # 'Great.gov.uk': 'hotfix.great.uktrade.digital',
     }
 
     def add_arguments(self, parser):
@@ -767,9 +765,6 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):  # noqa: C901
-        # if settings.APP_ENVIRONMENT.lower() != 'hotfix':
-        #     self.stdout.write(self.style.WARNING('Running in env other than hotfix is disabled - exiting'))
-        #     return
         hostname = options['hostname']
         dry_run = options['dry_run']
 
