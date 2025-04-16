@@ -10,6 +10,7 @@ register = template.Library()
 def is_bgs_site(root_url):
     return bgs_site(root_url)
 
+
 @register.filter
 def is_bgs_host(request_host):
     """
