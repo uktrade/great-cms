@@ -39,6 +39,14 @@ from domestic_growth.forms import (
             {'sector': "Enter your sector or industry and select the closest result, or select 'I don't know yet'"},
         ),
         (
+            StartingABusinessSectorForm,
+            {'sector': 'SL0003', 'dont_know_sector_yet': True},
+            False,
+            {
+                'sector': "Enter your sector or industry and select the closest result, or select 'I don't know yet'"  # NOQA: E501
+            },  # NOQA: E501
+        ),
+        (
             StartingABusinessLocationForm,
             {
                 'postcode': 'BT809AQ',  # /PS-IGNORE
@@ -52,13 +60,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             StartingABusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (
             ExistingBusinessSectorForm,
@@ -85,6 +93,14 @@ from domestic_growth.forms import (
             },  # NOQA: E501
         ),
         (
+            ExistingBusinessSectorForm,
+            {'sector': 'SL0003', 'cant_find_sector': True},
+            False,
+            {
+                'sector': "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'"  # NOQA: E501
+            },  # NOQA: E501
+        ),
+        (
             ExistingBusinessLocationForm,
             {
                 'postcode': 'BT809AQ',  # /PS-IGNORE
@@ -98,13 +114,13 @@ from domestic_growth.forms import (
                 'postcode': 'BT80',  # /PS-IGNORE
             },
             False,
-            {'postcode': 'Enter a valid UK postcode'},
+            {'postcode': 'Enter a full UK postcode'},
         ),
         (
             ExistingBusinessLocationForm,
             {},
             False,
-            {'postcode': 'Enter a full UK postcode'},
+            {'postcode': 'Enter your postcode'},
         ),
         (ExistingBusinessWhenSetUpForm, {'when_set_up': LESS_THAN_3_YEARS_AGO}, True, {}),
         (ExistingBusinessWhenSetUpForm, {}, False, {'when_set_up': 'Select when you set up your business'}),

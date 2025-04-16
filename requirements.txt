@@ -248,7 +248,7 @@ filetype==1.2.0
     # via willow
 geoip2==2.9.0
     # via -r requirements.in
-googleapis-common-protos==1.69.2
+googleapis-common-protos==1.70.0
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -406,7 +406,7 @@ polib==1.2.0
     # via wagtail-localize
 pre-commit==3.8.0
     # via django-log-formatter-asim
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via click-repl
 protobuf==4.25.6
     # via
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.25.1
+sentry-sdk==2.26.1
     # via -r requirements.in
 sigauth==5.3.0
     # via
