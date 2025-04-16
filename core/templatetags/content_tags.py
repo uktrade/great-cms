@@ -29,6 +29,8 @@ from domestic_growth.constants import (
     FINANCE_AND_SUPPORT_REGION_MAPPINGS,
     FIND_A_GRANT_MAPPINGS,
     REGION_IMAGES,
+    INTERNAL_GREAT_DOMAIN,
+    INTERNAL_BUSINESS_DOMAIN,
 )
 
 logger = logging.getLogger(__name__)
@@ -870,3 +872,10 @@ def get_region_for_find_a_grant_snippet(region):
             return mapped_region_name
 
     return None
+
+
+@register.filter
+def get_is_internal_url(url):
+    if INTERNAL_GREAT_DOMAIN in url or INTERNAL_BUSINESS_DOMAIN in url:
+        return True
+    return False
