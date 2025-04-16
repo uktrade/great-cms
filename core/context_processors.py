@@ -163,15 +163,15 @@ def domestic_header(request):
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
 
-    # # Create request objects for each guide type
-    # pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
-    # startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
-    # established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+    # Create request objects for each guide type
+    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
 
     # Get the appropriate URLs
-    pre_start_url = PRE_START_GUIDE_URL
-    startup_triage_url = PRE_START_GUIDE_URL
-    established_triage_url = PRE_START_GUIDE_URL
+    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+    startup_triage_url = get_triage_drop_off_point(startup_request)
+    established_triage_url = get_triage_drop_off_point(established_request)
     existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
 
     return {

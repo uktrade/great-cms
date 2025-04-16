@@ -221,12 +221,12 @@ def create_request_for_path(request, path):
     Creates a new HttpRequest object with the provided path,
     copying session and session_id from the request.
     """
-    new_request = HttpRequest()
-    new_request.path = path
-    new_request.session = request.session
-    if 'session_id' in request.GET:
-        new_request.GET = request.GET
-    return new_request
+    # new_request = HttpRequest()
+    # new_request.path = path
+    # new_request.session = request.session
+    # if 'session_id' in request.GET:
+    #     new_request.GET = request.GET
+    return 'foo'
 
 
 def get_guide_url(request: HttpRequest) -> str:
