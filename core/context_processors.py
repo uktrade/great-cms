@@ -265,7 +265,7 @@ def domestic_header(request):
             'menuItemsList': [
                 {
                     'icon': '/static/icons/start-icon.svg',
-                    'href': '/export',
+                    'href': pre_start_url,
                     'text': 'Starting a business',
                     'isCurrent': '/export' in request.path,
                     'overviewText': 'Get support and information',
@@ -274,7 +274,7 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/run-icon.svg',
-                    'href': '/invest',
+                    'href': existing_url,
                     'text': 'Running and growing a business',
                     'isCurrent': '/invest' in request.path,
                     'overviewText': 'Get support and information',

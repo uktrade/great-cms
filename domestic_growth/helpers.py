@@ -221,12 +221,18 @@ def create_request_for_path(request, path):
     Creates a new HttpRequest object with the provided path,
     copying session and session_id from the request.
     """
-    # new_request = HttpRequest()
-    # new_request.path = path
-    # new_request.session = request.session
-    # if 'session_id' in request.GET:
-    #     new_request.GET = request.GET
-    return 'foo'
+    new_request = HttpRequest()
+    new_request.path = path
+    new_request.session = request.session
+    new_request.META = request.META.copy()
+    new_request.META['PATH_INFO'] = path
+    new_request.META['REQUEST_METHOD'] = 'GET'
+    new_request.META['wsgi.url_scheme'] = 'https'
+    new_request.META['HTTP_X_FORWARDED_PROTO'] = 'https'
+    
+    if 'session_id' in request.GET:
+        new_request.GET = request.GET.copy()
+    return new_request
 
 
 def get_guide_url(request: HttpRequest) -> str:
