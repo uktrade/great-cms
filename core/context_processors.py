@@ -562,7 +562,7 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '',
+                        'href': '/export-from-uk/',
                         'text': 'Selling overseas from the UK',
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
