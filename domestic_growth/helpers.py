@@ -216,17 +216,17 @@ def get_change_answers_link(request: HttpRequest) -> str:
     return triage_start_url
 
 
-def create_request_for_path(request, path):
-    """
-    Creates a new HttpRequest object with the provided path,
-    copying session and session_id from the request.
-    """
-    new_request = HttpRequest()
-    new_request.path = path
-    new_request.session = request.session
-    if 'session_id' in request.GET:
-        new_request.GET = request.GET
-    return new_request
+# def create_request_for_path(request, path):
+#     """
+#     Creates a new HttpRequest object with the provided path,
+#     copying session and session_id from the request.
+#     """
+#     new_request = HttpRequest()
+#     new_request.path = path
+#     new_request.session = request.session
+#     if 'session_id' in request.GET:
+#         new_request.GET = request.GET
+#     return new_request
 
 
 def get_guide_url(request: HttpRequest) -> str:
@@ -249,16 +249,16 @@ def save_email_as_guide_recipient(request: HttpRequest, email: str):
     recipient_model.objects.create(email=email, triage=triage_data)
 
 
-def get_homepage_card_urls(request: HttpRequest) -> str:
-    # Create request objects for each guide type
-    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
-    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
-    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
+# def get_homepage_card_urls(request: HttpRequest) -> str:
+#     # Create request objects for each guide type
+#     pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
+#     startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
+#     established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
 
-    # Get the appropriate URLs
-    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
-    startup_triage_url = get_triage_drop_off_point(startup_request)
-    established_triage_url = get_triage_drop_off_point(established_request)
-    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
+#     # Get the appropriate URLs
+#     pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
+#     startup_triage_url = get_triage_drop_off_point(startup_request)
+#     established_triage_url = get_triage_drop_off_point(established_request)
+#     existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
 
-    return {'pre_start_url': pre_start_url, 'existing_url': existing_url}
+#     return {'pre_start_url': pre_start_url, 'existing_url': existing_url}
