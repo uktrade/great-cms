@@ -224,8 +224,8 @@ def create_request_for_path(request, path):
     new_request = HttpRequest()
     new_request.path = path
     new_request.session = request.session
-    if 'session_id' in request.GET:
-        new_request.GET = request.GET
+    new_request.META = request.META.copy()
+    new_request.GET = request.GET.copy()
     return new_request
 
 
