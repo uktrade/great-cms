@@ -1,9 +1,9 @@
 {% if send_success %}
     <div class="govuk-!-margin-bottom-7 govuk-!-padding-top-5 great-ds-border-top-blue-3">
-        <h3 class="govuk-heading-s">Email sent</h3>
+        <h2 class="govuk-heading-m">Email sent</h2>
         <p class="govuk-body govuk-!-margin-bottom-2">
             A link has been sent to
-            <br>
+            <br />
             <strong class='email-address-playback'>{{ send_email_address }}</strong>
         </p>
         <a class="govuk-link--no-visited-state"
@@ -11,11 +11,11 @@
     </div>
 {% else %}
     <div class="govuk-!-margin-bottom-4 govuk-!-padding-top-4 great-ds-border-top-blue-3 bgs-email-guide">
-        <h3 class="govuk-heading-s">
+        <h2 class="govuk-heading-m great-ds-max-width-70">
             Save and share these
             <br />
             pages
-        </h3>
+        </h2>
         <p class="govuk-body govuk-!-margin-bottom-4">Send these pages grouped in one link to an email address.</p>
         <form method="post" novalidate>
             {% csrf_token %}
