@@ -3,83 +3,89 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load i18n %}
+{% load bgs_tags %}
 {% load get_template_translation_enabled from content_tags %}
 {% wagtail_site as current_site %}
-{% load bgs_tags %}
 {% is_bgs_site current_site.root_url as bgs_site %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 <div class="microsite-main {{ view.slug }}-microsite"
      lang="{{ current_language }}"
      dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-        {% if bgs_site %}
-            {% include "_header-bgs.html" with header_classes=bgs_header_campaign_context.header_classes siteTitle=site_title sso_is_logged_in=bgs_header_campaign_context.sso_is_logged_in isAuthenticated=bgs_header_campaign_context.isAuthenticated hideSearch=bgs_header_campaign_context.hideSearch hideMenuOnDesktop=bgs_header_campaign_context.hideMenuOnDesktop searchFormAction='' menuItemsList='' subnavItemsList=bgsSubnavItemsList siteHref=siteHref availableLanguages=available_languages currentLanguage=current_language %}
-        {% else %}    
-            {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList greatLogoHref=great_logo_href %}
-        {% endif %}
-        {% if page.hero_video %}
-            <div>
-                <div class="great-full-width-header-image">
-                    <video id="hero-video" class="great-full-width-header-image great-hero-video "
-                            autoplay muted loop disableRemotePlayback playsinline>
-                            {% for source in page.hero_video.sources %}
-                                <source src="{{ source.src }}" type="{{ source.type }}">
-                            {% endfor %}
-                    </video>
-                    <div class="great-hero__video-control-container" dir="ltr">
-                        <button id="js-video-control" class="great-hero-video-control great-hero__video-control-pause" aria-pressed="false" aria-label="Pause background video">
-                            <span class="great-hero__video-control-icon">
-                                <span class="great-visually-hidden">Pause background video</span>
-                            </span>
-                        </button>
-                        <div aria-live="polite" class="great-visually-hidden" id="js-video-status">Background video playing</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% elif page.hero_image %}
-        {% image page.hero_image original as hero_image %}
-             {% include '_hero.html' with pngImagePath=hero_image.url classes="great-ds-hero--image-only"%}   
+    {% if bgs_site %}
+        {% include "_header-bgs.html" with header_classes=bgs_header_campaign_context.header_classes siteTitle=site_title sso_is_logged_in=bgs_header_campaign_context.sso_is_logged_in isAuthenticated=bgs_header_campaign_context.isAuthenticated hideSearch=bgs_header_campaign_context.hideSearch hideMenuOnDesktop=bgs_header_campaign_context.hideMenuOnDesktop searchFormAction='' menuItemsList='' subnavItemsList=bgsSubnavItemsList siteHref=siteHref availableLanguages=available_languages currentLanguage=current_language %}
+    {% else %}
+        {% include "_header.html" with rtl=rtl include_link_to_great=include_link_to_great strapline=strapline domesticLink='' internationalLink='' navItemsList='' menuItemsList='' actionLinkList='' isCampaign=isCampaign use_domestic_logo=use_domestic_logo siteTitle=site_title languages=available_languages hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop subnavItemsList=subnavItemsList greatLogoHref=great_logo_href %}
     {% endif %}
-    <main id="content"
-          tabindex="-1"
-          class="{% block css_layout_class %}{% endblock css_layout_class %}"
-          role="main">
-        <div class="container govuk-!-padding-top-7 {% if LANGUAGE_BIDI and TRANSLATE_TEXT %}great-rtl{% endif %}">
-            <div class="govuk-grid-row great-floating-right-column">
-                <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
-                    {% if page.page_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>{% endif %}
-                    {% if page.page_subheading %}<p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>{% endif %}
-                </div>
-                <div class="govuk-grid-column-one-quarter" id="related-content">
-                    {% block related_content %}
-                        {% include 'microsites/includes/microsite_related_content_list.html' %}
-                    {% endblock %}
+    {% if page.hero_video %}
+        <div>
+            <div class="great-full-width-header-image">
+                <video id="hero-video"
+                       class="great-full-width-header-image great-hero-video "
+                       autoplay
+                       muted
+                       loop
+                       disableRemotePlayback
+                       playsinline>
+                    {% for source in page.hero_video.sources %}<source src="{{ source.src }}" type="{{ source.type }}">{% endfor %}
+                </video>
+                <div class="great-hero__video-control-container" dir="ltr">
+                    <button id="js-video-control"
+                            class="great-hero-video-control great-hero__video-control-pause"
+                            aria-pressed="false"
+                            aria-label="Pause background video">
+                        <span class="great-hero__video-control-icon">
+                            <span class="great-visually-hidden">Pause background video</span>
+                        </span>
+                    </button>
+                    <div aria-live="polite" class="great-visually-hidden" id="js-video-status">Background video playing</div>
                 </div>
             </div>
-            {% include 'microsites/blocks/streamfield.html' with streamfield_content=page.page_body form_class='govuk-grid-column-two-thirds' %}
-            {% block related_ctas %}
-                {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
-                    {% include 'microsites/blocks/cta.html' with title=page.cta_title teaser=page.cta_teaser link=page.cta_link link_label=page.cta_link_label %}
-                {% endif %}
-            {% endblock %}
-            {% block social_media %}
-                {% include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin list_classes='govuk-!-padding-left-0 great-list-style-none' %}
-                {% if page.show_social_media_share %}
-                    {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title list_classes='govuk-!-padding-left-0 great-list-style-none' %}
-                {% endif %}
-            {% endblock %}
-            <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
-                {% if page.last_published_at %}
-                    <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">
-                        {% translate "Last updated:" %}
-                        <time datetime="{{ page.last_published_at|date:'c' }}">{{ page.last_published_at|date:"j F Y" }}</time>
-                    </p>
-                {% endif %}
-            </section>
-            {% block microsite_footer %}{% endblock %}
         </div>
-    </main>
+    </div>
+{% elif page.hero_image %}
+    {% image page.hero_image original as hero_image %}
+    {% include '_hero.html' with pngImagePath=hero_image.url classes="great-ds-hero--image-only" %}
+{% endif %}
+<main id="content"
+      tabindex="-1"
+      class="{% block css_layout_class %}{% endblock css_layout_class %}"
+      role="main">
+    <div class="container govuk-!-padding-top-7 {% if LANGUAGE_BIDI and TRANSLATE_TEXT %}great-rtl{% endif %}">
+        <div class="govuk-grid-row great-floating-right-column">
+            <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
+                {% if page.page_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>{% endif %}
+                {% if page.page_subheading %}<p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>{% endif %}
+            </div>
+            <div class="govuk-grid-column-one-quarter" id="related-content">
+                {% block related_content %}
+                    {% include 'microsites/includes/microsite_related_content_list.html' %}
+                {% endblock %}
+            </div>
+        </div>
+        {% include 'microsites/blocks/streamfield.html' with streamfield_content=page.page_body form_class='govuk-grid-column-two-thirds' %}
+        {% block related_ctas %}
+            {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
+                {% include 'microsites/blocks/cta.html' with title=page.cta_title teaser=page.cta_teaser link=page.cta_link link_label=page.cta_link_label %}
+            {% endif %}
+        {% endblock %}
+        {% block social_media %}
+            {% include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin list_classes='govuk-!-padding-left-0 great-list-style-none' %}
+            {% if page.show_social_media_share %}
+                {% include 'components/great/share.html' with page_url=request.build_absolute_uri page_title=page.title list_classes='govuk-!-padding-left-0 great-list-style-none' %}
+            {% endif %}
+        {% endblock %}
+        <section class="govuk-grid-column-three-quarters govuk-!-static-padding-left-0 govuk-!-static-padding-top-9">
+            {% if page.last_published_at %}
+                <p class="govuk-body great-text-grey govuk-!-static-margin-bottom-0">
+                    {% translate "Last updated:" %}
+                    <time datetime="{{ page.last_published_at|date:'c' }}">{{ page.last_published_at|date:"j F Y" }}</time>
+                </p>
+            {% endif %}
+        </section>
+        {% block microsite_footer %}{% endblock %}
+    </div>
+</main>
 </div>
 {% block body_js %}
     {% if page.hero_video %}

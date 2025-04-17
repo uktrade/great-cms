@@ -1,20 +1,21 @@
 {% extends 'includes/base.html' %}
 {% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
              style="background-image: url({{ hero_image_url }})">
         <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
                     <div class="great-ds-bg-white govuk-!-padding-6">
                         {% if page.get_parent.hero_title %}
-                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{ page.get_parent.hero_title }}</h1>
+                            <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">{{ page.get_parent.hero_title }}<span class="govuk-visually-hidden"> : Exporting</span></h1>
                         {% endif %}
                         {% if page.get_parent.hero_intro %}
-                            <p class="govuk-body govuk-!-margin-bottom-6">{{ page.get_parent.hero_intro }}</p>
+                            <p class="govuk-body govuk-!-margin-bottom-4">{{ page.get_parent.hero_intro }}</p>
                         {% endif %}
                         {% if sector %}
-                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1 govuk-!-margin-bottom-1" %}
+                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1" %}
                         {% endif %}
                         {% if local_support_data.postcode_data.admin_district %}
                             {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
@@ -25,15 +26,15 @@
             </div>
         </div>
     </section>
-    <div class="govuk-service-navigation great-ds-bg-white"
+    <div class="govuk-service-navigation great-ds-bg-white bgs-service-navigation"
          data-module="govuk-service-navigation">
-        <div class="great-container">
+        <div class="great-ds-container">
             <div class="govuk-service-navigation__container">
-                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                <nav aria-label="Topics" class="govuk-service-navigation__wrapper">
                     <button type="button"
                             class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
                             aria-controls="navigation"
-                            hidden>Menu</button>
+                            hidden>Topics</button>
                     <ul class="govuk-service-navigation__list" id="navigation">
                         <li class="govuk-service-navigation__item">
                             <a class="govuk-service-navigation__link"
@@ -62,11 +63,14 @@
             </div>
         </div>
     </div>
-    <section class="great great-ds-bg-light-blue govuk-!-padding-bottom-6">
+    <section class="great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
-            <div class="govuk-grid-row">
+            <div class="govuk-grid-row bgs-reverse-content">
+                <div class="bgs-hide-from-desktop">
+                    {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
+                </div>
                 {% if page.page_a_type == 'interested_in_exporting' and is_interested_in_exporting %}
-                    <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
                         {% if page.page_a_body_title %}
                             <h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.page_a_body_title }}</h2>
                         {% endif %}
@@ -80,7 +84,7 @@
                                      {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}
-                                            <h3 class="govuk-heading-s {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
+                                            <h3 class="govuk-heading-m {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
                                                 {{ section.value.title }}
                                             </h3>
                                         {% endif %}
@@ -114,13 +118,16 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="govuk-grid-column-one-third">
+                    <div class="govuk-grid-column-one-third-from-desktop">
                         {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success %}
-                        {% include 'includes/_related-ctas.html' with cta=page.page_a_related_cta %}
+                        
+                        <div class="bgs-show-from-desktop">
+                            {% include 'includes/_related-ctas.html' with cta=page.page_a_related_cta %}
+                        </div>
                     </div>
                 {% endif %}
                 {% if page.page_b_type == 'not_interested_in_exporting' and not is_interested_in_exporting %}
-                    <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
                         {% if page.page_b_body_title %}
                             <h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.page_b_body_title }}</h2>
                         {% endif %}
@@ -133,7 +140,7 @@
                                      {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}
-                                            <h3 class="govuk-heading-s {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
+                                            <h3 class="govuk-heading-m {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
                                                 {{ section.value.title }}
                                             </h3>
                                         {% endif %}
@@ -167,9 +174,12 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="govuk-grid-column-one-third">
+                    <div class="govuk-grid-column-one-third-from-desktop">
                         {% include 'includes/_email-guide-form.html' %}
-                        {% include 'includes/_related-ctas.html' with cta=page.page_b_related_cta %}
+
+                        <div class="bgs-show-from-desktop">
+                            {% include 'includes/_related-ctas.html' with cta=page.page_b_related_cta %}
+                        </div>
                     </div>
                 {% endif %}
             </div>

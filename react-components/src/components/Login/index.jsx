@@ -68,20 +68,9 @@ export const Login = ({ nextUrl, ...props }) => {
               </li>
             ))}
             </ul>
-          <div class="great-logo hide-logo-below-1200">
-          </div>
         </div>
       </div>
       <div className="signup__form-panel">
-        <a href="/" className="inline-block">
-          <img
-            className="m-f-auto m-r-auto signup__logo"
-            src="/static/images/dbt_logo_335x160.png"
-            alt="Department for Business and Trade"
-            width="335"
-            height="160"
-          />
-        </a>
         <Form
           disabled={isInProgress}
           errors={errors}

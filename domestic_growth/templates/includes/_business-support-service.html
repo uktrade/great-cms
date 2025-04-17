@@ -2,9 +2,9 @@
     {% with country=local_support_data.postcode_data.country|lower %}
         {% if country == 'england' %}
         <div class="great-ds-border-top-blue-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
-            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h3>
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h2>
             <div>
-                <p class="govuk-body">The government's Business Support Service can answer your questions on any aspect of<br /> starting, running or growing your business. It's free and you can choose to access it by phone,<br /> email or webchat.</p>
+                <p class="govuk-body">The government's Business Support Service can answer your questions on any aspect of starting, running or growing your business. It's free and you can choose to access it by phone, email or webchat.</p>
                 <address class="great-ds-address govuk-!-margin-bottom-4">
                     <div class="great-ds-address__row">
                         <strong>Phone</strong> <span>0800 998 1098</span>
@@ -16,15 +16,15 @@
 
                 {% include "_button.html" with text="Chat with an adviser" %}
 
-                <p class="govuk-body govuk-!-margin-bottom-2">Available Monday to Friday, 9am to 6pm (except <a href="" class="govuk-link">bank holidays</a>).</p>
-                <p class="govuk-body"><a href="" class="govuk-link">Find out about call charges</a></p>
+                <p class="govuk-body govuk-!-margin-bottom-2">Available Monday to Friday, 9am to 6pm (except <a href="https://www.gov.uk/bank-holidays" class="govuk-link">bank holidays</a>).</p>
+                <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link">Find out about call charges</a></p>
             </div>
         </div>
         {% elif country == 'scotland' %}
         <div class="great-ds-border-top-blue-3 govuk-!-padding-top-7 govuk-!-margin-bottom-6">
-            <h3 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h3>
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-4">Talk to a business adviser</h2>
             <div>
-                <p class="govuk-body">Find Business Support Scotland can answer your questions on any aspect of starting, running<br /> or growing your business. It's free and you can choose to access it by phone<br /> or email.</p>
+                <p class="govuk-body">Find Business Support Scotland can answer your questions on any aspect of starting, running or growing your business. It's free and you can choose to access it by phone or email.</p>
                 <address class="great-ds-address govuk-!-margin-bottom-4">
                     <div class="great-ds-address__row">
                         <strong>Website</strong> <a href="findbusinesssupport.gov.scot" class="govuk-link">findbusinesssupport.gov.scot</a>
@@ -39,8 +39,8 @@
 
                 {% include "_button.html" with text="Chat with an adviser" %}
 
-                <p class="govuk-body govuk-!-margin-bottom-2">Available Monday to Friday, 9am to 6pm (except <a href="" class="govuk-link">bank holidays</a>).</p>
-                <p class="govuk-body"><a href="" class="govuk-link">Find out about call charges</a></p>
+                <p class="govuk-body govuk-!-margin-bottom-2">Available Monday to Friday, 9am to 6pm (except <a href="https://www.gov.uk/bank-holidays#scotland" class="govuk-link">bank holidays</a>).</p>
+                <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link">Find out about call charges</a></p>
             </div>
         </div>
         {% endif %}

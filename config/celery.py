@@ -59,6 +59,10 @@ app.conf.beat_schedule = {
         'task': 'international_online_offer.tasks.check_trade_association_links',
         'schedule': crontab(minute=59, hour=23, day_of_week=0),
     },
+    'email_eyb_users_with_incomplete_triage_daily': {
+        'task': 'international_online_offer.tasks.email_eyb_users_with_incomplete_triage',
+        'schedule': crontab(minute=0, hour=12),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:

@@ -2,10 +2,10 @@
 {% load static %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
-    Get help using great.gov.uk/international
+    Help using this website
     {{ block.super }}
 {% endblock %}
-{% block page_title %}Get help using great.gov.uk/international {{ block.super }}{% endblock %}
+{% block page_title %}Help using this website {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
     {% block breadcrumb_region %}
         <div class="great-container">
@@ -47,7 +47,7 @@
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
+                <h1 class="govuk-heading-xl">Help using this website</h1>
                 <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
                 <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
                 {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
