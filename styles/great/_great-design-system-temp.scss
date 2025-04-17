@@ -1135,11 +1135,11 @@ section.bgs-guide-hero {
 // Design QA amends which will be resolved in Design System at a later date
 #bgs-homepage-hero {
   h1 {
-    @media only screen and (min-width: 640px) and (max-width: 1023px) {
-      width: 125%;
+    @media only screen and (min-width: 641px) and (max-width: 1023px) {
+      width: calc(125% + 60px);
     }
 
-    @media only screen and (max-width: 640px) {
+    @media only screen and (max-width: 641px) {
       margin-top: -20px;
     }
   }
@@ -1147,7 +1147,7 @@ section.bgs-guide-hero {
 
 #bgs-homepage-explore-cards {
   .great-ds-title-arrow__text {
-    @media only screen and (max-width: 640px) {
+    @include govuk-media-query($until: tablet) {
       margin-bottom: 5px;
     }
 
@@ -1162,13 +1162,13 @@ section.bgs-guide-hero {
   }
 
   .great-ds-card__content {
-    @media only screen and (min-width: 640px) {
+    @include govuk-media-query($from: tablet) {
       margin-top: 0;
     }
   }
 
   .great-ds-card-container {
-    @media only screen and (max-width: 640px) {
+    @include govuk-media-query($until: tablet) {
       gap: 10px;
     }
   }
@@ -1176,7 +1176,7 @@ section.bgs-guide-hero {
 
 #bgs-homepage-guidance {
   .great-ds-card-container {
-    @media only screen and (max-width: 640px) {
+    @include govuk-media-query($until: tablet) {
       gap: 15px;
     }
   }
@@ -1184,21 +1184,27 @@ section.bgs-guide-hero {
 
 #bgs-homepage-news {
   .great-ds-card__image {
-    @media only screen and (max-width: 640px) {
+    @include govuk-media-query($until: tablet) {
       display: block;
+    }
+  }
+
+  .great-ds-card-container {
+    @include govuk-media-query($until: tablet) {
+      gap: 15px;
     }
   }
 }
 
 #bgs-homepage-benefits {
   .govuk-grid-row {
-    @media only screen and (min-width: 640px) and (max-width: 1440px) {
+    @media only screen and (min-width: 641px) and (max-width: 1440px) {
       display: flex;
     }
   }
 
   .bgs-benefit-card > div {
-    @media only screen and (min-width: 640px) and (max-width: 1440px) {
+    @media only screen and (min-width: 641px) and (max-width: 1440px) {
       height: 100%;
     }
   }
