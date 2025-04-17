@@ -289,7 +289,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.5.2
+kombu==5.5.3
     # via celery
 l18n==2021.3
     # via wagtail
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.26.0
+sentry-sdk==2.26.1
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -555,11 +555,10 @@ tinycss2==1.4.0
     #   svglib
 tomli==2.2.1
     # via sphinx
-typing-extensions==4.12.2
+typing-extensions==4.13.2
     # via
     #   asgiref
     #   dj-database-url
-    #   kombu
     #   opentelemetry-sdk
     #   pydantic
     #   pydantic-core
