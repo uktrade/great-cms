@@ -256,7 +256,8 @@ def domestic_header(request):
                     'text': 'Starting a business',
                     'isCurrent': PRE_START_TRIAGE_URL in request.path,
                     'overviewText': (
-                        'Get support and information' '<span class="govuk-visually-hidden"> starting a business</span>'
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> for starting a business</span>'
                     ),
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
@@ -268,7 +269,7 @@ def domestic_header(request):
                     'isCurrent': EXISTING_TRIAGE_URL in request.path,
                     'overviewText': (
                         'Get support and information'
-                        '<span class="govuk-visually-hidden"> running and growing a business</span>'
+                        '<span class="govuk-visually-hidden"> for running and growing a business</span>'
                     ),
                     'description': """Tell us a bit about your business and we'll link you up to the right
  resources to help it thrive.""",
@@ -281,7 +282,7 @@ def domestic_header(request):
                     'children': [
                         {
                             'href': '/export-from-uk/markets/',
-                            'text': 'Market Guides',
+                            'text': 'Market guides',
                             'isCurrent': '/markets' in request.path,
                         },
                         {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
@@ -562,7 +563,7 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '',
+                        'href': '/export-from-uk/',
                         'text': 'Selling overseas from the UK',
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',

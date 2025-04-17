@@ -1087,7 +1087,7 @@ section.bgs-guide-hero {
 .prepend-search-icon {
   .autocomplete__wrapper {
     .autocomplete__input {
-      height: 50px;
+      height: 40px;
       text-indent: 32px;
       background-image: url('../static/icons/icon-search.svg');
       background-repeat: no-repeat;
@@ -1111,6 +1111,11 @@ section.bgs-guide-hero {
   @media only screen and (min-width: 901px) {
     width: 810px;
   }
+}
+
+.govuk-form-group--error:focus,
+.govuk-error-message:focus {
+  outline: none;
 }
 
 .autocomplete__wrapper {
