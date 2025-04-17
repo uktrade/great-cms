@@ -28,9 +28,9 @@ from domestic_growth.constants import (
     DYNAMIC_SNIPPET_NAMES,
     FINANCE_AND_SUPPORT_REGION_MAPPINGS,
     FIND_A_GRANT_MAPPINGS,
-    REGION_IMAGES,
-    INTERNAL_GREAT_DOMAIN,
     INTERNAL_BUSINESS_DOMAIN,
+    INTERNAL_GREAT_DOMAIN,
+    REGION_IMAGES,
 )
 
 logger = logging.getLogger(__name__)
