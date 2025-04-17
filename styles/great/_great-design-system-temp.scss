@@ -1113,7 +1113,8 @@ section.bgs-guide-hero {
   }
 }
 
-.govuk-form-group--error:focus {
+.govuk-form-group--error:focus,
+.govuk-error-message:focus {
   outline: none;
 }
 

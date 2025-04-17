@@ -9,9 +9,10 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript">
-        const errorInput = document.querySelector('.govuk-form-group--error input');
-        if (errorInput) {
-            errorInput.focus();
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
         }
     </script>
-]{% endblock %}
+{% endblock %}

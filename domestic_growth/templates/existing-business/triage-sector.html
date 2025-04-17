@@ -15,7 +15,7 @@
                     Enter your sector or industry and choose the closest match to get relevant information and support.
                 </div>
                 <div class="govuk-!-margin-bottom-2">
-                    <label class="govuk-visually-hidden" for="js-sector-select">
+                    <label class="govuk-visually-hidden" for="id_sector">
                         What is your sector or industry?
                     </label>
                     {% include 'international/includes/form_field.html' with field=form.sector help_class='govuk-label great-font-bold js-enabled-only' inputWrapperClass='prepend-search-icon' %}
@@ -47,8 +47,13 @@
             src="{% static 'javascript/sector-lookup.js' %}"></script>
     <script>
         const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
-        const hasError = document.querySelector('.govuk-form-group--error');
-        GreatFrontend.SectorLookup.init(allSectors, 'js-sector-select', hasError);
+        GreatFrontend.SectorLookup.init(sectorData=allSectors)
+
+        const errorGroup = document.querySelector('.govuk-error-message');
+        if (errorGroup) {
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
     </script>
     <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
 {% endblock %}
