@@ -939,4 +939,4 @@ def get_google_tag_manager_id(request: HttpRequest) -> str:
     if is_bgs_site_from_request(request):
         return settings.BGS_GOOGLE_TAG_MANAGER_ID
     else:
-        return settings.BGS_GOOGLE_TAG_MANAGER_ID
+        return settings.GOOGLE_TAG_MANAGER_ID
