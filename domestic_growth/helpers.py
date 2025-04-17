@@ -7,9 +7,7 @@ from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
-from domestic_growth.constants import (
-    PRE_START_GUIDE_URL,
-)
+from domestic_growth.constants import PRE_START_GUIDE_URL
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
