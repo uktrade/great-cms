@@ -25,7 +25,6 @@ class CharFieldForm(Form):
     # Charfield with TextInput widget - With postcode validator
     my_text_with_postcode_validator = CharField(
         required=False,
-        error_messages={'invalid': INVALID_MESSAGE},
         validators=[is_valid_uk_postcode],
     )
 
@@ -70,7 +69,7 @@ class CharFieldForm(Form):
                 'my_text_with_postcode_validator': 'bar',
             },
             False,
-            {'my_text_with_postcode_validator': [INVALID_MESSAGE]},
+            {'my_text_with_postcode_validator': ['Enter a full UK postcode']},
         ),
         (
             CharFieldForm,
