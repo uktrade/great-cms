@@ -1,7 +1,7 @@
 GreatFrontend = window.GreatFrontend || {}
 
 GreatFrontend.SectorLookup = {
-    init: (sectorData=[], selectElementToEnhanceID='js-sector-select') => {
+    init: (sectorData=[], selectElementToEnhanceID='js-sector-select', hasError=false) => {
         this.sectorData = sectorData
         accessibleAutocomplete.enhanceSelectElement({
             selectElement: document.getElementById(selectElementToEnhanceID),
@@ -90,6 +90,16 @@ GreatFrontend.SectorLookup = {
                 }
             }
         });
+
+        if (hasError) {
+            const focusInput = setInterval(() => {
+                const input = document.querySelector('#js-sector-select.autocomplete__input');
+                if (input) {
+                    clearInterval(focusInput);
+                    input.focus();
+                }
+            }, 100);
+        }
     },  
 }
  

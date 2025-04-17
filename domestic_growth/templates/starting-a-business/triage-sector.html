@@ -49,7 +49,16 @@
             src="{% static 'javascript/sector-lookup.js' %}"></script>
     <script>
         const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
-        GreatFrontend.SectorLookup.init(sectorData=allSectors)
+        const hasError = document.querySelector('.govuk-form-group--error');
+        GreatFrontend.SectorLookup.init(allSectors, 'js-sector-select', hasError);
+
+        if (hasError) {
+            const errorMessage = document.querySelector('.great-ds-error-message');
+            if (errorMessage) {
+                errorMessage.setAttribute('tabindex', '-1');
+                errorMessage.focus();
+            }
+        }
     </script>
     <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
 {% endblock %}

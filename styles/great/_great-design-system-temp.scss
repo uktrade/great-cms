@@ -1113,6 +1113,10 @@ section.bgs-guide-hero {
   }
 }
 
+.govuk-form-group--error:focus {
+  outline: none;
+}
+
 .autocomplete__wrapper {
   // temporarily adding as 5px bottom margin is being added to autocomplete drop down items
   ul {
