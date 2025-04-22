@@ -165,12 +165,12 @@ urlpatterns = [
         name='microsites',
     ),
     re_path(
-        r'^campaign-site/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        r'^(?:export-from-uk/)?campaign-site/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='campaign-site',
     ),
     re_path(
-        r'^campaign-site/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        r'^(?:export-from-uk/)?campaign-site/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='campaign-site',
     ),
