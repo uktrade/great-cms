@@ -8,8 +8,8 @@ from django.urls import reverse
 @pytest.mark.django_db
 def test_company_verify_hub_letter_sent():
     http_request = HttpRequest()
-    http_request.META["HTTP_HOST"] = 'example.com'
-    http_request.META["SERVER_PORT"] = '8080'
+    http_request.META['HTTP_HOST'] = 'example.com'
+    http_request.META['SERVER_PORT'] = '8080'
     template_name = 'company-verify-hub.html'
     context = {
         'company': {
@@ -27,8 +27,8 @@ def test_company_verify_hub_letter_sent():
 @pytest.mark.django_db
 def test_company_verify_hub_letter_not_sent():
     http_request = HttpRequest()
-    http_request.META["HTTP_HOST"] = 'example.com'
-    http_request.META["SERVER_PORT"] = '8080'
+    http_request.META['HTTP_HOST'] = 'example.com'
+    http_request.META['SERVER_PORT'] = '8080'
     template_name = 'company-verify-hub.html'
     context = {
         'company': {
