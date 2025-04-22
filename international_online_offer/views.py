@@ -116,8 +116,8 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
             },
         )
         return super().get_context_data(
-            *args, 
-            **kwargs, 
+            *args,
+            **kwargs,
             dnb_phase_1=getattr(settings, 'FEATURE_INTERNATIONAL_ONLINE_OFFER_DNB_PHASE_1', False),
             business_hq_url=business_hq_url,
         )
