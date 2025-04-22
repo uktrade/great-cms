@@ -614,7 +614,7 @@ def footer_bgs(request):
                     {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
                 ],
                 [
-                    {'href': '/support-in-uk/', 'text': 'About this website', 'title': 'About this website'},
+                    {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
                         'href': '/help-using-this-website/',
                         'text': 'Help using this website',

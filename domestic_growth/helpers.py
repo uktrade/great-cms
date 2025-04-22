@@ -164,6 +164,16 @@ def get_events():
     return events[:3]
 
 
+def get_welcome_event():
+    match = False
+    events = list(Event.objects.filter(types__name__contains='Welcome'))
+
+    if len(events) > 0:
+        match = events[0]
+
+    return match
+
+
 def get_trade_associations_file():
     json_data = open('domestic_growth/fixtures/trade_associations.json')
     deserialised_data = json.load(json_data)
