@@ -55,6 +55,7 @@
         if (hasError) {
             const errorMessage = document.querySelector('.govuk-error-message');
             if (errorMessage) {
+                errorGroup.setAttribute('role', 'alert');
                 errorMessage.setAttribute('tabindex', '-1');
                 errorMessage.focus();
             }

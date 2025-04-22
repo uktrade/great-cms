@@ -282,7 +282,7 @@ def domestic_header(request):
                             'text': 'Market guides',
                             'isCurrent': '/markets' in request.path,
                         },
-                        {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
+                        {'href': '/export-from-uk/support-topics/', 'text': 'Export support'},
                         {
                             'href': '/export-from-uk/export-academy/',
                             'text': 'UK Export Academy',
@@ -338,7 +338,7 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
-                    'href': '/invest-in-uk/international/',
+                    'href': '/invest-in-uk/',
                     'text': 'Investing and expanding in the UK',
                     'overviewText': 'Start investing',
                     'children': [
@@ -566,7 +566,7 @@ def footer_bgs(request):
                         'isHeading': 'true',
                     },
                     {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
-                    {'href': '/export-from-uk/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {'href': '/export-from-uk/support-topics/', 'text': 'Export support', 'title': 'Export support'},
                     {
                         'href': '/export-from-uk/export-academy/',
                         'text': 'UK Export Academy',
