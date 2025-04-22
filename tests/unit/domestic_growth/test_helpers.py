@@ -113,12 +113,12 @@ def test_get_triage_data(mock_get_dbt_sectors, guide_url, business_type):
 @pytest.mark.parametrize(
     'guide_url, session_id_qs_param, expected_redirect_url',
     (
-        (ESTABLISHED_GUIDE_URL, None, '/support-in-uk/existing/location/'),
-        (START_UP_GUIDE_URL, None, '/support-in-uk/existing/location/'),
-        (PRE_START_GUIDE_URL, None, '/support-in-uk/pre-start/location/'),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
-        (START_UP_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
-        (PRE_START_GUIDE_URL, '1234', '/support-in-uk/pre-start/location/?session_id=1234'),
+        (ESTABLISHED_GUIDE_URL, None, '/support/existing/location/'),
+        (START_UP_GUIDE_URL, None, '/support/existing/location/'),
+        (PRE_START_GUIDE_URL, None, '/support/pre-start/location/'),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/?session_id=1234'),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/location/?session_id=1234'),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/?session_id=1234'),
     ),
 )
 @pytest.mark.django_db
@@ -146,12 +146,12 @@ def test_get_triage_drop_off_point_prestart(mock_get_dbt_sectors, client):
     StartingABusinessTriage.objects.create(session_id='1')
     req = factory.get(PRE_START_GUIDE_URL + '?session_id=1')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/pre-start/location/?session_id=1'
+    assert redirect_url == '/support/pre-start/location/?session_id=1'
 
     StartingABusinessTriage.objects.create(session_id='2', postcode='BT123AQ')  # /PS-IGNORE
     req = factory.get(PRE_START_GUIDE_URL + '?session_id=2')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/pre-start/sector/?session_id=2'
+    assert redirect_url == '/support/pre-start/sector/?session_id=2'
 
     StartingABusinessTriage.objects.create(session_id='3', postcode='BT123AQ', sector_id='SL0003')  # /PS-IGNORE
     req = factory.get(PRE_START_GUIDE_URL + '?session_id=3')
@@ -171,29 +171,29 @@ def test_get_triage_drop_off_point_existing(mock_get_dbt_sectors):
     ExistingBusinessTriage.objects.create(session_id='1')
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=1')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/location/?session_id=1'
+    assert redirect_url == '/support/existing/location/?session_id=1'
 
     ExistingBusinessTriage.objects.create(session_id='2', postcode='BT123AQ')  # /PS-IGNORE
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=2')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/sector/?session_id=2'
+    assert redirect_url == '/support/existing/sector/?session_id=2'
 
     ExistingBusinessTriage.objects.create(session_id='3', postcode='BT123AQ', sector_id='SL0003')  # /PS-IGNORE
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=3')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/set-up/?session_id=3'
+    assert redirect_url == '/support/existing/set-up/?session_id=3'
 
     ExistingBusinessTriage.objects.create(session_id='4', postcode='BT123AQ', cant_find_sector=True)  # /PS-IGNORE
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=4')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/set-up/?session_id=4'
+    assert redirect_url == '/support/existing/set-up/?session_id=4'
 
     ExistingBusinessTriage.objects.create(
         session_id='5', postcode='BT123AQ', sector_id='SL0003', when_set_up=LESS_THAN_3_YEARS_AGO  # /PS-IGNORE
     )
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=5')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/turnover/?session_id=5'
+    assert redirect_url == '/support/existing/turnover/?session_id=5'
 
     ExistingBusinessTriage.objects.create(
         session_id='6',
@@ -204,7 +204,7 @@ def test_get_triage_drop_off_point_existing(mock_get_dbt_sectors):
     )
     req = factory.get(ESTABLISHED_GUIDE_URL + '?session_id=6')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support-in-uk/existing/exporter/?session_id=6'
+    assert redirect_url == '/support/existing/exporter/?session_id=6'
 
     ExistingBusinessTriage.objects.create(
         session_id='7',
@@ -234,12 +234,12 @@ def test_get_triage_drop_off_point_existing(mock_get_dbt_sectors):
 @pytest.mark.parametrize(
     'guide_url, session_id_qs_param, expected_redirect_url',
     (
-        (ESTABLISHED_GUIDE_URL, None, '/support-in-uk/existing/location/'),
-        (START_UP_GUIDE_URL, None, '/support-in-uk/existing/location/'),
-        (PRE_START_GUIDE_URL, None, '/support-in-uk/pre-start/location/'),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
-        (START_UP_GUIDE_URL, '1234', '/support-in-uk/existing/location/?session_id=1234'),
-        (PRE_START_GUIDE_URL, '1234', '/support-in-uk/pre-start/location/?session_id=1234'),
+        (ESTABLISHED_GUIDE_URL, None, '/support/existing/location/'),
+        (START_UP_GUIDE_URL, None, '/support/existing/location/'),
+        (PRE_START_GUIDE_URL, None, '/support/pre-start/location/'),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/?session_id=1234'),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/location/?session_id=1234'),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/?session_id=1234'),
     ),
 )
 @pytest.mark.django_db

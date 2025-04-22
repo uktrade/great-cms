@@ -23,13 +23,14 @@ CARD_META_DATA = (
     ('smallbusinesscharter.org', 'smallbusinesscharter.org', 'small-business-charter'),
 )
 
-PRE_START_GUIDE_URL = '/support-in-uk/pre-start-guide/'
-START_UP_GUIDE_URL = '/support-in-uk/start-up-guide/'
-ESTABLISHED_GUIDE_URL = '/support-in-uk/established-guide/'
+SUPPORT_URL = 'support/'
+PRE_START_GUIDE_URL = '/' + SUPPORT_URL + '/pre-start-guide/'
+START_UP_GUIDE_URL = '/' + SUPPORT_URL + '/start-up-guide/'
+ESTABLISHED_GUIDE_URL = '/' + SUPPORT_URL + '/established-guide/'
 PRE_START_BUSINESS_TYPE = 'pre_start'
 ESTABLISHED_OR_START_UP_BUSINESS_TYPE = 'established_or_startup'
-PRE_START_TRIAGE_URL = '/support-in-uk/pre-start/location/'
-EXISTING_TRIAGE_URL = '/support-in-uk/existing/location/'
+PRE_START_TRIAGE_URL = '/' + SUPPORT_URL + '/pre-start/location/'
+EXISTING_TRIAGE_URL = '/' + SUPPORT_URL + '/existing/location/'
 
 REGION_IMAGES = (
     ('North East', 'bgs-section-logo--north-east'),

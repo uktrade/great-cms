@@ -31,49 +31,49 @@ from domestic_growth.views import (
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/support-in-uk/pre-start/sector/',
+            '/support/pre-start/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-pre-start-sector'),
             {
                 'sector': 'SL0003',
             },
-            '/support-in-uk/pre-start-guide/',
+            '/support/pre-start-guide/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-location'),
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/support-in-uk/existing/sector/',
+            '/support/existing/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-sector'),
             {
                 'sector': 'SL0003',
             },
-            '/support-in-uk/existing/set-up/',
+            '/support/existing/set-up/',
         ),
         (
             reverse('domestic_growth:domestic-growth-when-set-up'),
             {
                 'when_set_up': LESS_THAN_3_YEARS_AGO,
             },
-            '/support-in-uk/existing/turnover/',
+            '/support/existing/turnover/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-turnover'),
             {
                 'turnover': '2M_TO_5M',
             },
-            '/support-in-uk/existing/exporter/',
+            '/support/existing/exporter/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-exporter'),
             {
                 'currently_export': 'YES',
             },
-            '/support-in-uk/established-guide/',
+            '/support/established-guide/',
         ),
     ),
 )
