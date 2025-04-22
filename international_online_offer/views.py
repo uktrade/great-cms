@@ -1279,6 +1279,8 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             triage_data.sector, geo_area
         )
 
+        page_title = bci_headline.get('geo_description', '')
+
         # sort alphabetically by geo description
         bci_detail = sorted(bci_detail, key=lambda e: e['geo_description'])
 
@@ -1290,6 +1292,7 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             hyperlinked_geo_codes=hyperlinked_geo_codes,
             bci_release_year=bci_release_year,
             headline_region=headline_region,
+            page_title=page_title,
             **kwargs,
         )
 
