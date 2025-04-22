@@ -7,9 +7,7 @@ from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
 from directory_api_client import api_client
-from domestic_growth.constants import (
-    PRE_START_GUIDE_URL,
-)
+from domestic_growth.constants import PRE_START_GUIDE_URL
 from export_academy.models import Event
 from international_online_offer.core.region_sector_helpers import (
     get_sectors_by_selected_id,
@@ -62,7 +60,10 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
         dbt_sectors = get_dbt_sectors()
 
-        if triage_data:
+        parent_sector = None
+        sub_sector = None
+
+        if triage_data and triage_data['sector_id']:
             parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
         return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
@@ -161,6 +162,16 @@ def get_events():
     events = list(Event.objects.all())
 
     return events[:3]
+
+
+def get_welcome_event():
+    match = False
+    events = list(Event.objects.filter(types__name__contains='Welcome'))
+
+    if len(events) > 0:
+        match = events[0]
+
+    return match
 
 
 def get_trade_associations_file():

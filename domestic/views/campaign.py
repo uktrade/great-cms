@@ -151,6 +151,7 @@ class CampaignView(BaseNotifyUserFormView):
         self.email_body = self.form_config['email_body'] if self.form_type else None
         self.email_subject = self.form_config['email_subject'] if self.form_type else None
         self.location = get_location(request)
+        self.request = request
         return super().setup(request, *args, **kwargs)
 
     def get_form_class(self):
@@ -177,13 +178,17 @@ class CampaignView(BaseNotifyUserFormView):
         include_link_to_great = page.get_include_link_to_great() if hasattr(page, 'get_include_link_to_great') else ''
         use_domestic_logo = page.get_use_domestic_header_logo() if hasattr(page, 'get_use_domestic_header_logo') else ''
         site_title = page.get_site_title() if hasattr(page, 'get_site_title') else ''
-        menu_items = page.get_menu_items() if hasattr(page, 'get_menu_items') else ''
-        bgs_menu_items = page.get_bgs_menu_items() if hasattr(page, 'get_bgs_menu_items') else ''
+        menu_items = page.get_menu_items(self.request) if hasattr(page, 'get_menu_items') else ''
+        bgs_menu_items = page.get_bgs_menu_items(self.request) if hasattr(page, 'get_bgs_menu_items') else ''
         site_href = (
-            page.get_menu_items()[0]['href'] if hasattr(page, 'get_menu_items') and page.get_menu_items() else ''
+            page.get_menu_items(self.request)[0]['href']
+            if hasattr(page, 'get_menu_items') and page.get_menu_items(self.request)
+            else ''
         )
         great_logo_href = (
-            page.get_menu_items()[0]['href'] if hasattr(page, 'get_menu_items') and page.get_menu_items() else ''
+            page.get_menu_items(self.request)[0]['href']
+            if hasattr(page, 'get_menu_items') and page.get_menu_items(self.request)
+            else ''
         )
         microsite_context = microsite_header(self.request)
         microsite_context['include_link_to_great'] = include_link_to_great
