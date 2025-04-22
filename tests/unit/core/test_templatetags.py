@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http import HttpRequest
 from django.template import Context, Template
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
@@ -55,6 +55,7 @@ from core.templatetags.content_tags import (
     url_type,
     val_to_int,
 )
+from core.templatetags.ga_tags import google_tag_manager_id_tag
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
@@ -1360,3 +1361,23 @@ def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
 )
 def test_get_is_internal_url(input_data, expected_output):
     assert get_is_internal_url(input_data) == expected_output
+
+
+@override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
+@override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
+def test_google_tag_manager_id_tag_bgs_page():
+    request = HttpRequest()
+    request.site = 'www.hotfix.bgs.uktrade.digital'
+    context = Context({'request': request})
+    google_tag_manager_id = google_tag_manager_id_tag(context)
+    assert google_tag_manager_id == settings.BGS_GOOGLE_TAG_MANAGER_ID
+
+
+@override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
+@override_settings(GOOGLE_TAG_MANAGER_ID='GTM-1234567')
+def test_google_tag_manager_id_tag_non_bgs_page(rf):
+    request = HttpRequest()
+    request.site = 'www.hotfix.great.uktrade.digital'
+    context = Context({'request': request})
+    google_tag_manager_id = google_tag_manager_id_tag(context)
+    assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
