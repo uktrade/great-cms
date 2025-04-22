@@ -104,7 +104,10 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
         )
 
     def get_context_data(self, *args, **kwargs):
-        # Signup has occured
+        business_hq_url = reverse_lazy('international_online_offer:business-headquarters')
+        if self.request.GET.get('signup'):
+            # Signup has occured
+            business_hq_url = business_hq_url + '?signup=true'
         UserData.objects.update_or_create(
             hashed_uuid=self.request.user.hashed_uuid,
             defaults={
@@ -113,7 +116,10 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
             },
         )
         return super().get_context_data(
-            *args, **kwargs, dnb_phase_1=getattr(settings, 'FEATURE_INTERNATIONAL_ONLINE_OFFER_DNB_PHASE_1', False)
+            *args, 
+            **kwargs, 
+            dnb_phase_1=getattr(settings, 'FEATURE_INTERNATIONAL_ONLINE_OFFER_DNB_PHASE_1', False),
+            business_hq_url=business_hq_url,
         )
 
 
