@@ -173,6 +173,8 @@
 
 	&__website {
 		color: $great-text-dark-grey;
+		word-wrap: break-word; 
+		overflow-wrap: anywhere; 
 	}
 
 	& > * {

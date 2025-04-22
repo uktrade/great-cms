@@ -3,3 +3,13 @@
 {% load static %}
 {% block breadcrumbs_block %}{% endblock %}
 {% block content %}{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
+{% endblock %}
