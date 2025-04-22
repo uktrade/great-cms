@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import pytest
+from bs4 import BeautifulSoup
 
 from great_design_system.forms import Form, TypedDateField
 
@@ -377,3 +378,16 @@ def test_typed_date_field_with_invalid_date(form, form_data, form_is_valid, erro
     form = form(data=form_data)
     assert form.is_valid() == form_is_valid
     assert error_messages == form.errors
+
+
+def test_typed_date_field_form_render():
+
+    html = open('./great_design_system/tests/test_forms/expected_html/typed_date_field.html', 'r')
+    expected = html.read()
+    actual = str(TypedDateForm())
+    actual_stripped_html = BeautifulSoup(actual, 'html.parser').get_text(strip=True)
+    expected_stripped_html = BeautifulSoup(expected, 'html.parser').get_text(strip=True)
+    assert actual_stripped_html == expected_stripped_html
+
+    # Close the file
+    html.close()

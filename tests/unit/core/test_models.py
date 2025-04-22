@@ -14,7 +14,7 @@ from wagtail.blocks.stream_block import StreamBlockValidationError
 from wagtail.fields import StreamField
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
-from wagtail.models import Collection
+from wagtail.models import Collection, Site
 from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
@@ -896,6 +896,35 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
 
         menu_item_url = menu_items[0]['href'].lstrip('/') if menu_items else ''
         assert menu_item_url, 'Menu item URL should not be empty after stripping leading slash'
+
+    def test_multi_site_get_menu_items(self):
+        root_bgs = MicrositeFactory(title='root_bgs')
+        MicrositePageFactory(page_title='home', title='home', parent=root_bgs)
+        Site.objects.create(
+            hostname='www.bgs.gov.uk', root_page=root_bgs, site_name='Business Growth Site', is_default_site=True
+        )
+        root_great = MicrositeFactory(title='root_bgs')
+        home = MicrositePageFactory(page_title='home_great', title='microsite', parent=root_great)
+        Site.objects.create(
+            hostname='greatcms.trade.great', root_page=root_great, site_name='Great', is_default_site=True
+        )
+        factory = RequestFactory()
+        request = factory.get(home.url)
+        request.path = home.url
+        menu_items = home.get_menu_items(request)
+
+        assert menu_items, 'Menu items should not be empty'
+
+        for item in menu_items:
+            assert 'text' in item, 'Menu item should have a text key'
+            assert 'href' in item, 'Menu item should have an href key'
+
+        assert menu_items[0]['text'] == 'Home', 'First menu item should be Home'
+        assert menu_items[0]['href'], 'First menu item should have a non-empty href'
+
+        menu_item_url = menu_items[0]['href'].lstrip('/') if menu_items else ''
+        assert menu_item_url, 'Menu item URL should not be empty after stripping leading slash'
+        assert menu_item_url == 'http://greatcms.trade.great/microsite/?lang=en-gb'
 
     def test_get_site_title(self):
         root = MicrositeFactory(title='root')

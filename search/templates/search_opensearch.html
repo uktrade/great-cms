@@ -33,6 +33,8 @@
                     </h1>
                     <!-- Search Input -->
                     <div class="actions">
+                        <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ search_query }}"
+                            class="font-xsmall link">Did you find what you were looking for?</a>
                         <form id="search-form"
                             action="{% url 'search:search' %}"
                             class="search search-results-form"
