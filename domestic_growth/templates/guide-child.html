@@ -1,5 +1,8 @@
 {% extends 'includes/base.html' %}
-{% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
+{% block head_title %}
+    {% if email_guide_form.errors %}Error: {% endif %}
+    {{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk
+{% endblock %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"

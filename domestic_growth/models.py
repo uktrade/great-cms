@@ -23,6 +23,7 @@ from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
+    get_welcome_event,
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
@@ -656,6 +657,7 @@ class DomesticGrowthDynamicChildGuidePage(
 
         context['is_interested_in_exporting'] = currently_export
         context['events'] = get_events()
+        context['welcome_event'] = get_welcome_event()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
