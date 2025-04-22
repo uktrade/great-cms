@@ -26,7 +26,7 @@
             </div>
         </div>
     </section>
-    <div class="govuk-service-navigation great-ds-bg-white bgs-service-navigation"
+    <div class="govuk-service-navigation great-ds-bg-white bgs-service-navigation bgs-service-navigation--guide"
          data-module="govuk-service-navigation">
         <div class="great-ds-container">
             <div class="govuk-service-navigation__container">
@@ -143,6 +143,12 @@
                                             </div>
                                         {% endif %}
                                     </address>
+
+                                    {% if local_support_data.postcode_data.admin_district %}
+                                    <div class="govuk-!-margin-top-3">
+                                        {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
+                                    </div>
+                                    {% endif %}
                                 {% endwith %}
                             </div>
                         {% endif %}
@@ -239,4 +245,12 @@
     {{ block.super }}
     <script type="text/javascript" src="/static/js/trade-associations.js"></script>
     <script type="text/javascript" src="/static/js/helpers.js"></script>
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
 {% endblock %}
