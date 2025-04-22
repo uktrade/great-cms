@@ -60,7 +60,10 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
         dbt_sectors = get_dbt_sectors()
 
-        if triage_data:
+        parent_sector = None
+        sub_sector = None
+
+        if triage_data and triage_data['sector_id']:
             parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
         return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}

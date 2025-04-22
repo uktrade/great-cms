@@ -66,7 +66,7 @@
     <section class="great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row bgs-reverse-content">
-                <div class="bgs-hide-from-desktop">
+                <div class="govuk-grid-column-one-third-from-desktop bgs-hide-from-desktop">
                     {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                 </div>
                 {% if page.page_a_type == 'interested_in_exporting' and is_interested_in_exporting %}
@@ -77,11 +77,19 @@
                         {% if page.page_a_body_intro %}
                             <p class="govuk-caption-l govuk-!-margin-bottom-9">{{ page.page_a_body_intro }}</p>
                         {% endif %}
-                        {% include "includes/_talk-to-an-ita.html" %}
+
+                        {% if local_support_data and turnover not in ita_excluded_turnovers %}
+                            {% with country=local_support_data.postcode_data.country region=local_support_data.postcode_data.region %}
+                                {% if country == 'England' and region != 'London' %}
+                                    {% include "includes/_talk-to-an-ita.html" %}
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+                        
                         {% if page.page_a_body_sections %}
                             {% for section in page.page_a_body_sections %}
                                 <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}"
-                                     {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
+                                style="{% if section.value.logo %}background-image: url('/static/icons/{{ section.value.logo }}'){% endif %}{% if section.value.border_color %}border-top-color: {{ section.value.border_color }} !important{% endif %}"}>
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}
                                             <h3 class="govuk-heading-m {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">
@@ -136,8 +144,10 @@
                         {% endif %}
                         {% if page.page_b_body_sections %}
                             {% for section in page.page_b_body_sections %}
-                                <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}"
-                                     {% if section.value.logo %}style="background-image: url('/static/icons/{{ section.value.logo }}')"{% endif %}>
+                            {% if section.value.logo or section.value.border_color %}
+                            {% endif %}
+                                <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo{% endif %}" 
+                                style="{% if section.value.logo %}background-image: url('/static/icons/{{ section.value.logo }}'){% endif %}{% if section.value.border_color %}border-top-color: {{ section.value.border_color }} !important{% endif %}">
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}
                                             <h3 class="govuk-heading-m {% if section.value.intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-0{% endif %}">

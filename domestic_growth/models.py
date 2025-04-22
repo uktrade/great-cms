@@ -417,6 +417,7 @@ class DomesticGrowthChildGuidePage(
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
+        turnover = triage_data.get('turnover', None)
 
         if request.GET.get('session_id', False):
             params = {}
@@ -435,6 +436,7 @@ class DomesticGrowthChildGuidePage(
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['scottish_enterprise_admin_districts'] = constants.SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS
         context['highlands_and_islands_admin_districts'] = constants.HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS
         context['south_of_scotland_enterprises_admin_districts'] = (
@@ -502,6 +504,12 @@ class DomesticGrowthDynamicChildGuidePage(
                         ),
                         (
                             'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'border_color',
                             blocks.CharBlock(
                                 required=False,
                             ),
@@ -584,6 +592,12 @@ class DomesticGrowthDynamicChildGuidePage(
                             ),
                         ),
                         (
+                            'border_color',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
                             'content',
                             blocks.ListBlock(
                                 SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
@@ -624,6 +638,7 @@ class DomesticGrowthDynamicChildGuidePage(
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        turnover = triage_data.get('turnover', None)
 
         currently_export = triage_data.get('currently_export', False)
 
@@ -643,6 +658,8 @@ class DomesticGrowthDynamicChildGuidePage(
         context['events'] = get_events()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['change_answers_link'] = get_change_answers_link(request)
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
