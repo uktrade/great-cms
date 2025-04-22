@@ -901,12 +901,12 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         root_bgs = MicrositeFactory(title='root_bgs')
         MicrositePageFactory(page_title='home', title='home', parent=root_bgs)
         Site.objects.create(
-            hostname='www.bgs.gov.uk', root_page=root_bgs, site_name="Business Growth Site", is_default_site=True
+            hostname='www.bgs.gov.uk', root_page=root_bgs, site_name='Business Growth Site', is_default_site=True
         )
         root_great = MicrositeFactory(title='root_bgs')
         home = MicrositePageFactory(page_title='home_great', title='microsite', parent=root_great)
         Site.objects.create(
-            hostname='greatcms.trade.great', root_page=root_great, site_name="Great", is_default_site=True
+            hostname='greatcms.trade.great', root_page=root_great, site_name='Great', is_default_site=True
         )
         factory = RequestFactory()
         request = factory.get(home.url)

@@ -2057,6 +2057,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         index.SearchField('cta_teaser'),
     ]
 
+    # TODO GREATUK-1774 reverse mult-site changes
     def get_parent_page(self, request=None):
         current_page = self.specific
         parent_page = self.get_parent().specific
