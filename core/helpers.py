@@ -933,10 +933,3 @@ def get_current_site_from_request(request: HttpRequest) -> str:
 def is_bgs_site_from_request(request: HttpRequest) -> bool:
     site = get_current_site_from_request(request)
     return is_bgs_site(site.root_url)
-
-
-def get_google_tag_manager_id(request: HttpRequest) -> str:
-    if is_bgs_site_from_request(request):
-        return settings.BGS_GOOGLE_TAG_MANAGER_ID
-    else:
-        return settings.GOOGLE_TAG_MANAGER_ID

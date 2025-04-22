@@ -472,7 +472,7 @@ SECURE_HSTS_SECONDS = env.secure_hsts_seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = env.secure_ssl_redirect
 
-SESSION_ENGINE = env.session_engine
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 SESSION_COOKIE_SECURE = env.session_cookie_secure
 SESSION_COOKIE_HTTPONLY = True

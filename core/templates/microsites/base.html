@@ -53,7 +53,7 @@
         {% endwith %}
         {% block head_google_tag_manager %}
             {% if UTM_COOKIE_DOMAIN %}<meta id="utmCookieDomain" value="{{ UTM_COOKIE_DOMAIN }}" />{% endif %}
-            {% include 'components/google_tag_manager_head.html' %}
+            {% include 'components/google_tag_manager_head.html' with tag_manager_id='DAVE' %}
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
         {% block head_favicon %}
