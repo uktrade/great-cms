@@ -31,6 +31,7 @@ from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
 from geoip2.errors import GeoIP2Error
 from hashids import Hashids
+from wagtail.models import Site
 
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
@@ -926,5 +927,5 @@ def is_bgs_site(root_url: str) -> bool:
 
 
 def is_bgs_site_from_request(request: HttpRequest) -> bool:
-    site = request.site
-    return is_bgs_site(site)
+    site = Site.find_for_request(request)
+    return is_bgs_site(site.root_url)
