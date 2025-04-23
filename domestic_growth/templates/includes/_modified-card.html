@@ -25,9 +25,9 @@
             {% if title %}
                 <div class="great-ds-card__title-wrapper">
                     {% if type == "elevated" or completedTag == "true" %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h3" hideArrow="true"  %}
+                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow="true"  %}
                     {% else %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h3" hideArrow=hideArrow  %}
+                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow=hideArrow  %}
                     {% endif %}
                     {% if completedTag == "true" %}
                         {% include "_tag.html" with text="Completed" type="success"  %}
