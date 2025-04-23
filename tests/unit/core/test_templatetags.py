@@ -1371,10 +1371,11 @@ def test_get_is_internal_url(input_data, expected_output):
 @pytest.mark.django_db
 def test_google_tag_manager_id_tag_non_bgs_page(mock_site, root_page):
     welcome_page = PageFactory(parent=root_page)
-    site = SiteFactory(root_page=welcome_page, id=1)
+    site = SiteFactory(id=1, hostname='www.hotfix.great.uktrade.digital', port=443, root_page=welcome_page)
     http_request = HttpRequest()
+    http_request.META['HTTP_HOST'] = 'www.hotfix.great.uktrade.digital'
+    http_request.META['SERVER_PORT'] = 443
     http_request.site = site
-    mock_site.return_value = site
     context = Context({'request': http_request})
     google_tag_manager_id = google_tag_manager_id_tag(context)
     assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
@@ -1382,14 +1383,14 @@ def test_google_tag_manager_id_tag_non_bgs_page(mock_site, root_page):
 
 @override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
 @override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
-@mock.patch.object(Site, 'find_for_request')
 @pytest.mark.django_db
-def test_google_tag_manager_id_tag_bgs_page(mock_site, root_page):
+def test_google_tag_manager_id_tag_bgs_page(root_page):
     welcome_page = PageFactory(parent=root_page)
-    site = SiteFactory(root_page=welcome_page, id=1)
+    site = SiteFactory(id=1, hostname='www.hotfix.bgs.uktrade.digital', port=443, root_page=welcome_page)
     http_request = HttpRequest()
+    http_request.META['HTTP_HOST'] = 'www.hotfix.bgs.uktrade.digital'
+    http_request.META['SERVER_PORT'] = 443
     http_request.site = site
-    mock_site.return_value = site
     context = Context({'request': http_request})
     google_tag_manager_id = google_tag_manager_id_tag(context)
-    assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
+    assert google_tag_manager_id == settings.BGS_GOOGLE_TAG_MANAGER_ID
