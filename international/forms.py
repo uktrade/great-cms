@@ -49,7 +49,7 @@ class ContactForm(forms.Form):
 
 class InternationalHCSATForm(DomesticHCSATForm):
     service_specific_feedback = MultipleChoiceField(
-        label='What did you get out of this service today?',
+        label='Why did you visit Expand Your Business today?',
         help_text='Tick all that apply.',
         choices=INTENSION_CHOICES,
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),

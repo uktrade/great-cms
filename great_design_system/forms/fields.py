@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.forms.boundfield import BoundField
 from django.forms.utils import pretty_name
 
-from great_design_system.forms.widgets import TypedDateWidget
+from great_design_system.forms.widgets import EmailInput, TextInput, TypedDateWidget
 
 
 class GDSBoundField(BoundField):
@@ -161,6 +161,19 @@ TypedMultipleChoiceField = field_factory(forms.TypedMultipleChoiceField)
 URLField = field_factory(forms.URLField)
 UUIDField = field_factory(forms.UUIDField)
 BooleanField = field_factory(forms.BooleanField)
+
+
+class CharField(CharField):
+    widget = TextInput
+
+
+class EmailField(EmailField):
+    widget = EmailInput
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.max_length = 320
+        self.validators.append(validators.MaxLengthValidator(int(self.max_length)))
 
 
 class ReCaptchaField(ReCaptchaField):

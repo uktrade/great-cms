@@ -1353,7 +1353,7 @@ def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
     'input_data, expected_output',
     (
         ('great.gov.uk/learn', True),
-        ('business.gov.uk/support-in-uk', True),
+        ('business.gov.uk/support', True),
         ('gov.uk', False),
         ('something-else.com', False),
     ),

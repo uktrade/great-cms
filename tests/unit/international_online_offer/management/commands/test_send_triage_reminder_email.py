@@ -1,12 +1,15 @@
-import pytest
-from unittest import mock
 from datetime import datetime, timedelta
+from unittest import mock
 
+import pytest
 from django.core.management import call_command
 
-from tests.helpers import create_response
-from tests.unit.international_online_offer.factories import UserDataFactory, TriageDataFactory
 from international_online_offer.models import UserData
+from tests.helpers import create_response
+from tests.unit.international_online_offer.factories import (
+    TriageDataFactory,
+    UserDataFactory,
+)
 
 
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')

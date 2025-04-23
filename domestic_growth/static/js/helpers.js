@@ -7,7 +7,7 @@
   }
 
   const sectionNavButton = document.querySelector(
-    '.bgs-service-navigation button.govuk-service-navigation__toggle'
+    '.bgs-service-navigation--guide button.govuk-service-navigation__toggle'
   )
 
   if (sectionNavButton) {

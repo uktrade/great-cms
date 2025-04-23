@@ -1,8 +1,8 @@
 import factory
 import factory.fuzzy
 
-from international_online_offer.models import TradeAssociation, UserData, TriageData
-from international_online_offer.core import intents, regions, spends, hirings
+from international_online_offer.core import hirings, intents, regions, spends
+from international_online_offer.models import TradeAssociation, TriageData, UserData
 
 
 class TradeAssociationFactory(factory.django.DjangoModelFactory):

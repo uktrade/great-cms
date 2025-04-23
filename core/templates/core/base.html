@@ -5,8 +5,7 @@
 {% load to_json %}
 {% load wagtailcore_tags wagtail_cache %}
 {% load bgs_tags %}
-{% wagtail_site as current_site %}
-{% is_bgs_site current_site.root_url as bgs_site %}
+
 {% block head_css %}
     {% path_match "^\/learn\/" as in_learning %}
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
@@ -158,7 +157,8 @@
 {% endblock %}
 {% block body_header %}
     <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
-    {% if bgs_site %}
+    
+    {% if request.get_host|is_bgs_host %}
         {% include "_header-bgs.html" with header_classes=bgs_header_context.header_classes sso_is_logged_in=bgs_header_context.sso_is_logged_in isAuthenticated=bgs_header_context.isAuthenticated hideSearch=bgs_header_context.hideSearch hideMenuOnDesktop=bgs_header_context.hideMenuOnDesktop searchFormAction=bgs_header_context.searchFormAction menuItemsList=bgs_header_context.menuItemsList %}
     {% else %}
         {% include "_header.html" with header_classes=header_classes isInternational=isInternational mobileSiteLink=mobileSiteLink sso_is_logged_in=sso_is_logged_in isAuthenticated=isAuthenticated hideSearch=hideSearch hideMenuOnDesktop=hideMenuOnDesktop domesticLink=domesticLink internationalLink=internationalLink searchFormAction=searchFormAction navItemsList=navItemsList menuItemsList=menuItemsList actionLinkList=actionLinkList %}
@@ -220,7 +220,7 @@
 {% endblock %}
 {% block body_footer %}
     <div id="snackbar-container"></div>
-    {% if bgs_site %}
+    {% if request.get_host|is_bgs_host %}
         {% include '_footer-bgs.html' with currentYear=footer_bgs_context.currentYear upperFooterSection=footer_bgs_context.upperFooterSection lowerFooterSection=footer_bgs_context.lowerFooterSection %}
     {% else %}
         {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}

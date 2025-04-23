@@ -1,5 +1,8 @@
 {% extends 'includes/base.html' %}
-{% block head_title %}{{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
+{% block head_title %}
+    {% if email_guide_form.errors %}Error: {% endif %}
+    {{ page.get_parent.hero_title }}: {{ page.body_title }} - Business.gov.uk
+{% endblock %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
@@ -66,7 +69,7 @@
     <section class="great-ds-bg-light-blue govuk-!-padding-bottom-6">
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row bgs-reverse-content">
-                <div class="bgs-hide-from-desktop">
+                <div class="govuk-grid-column-one-third-from-desktop bgs-hide-from-desktop">
                     {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                 </div>
                 <div class="govuk-grid-column-two-thirds-from-desktop">
@@ -116,4 +119,12 @@
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript" src="/static/js/helpers.js"></script>
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
 {% endblock %}

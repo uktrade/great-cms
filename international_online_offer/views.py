@@ -104,7 +104,10 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
         )
 
     def get_context_data(self, *args, **kwargs):
-        # Signup has occured
+        business_hq_url = reverse_lazy('international_online_offer:business-headquarters')
+        if self.request.GET.get('signup'):
+            # Signup has occured
+            business_hq_url = business_hq_url + '?signup=true'
         UserData.objects.update_or_create(
             hashed_uuid=self.request.user.hashed_uuid,
             defaults={
@@ -113,7 +116,10 @@ class AboutYourBusinessView(GA360Mixin, TemplateView):  # /PS-IGNORE
             },
         )
         return super().get_context_data(
-            *args, **kwargs, dnb_phase_1=getattr(settings, 'FEATURE_INTERNATIONAL_ONLINE_OFFER_DNB_PHASE_1', False)
+            *args,
+            **kwargs,
+            dnb_phase_1=getattr(settings, 'FEATURE_INTERNATIONAL_ONLINE_OFFER_DNB_PHASE_1', False),
+            business_hq_url=business_hq_url,
         )
 
 
@@ -1273,6 +1279,8 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             triage_data.sector, geo_area
         )
 
+        page_title = bci_headline.get('geo_description', '')
+
         # sort alphabetically by geo description
         bci_detail = sorted(bci_detail, key=lambda e: e['geo_description'])
 
@@ -1284,6 +1292,7 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             hyperlinked_geo_codes=hyperlinked_geo_codes,
             bci_release_year=bci_release_year,
             headline_region=headline_region,
+            page_title=page_title,
             **kwargs,
         )
 

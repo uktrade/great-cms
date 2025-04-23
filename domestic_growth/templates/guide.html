@@ -1,6 +1,9 @@
 {% extends 'includes/base.html' %}
 {% load get_region_bg_class get_url_favicon_and_domain from content_tags %}
-{% block head_title %}{{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk{% endblock %}
+{% block head_title %}
+    {% if email_guide_form.errors %}Error: {% endif %}
+    {{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk
+{% endblock %}
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
@@ -23,7 +26,7 @@
             </div>
         </div>
     </section>
-    <div class="govuk-service-navigation great-ds-bg-white bgs-service-navigation"
+    <div class="govuk-service-navigation great-ds-bg-white bgs-service-navigation bgs-service-navigation--guide"
          data-module="govuk-service-navigation">
         <div class="great-ds-container">
             <div class="govuk-service-navigation__container">
@@ -108,7 +111,7 @@
                                 {% include 'includes/_growth-hub.html' with local_support_data=local_support_data %}
                             </div>
                         {% endwith %}
-                        {% if local_support_data.chambers_of_commerce|length > 0 %}
+                        {% if local_support_data.chambers_of_commerce|length > 0 and local_support_data.postcode_data.country != 'Northern Ireland' %}
                             <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
                                 {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                     <h3 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h3>
@@ -140,6 +143,12 @@
                                             </div>
                                         {% endif %}
                                     </address>
+
+                                    {% if local_support_data.postcode_data.admin_district %}
+                                    <div class="govuk-!-margin-top-3">
+                                        {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
+                                    </div>
+                                    {% endif %}
                                 {% endwith %}
                             </div>
                         {% endif %}
@@ -236,4 +245,12 @@
     {{ block.super }}
     <script type="text/javascript" src="/static/js/trade-associations.js"></script>
     <script type="text/javascript" src="/static/js/helpers.js"></script>
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load wagtailcore_tags %}
 {% wagtail_site as current_site %}
 {% is_bgs_site current_site.root_url as bgs_site %}
-{% if features.FEATURE_GREAT_MIGRATION_BANNER and bgs_site %}
+{% if features.FEATURE_GREAT_MIGRATION_BANNER and bgs_site or features.FEATURE_GREAT_MIGRATION_BANNER and request.META.HTTP_HOST|is_bgs_host %}
     <div class="great-width-100 great-min-height-50 great-bg-button-blue govuk-!-padding-top-2 govuk-!-padding-bottom-2">
         <div class="great-container great-display-flex great-flex-row">
             <div role="img"

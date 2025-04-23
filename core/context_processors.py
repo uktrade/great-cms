@@ -253,7 +253,8 @@ def domestic_header(request):
                     'text': 'Starting a business',
                     'isCurrent': PRE_START_TRIAGE_URL in request.path,
                     'overviewText': (
-                        'Get support and information' '<span class="govuk-visually-hidden"> starting a business</span>'
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> for starting a business</span>'
                     ),
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
@@ -265,7 +266,7 @@ def domestic_header(request):
                     'isCurrent': EXISTING_TRIAGE_URL in request.path,
                     'overviewText': (
                         'Get support and information'
-                        '<span class="govuk-visually-hidden"> running and growing a business</span>'
+                        '<span class="govuk-visually-hidden"> for running and growing a business</span>'
                     ),
                     'description': """Tell us a bit about your business and we'll link you up to the right
  resources to help it thrive.""",
@@ -278,10 +279,10 @@ def domestic_header(request):
                     'children': [
                         {
                             'href': '/export-from-uk/markets/',
-                            'text': 'Market Guides',
+                            'text': 'Market guides',
                             'isCurrent': '/markets' in request.path,
                         },
-                        {'href': '/export-from-uk/export-support/', 'text': 'Export support'},
+                        {'href': '/export-from-uk/support-topics/', 'text': 'Export support'},
                         {
                             'href': '/export-from-uk/export-academy/',
                             'text': 'UK Export Academy',
@@ -337,7 +338,7 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
-                    'href': '/invest-in-uk/international/',
+                    'href': '/invest-in-uk/',
                     'text': 'Investing and expanding in the UK',
                     'overviewText': 'Start investing',
                     'children': [
@@ -559,13 +560,13 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '',
+                        'href': '/export-from-uk/',
                         'text': 'Selling overseas from the UK',
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
                     },
                     {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
-                    {'href': '/export-from-uk/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {'href': '/export-from-uk/support-topics/', 'text': 'Export support', 'title': 'Export support'},
                     {
                         'href': '/export-from-uk/export-academy/',
                         'text': 'UK Export Academy',
@@ -613,7 +614,7 @@ def footer_bgs(request):
                     {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
                 ],
                 [
-                    {'href': '/support-in-uk/', 'text': 'About this website', 'title': 'About this website'},
+                    {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
                         'href': '/help-using-this-website/',
                         'text': 'Help using this website',
