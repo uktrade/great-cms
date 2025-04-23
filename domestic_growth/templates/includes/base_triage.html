@@ -1,5 +1,6 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
     Domestic Growth - Tell us a little more
@@ -25,7 +26,7 @@
     <div class="great bgs-triage-background">
         <div class="great-container">
             <div class="govuk-grid-row">
-                <div class="triage-form-container govuk-!-margin-left-3 govuk-!-margin-right-3 govuk-!-margin-bottom-7 govuk-!-margin-top-6">
+                <div class="triage-form-container govuk-!-margin-left-3 govuk-!-margin-right-3 govuk-!-margin-top-6">
                     <div class="great-bg-white govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-6 govuk-!-padding-bottom-7">
                         {% block form %}{% endblock %}
                     </div>

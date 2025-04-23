@@ -99,8 +99,13 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
+        back_url = (
+            f'{PRE_START_GUIDE_URL}?session_id={self.session_id}'
+            if PRE_START_GUIDE_URL in self.request.META.get('HTTP_REFERER', [])
+            else '/'
+        )
 
-        return {'back_url': '/', **ctx_data}
+        return {'back_url': back_url, **ctx_data}
 
 
 class StartingABusinessSectorFormView(BaseTriageFormView):
@@ -164,8 +169,15 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
+        http_referer = self.request.META.get('HTTP_REFERER', [])
+        back_url = '/'
 
-        return {'back_url': '/', **ctx_data}
+        if START_UP_GUIDE_URL in http_referer:
+            back_url = f'{START_UP_GUIDE_URL}?session_id={self.session_id}'
+        elif ESTABLISHED_GUIDE_URL in http_referer:
+            back_url = f'{ESTABLISHED_GUIDE_URL}?session_id={self.session_id}'
+
+        return {'back_url': back_url, **ctx_data}
 
 
 class ExistingBusinessSectorFormView(BaseTriageFormView):

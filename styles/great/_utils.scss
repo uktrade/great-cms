@@ -29,7 +29,8 @@
         .great-title-link,
         .great-card__link,
         .great-heading-link__heading,
-        .govuk-notification-banner__title
+        .govuk-notification-banner__title,
+        .great-ds-title-arrow__text
       ) {
       color: $great-dark-grey;
     }
@@ -80,22 +81,6 @@
     font-family: $header-font;
   }
 
-  .govuk-label {
-    font-family: $great-font-bold;
-    font-size: 18px;
-  }
-
-  .govuk-caption-xl {
-    font-size: 20px;
-    line-height: 30px;
-    font-family: $main-text-font;
-
-    @include govuk-media-query($from: tablet) {
-      font-size: 24px;
-      line-height: 34px;
-    }
-  }
-
   .govuk-hint,
   .govuk-error-message,
   .govuk-radios__label,
@@ -106,17 +91,6 @@
   .govuk-caption-lm,
   .govuk-list {
     font-family: $great-font;
-  }
-
-  .govuk-form-group--error {
-    input[type='text'],
-    select {
-      border-color: govuk-colour('red');
-
-      &:focus {
-        border-color: govuk-colour('black');
-      }
-    }
   }
 
   .govuk-button {
@@ -254,10 +228,6 @@
     }
   }
 
-  .govuk-body,
-  .govuk-label,
-  .govuk-hint,
-  .govuk-input,
   .govuk-list,
   .govuk-summary-list__key,
   .govuk-summary-list__value,
@@ -273,8 +243,6 @@
     }
   }
   .govuk-body,
-  .govuk-label,
-  .govuk-input,
   .govuk-body-s,
   .govuk-summary-list__key,
   .govuk-summary-list__value,
@@ -291,10 +259,6 @@
       font-size: 16px;
       line-height: 24px;
     }
-  }
-
-  .govuk-label {
-    font-family: $great-font-bold;
   }
 
   .govuk-list {
@@ -412,11 +376,6 @@
 
   .govuk-fieldset__heading {
     line-height: inherit;
-  }
-
-  .govuk-label--l {
-    font-size: 1.25rem;
-    line-height: 1.1111111111;
   }
 }
 

@@ -26,13 +26,15 @@
                 <div class="govuk-grid-column-two-thirds">
                     <h1 class="heading-xlarge">
                         {% if search_query %}
-                            Search results for <span class="great-highlighted-text">{{ search_query }}</span>
+                            Search results for: {{ search_query }}
                         {% else %}
                             Search
                         {% endif %}
                     </h1>
                     <!-- Search Input -->
                     <div class="actions">
+                        <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ search_query }}"
+                            class="font-xsmall link">Did you find what you were looking for?</a>
                         <form id="search-form"
                             action="{% url 'search:search' %}"
                             class="search search-results-form"
@@ -40,7 +42,7 @@
                             aria-label="Search form">
                             
                             {% include '_input.html' with classes='great-ds-text-input--search' formGroupClasses='search-results-form-group govuk-!-margin-right-1' label='Search again' id='search-again-input' name='q' placeholder='' value=search_query %}
-                            {% include '_button.html' with text='Search' type='submit' html=search_icon classes='great-ds-button--icon great-ds-button--search' %}
+                            {% include '_button.html' with text='Search' type='submit' html=search_icon attributes='aria-label="Search"' classes='great-ds-button--icon great-ds-button--search' %}
                         </form>
                         {% if search_query %}
                             {% if search_results %}

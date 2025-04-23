@@ -8,7 +8,7 @@
     {% image page.hero_image width-3200 as hero_image %}
     <section class="govuk-!-padding-bottom-9 great-ds-bg-blue bgs-hero" style="background-image: url({{ hero_image.url }});">
         <div class="great-ds-container govuk-!-padding-top-9">
-            <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-padding-top-9">
+            <div class="govuk-grid-row govuk-!-margin-bottom-6" id="bgs-homepage-hero">
                 <div class="govuk-grid-column-three-quarters">
                     {% if page.hero_title %}
                     <h1 class="great-ds-heading-xxl govuk-!-margin-bottom-6 great-ds-text-white">
@@ -26,7 +26,7 @@
 
             <h2 class="govuk-visually-hidden">Explore</h2>
 
-            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-row govuk-!-margin-bottom-6" id="bgs-homepage-explore-cards">
                 {% if page.explore_body %}
                 <div class="govuk-grid-column-full">
                     <div class="great-ds-card-container">
@@ -49,7 +49,7 @@
     </section>
     
     {% if page.explore_body %}
-    <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue">
+    <section class="govuk-!-padding-bottom-6 great-ds-bg-light-blue" id="bgs-homepage-benefits">
         <div class="great-ds-container govuk-!-padding-top-6">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
@@ -59,7 +59,7 @@
                         {% for blocks in page.explore_body %}
                             {% for block in blocks.value %}
                                 {% if block.block_type == 'benefit_explore_card' %}
-                                <div class="govuk-grid-column-one-third govuk-!-margin-bottom-3">
+                                <div class="govuk-grid-column-one-third govuk-!-margin-bottom-3 bgs-benefit-card">
                                     <div class="great-ds-border-bottom-white-3">
                                         <h3 class="govuk-heading-m">{{ block.value.title }}</h3>
                                         <p class="govuk-body">{{ block.value.description }}</p>
@@ -105,7 +105,7 @@
     </section>
     {% endif %}
 
-    <section class="govuk-!-padding-bottom-9 great-ds-bg-light-blue">
+    <section class="govuk-!-padding-bottom-9 great-ds-bg-light-blue" id="bgs-homepage-guidance">
         <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
@@ -129,7 +129,7 @@
         </div>
     </section>
 
-    <section class="great-ds-bg-light-blue govuk-!-padding-bottom-3">
+    <section class="great-ds-bg-light-blue govuk-!-padding-bottom-3" id="bgs-homepage-news">
         <div class="great-ds-container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">

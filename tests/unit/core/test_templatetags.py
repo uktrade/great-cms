@@ -25,6 +25,7 @@ from core.templatetags.content_tags import (
     get_icon_path,
     get_inline_feedback_visibility,
     get_international_icon_path,
+    get_is_internal_url,
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_region_bg_class,
@@ -1346,3 +1347,16 @@ def test_get_region_name(input_data, expected_output):
 )
 def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
     assert get_region_for_find_a_grant_snippet(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ('great.gov.uk/learn', True),
+        ('business.gov.uk/support', True),
+        ('gov.uk', False),
+        ('something-else.com', False),
+    ),
+)
+def test_get_is_internal_url(input_data, expected_output):
+    assert get_is_internal_url(input_data) == expected_output

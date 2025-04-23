@@ -18,6 +18,7 @@ from wagtail.admin.forms import WagtailAdminPageForm
 from contact import widgets as contact_widgets
 from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
+from great_design_system import forms as gds_forms
 from international.fields import DBTSectorsAPIMultipleChoiceField
 from international_online_offer.core import choices, intents, region_sector_helpers
 from international_online_offer.services import (
@@ -428,29 +429,25 @@ class WagtailAdminDBTSectors(WagtailAdminPageForm):
         )
 
 
-class GreatSelect(Select):
-    template_name = 'eyb/widgets/select.html'
-
-
-class DynamicGuideBCIRegionSelectForm(forms.Form):
-    market_data_location = ChoiceField(
+class DynamicGuideBCIRegionSelectForm(gds_forms.Form):
+    market_data_location = gds_forms.ChoiceField(
         label='Data for',
         choices=choices.REGION_CHOICES,
-        widget=GreatSelect(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
+        widget=gds_forms.SelectOne(attrs={'onchange': 'refreshMarketDataSelectedRegion()'}),
     )
 
 
-class DynamicGuideRentDataSelectForm(forms.Form):
-    rent_data_location = ChoiceField(
+class DynamicGuideRentDataSelectForm(gds_forms.Form):
+    rent_data_location = gds_forms.ChoiceField(
         label='Average rent data for',
         choices=choices.REGION_CHOICES,
-        widget=GreatSelect(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
+        widget=gds_forms.SelectOne(attrs={'onchange': 'refreshRentDataSelectedRegion()'}),
     )
 
 
-class DynamicGuideSalaryDataSelectForm(forms.Form):
-    salary_data_location = ChoiceField(
+class DynamicGuideSalaryDataSelectForm(gds_forms.Form):
+    salary_data_location = gds_forms.ChoiceField(
         label='Average annual salary data for',
         choices=choices.REGION_CHOICES,
-        widget=GreatSelect(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
+        widget=gds_forms.SelectOne(attrs={'onchange': 'refreshSalaryDataSelectedRegion()'}),
     )

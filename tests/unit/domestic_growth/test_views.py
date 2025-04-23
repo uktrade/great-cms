@@ -6,6 +6,11 @@ from django.test.client import RequestFactory
 from django.urls import reverse, reverse_lazy
 
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
+from domestic_growth.constants import (
+    ESTABLISHED_GUIDE_URL,
+    PRE_START_GUIDE_URL,
+    START_UP_GUIDE_URL,
+)
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 from domestic_growth.views import (
     ExistingBusinessCurrentlyExportFormView,
@@ -26,49 +31,49 @@ from domestic_growth.views import (
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/support-in-uk/pre-start/sector/',
+            '/support/pre-start/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-pre-start-sector'),
             {
                 'sector': 'SL0003',
             },
-            '/support-in-uk/pre-start-guide/',
+            '/support/pre-start-guide/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-location'),
             {
                 'postcode': 'SW1A 1AA',  # /PS-IGNORE
             },
-            '/support-in-uk/existing/sector/',
+            '/support/existing/sector/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-sector'),
             {
                 'sector': 'SL0003',
             },
-            '/support-in-uk/existing/set-up/',
+            '/support/existing/set-up/',
         ),
         (
             reverse('domestic_growth:domestic-growth-when-set-up'),
             {
                 'when_set_up': LESS_THAN_3_YEARS_AGO,
             },
-            '/support-in-uk/existing/turnover/',
+            '/support/existing/turnover/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-turnover'),
             {
                 'turnover': '2M_TO_5M',
             },
-            '/support-in-uk/existing/exporter/',
+            '/support/existing/exporter/',
         ),
         (
             reverse('domestic_growth:domestic-growth-existing-exporter'),
             {
                 'currently_export': 'YES',
             },
-            '/support-in-uk/established-guide/',
+            '/support/established-guide/',
         ),
     ),
 )
@@ -438,3 +443,54 @@ def test_triage_form_init(
     req = factory.get(f'{form_url}?session_id={session_id}')
     view = form_view.as_view()(req)
     assert view.context_data['form'].initial[form_field_name] == form_field_value
+
+
+@pytest.mark.parametrize(
+    'form_url, referer_url, form_view, expected_back_url',
+    (
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
+            f'http://test.com/{PRE_START_GUIDE_URL}?session_id=1234',
+            StartingABusinessLocationFormView,
+            f'{PRE_START_GUIDE_URL}?session_id=1234',
+        ),
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
+            'http://test.com/exampleurl',
+            StartingABusinessLocationFormView,
+            '/',
+        ),
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f'http://test.com/{START_UP_GUIDE_URL}?session_id=1234',
+            ExistingBusinessLocationFormView,
+            f'{START_UP_GUIDE_URL}?session_id=1234',
+        ),
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            'http://test.com/exampleurl',
+            ExistingBusinessLocationFormView,
+            '/',
+        ),
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f'http://test.com/{ESTABLISHED_GUIDE_URL}?session_id=1234',
+            ExistingBusinessLocationFormView,
+            f'{ESTABLISHED_GUIDE_URL}?session_id=1234',
+        ),
+        (
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            'http://test.com/exampleurl',
+            ExistingBusinessLocationFormView,
+            '/',
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_back_links(form_url, referer_url, form_view, expected_back_url):
+    factory = RequestFactory()
+
+    req = factory.get(form_url)
+    req.META['HTTP_REFERER'] = referer_url
+    view = form_view.as_view()(req)
+    assert view.context_data['back_url'] == expected_back_url

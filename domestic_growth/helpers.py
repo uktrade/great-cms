@@ -60,7 +60,10 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
         dbt_sectors = get_dbt_sectors()
 
-        if triage_data:
+        parent_sector = None
+        sub_sector = None
+
+        if triage_data and triage_data['sector_id']:
             parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
         return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
@@ -87,7 +90,7 @@ def get_session_id(request: HttpRequest) -> str:
     # give preference to the session_id in a qs parameter
     if request.GET.get('session_id', False):
         session_id = request.GET.get('session_id')
-    elif request.session.session_key:
+    elif hasattr(request.session, 'session_key'):
         session_id = request.session.session_key
 
     return session_id
@@ -161,6 +164,16 @@ def get_events():
     return events[:3]
 
 
+def get_welcome_event():
+    match = False
+    events = list(Event.objects.filter(types__name__contains='Welcome'))
+
+    if len(events) > 0:
+        match = events[0]
+
+    return match
+
+
 def get_trade_associations_file():
     json_data = open('domestic_growth/fixtures/trade_associations.json')
     deserialised_data = json.load(json_data)
@@ -212,14 +225,21 @@ def get_change_answers_link(request: HttpRequest) -> str:
     return triage_start_url
 
 
-def create_request_for_path(request, path):
+def get_guide_url(request: HttpRequest) -> str:
+    return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
+
+
+def save_email_as_guide_recipient(request: HttpRequest, email: str):
     """
-    Creates a new HttpRequest object with the provided path,
-    copying session and session_id from the request.
+    Saves an email address to the relevent guide receipient table
     """
-    new_request = HttpRequest()
-    new_request.path = path
-    new_request.session = request.session
-    if 'session_id' in request.GET:
-        new_request.GET = request.GET
-    return new_request
+    session_id = get_session_id(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, session_id)
+    recipient_model = (
+        domestic_growth_models.StartingABusinessGuideEmailRecipient
+        if type(triage_data) is domestic_growth_models.StartingABusinessTriage
+        else domestic_growth_models.ExistingBusinessGuideEmailRecipient
+    )
+
+    recipient_model.objects.create(email=email, triage=triage_data)

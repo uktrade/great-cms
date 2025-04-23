@@ -468,10 +468,15 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
-        all_articles = EYBArticlePage.objects.live().filter(
-            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
-            | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
-            | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
+        all_articles = (
+            EYBArticlePage.objects.live()
+            .filter(
+                Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
+                | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
+                | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
+            )
+            .order_by('article_title')
+            .distinct('article_title')
         )
 
         if triage_data and triage_data.sector:
@@ -484,28 +489,36 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             """
             user_sector_no_commas = triage_data.sector.replace(',', '')
 
-            # display articles based on free text tags
-            all_articles = all_articles.union(
-                EYBArticlePage.objects.live().filter(tags__name__iexact=user_sector_no_commas)
+            sector_articles = (
+                EYBArticlePage.objects.live()
+                .filter(tags__name__iexact=user_sector_no_commas)
+                .order_by('article_title')
+                .distinct('article_title')
             )
 
-            # include articles based on user sector and article's dbt sector not including any duplicates
-            all_articles = all_articles.union(
-                EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
+            dbt_sector_articles = (
+                EYBArticlePage.objects.live()
+                .filter(dbt_sectors__contains=[triage_data.sector])
+                .order_by('article_title')
+                .distinct('article_title')
             )
+
+            all_articles = all_articles.union(sector_articles).union(dbt_sector_articles)
 
         # Get first three investment opportunities A-Z by sector
         investment_opportunities = (
             InvestmentOpportunityArticlePage.objects.live()
             .filter(dbt_sectors__contains=[triage_data.sector])
-            .order_by('article_title')[:3]
+            .order_by('article_title')
+            .distinct('article_title')[:3]
         )
 
         # Get first three trade events A-Z by sector
         trade_events = (
             IOOTradeShowPage.objects.live()
             .filter(tags__name__iexact=triage_data.sector.replace(',', ''))
-            .order_by('tradeshow_title')[:3]
+            .order_by('tradeshow_title')
+            .distinct('tradeshow_title')[:3]
         )
 
         # Try getting trade associations by exact sector match or in mapped list of sectors
@@ -890,6 +903,7 @@ class UserData(TimeStampedModel):
         null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
     )
     company_website = models.CharField(max_length=255, null=True)
+    reminder_email_sent = models.DateTimeField(null=True, blank=True)
 
 
 class TradeAssociation(models.Model):

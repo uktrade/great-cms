@@ -2,16 +2,18 @@
 {% block form %}
     <form method="post" autocomplete="off" data-target-market-form>
         {% csrf_token %}
-        <div class="govuk-form-group">
-            <h2 class="govuk-caption-l">
-                <span class="govuk-visually-hidden">This section is</span>Tell us about your business
-            </h2>
-            <h1 class="govuk-heading-l govuk-!-margin-bottom-4">What was last financial year’s turnover?</h1>
-            <label class="govuk-body govuk-!-margin-bottom-4" for="id_turnover">
-                You may be eligible for some types of support depending on your turnover.
-            </label>
-            <div class="govuk-!-margin-top-4">{{ form }}</div>
-        </div>
+        {{ form }}
         {% include '_button.html' with text='Continue' %}
     </form>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
 {% endblock %}

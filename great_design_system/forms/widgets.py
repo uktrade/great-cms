@@ -31,6 +31,7 @@ class GDSWidgetMixin(widgets.Widget):
         data_module_attrs={},
         fieldset=False,
         linked_conditional_reveal_fields=[],
+        choices=[],
         *args,
         **kwargs,
     ):
@@ -39,8 +40,9 @@ class GDSWidgetMixin(widgets.Widget):
         self.linked_conditional_reveal_fields = linked_conditional_reveal_fields
         self.data_module_attrs = data_module_attrs
         self.container_css_classes = container_css_classes
+        self.choices = choices
 
-    def get_context(self, name, value, attrs):
+    def get_context(self, name, value, attrs, subwidget_label=''):
         ctx = super().get_context(name, value, attrs)
         field = self.field
         linked_conditional_reveal_fields = (
@@ -48,6 +50,7 @@ class GDSWidgetMixin(widgets.Widget):
         )
         ctx['field'] = field
         ctx['linked_conditional_reveal_fields'] = linked_conditional_reveal_fields
+        ctx['subwidget_label'] = subwidget_label
         return ctx
 
 
@@ -77,6 +80,7 @@ SplitDateTimeWidget = widget_factory(widgets.SplitDateTimeWidget)
 SplitHiddenDateTimeWidget = widget_factory(widgets.SplitHiddenDateTimeWidget)
 SelectDateWidget = widget_factory(widgets.SelectDateWidget)
 ChoiceWidget = widget_factory(widgets.ChoiceWidget)
+Select = widget_factory(widgets.Select)
 
 
 class CreateOptionMixin:
@@ -200,7 +204,6 @@ class RadioSelect(ChoiceWidget):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -219,7 +222,6 @@ class RadioSelectConditionalReveal(ChoiceWidget):
     option_template_name = '_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -234,7 +236,6 @@ class SelectOne(ChoiceWidget):
 
     template_name = '_select.html'
     option_template_name = '_select_option.html'
-    help_text_class_name = 'govuk-radios__hint'
     template_class_name = 'select'
 
     def get_context(self, name, value, attrs):
@@ -250,6 +251,20 @@ class Textarea(Textarea):
 
     input_type = 'text'
     template_name = '_textarea.html'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        field = context['field']
+        context['widget'].update(
+            {
+                'counter': field.counter,
+                'max_length': field.max_length,
+                'max_length_info': f'You can enter up to  {field.max_length} characters',
+                'max_words': field.max_words,
+                'max_words_info': f'You can enter up to  {field.max_words} words',
+            }
+        )
+        return context
 
 
 class TextInput(TextInput):
@@ -295,7 +310,6 @@ class CheckboxSelectMultiple(ChoiceWidget, CheckboxSelectMultiple):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -314,7 +328,6 @@ class CheckboxSelectConditionalReveal(ChoiceWidget):
     option_template_name = '_option_conditional_reveal.html'
     option_reveal_template_name = '_reveal_input.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-checkboxes__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -330,12 +343,59 @@ class CheckboxSelectMultipleSmall(CheckboxSelectMultiple):
     template_name = '_multiple_input.html'
     option_template_name = '_option.html'
     use_fieldset = True
-    help_text_class_name = 'govuk-radios__hint'
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
         context['widget']['template_class_name'] = self.template_class_name
         context['widget']['is_small'] = self.is_small
+        return context
+
+
+class TypedDateWidget(SelectDateWidget):
+
+    template_name = '_date_input.html'
+    input_type = 'text'
+    date_widget = TextInput
+
+    def _add_error_classes(self, classes, error_dict, key):
+        return f'{classes} {error_dict[1][key]}'
+
+    def get_context(self, name, value, attrs):
+
+        context = super().get_context(name, value, attrs)
+        base_attrs = context['widget']['attrs']
+        try:
+            errors = self.field.gds_validation_on_valid_date_string(value)
+        except ValueError:
+            errors = self.field.gds_validation_on_invalid_date_string(value)
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-4', errors, 'year')})
+        date_context = {}
+        year_name = self.year_field % name
+        date_context['year'] = self.date_widget(attrs).get_context(
+            name=year_name,
+            value=context['widget']['value']['year'],
+            attrs={**base_attrs, 'id': 'id_%s' % year_name},
+        )
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-2', errors, 'month')})
+        month_name = self.month_field % name
+        date_context['month'] = self.date_widget(attrs).get_context(
+            name=month_name,
+            value=context['widget']['value']['month'],
+            attrs={**context['widget']['attrs'], 'id': 'id_%s' % month_name},
+        )
+        base_attrs.update({'class': self._add_error_classes('govuk-input--width-2', errors, 'day')})
+        day_name = self.day_field % name
+        date_context['day'] = self.date_widget(
+            attrs,
+        ).get_context(
+            name=day_name,
+            value=context['widget']['value']['day'],
+            attrs={**context['widget']['attrs'], 'id': 'id_%s' % day_name},
+        )
+        subwidgets = []
+        for field in self._parse_date_fmt():
+            subwidgets.append([date_context[field]['widget'], field.title])
+        context['widget']['subwidgets'] = subwidgets
         return context
 
 

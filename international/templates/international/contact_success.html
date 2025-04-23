@@ -2,10 +2,10 @@
 {% load static %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
-    Get help using great.gov.uk/international
+    Help using this website
     {{ block.super }}
 {% endblock %}
-{% block page_title %}Get help using great.gov.uk/international {{ block.super }}{% endblock %}
+{% block page_title %}Help using this website {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
     {% block breadcrumb_region %}
         <div class="great-container">

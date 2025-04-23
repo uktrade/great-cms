@@ -2057,9 +2057,16 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         index.SearchField('cta_teaser'),
     ]
 
-    def get_parent_page(self):
+    # TODO GREATUK-1774 reverse mult-site changes
+    def get_parent_page(self, request=None):
         current_page = self.specific
         parent_page = self.get_parent().specific
+        if request:
+            requested_page = self.find_for_request(request, request.path)
+            if requested_page:
+                current_page = requested_page
+                parent_page = current_page.get_parent()
+
         while type(parent_page) is not Microsite:
             if type(parent_page) is not MicrositePage:
                 break
@@ -2072,7 +2079,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self, request=None):
-        parent_page = self.get_parent_page()
+        parent_page = self.get_parent_page(request)
         menu_items = []
 
         multiple_languages = len(settings.LANGUAGES) > 1
@@ -2107,7 +2114,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     # Return the children of the top level Microsite parent of current page
     def get_bgs_menu_items(self, request=None):
-        parent_page = self.get_parent_page()
+        parent_page = self.get_parent_page(request)
         bgs_menu_items = []
 
         multiple_languages = len(settings.LANGUAGES) > 1

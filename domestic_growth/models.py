@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+from directory_forms_api_client import actions
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -14,17 +15,52 @@ from wagtail.snippets.models import register_snippet
 from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
+from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
+from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
+    get_welcome_event,
+    get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
+    save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
+
+
+class EmailGuideFormMixin:
+    email_guide_form = EmailGuideForm
+    send_email_address = None
+    send_success = False
+
+    def serve(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            self.email_guide_form = EmailGuideForm(data=request.POST)
+
+            if self.email_guide_form.is_valid():
+                self.send_email_address = self.email_guide_form.cleaned_data['email']
+                action = actions.GovNotifyEmailAction(
+                    email_address=self.send_email_address,
+                    template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
+                    form_url=get_guide_url(request),
+                )
+                response = action.save({'guide_url': get_guide_url(request)})
+                response.raise_for_status()
+                # save and reset form after successful send
+                save_email_as_guide_recipient(request, self.send_email_address)
+                self.email_guide_form = EmailGuideForm()
+                self.send_success = True
+        elif request.method == 'GET':
+            # reset on page load
+            self.send_email_address = None
+            self.send_success = False
+
+        return super().serve(request, *args, **kwargs)
 
 
 class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, Page):
@@ -166,10 +202,13 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
+
         return context
 
 
-class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthGuidePagePanels, Page):
+class DomesticGrowthGuidePage(
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthGuidePagePanels, Page
+):
     template = 'guide.html'
 
     cache_control = 'no-cache'
@@ -254,15 +293,9 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -282,11 +315,16 @@ class DomesticGrowthGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGr
             context['trade_associations'] = None
 
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
 
-class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page):
+class DomesticGrowthChildGuidePage(
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthChildGuidePagePanels, Page
+):
     template = 'guide-child.html'
 
     cache_control = 'no-cache'
@@ -380,16 +418,11 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
+        turnover = triage_data.get('turnover', None)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -404,18 +437,22 @@ class DomesticGrowthChildGuidePage(WagtailCacheMixin, SeoMixin, cms_panels.Domes
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['scottish_enterprise_admin_districts'] = constants.SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS
         context['highlands_and_islands_admin_districts'] = constants.HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS
         context['south_of_scotland_enterprises_admin_districts'] = (
             constants.SOUTH_OF_SCOTLAND_ENTERPRISES_ADMIN_DISTRICTS
         )
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
 
 class DomesticGrowthDynamicChildGuidePage(
-    WagtailCacheMixin, SeoMixin, cms_panels.DomesticGrowthDynamicChildGuidePagePanels, Page
+    WagtailCacheMixin, SeoMixin, EmailGuideFormMixin, cms_panels.DomesticGrowthDynamicChildGuidePagePanels, Page
 ):
     template = 'dynamic-guide-child.html'
 
@@ -468,6 +505,12 @@ class DomesticGrowthDynamicChildGuidePage(
                         ),
                         (
                             'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'border_color',
                             blocks.CharBlock(
                                 required=False,
                             ),
@@ -550,6 +593,12 @@ class DomesticGrowthDynamicChildGuidePage(
                             ),
                         ),
                         (
+                            'border_color',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
                             'content',
                             blocks.ListBlock(
                                 SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
@@ -590,18 +639,13 @@ class DomesticGrowthDynamicChildGuidePage(
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        turnover = triage_data.get('turnover', None)
 
         currently_export = triage_data.get('currently_export', False)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
-
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
-
+        if request.GET.get('session_id', False):
+            params = {}
+            params['session_id'] = request.GET.get('session_id')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -613,9 +657,15 @@ class DomesticGrowthDynamicChildGuidePage(
 
         context['is_interested_in_exporting'] = currently_export
         context['events'] = get_events()
+        context['welcome_event'] = get_welcome_event()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['change_answers_link'] = get_change_answers_link(request)
+        context['email_guide_form'] = self.email_guide_form
+        context['send_email_address'] = self.send_email_address
+        context['send_success'] = self.send_success
 
         return context
 
@@ -686,9 +736,6 @@ class DomesticGrowthContent(index.Indexed, models.Model):
 
 
 class StartingABusinessTriage(TimeStampedModel):
-    # never assume email is unique in this table as users can complete the triage in different
-    # browsers / incognito mode
-    email = models.CharField(max_length=255, null=True, blank=True)
     # the session_id is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
     session_id = models.CharField(max_length=40, unique=True)
@@ -697,10 +744,12 @@ class StartingABusinessTriage(TimeStampedModel):
     postcode = models.CharField(max_length=8, null=True, blank=True)
 
 
+class StartingABusinessGuideEmailRecipient(TimeStampedModel):
+    email = models.EmailField(max_length=255)
+    triage = models.ForeignKey(StartingABusinessTriage, on_delete=models.DO_NOTHING)
+
+
 class ExistingBusinessTriage(TimeStampedModel):
-    # never assume email is unique in this table as users can complete the triage in different
-    # browsers / incognito mode
-    email = models.CharField(max_length=255, null=True, blank=True)
     # the session_id is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
     session_id = models.CharField(max_length=40, unique=True)
@@ -714,6 +763,11 @@ class ExistingBusinessTriage(TimeStampedModel):
         max_length=50, null=True, blank=True, choices=choices.EXISTING_BUSINESS_TURNOVER_CHOICES
     )
     currently_export = models.BooleanField(null=True, blank=True)
+
+
+class ExistingBusinessGuideEmailRecipient(TimeStampedModel):
+    email = models.EmailField(max_length=255)
+    triage = models.ForeignKey(ExistingBusinessTriage, on_delete=models.DO_NOTHING)
 
 
 @register_snippet
