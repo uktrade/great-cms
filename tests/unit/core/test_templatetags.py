@@ -11,6 +11,8 @@ from django.http import HttpRequest
 from django.template import Context, Template
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from wagtail.models import Site
+from wagtail_factories import PageFactory, SiteFactory
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.bgs_tags import is_bgs_site
@@ -1365,19 +1367,29 @@ def test_get_is_internal_url(input_data, expected_output):
 
 @override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
 @override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
-def test_google_tag_manager_id_tag_bgs_page():
-    request = HttpRequest()
-    request.site = 'www.hotfix.bgs.uktrade.digital'
-    context = Context({'request': request})
+@mock.patch.object(Site, 'find_for_request')
+@pytest.mark.django_db
+def test_google_tag_manager_id_tag_non_bgs_page(mock_site, root_page):
+    welcome_page = PageFactory(parent=root_page)
+    site = SiteFactory(root_page=welcome_page, id=1)
+    http_request = HttpRequest()
+    http_request.site = site
+    mock_site.return_value = site
+    context = Context({'request': http_request})
     google_tag_manager_id = google_tag_manager_id_tag(context)
-    assert google_tag_manager_id == settings.BGS_GOOGLE_TAG_MANAGER_ID
+    assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
 
 
 @override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
-@override_settings(GOOGLE_TAG_MANAGER_ID='GTM-1234567')
-def test_google_tag_manager_id_tag_non_bgs_page(rf):
-    request = HttpRequest()
-    request.site = 'www.hotfix.great.uktrade.digital'
-    context = Context({'request': request})
+@override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
+@mock.patch.object(Site, 'find_for_request')
+@pytest.mark.django_db
+def test_google_tag_manager_id_tag_bgs_page(mock_site, root_page):
+    welcome_page = PageFactory(parent=root_page)
+    site = SiteFactory(root_page=welcome_page, id=1)
+    http_request = HttpRequest()
+    http_request.site = site
+    mock_site.return_value = site
+    context = Context({'request': http_request})
     google_tag_manager_id = google_tag_manager_id_tag(context)
     assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
