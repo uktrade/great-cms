@@ -1279,7 +1279,9 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             triage_data.sector, geo_area
         )
 
-        page_title = bci_headline.get('geo_description', '')
+        page_title = 'UK nations:'
+        if bci_headline.get('geo_description', '') == 'England':
+            page_title = 'English regions:'
 
         # sort alphabetically by geo description
         bci_detail = sorted(bci_detail, key=lambda e: e['geo_description'])
