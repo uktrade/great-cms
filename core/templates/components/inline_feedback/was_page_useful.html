@@ -25,11 +25,11 @@
                         <button type="submit"
                                 class="button secondary-button small-button"
                                 id="page-useful-yes"
-                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True">Yes</button>
+                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=True"><span class="govuk-visually-hidden">Was this page useful?: </span>Yes</button>
                         <button type="submit"
                                 class="button secondary-button small-button"
                                 id="page-useful-no"
-                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False">No</button>
+                                formaction="{% url 'contact:contact-inline-feedback' %}?page_useful=False"><span class="govuk-visually-hidden">Was this page useful?: </span>No</button>
                     </form>
                 </span>
                 <span id="positive-feedback"

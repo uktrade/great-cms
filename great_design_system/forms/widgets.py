@@ -229,7 +229,7 @@ class RadioSelectConditionalReveal(ChoiceWidget):
         return context
 
 
-class SelectOne(ChoiceWidget):
+class SelectOne(Select):
     """
     New widget that will play nicely with the great-design-system
     """
