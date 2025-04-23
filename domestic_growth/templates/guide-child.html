@@ -104,7 +104,7 @@
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success %}
+                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success hidden_text=page.get_parent.hero_title %}
                     <div class="bgs-show-from-desktop">
                         {% include 'includes/_related-ctas.html' with cta=page.related_cta %}
                     </div>
