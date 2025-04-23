@@ -111,7 +111,7 @@
                                 {% include 'includes/_growth-hub.html' with local_support_data=local_support_data %}
                             </div>
                         {% endwith %}
-                        {% if local_support_data.chambers_of_commerce|length > 0 and local_support_data.postcode_data.country != 'Northern Ireland' %}
+                        {% if local_support_data.chambers_of_commerce|length > 0 %}
                             <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
                                 {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                     <h3 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h3>
@@ -221,18 +221,18 @@
                             <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1">
                                 <button data-hidden-ta-trigger
                                         class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
-                                    Show more
+                                    Show more <span class="govuk-visually-hidden">trade associations in your sector</span>
                                 </button>
                                 <button data-show-ta-trigger
                                         class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
-                                    Show less
+                                    Show less <span class="govuk-visually-hidden">trade associations in your sector</span>
                                 </button>
                             </div>
                         </div>
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success %}
+                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success hidden_text=page.hero_title %}
                 </div>
             </div>
             <div class="govuk-grid-row">
