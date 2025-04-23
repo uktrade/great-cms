@@ -78,7 +78,7 @@
                     {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="Locations of investment opportunities" size="l" description="Find out which UK nations and regions are home to attractive opportunities for your sector." content=tile_content actionLinkText='View more opportunities in this sector' actionLinkHref=more_locations_link %}
+                {% include '_tile.html' with caption=triage_data.sector title="Locations of investment opportunities" size="l" description="Find out which UK nations and regions are home to attractive opportunities for your sector." content=tile_content actionLinkText='Find investment opportunities' actionLinkHref=more_locations_link %}
                 {% endif %}
 
                 {% if events|length > 0 %}
@@ -87,7 +87,11 @@
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True icon_path=event.icon link_url=event.url link_text=event.title location=event.location body=event.description website=event.website %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="UK events" content=tile_content size="l" description="Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector." actionLinkText="View more events for this sector" actionLinkHref=more_events_link %}
+                {% with "UK trade events for the " as prefix %}
+                {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
+                    {% include '_tile.html' with caption=triage_data.sector title="UK events" content=tile_content size="l" description="Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector." actionLinkText=action_text actionLinkHref=more_events_link %}
+                {% endwith %}
+                {% endwith %}
                 {% endif %}
 
                 {% if associations|length > 0 %}
@@ -96,7 +100,11 @@
                     {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText="View more associations for this sector" actionLinkHref=more_associations_link %}
+                {% with "UK trade associations for the " as prefix %}
+                {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
+                    {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText=action_text actionLinkHref=more_associations_link %}
+                {% endwith %}
+                {% endwith %}
                 {% endif %}
 
                 {% capture tile_content %}
