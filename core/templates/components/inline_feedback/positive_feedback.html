@@ -74,7 +74,7 @@
                         class="button primary-button small-button"
                         id="send-feedback-yes"
                         value="yes">Send feedback</button>
-                <a href={{ request.path }}>Cancel</a>
+                <a href="{{ request.path }}{% if qs %}{{ qs }}{% endif %}">Cancel</a>
             </span>
         </form>
     </div>
