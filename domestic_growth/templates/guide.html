@@ -7,19 +7,22 @@
 {% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
-             style="background-image: url({{ hero_image_url }})">
+             style="background-image: url({% if hero_image_url %}{{ hero_image_url }}{% else %}/static/images/triage-bg.jpg{% endif %})">
         <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     <div class="great-ds-bg-white govuk-!-padding-6">
                         {% if page.hero_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">{{ page.hero_title }}</h1>{% endif %}
                         {% if page.hero_intro %}<p class="govuk-body govuk-!-margin-bottom-4">{{ page.hero_intro }}</p>{% endif %}
-                        {% if sector %}
-                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1" %}
-                        {% endif %}
-                        {% if local_support_data.postcode_data.admin_district %}
-                            {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
-                        {% endif %}
+                        <div class="bgs-hero-tags">
+                            {% if sector %}
+                                {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1" %}
+                            {% endif %}
+                            {% if local_support_data.postcode_data.admin_district %}
+                                {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
+                            {% endif %}
+                        </div>
+                        
                         {% include "includes/_change-answers.html" with change_answers_link=change_answers_link %}
                     </div>
                 </div>
@@ -68,7 +71,7 @@
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row bgs-reverse-content">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
-                    {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
+                    {% if page.body_title %}<h2 class="govuk-heading-l {% if page.body_intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-7{% endif %}">{{ page.body_title }}</h2>{% endif %}
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
                         {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
