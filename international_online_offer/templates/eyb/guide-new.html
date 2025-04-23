@@ -13,8 +13,8 @@
         }
     </style>
 {% endblock %}
-{% block head_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
-{% block meta_title %}Welcome to your UK expansion guide {{ block.super }}{% endblock %}
+{% block head_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
+{% block meta_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
     <div class="{% if request.path == '/international/expand-your-business-in-the-uk/guide/' %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' with hide_border=True %}
