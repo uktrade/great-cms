@@ -626,8 +626,6 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
@@ -659,8 +657,6 @@ def footer_bgs(request):
                         'href': '/',
                         'text': 'Find support and information for your business on Business.gov.uk',
                         'title': 'Find support and information for your business on Business.gov.uk',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     },
                 ],
                 [
@@ -668,8 +664,6 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
