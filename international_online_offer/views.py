@@ -1149,6 +1149,15 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
         intent_out += '</ol>'
         return intent_out
+    
+    def get(self, *args, **kwargs):
+        triage_data = get_triage_data_for_user(self.request)
+
+        # an edge case where a user doesn't have triage data
+        if not triage_data or not triage_data.sector:
+            return redirect(reverse_lazy('international_online_offer:sector'))
+
+        return super().get(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_for_user(self.request)
