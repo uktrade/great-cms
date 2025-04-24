@@ -21,8 +21,10 @@
         <form method="post" novalidate>
             {% csrf_token %}
             <fieldset>
+                <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_email_field_description">, edit text email to save and share these pages</div>
+                <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_form_button_description">, save and share these pages</div>
                 <div class="great-ds-form-group govuk-!-margin-bottom-4">{{ email_guide_form }}</div>
-                {% include "_button.html" with text="Email link" %}
+                {% include "_button.html" with text="Email link" attributes="aria-describedby='email_guide_form_button_description'" %}
             </fieldset>
         </form>
     </div>

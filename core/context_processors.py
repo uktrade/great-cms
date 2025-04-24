@@ -565,7 +565,7 @@ def footer_bgs(request):
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
                     },
-                    {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
+                    {'href': '/export-from-uk/markets/', 'text': 'Market guides', 'title': 'Market guides'},
                     {'href': '/export-from-uk/support-topics/', 'text': 'Export support', 'title': 'Export support'},
                     {
                         'href': '/export-from-uk/export-academy/',
