@@ -61,4 +61,9 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamDomesticHCSATFeedbackDataView.as_view()),
         name='domestic-hcsats',
     ),
+    path(
+        'bgst-existing-business-triage/',
+        skip_ga360(activitystream.views.ActivityStreamBGSTStartingABusinessTriageView.as_view()),
+        name='bgst-existing-business-triage/',
+    ),
 ]

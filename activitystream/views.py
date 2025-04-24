@@ -15,6 +15,7 @@ from activitystream.authentication import (
     ActivityStreamHawkResponseMiddleware,
 )
 from activitystream.filters import (
+    ActivityStreamBGSTFilter,
     ActivityStreamCmsContentFilter,
     ActivityStreamExpandYourBusinessFilter,
     ActivityStreamExportAcademyFilter,
@@ -22,12 +23,14 @@ from activitystream.filters import (
     PageFilter,
 )
 from activitystream.pagination import (
+    ActivityStreamBasePagination,
     ActivityStreamCmsContentPagination,
     ActivityStreamExpandYourBusinessPagination,
     ActivityStreamExportAcademyPagination,
     ActivityStreamHCSATPagination,
 )
 from activitystream.serializers import (
+    ActivityStreamBGSTStartingABusinessTriageSerializer,
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
@@ -40,6 +43,12 @@ from activitystream.serializers import (
 )
 from core.models import HCSAT, MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
+from domestic_growth.models import (
+    ExistingBusinessGuideEmailRecipient,
+    ExistingBusinessTriage,
+    StartingABusinessGuideEmailRecipient,
+    StartingABusinessTriage,
+)
 from export_academy.models import (
     Booking,
     Event,
@@ -172,7 +181,7 @@ class ActivityStreamBaseView(ListAPIView):
     permission_classes = ()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    # @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request, *args, **kwargs):
         """A single page of activities to be consumed by activity stream."""
         return super().list(request, *args, **kwargs)
@@ -274,3 +283,20 @@ class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
 
     queryset = HCSAT.objects.all()
     serializer_class = ActivityStreamDomesticHCSATUserFeedbackDataSerializer
+
+
+class ActivityStreamBGSTBaseView(ActivityStreamBaseView):
+    #### remove ###
+    authentication_classes = []
+    permission_classes = []
+    ###############
+    filterset_class = ActivityStreamBGSTFilter
+    pagination_class = ActivityStreamBasePagination
+
+    def get_queryset(self):
+        return self.queryset.order_by('id')
+
+
+class ActivityStreamBGSTStartingABusinessTriageView(ActivityStreamBGSTBaseView):
+    queryset = StartingABusinessTriage.objects.all()
+    serializer_class = ActivityStreamBGSTStartingABusinessTriageSerializer

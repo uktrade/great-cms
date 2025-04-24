@@ -7,6 +7,12 @@ from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import HCSAT, GreatMedia, MicrositePage
 from domestic.models import ArticlePage
+from domestic_growth.models import (
+    ExistingBusinessGuideEmailRecipient,
+    ExistingBusinessTriage,
+    StartingABusinessGuideEmailRecipient,
+    StartingABusinessTriage,
+)
 from export_academy.models import (
     Booking,
     Event,
@@ -571,6 +577,27 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
         Prefix field names to match activity stream format
         """
         prefix = 'dit:domestic:HCSATFeedbackData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamBGSTStartingABusinessTriageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StartingABusinessTriage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        prefix = 'dbt:bgs:StartingABusinessTriage'
         type = 'Update'
 
         return {
