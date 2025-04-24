@@ -1295,3 +1295,11 @@ section.bgs-guide-hero {
     display: block;
   }
 }
+
+.bgs-hero-tags {
+  strong:first-of-type {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 10px;
+    }
+  }
+}

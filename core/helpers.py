@@ -921,4 +921,5 @@ def send_hcsat_feedback(data: HCSAT) -> None:
 
 
 def is_bgs_site(root_url):
+    sentry_sdk.capture_message(f'BGS_SITE: {settings.BGS_SITE} match root_url: {root_url}')
     return settings.BGS_SITE in root_url

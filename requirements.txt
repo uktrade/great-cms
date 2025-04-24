@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.26.0
+sentry-sdk==2.26.1
     # via -r requirements.in
 sigauth==5.3.0
     # via
