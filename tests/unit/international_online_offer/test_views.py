@@ -727,10 +727,6 @@ def test_edit_your_answers(client, user):
         agree_info_email=False,
         duns_number='12345',
     )
-    TriageData.objects.update_or_create(
-        hashed_uuid='123',
-        defaults={'sector': "Food and drink"},
-    )
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200

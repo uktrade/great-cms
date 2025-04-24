@@ -1149,7 +1149,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
         intent_out += '</ol>'
         return intent_out
-    
+
     def get(self, *args, **kwargs):
         triage_data = get_triage_data_for_user(self.request)
 
