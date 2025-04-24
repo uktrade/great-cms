@@ -728,7 +728,7 @@ regex==2024.11.6
     # via
     #   dateparser
     #   djlint
-reportlab==4.0.9
+reportlab==4.4.0
     # via
     #   svglib
     #   xhtml2pdf
@@ -974,7 +974,7 @@ wrapt==1.17.2
     #   opentelemetry-instrumentation
 wsproto==1.2.0
     # via trio-websocket
-xhtml2pdf==0.2.15
+xhtml2pdf==0.2.16
     # via -r requirements.in
 zipp==3.21.0
     # via importlib-metadata

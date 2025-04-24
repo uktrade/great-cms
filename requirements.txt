@@ -482,7 +482,7 @@ redis==5.2.1
     #   django-redis
 regex==2024.11.6
     # via dateparser
-reportlab==4.0.9
+reportlab==4.4.0
     # via
     #   svglib
     #   xhtml2pdf
@@ -504,7 +504,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.26.1
+sentry-sdk==2.27.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -647,7 +647,7 @@ wrapt==1.17.2
     # via
     #   deprecated
     #   opentelemetry-instrumentation
-xhtml2pdf==0.2.15
+xhtml2pdf==0.2.16
     # via -r requirements.in
 zipp==3.21.0
     # via importlib-metadata
