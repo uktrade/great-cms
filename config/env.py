@@ -104,6 +104,7 @@ class BaseSettings(PydanticBaseSettings):
     sso_oauth2_google_url: str
 
     google_tag_manager_id: str
+    bgs_google_tag_manager_id: str = ''
     google_tag_manager_env: str = ''
     utm_cookie_domain: str
 
