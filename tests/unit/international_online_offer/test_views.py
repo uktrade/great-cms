@@ -716,7 +716,7 @@ def test_eyb_contact_details_initial(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_edit_your_answers(mock_get_country_region_territory, client, user, settings):
+def test_edit_your_answers(client, user):
     url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'
     UserData.objects.create(
@@ -726,6 +726,10 @@ def test_edit_your_answers(mock_get_country_region_territory, client, user, sett
         telephone_number='07923456787',
         agree_info_email=False,
         duns_number='12345',
+    )
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': "Food and drink"},
     )
     client.force_login(user)
     response = client.get(url)
