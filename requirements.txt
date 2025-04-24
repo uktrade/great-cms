@@ -256,7 +256,7 @@ great-components==2.7.2
     # via -r requirements.in
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements.in
 hashids==0.8.4
     # via -r requirements.in
@@ -408,7 +408,7 @@ pre-commit==3.8.0
     # via django-log-formatter-asim
 prompt-toolkit==3.0.51
     # via click-repl
-protobuf==4.25.6
+protobuf==4.25.7
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
