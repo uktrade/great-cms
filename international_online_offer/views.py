@@ -1155,7 +1155,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
         # an edge case where a user doesn't have triage data
         if not triage_data or not triage_data.sector:
-            return redirect(reverse_lazy('international_online_offer:sector'))
+            return redirect(reverse_lazy('international_online_offer:business-sector'))
 
         return super().get(*args, **kwargs)
 
@@ -1525,7 +1525,7 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
         # an edge case where a user doesn't have triage data or a sector in which case
         # it isn't possible to display meaningful bci information
         if not triage_data or not triage_data.sector:
-            return redirect(reverse_lazy('international_online_offer:sector'))
+            return redirect(reverse_lazy('international_online_offer:business-sector'))
 
         return super().get(*args, **kwargs)
 
