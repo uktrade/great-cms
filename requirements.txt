@@ -88,7 +88,7 @@ click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.5
     # via django-celery-beat
-cryptography==43.0.1
+cryptography==44.0.1
     # via
     #   -r requirements.in
     #   pyhanko
