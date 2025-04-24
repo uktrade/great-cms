@@ -254,9 +254,11 @@ googleapis-common-protos==1.70.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
+greenlet==3.2.1
+    # via sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements.in
 hashids==0.8.4
     # via -r requirements.in
