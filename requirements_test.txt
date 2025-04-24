@@ -186,7 +186,7 @@ distlib==0.3.9
     # via virtualenv
 dj-database-url==2.2.0
     # via -r requirements.in
-django==4.2.19
+django==4.2.20
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -362,7 +362,9 @@ googleapis-common-protos==1.70.0
 great-components==2.7.2
     # via -r requirements.in
 greenlet==3.2.1
-    # via gevent
+    # via
+    #   gevent
+    #   sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==23.0.0
