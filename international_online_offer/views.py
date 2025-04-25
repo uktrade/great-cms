@@ -1372,15 +1372,15 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
         contact_details_rows = [
             {
                 'key': {'text': 'Full name'},
-                'value': {'html': user_data.full_name},
+                'value': {'html': user_data.full_name if user_data.full_name else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">Enter full name</a>'},
             },
             {
                 'key': {'text': 'Job title'},
-                'value': {'html': user_data.role},
+                'value': {'html': user_data.role if user_data.role else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">Enter job title</a>'},
             },
             {
                 'key': {'text': 'Phone number'},
-                'value': {'html': user_data.telephone_number},
+                'value': {'html': user_data.telephone_number if user_data.telephone_number else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">Enter phone number</a>'},
             },
             {
                 'key': {'text': 'Receive emails from partner organisations'},
