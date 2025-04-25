@@ -4,7 +4,7 @@
     {% if email_guide_form.errors %}Error: {% endif %}
     {{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk
 {% endblock %}
-{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
+{% block meta_tags %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
              style="background-image: url({% if hero_image_url %}{{ hero_image_url }}{% else %}/static/images/triage-bg.jpg{% endif %})">
@@ -221,7 +221,7 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1">
+                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1" id="trade-associations-footer">
                                 <button data-hidden-ta-trigger
                                         class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
                                     Show more <span class="govuk-visually-hidden">trade associations in your sector</span>
