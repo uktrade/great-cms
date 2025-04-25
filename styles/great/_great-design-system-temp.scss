@@ -1208,13 +1208,13 @@ section.bgs-guide-hero {
 
 #bgs-homepage-benefits {
   .govuk-grid-row {
-    @media only screen and (min-width: 641px) and (max-width: 1440px) {
+    @include govuk-media-query($from: tablet) {
       display: flex;
     }
   }
 
   .bgs-benefit-card > div {
-    @media only screen and (min-width: 641px) and (max-width: 1440px) {
+    @include govuk-media-query($from: tablet) {
       height: 100%;
     }
   }
