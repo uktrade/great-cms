@@ -729,7 +729,7 @@ def test_edit_your_answers(client, user):
     )
     client.force_login(user)
     response = client.get(url)
-    assert response.status_code == 302
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
