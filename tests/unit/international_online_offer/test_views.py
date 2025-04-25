@@ -19,6 +19,7 @@ from international_online_offer.core import (
 )
 from international_online_offer.models import TradeAssociation, TriageData, UserData
 from international_online_offer.views import TradeAssociationsView
+from tests.unit.international_online_offer.factories import UserDataFactory, TriageDataFactory
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -173,7 +174,7 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
         ('international_online_offer:location', True, 200),
         ('international_online_offer:hiring', True, 200),
         ('international_online_offer:spend', True, 200),
-        ('international_online_offer:change-your-answers', True, 200),
+        ('international_online_offer:change-your-answers', True, 302),
         ('international_online_offer:about-your-business', False, 200),
         ('international_online_offer:business-headquarters', False, 200),
         ('international_online_offer:find-your-company', False, 200),
@@ -719,17 +720,10 @@ def test_eyb_contact_details_initial(client, user, settings):
 def test_edit_your_answers(client, user):
     url = reverse('international_online_offer:change-your-answers')
     user.hashed_uuid = '123'
-    UserData.objects.create(
-        hashed_uuid=user.hashed_uuid,
-        full_name='Joe Bloggs',
-        role='Director',
-        telephone_number='07923456787',
-        agree_info_email=False,
-        duns_number='12345',
-    )
+    UserDataFactory(hashed_uuid=user.hashed_uuid)
     client.force_login(user)
     response = client.get(url)
-    assert response.status_code == 200
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db
