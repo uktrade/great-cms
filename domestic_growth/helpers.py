@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.db.models.base import Model
 from django.forms.models import model_to_dict
@@ -159,14 +160,18 @@ def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
 
 
 def get_events():
-    events = list(Event.objects.all())
+    events = list(Event.objects.filter(start_date__gte=datetime.now()).order_by('start_date').all())
 
     return events[:3]
 
 
 def get_welcome_event():
     match = False
-    events = list(Event.objects.filter(types__name__contains='Welcome'))
+    events = list(
+        Event.objects.filter(start_date__gte=datetime.now(), types__name__contains='Welcome')
+        .order_by('start_date')
+        .all()
+    )
 
     if len(events) > 0:
         match = events[0]

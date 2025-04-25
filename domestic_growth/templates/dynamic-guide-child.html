@@ -111,7 +111,7 @@
                                                 {% for event in events %}
                                                     {% with weekday=event.start_date|date:"l" date=event.start_date|date:"j M" time=event.start_date|date:"g:iA"|lower duration=event.start_date|timesince:event.end_date %}
                                                         <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
-                                                            {% include "includes/_modified-card.html" with hideMetaText=True date=event.start_date|date:"j" month=event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=event.name href=event.link description=event.description id=event.id hideArrow="true" %}
+                                                            {% include "includes/_modified-card.html" with hideMetaText=True date=event.start_date|date:"j" month=event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=event.name href=event.get_absolute_url description=event.description id=event.id hideArrow="true" %}
                                                         </div>
                                                     {% endwith %}
                                                 {% endfor %}
@@ -167,7 +167,7 @@
                                         {% if welcome_event and not forloop.first %}
                                             {% with weekday=welcome_event.start_date|date:"l" date=welcome_event.start_date|date:"j M" time=welcome_event.start_date|date:"g:iA"|lower duration=welcome_event.start_date|timesince:welcome_event.end_date %}
                                                 <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
-                                                    {% include "includes/_modified-card.html" with hideMetaText=True date=welcome_event.start_date|date:"j" month=welcome_event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=welcome_event.name href=welcome_event.link description=welcome_event.description id=welcome_event.id hideArrow="true" %}
+                                                    {% include "includes/_modified-card.html" with hideMetaText=True date=welcome_event.start_date|date:"j" month=welcome_event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=welcome_event.name href=welcome_event.get_absolute_url description=welcome_event.description id=welcome_event.id hideArrow="true" %}
                                                 </div>
                                             {% endwith %}
                                         {% endif %}
