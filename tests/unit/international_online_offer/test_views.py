@@ -186,7 +186,7 @@ def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
         ('international_online_offer:location', False, 200),
         ('international_online_offer:hiring', False, 200),
         ('international_online_offer:spend', False, 200),
-        ('international_online_offer:change-your-answers', False, 200),
+        ('international_online_offer:change-your-answers', False, 302),
     ),
 )
 @pytest.mark.django_db
