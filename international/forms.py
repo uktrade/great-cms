@@ -15,7 +15,7 @@ from international.choices import INTENSION_CHOICES
 
 class ContactForm(forms.Form):
     how_we_can_help = CharField(
-        label='What were you trying to do?',
+        label='What can we help with you with?',
         help_text="""For example, following a link to a page and getting an error message.
         Do not include personal or commercially sensitive information.""",
         max_length=1000,

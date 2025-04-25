@@ -1,4 +1,8 @@
 {% extends 'includes/base_triage.html' %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Location - starting a business - Business.gov.uk
+{% endblock %}
 {% block form %}
     <form method="post">
         {% csrf_token %}

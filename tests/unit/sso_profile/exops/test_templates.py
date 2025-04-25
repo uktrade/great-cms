@@ -1,11 +1,15 @@
 import pytest
+from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 pytestmark = pytest.mark.django_db
 
 
 def render_html(email_alerts):
-    context = {'exops_data': {'email_alerts': email_alerts}}
+    http_request = HttpRequest()
+    http_request.META['HTTP_HOST'] = 'example.com'
+    http_request.META['SERVER_PORT'] = '8080'
+    context = {'exops_data': {'email_alerts': email_alerts}, 'request': http_request}
     return render_to_string('exops/is-exops-user-email-alerts.html', context)
 
 

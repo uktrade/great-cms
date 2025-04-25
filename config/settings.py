@@ -619,6 +619,7 @@ AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 
 # Google tag manager
 GOOGLE_TAG_MANAGER_ID = env.google_tag_manager_id
+BGS_GOOGLE_TAG_MANAGER_ID = env.bgs_google_tag_manager_id
 GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'

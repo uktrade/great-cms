@@ -1,6 +1,8 @@
+{% load google_tag_manager_id_tag from ga_tags %}
+{% google_tag_manager_id_tag as TAG_MANAGER_ID %}
 {# djlint:off H021 #}
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ GOOGLE_TAG_MANAGER_ID }}{{ GOOGLE_TAG_MANAGER_ENV|safe }}"
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ TAG_MANAGER_ID }}{{ GOOGLE_TAG_MANAGER_ENV|safe }}"
         height="0"
         width="0"
         style="display:none;

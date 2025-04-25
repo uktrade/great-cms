@@ -167,7 +167,14 @@ class ExistingBusinessCurrentlyExportForm(forms.Form):
 class EmailGuideForm(forms.Form):
     email = forms.CharField(
         label='Email address',
-        widget=forms.TextInput(attrs={'autocomplete': 'email', 'type': 'email', 'spellcheck': 'false'}),
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete': 'email',
+                'type': 'email',
+                'spellcheck': 'false',
+                'aria-describedby': 'email_guide_email_field_description',
+            }
+        ),
         required=True,
         error_messages={
             'required': 'Enter an email address',
