@@ -377,6 +377,12 @@ class DomesticGrowthChildGuidePage(
                             ),
                         ),
                         (
+                            'border_color',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
                             'content',
                             blocks.ListBlock(
                                 SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
