@@ -7,6 +7,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from wagtailcache.cache import WagtailCacheMixin
 
+from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted
@@ -42,7 +43,11 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return success_url
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs, back_url=self.get_back_url())
+        return super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+            site='Business.gov.uk' if settings.FEATURE_DOMESTIC_GROWTH else 'great.gov.uk',
+        )
 
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
@@ -105,7 +110,11 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         return back_url
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs, back_url=self.get_back_url())
+        context = super().get_context_data(
+            **kwargs,
+            back_url=self.get_back_url(),
+            site='Business.gov.uk' if settings.FEATURE_DOMESTIC_GROWTH else 'great.gov.uk',
+        )
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
             context['hcsat_form'] = kwargs['form']
