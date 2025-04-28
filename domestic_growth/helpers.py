@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+from django.conf import settings
 from django.db.models.base import Model
 from django.forms.models import model_to_dict
 from django.http import HttpRequest
@@ -183,13 +184,45 @@ def get_trade_associations_file():
     json_data = open('domestic_growth/fixtures/trade_associations.json')
     deserialised_data = json.load(json_data)
     json_data.close()
-    return deserialised_data
+
+    mapped_ta_data = []
+
+    for ta in deserialised_data:
+        _ta = ta
+
+        if _ta.get('regions', False) == '':
+            _ta['regions'] = None
+
+        mapped_ta_data.append(_ta)
+
+    return mapped_ta_data
 
 
-def get_trade_association_results(trade_associations, sector, sub_sector):
+def get_filtered_trade_associations(trade_associations, local_support_data):
+    region = None
+    filtered_trade_associations = []
+
+    if local_support_data:
+        region = (
+            local_support_data.get('postcode_data').get('region')
+            if local_support_data.get('postcode_data').get('region')
+            else local_support_data.get('postcode_data').get('country')
+        )
+
+        for ta in trade_associations:
+            if ta.get('regions') is None or region in ta.get('regions'):
+                filtered_trade_associations.append(ta)
+
+        return filtered_trade_associations
+
+    return trade_associations
+
+
+def get_trade_association_results(trade_associations, sector, sub_sector, local_support_data):
     sector_tas = []
+    filtered_trade_associations = get_filtered_trade_associations(trade_associations, local_support_data)
 
-    for ta in trade_associations:
+    for ta in filtered_trade_associations:
         if sector in ta.get('sectors'):
             sector_tas.append(ta)
 
@@ -198,7 +231,7 @@ def get_trade_association_results(trade_associations, sector, sub_sector):
 
     if not sub_sector:
         return {
-            'sector_tas': sector_tas,
+            'sector_tas': sorted(sector_tas, key=lambda x: x['regions'] is None),
         }
 
     sub_sector_tas = []
@@ -213,7 +246,8 @@ def get_trade_association_results(trade_associations, sector, sub_sector):
             sector_only_tas.append(ta)
 
     return {
-        'sub_sector_and_sector_only_tas': sub_sector_tas + sector_only_tas,
+        'sub_sector_and_sector_only_tas': sorted(sub_sector_tas, key=lambda x: x['regions'] is None)
+        + sorted(sector_only_tas, key=lambda x: x['regions'] is None),
     }
 
 
@@ -228,6 +262,21 @@ def get_change_answers_link(request: HttpRequest) -> str:
         return triage_start_url + f"?session_id={request.GET.get('session_id')}"
 
     return triage_start_url
+
+
+def get_change_sector_link(request: HttpRequest) -> str:
+    triage_sector_url = None
+
+    if settings.FEATURE_DOMESTIC_GROWTH:
+        if PRE_START_GUIDE_URL in request.path:
+            triage_sector_url = reverse('domestic_growth:domestic-growth-pre-start-sector')
+        else:
+            triage_sector_url = reverse('domestic_growth:domestic-growth-existing-sector')
+
+        if request.GET.get('session_id', False):
+            return triage_sector_url + f"?session_id={request.GET.get('session_id')}"
+
+    return triage_sector_url
 
 
 def get_guide_url(request: HttpRequest) -> str:

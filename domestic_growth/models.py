@@ -22,6 +22,7 @@ from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
+    get_change_sector_link,
     get_events,
     get_guide_url,
     get_trade_association_results,
@@ -292,6 +293,7 @@ class DomesticGrowthGuidePage(
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
+        local_support_data = None
 
         if request.GET.get('session_id', False):
             params = {}
@@ -299,22 +301,28 @@ class DomesticGrowthGuidePage(
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
-            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+            local_support_data = helpers.get_local_support_by_postcode(postcode)
+            context['local_support_data'] = local_support_data
 
         if sector:
-            sector_trade_associations = get_trade_association_results(trade_associations, sector, None)
+            sector_trade_associations = get_trade_association_results(
+                trade_associations, sector, None, local_support_data
+            )
 
             context['trade_associations'] = sector_trade_associations
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
             if sub_sector:
-                context['trade_associations'] = get_trade_association_results(trade_associations, sector, sub_sector)
+                context['trade_associations'] = get_trade_association_results(
+                    trade_associations, sector, sub_sector, local_support_data
+                )
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
 
         context['change_answers_link'] = get_change_answers_link(request)
+        context['change_sector_link'] = get_change_sector_link(request)
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
