@@ -5,6 +5,7 @@ from django.forms import (
     Textarea,
     TextInput,
 )
+from django.utils.safestring import mark_safe
 from great_components import forms
 
 from core.forms import HCSATForm as DomesticHCSATForm
@@ -36,7 +37,11 @@ class ContactForm(forms.Form):
     )
     email = CharField(
         label='Your email address',
-        help_text="We'll only use this to reply to your message",
+        help_text=mark_safe(
+            """By sending us your enquiry, you agree to our
+        <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
+        <a href='/privacy' target="_blank">privacy notice</a>."""
+        ),
         max_length=255,
         required=True,
         validators=[is_valid_email_address],
