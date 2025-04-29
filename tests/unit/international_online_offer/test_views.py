@@ -19,9 +19,9 @@ from international_online_offer.core import (
 )
 from international_online_offer.models import TradeAssociation, TriageData, UserData
 from international_online_offer.views import TradeAssociationsView
-from tests.unit.international_online_offer.factories import UserDataFactory
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
+from tests.unit.international_online_offer.factories import UserDataFactory
 
 
 @pytest.mark.django_db
