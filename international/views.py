@@ -31,7 +31,10 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_back_url(self):
-        back_url = '/'
+        if settings.FEATURE_DOMESTIC_GROWTH:
+            back_url = '/'
+        else:
+            back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -46,7 +49,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            site='Business.gov.uk' if settings.FEATURE_DOMESTIC_GROWTH else 'great.gov.uk',
+            bgs_flag=settings.FEATURE_DOMESTIC_GROWTH,
         )
 
     def submit_feedback(self, form):
@@ -104,7 +107,10 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         return success_url
 
     def get_back_url(self):
-        back_url = '/international/'
+        if settings.FEATURE_DOMESTIC_GROWTH:
+            back_url = '/'
+        else:
+            back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
