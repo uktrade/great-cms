@@ -31,7 +31,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_back_url(self):
-        back_url = '/international/'
+        back_url = '/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
