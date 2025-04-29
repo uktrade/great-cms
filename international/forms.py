@@ -5,7 +5,6 @@ from django.forms import (
     Textarea,
     TextInput,
 )
-from django.utils.safestring import mark_safe
 from great_components import forms
 
 from core.forms import HCSATForm as DomesticHCSATForm
@@ -17,13 +16,11 @@ from international.choices import INTENSION_CHOICES
 class ContactForm(forms.Form):
     how_we_can_help = CharField(
         label='What can we help with you with?',
-        help_text="""For example, following a link to a page and getting an error message.
-        Do not include personal or commercially sensitive information.""",
         max_length=1000,
         required=True,
         error_messages={
-            'required': ('Enter information on what you were trying to do'),
-            'max_length': ('Information on what you were trying to do must be no more than 1,000 characters'),
+            'required': ('Enter information on what you want help with'),
+            'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
@@ -37,11 +34,6 @@ class ContactForm(forms.Form):
     )
     email = CharField(
         label='Your email address',
-        help_text=mark_safe(
-            """By sending us your enquiry, you agree to our
-        <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
-        <a href='/privacy' target="_blank">privacy notice</a>."""
-        ),
         max_length=255,
         required=True,
         validators=[is_valid_email_address],
