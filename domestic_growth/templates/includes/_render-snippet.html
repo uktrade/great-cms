@@ -51,14 +51,18 @@
                             {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
                         {% endif %}
                     {% endwith %}
-                {% elif snippet_name == 'Innovate UK Business Connect' and sector  %}
-                    {% with snippet_content=content|sector_snippet:sector %}
-                        {% if snippet_content %}
-                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
-                        {% else %}
-                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
-                        {% endif %}
-                    {% endwith %}
+                {% elif snippet_name == 'Innovate UK Business Connect' %}
+                    {% if sector %}
+                        {% with snippet_content=content|sector_snippet:sector %}
+                            {% if snippet_content %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                            {% else %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endfor %}
