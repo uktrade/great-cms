@@ -102,7 +102,9 @@
                     <div id="sign-up-confirm">
                         <h1 class="govuk-heading-l">Check your email</h1>
                         <!-- djlint:off T027-->
+                         <div class="eyb-signup">
                         {% include '_inset-text.html' with html="We've sent an email to: <strong>"|add:request.GET.email|add:"</strong>" %}
+                        </div>
                         <!-- djlint:on -->
                         <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
                         <p class="govuk-body">

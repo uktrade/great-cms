@@ -1,0 +1,14 @@
+.eyb-signup {
+    background-color: $great-light-blue;
+    .eyb-preview-image {
+        background-position: top right;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 100%;
+        max-width: 600px;
+        height: 370px;
+        margin-right: auto;
+        margin-left: auto;
+        background-image: url('/static/svg/eyb-preview.svg')
+    }
+}
