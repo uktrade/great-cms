@@ -19,9 +19,17 @@ class BookingMixin(GovNotifyEmailActionMixin):
 
     def send_email_confirmation(self, booking_object, post_data):
         if post_data['status'] == booking_object.CONFIRMED:
-            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
+            if settings.FEATURE_USE_BGS_TEMPLATES:
+                pass
+            else:
+                template_id = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
+            self.notify_template = template_id
         else:
-            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
+            if settings.FEATURE_USE_BGS_TEMPLATES:
+                pass
+            else:
+                template_id = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
+            self.notify_template = template_id
 
         notify_data = dict(
             first_name=booking_object.registration.first_name,

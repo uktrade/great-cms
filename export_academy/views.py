@@ -482,7 +482,10 @@ class RegistrationMarketingSources(
     form_class = forms.MarketingSources
     model = models.Registration
     template_name = 'export_academy/registration_form_step4.html'
-    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+    if settings.FEATURE_USE_BGS_TEMPLATES:
+        pass
+    else:
+        notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -519,7 +522,10 @@ class RegistrationConfirmChoices(
     model = models.Registration
     booking_model = models.Booking
     form_class = forms.RegistrationConfirm
-    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+    if settings.FEATURE_USE_BGS_TEMPLATES:
+        pass
+    else:
+        notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
     booking_id = ''
 
     def submit_registration(self):

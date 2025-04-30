@@ -386,6 +386,8 @@ class BaseSettings(PydanticBaseSettings):
 
     bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
 
+    feature_use_bgs_templates: bool = False
+
 
 class CIEnvironment(BaseSettings):
     database_url: str

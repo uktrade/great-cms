@@ -10,7 +10,7 @@ import pytest
 from directory_forms_api_client import actions
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from wagtail_factories import DocumentFactory
@@ -48,16 +48,18 @@ def next_url():
 
 @pytest.fixture
 def test_unique_link_query_params():
-    registration = Registration(first_name='test', last_name='test', email='test@example.com', external_id='123456789')
+    registration = Registration(
+        first_name='test', last_name='test', email='test@example.com', external_id='123456789'  # /PS-IGNORE
+    )
     registration.save()
-    idb64 = base64.b64encode(bytes(registration.external_id, 'utf-8'))
+    idb64 = base64.b64encode(bytes(registration.external_id, 'utf-8'))  # /PS-IGNORE
     token = hashlib.sha256(registration.email.encode('UTF-8')).hexdigest()
     return f'?idb64={idb64.decode("utf-8")}&token={token}'
 
 
 @pytest.fixture
 def signup_post_request_unique_link(client, test_unique_link_query_params):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}
+    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}  # /PS-IGNORE
 
     def post_request():
         return client.post(reverse('export_academy:signup') + test_unique_link_query_params, data=form_data)
@@ -67,7 +69,7 @@ def signup_post_request_unique_link(client, test_unique_link_query_params):
 
 @pytest.fixture
 def signup_form_post_request_new_user(client):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}
+    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}  # /PS-IGNORE
 
     def post_request():
         return client.post(reverse('export_academy:signup'), data=form_data)
@@ -77,7 +79,7 @@ def signup_form_post_request_new_user(client):
 
 @pytest.fixture
 def signup_post_request_unique_link_with_next(client, test_unique_link_query_params, next_url):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}
+    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}  # /PS-IGNORE
 
     def post_request():
         return client.post(
@@ -89,7 +91,7 @@ def signup_post_request_unique_link_with_next(client, test_unique_link_query_par
 
 @pytest.fixture
 def signup_form_post_request_new_user_with_next(client, next_url):
-    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}
+    form_data = {'email': 'test@example.com', 'password': 'newPassword', 'mobile_phone_number': ''}  # /PS-IGNORE
 
     def post_request():
         return client.post(reverse('export_academy:signup') + f'?next={next_url}', data=form_data)
@@ -104,13 +106,13 @@ def uidb64():
 
 @pytest.fixture
 def token():
-    return 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
+    return 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'  # /PS-IGNORE
 
 
 @pytest.fixture
 def signin_form_post_request(client):
-    registration = factories.RegistrationFactory(email='test@example.com')
-    form_data = {'email': 'test@example.com', 'password': 'mypassword'}
+    registration = factories.RegistrationFactory(email='test@example.com')  # /PS-IGNORE
+    form_data = {'email': 'test@example.com', 'password': 'mypassword'}  # /PS-IGNORE
 
     def post_request():
         return client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
@@ -349,15 +351,15 @@ def test_csat_user_feedback_submit_with_javascript(
         (
             reverse('export_academy:registration-details'),
             {
-                'first_name': 'Test name',
-                'last_name': 'Test last',
+                'first_name': 'Test name',  # /PS-IGNORE
+                'last_name': 'Test last',  # /PS-IGNORE
                 'job_title': 'Astronaut',
-                'phone_number': '072345678910',
+                'phone_number': '072345678910',  # /PS-IGNORE
             },
             reverse('export_academy:registration-experience'),
             {
-                'first_name': 'Enter your first name',
-                'last_name': 'Enter your last name',
+                'first_name': 'Enter your first n  # /PS-IGNOREame',
+                'last_name': 'Enter your last name',  # /PS-IGNORE
                 'job_title': 'Enter your job title',
                 'phone_number': 'Enter your telephone number',
             },
@@ -381,7 +383,7 @@ def test_csat_user_feedback_submit_with_javascript(
             {
                 'business_name': 'Test Business',
                 'business_address_line_1': '1 Main Street',
-                'business_postcode': 'SW1A 1AA',
+                'business_postcode': 'SW1A 1AA',  # /PS-IGNORE
                 'annual_turnover': 'Up to £85,000',
                 'employee_count': '10 to 49',
             },
@@ -458,6 +460,7 @@ def test_export_academy_registration_form_pages(
         invalid_form_data = form_data.copy()
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 @pytest.mark.django_db
 def test_export_academy_registration_success(
@@ -493,6 +496,7 @@ def test_export_academy_registration_success(
     assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})
 
     assert mock_action_class.call_count == 2
+
     assert mock_action_class.call_args_list[0] == mock.call(
         template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
         email_address=user.email,
@@ -537,6 +541,7 @@ def test_export_academy_booking_redirect(client, user):
     assert response.url == reverse('export_academy:registration', kwargs=dict(event_id=event.id))
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 @pytest.mark.django_db
 def test_export_academy_booking_success(mock_notify_booking, client, user):
@@ -570,6 +575,7 @@ def test_export_academy_booking_success(mock_notify_booking, client, user):
     ]
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 @pytest.mark.django_db
 def test_export_academy_booking_cancellation_success(mock_notify_cancellation, client, user):
@@ -758,7 +764,7 @@ def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_li
     response = client.get(url)
     assert response.status_code == 200
     if unique_link:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
     assert expected_page_heading in response.content.decode()
 
 
@@ -771,7 +777,7 @@ def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_li
 )
 @pytest.mark.django_db
 def test_sign_up_empty_password(client, unique_link, test_unique_link_query_params):
-    form_data = {'email': 'test@example.com', 'mobile_phone_number': ''}
+    form_data = {'email': 'test@example.com', 'mobile_phone_number': ''}  # /PS-IGNORE
     url = reverse('export_academy:signup')
     if unique_link:
         url += test_unique_link_query_params
@@ -779,7 +785,7 @@ def test_sign_up_empty_password(client, unique_link, test_unique_link_query_para
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
     if unique_link:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
 
 
 @pytest.mark.parametrize(
@@ -804,7 +810,7 @@ def test_sign_up_400_error(
     assert response.context['form'].errors['password'] == ["This password contains the word 'password'"]
     assert response.status_code == 200
     if user_ea_registered:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
 
 
 @pytest.mark.parametrize(
@@ -840,7 +846,7 @@ def test_signup_create_password_success(
 
     assert mock_send_verification_code_email.call_count == 1
     assert mock_send_verification_code_email.call_args == mock.call(
-        email='test@example.com',
+        email='test@example.com',  # /PS-IGNORE
         verification_code={
             'code': '19507',
             'expiration_date': '2023-06-19T11:00:00Z',
@@ -884,7 +890,7 @@ def test_sign_up_code_already_sent(
     next,
 ):
     uidb64 = 'MjE1ODk1'
-    token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
+    token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'  # /PS-IGNORE
     mock_create_user.return_value = create_response(status_code=409)
 
     if user_ea_registered:
@@ -941,7 +947,9 @@ def test_sign_up_already_registered(
 
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
-        email='test@example.com', form_url='/export-academy/signup', login_url='http://testserver/export-academy/signin'
+        email='test@example.com',  # /PS-IGNORE
+        form_url='/export-academy/signup',
+        login_url='http://testserver/export-academy/signin',  # /PS-IGNORE
     )
     assert response.status_code == 302
     response_location_url = response['Location'].split('?')[0]
@@ -1004,7 +1012,7 @@ def test_verification_page_code_expired(
     query_params,
 ):
     mock_verify_verification_code.return_value = create_response(
-        status_code=422, json_body={'email': 'test@example.com'}
+        status_code=422, json_body={'email': 'test@example.com'}  # /PS-IGNORE
     )
     query_params = query_params.replace('next_url', next_url)
     response = client.post(
@@ -1015,10 +1023,10 @@ def test_verification_page_code_expired(
     assert mock_regenerate_verification_code.call_count == 1
     assert mock_send_verification_code_email.call_count == 1
     assert mock_send_verification_code_email.call_args == mock.call(
-        email='test@example.com',
+        email='test@example.com',  # /PS-IGNORE
         verification_code={
             'user_uidb64': 'MjE1ODk1',
-            'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+            'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',  # /PS-IGNORE
             'code': '19507',
             'expiration_date': '2023-06-19T11:00:00Z',
         },
@@ -1050,7 +1058,7 @@ def test_verification_page_success(
     query_params,
 ):
     mock_verify_verification_code.return_value = create_response(
-        status_code=200, json_body={'email': 'test@example.com'}
+        status_code=200, json_body={'email': 'test@example.com'}  # /PS-IGNORE
     )
     query_params = query_params.replace('next_url', next_url)
     response = client.post(
@@ -1060,7 +1068,7 @@ def test_verification_page_success(
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
         template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
-        email_address='test@example.com',
+        email_address='test@example.com',  # /PS-IGNORE
         form_url='/export-academy/signup/verification',
     )
     assert mock_set_cookies_from_cookie_jar.call_count == 1
@@ -1114,7 +1122,7 @@ def test_signin_page(
     response = client.get(url)
     assert response.status_code == 200
     if unique_link:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
     assert expected_page_heading in response.content.decode()
 
 
@@ -1137,13 +1145,13 @@ def test_signin_empty_password(client, next_url, unique_link, query_params, next
             url += query_params.replace('?', '&')
     elif next:
         url += query_params
-    form_data = {'email': 'test@example.com'}
+    form_data = {'email': 'test@example.com'}  # /PS-IGNORE
     response = client.post(url, data=form_data)
 
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
     if unique_link:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
 
 
 @pytest.mark.parametrize(
@@ -1160,7 +1168,7 @@ def test_signin_success(
     client, next_url, requests_mock, unique_link, query_params, next, test_unique_link_query_params
 ):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
-    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}  # /PS-IGNORE
 
     url = reverse('export_academy:signin')
     query_params = query_params.replace('next_url', next_url)
@@ -1204,7 +1212,7 @@ def test_signin_send_verification(
 ):
     mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
-    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}  # /PS-IGNORE
 
     url = reverse('export_academy:signin')
     query_params = query_params.replace('next_url', next_url)
@@ -1235,7 +1243,7 @@ def test_signin_invalid_password(
     client, next_url, requests_mock, test_unique_link_query_params, unique_link, query_params, next
 ):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
-    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}  # /PS-IGNORE
 
     url = reverse('export_academy:signin')
     query_params = query_params.replace('next_url', next_url)
@@ -1250,7 +1258,7 @@ def test_signin_invalid_password(
     assert response.context['form'].errors['password'] == ['The email or password you entered is not correct']
     assert response.status_code == 200
     if unique_link:
-        assert response.context['form'].initial['email'] == 'test@example.com'
+        assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
 
 
 class EventsDetailsViewTestCase(TestCase):
@@ -1441,7 +1449,7 @@ class EventVideoOnDemandViewTest(TestCase):
         self.root_page = root_page
         self.rf = rf
         self.client = client
-        self.USER_EMAIL = 'joe.bloggs@gmail.com'
+        self.USER_EMAIL = 'joe.bloggs@gmail.com'  # /PS-IGNORE
 
     def setUp(self):
         self.video = factories.GreatMediaFactory()
@@ -1536,7 +1544,7 @@ class EventVideoOnDemandViewTest(TestCase):
 
     @mock.patch.object(VideoOnDemandPageTracking, 'save')
     def test_get_logged_in_user_not_business_sso_user(self, mock_tracking_save):
-        user = get_user_model().objects.create_user('alice', 'alice@example.com', 'password')
+        user = get_user_model().objects.create_user('alice', 'alice@example.com', 'password')  # /PS-IGNORE
         self.client.force_login(user)
         kwargs = {'slug': self.past_event.get_past_event_recording_slug()}
         url = reverse('export_academy:video-on-demand', kwargs=kwargs)
