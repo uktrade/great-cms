@@ -329,6 +329,24 @@ class SeoMixin(WagtailSeoMixin):
 
     seo_twitter_card = TwitterCard.LARGE
 
+    meta_robots_nofollow = models.BooleanField(default=False)
+    meta_robots_noindex = models.BooleanField(default=False)
+
+    @property
+    def meta_robot_html(self):
+        nofollow = self.meta_robots_nofollow
+        noindex = self.meta_robots_noindex
+        if nofollow or noindex:
+            start_html = '<meta name"robots" content="'
+            end_html = '">'
+            if nofollow and not noindex:
+                return f'{start_html}nofollow{end_html}'
+            elif noindex and not nofollow:
+                return f'{start_html}noindex{end_html}'
+            else:
+                return f'{start_html}noindex, nofollow{end_html}'
+        return None
+
     @property
     def seo_image_alt_text(self) -> str:
         """
