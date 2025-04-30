@@ -112,7 +112,7 @@ def update_countries_iso_codes():
 def update_opensearch_index():
     logger.info('Updating Opensearch Index from Wagtail backend...')
     try:
-        call_command('update_index')
+        call_command('update_indices')
         sentry_sdk.capture_message('Opensearch index successfully updated.')
     except ValueError as ve:
         logger.exception(f'Exception in core:tasks:update_opensearch_index {str(ve)}')
