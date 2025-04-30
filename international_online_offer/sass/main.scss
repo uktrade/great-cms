@@ -14,3 +14,17 @@
 @import 'components/csat.scss';
 @import 'components/sector-lookup.scss';
 @import 'components/company-lookup.scss';
+
+
+// Temp
+.bgs-change-your-answers {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  
+    &:focus {
+      svg path {
+        fill: #222;
+      }
+    }
+}

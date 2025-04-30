@@ -44,7 +44,9 @@ from international_online_offer.services import (
     get_country_display_name,
     get_dbt_sectors,
 )
-from international_online_offer.templatetags.location_select_filters import get_company_location_display
+from international_online_offer.templatetags.location_select_filters import (
+    get_company_location_display,
+)
 from international_online_offer.templatetags.sector_filters import get_sector_display
 from sso import helpers as sso_helpers, mixins as sso_mixins
 

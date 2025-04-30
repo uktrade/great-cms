@@ -38,7 +38,9 @@ from international_online_offer.forms import (
     WagtailAdminDBTSectors,
 )
 from international_online_offer.services import get_median_salaries, get_rent_data
-from international_online_offer.templatetags.location_select_filters import get_location_display
+from international_online_offer.templatetags.location_select_filters import (
+    get_location_display,
+)
 
 
 class EYBIndexPage(BaseContentPage):
