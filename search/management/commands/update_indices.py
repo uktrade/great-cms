@@ -13,15 +13,15 @@ class Command(WagtailCommand):
 
     def exclude_tags(self, qs):
         """
-        Used to exclude models with nofollow=True and noindex=True
+        Used to exclude models with meta_robots_nofollow=True and meta_robots_noindex=True
         """
         for model in qs:
             qs = model.get_indexed_objects()
             try:
-                qs.exclude(meta_robots_nofollow=True, meta_robots_noindex=True).order_by('pk')
+                qs.exclude(meta_robots_nofollow=True, meta_robots_noindex=True)
             except FieldError:
                 pass
-        return qs
+        return qs.order_by('pk')
 
     def add_object(self, models, index, backend_name, schema_only=False, chunk_size=DEFAULT_CHUNK_SIZE):
         object_count = 0
