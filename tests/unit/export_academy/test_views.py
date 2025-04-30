@@ -358,7 +358,7 @@ def test_csat_user_feedback_submit_with_javascript(
             },
             reverse('export_academy:registration-experience'),
             {
-                'first_name': 'Enter your first n  # /PS-IGNOREame',
+                'first_name': 'Enter your first name',  # /PS-IGNORE
                 'last_name': 'Enter your last name',  # /PS-IGNORE
                 'job_title': 'Enter your job title',
                 'phone_number': 'Enter your telephone number',
