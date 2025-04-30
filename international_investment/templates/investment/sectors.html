@@ -23,7 +23,7 @@
             </div>
             <div class="govuk-grid-row great-card-row">
                 {% for sector in self.get_children.specific %}
-                    {% image sector.article_thumbnail_image original as rendition %}
+                    {% image sector.article_image original as rendition %}
                     <div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
                         {% include 'components/great/card.html' with heading_class="govuk-heading-m" heading_level="h2" classes="great-card--cta great-international-card--cta" content_class="govuk-body govuk-!-margin-bottom-7" tag_container_outer_class="govuk-!-margin-bottom-0" show_title_link=True image_src=rendition.url image_alt='' title=sector.title content=sector.article_teaser url=sector.url %}
                     </div>
