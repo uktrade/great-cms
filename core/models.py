@@ -1681,7 +1681,8 @@ class CaseStudy(ClusterableModel):
         # When we create a new CS need to call create to obtain an ID for indexing
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
         super().save(**kwargs)
-        update_cs_index(self)
+        if self.meta_robot_nofollow or self.meta_robot_noindex:
+            update_cs_index(self)
 
     def delete(self, **kwargs):
         delete_cs_index(self.id)
