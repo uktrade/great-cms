@@ -7,6 +7,7 @@ from django.http import HttpRequest
 from django.urls import reverse
 
 import domestic_growth.models as domestic_growth_models
+from core.fern import Fern
 from directory_api_client import api_client
 from domestic_growth.constants import PRE_START_GUIDE_URL
 from export_academy.models import Event
@@ -90,7 +91,7 @@ def get_triage_uuid(request: HttpRequest) -> str:
 
     # give preference to the triage_uuid in a qs parameter
     if request.GET.get('triage_uuid', False):
-        triage_uuid = request.GET.get('triage_uuid')
+        triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
     elif hasattr(request.session, 'session_key'):
         triage_uuid = request.session.session_key
 
@@ -231,7 +232,7 @@ def get_change_answers_link(request: HttpRequest) -> str:
 
 
 def get_guide_url(request: HttpRequest) -> str:
-    return f'{request.build_absolute_uri(request.path)}?triage_uuid={get_triage_uuid(request)}'
+    return f'{request.build_absolute_uri(request.path)}?triage_uuid={Fern().encrypt(get_triage_uuid(request))}'
 
 
 def save_email_as_guide_recipient(request: HttpRequest, email: str):

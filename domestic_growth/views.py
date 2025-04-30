@@ -8,6 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import FormView
 from pydantic import HttpUrl
 
+from core.fern import Fern
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.constants import (
     ESTABLISHED_GUIDE_URL,
@@ -35,6 +36,7 @@ class BaseTriageFormView(FormView):
     triage_uuid: str = ''
     triage_model: Model = ExistingBusinessTriage
     triage_field_name: str = ''
+    fern = Fern()
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
@@ -48,7 +50,7 @@ class BaseTriageFormView(FormView):
         therefore do not have a django request.session.session_key
         """
         if self.request.GET.get('triage_uuid', False):
-            return self.request.GET.get('triage_uuid')
+            return self.fern.decrypt(self.request.GET.get('triage_uuid'))
         elif self.request.session.session_key:
             return self.request.session.session_key
         else:
@@ -61,7 +63,7 @@ class BaseTriageFormView(FormView):
         """
         try:
             if type(self.triage_uuid) is UUID or type(UUID(self.triage_uuid)) is UUID:
-                params = {'triage_uuid': self.triage_uuid, **params}
+                params = {'triage_uuid': self.fern.encrypt(str(self.triage_uuid)), **params}
                 return f'{url}?{urlencode(params)}'
         except ValueError as e:  # NOQA:F841
             # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
