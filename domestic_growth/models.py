@@ -293,9 +293,9 @@ class DomesticGrowthGuidePage(
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
-        if request.GET.get('session_id', False):
+        if request.GET.get('triage_uuid', False):
             params = {}
-            params['session_id'] = request.GET.get('session_id')
+            params['triage_uuid'] = request.GET.get('triage_uuid')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -426,9 +426,9 @@ class DomesticGrowthChildGuidePage(
         sub_sector = triage_data.get('sub_sector', None)
         turnover = triage_data.get('turnover', None)
 
-        if request.GET.get('session_id', False):
+        if request.GET.get('triage_uuid', False):
             params = {}
-            params['session_id'] = request.GET.get('session_id')
+            params['triage_uuid'] = request.GET.get('triage_uuid')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -649,9 +649,9 @@ class DomesticGrowthDynamicChildGuidePage(
 
         currently_export = triage_data.get('currently_export', False)
 
-        if request.GET.get('session_id', False):
+        if request.GET.get('triage_uuid', False):
             params = {}
-            params['session_id'] = request.GET.get('session_id')
+            params['triage_uuid'] = request.GET.get('triage_uuid')
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -742,9 +742,9 @@ class DomesticGrowthContent(index.Indexed, models.Model):
 
 
 class StartingABusinessTriage(TimeStampedModel):
-    # the session_id is either a django session id from request.session.session_key or
+    # the triage_uuid is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
-    session_id = models.CharField(max_length=40, unique=True)
+    triage_uuid = models.CharField(max_length=40, unique=True)
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
@@ -756,9 +756,9 @@ class StartingABusinessGuideEmailRecipient(TimeStampedModel):
 
 
 class ExistingBusinessTriage(TimeStampedModel):
-    # the session_id is either a django session id from request.session.session_key or
+    # the triage_uuid is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
-    session_id = models.CharField(max_length=40, unique=True)
+    triage_uuid = models.CharField(max_length=40, unique=True)
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     cant_find_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)

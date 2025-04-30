@@ -114,7 +114,7 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     postcode_response = StartingABusinessLocationFormView.as_view()(req)
 
-    assert StartingABusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to sector entry
     req = factory.post(
@@ -128,9 +128,9 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     sector_response = StartingABusinessSectorFormView.as_view()(req)  # NOQA:F841
 
-    assert StartingABusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
-    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(session_id=mock_session_key).first()
+    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
 
@@ -152,8 +152,8 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in postcode_response.url
-    assert StartingABusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in postcode_response.url
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -163,11 +163,11 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in sector_response.url
-    assert StartingABusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in sector_response.url
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(
-        session_id=mock_uuid4._mock_return_value
+        triage_uuid=mock_uuid4._mock_return_value
     ).first()
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
@@ -195,7 +195,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     postcode_response = ExistingBusinessLocationFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to sector entry
     req = factory.post(
@@ -208,7 +208,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     sector_response = ExistingBusinessSectorFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when set up entry
     req = factory.post(
@@ -221,7 +221,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     when_set_up_response = ExistingBusinessWhenSetupFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when turnover entry
     req = factory.post(
@@ -234,7 +234,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     turnover_response = ExistingBusinessTurnoverFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when currently export entry
     req = factory.post(
@@ -247,9 +247,9 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     ExistingBusinessCurrentlyExportFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
-    existing_business_triage_obj = ExistingBusinessTriage.objects.filter(session_id=mock_session_key).first()
+    existing_business_triage_obj = ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
 
     assert existing_business_triage_obj.postcode == postcode
     assert existing_business_triage_obj.sector_id == sector_id
@@ -278,8 +278,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in postcode_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in postcode_response.url
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -289,8 +289,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in sector_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in sector_response.url
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when set up entry
     when_set_up_response = client.post(
@@ -300,8 +300,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in when_set_up_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in when_set_up_response.url
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when turnover entry
     turnover_response = client.post(
@@ -311,8 +311,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in turnover_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in turnover_response.url
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when currently export entry
     export_response = client.post(
@@ -322,11 +322,11 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in export_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert f'triage_uuid={mock_uuid4._mock_return_value}' in export_response.url
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     existing_business_triage_obj = ExistingBusinessTriage.objects.filter(
-        session_id=mock_uuid4._mock_return_value
+        triage_uuid=mock_uuid4._mock_return_value
     ).first()
 
     assert existing_business_triage_obj.postcode == postcode
@@ -337,7 +337,7 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
 
 
 @pytest.mark.parametrize(
-    'model,form_view,form_url,session_id,model_field_name,model_field_value,form_field_name,form_field_value',
+    'model,form_view,form_url,triage_uuid,model_field_name,model_field_value,form_field_name,form_field_value',
     (
         (
             StartingABusinessTriage,
@@ -427,20 +427,20 @@ def test_triage_form_init(
     model,
     form_view,
     form_url,
-    session_id,
+    triage_uuid,
     model_field_name,
     model_field_value,
     form_field_name,
     form_field_value,
 ):
 
-    data = {'session_id': session_id, model_field_name: model_field_value}
+    data = {'triage_uuid': triage_uuid, model_field_name: model_field_value}
 
     model.objects.create(**data)
 
     factory = RequestFactory()
 
-    req = factory.get(f'{form_url}?session_id={session_id}')
+    req = factory.get(f'{form_url}?triage_uuid={triage_uuid}')
     view = form_view.as_view()(req)
     assert view.context_data['form'].initial[form_field_name] == form_field_value
 
@@ -449,37 +449,37 @@ def test_triage_form_init(
     'form_url, referer_url, form_view, expected_back_url',
     (
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
-            f'http://test.com/{PRE_START_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?triage_uuid=1234",
+            f'http://test.com/{PRE_START_GUIDE_URL}?triage_uuid=1234',
             StartingABusinessLocationFormView,
-            f'{PRE_START_GUIDE_URL}?session_id=1234',
+            f'{PRE_START_GUIDE_URL}?triage_uuid=1234',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             StartingABusinessLocationFormView,
             '/',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
-            f'http://test.com/{START_UP_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
+            f'http://test.com/{START_UP_GUIDE_URL}?triage_uuid=1234',
             ExistingBusinessLocationFormView,
-            f'{START_UP_GUIDE_URL}?session_id=1234',
+            f'{START_UP_GUIDE_URL}?triage_uuid=1234',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             ExistingBusinessLocationFormView,
             '/',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
-            f'http://test.com/{ESTABLISHED_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
+            f'http://test.com/{ESTABLISHED_GUIDE_URL}?triage_uuid=1234',
             ExistingBusinessLocationFormView,
-            f'{ESTABLISHED_GUIDE_URL}?session_id=1234',
+            f'{ESTABLISHED_GUIDE_URL}?triage_uuid=1234',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             ExistingBusinessLocationFormView,
             '/',

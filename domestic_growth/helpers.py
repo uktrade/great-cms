@@ -45,18 +45,18 @@ def get_triage_model(request: HttpRequest) -> Model:
 
 def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
-    session_id = None
+    triage_uuid = None
 
-    # give preference to the session_id in a qs parameter
-    if request.GET.get('session_id', False):
-        session_id = request.GET.get('session_id')
+    # give preference to the triage_uuid in a qs parameter
+    if request.GET.get('triage_uuid', False):
+        triage_uuid = request.GET.get('triage_uuid')
     elif request.session.session_key:
-        session_id = request.session.session_key
+        triage_uuid = request.session.session_key
 
     triage_model = get_triage_model(request)
 
     try:
-        triage_data = get_triage_data(triage_model, session_id=session_id)
+        triage_data = get_triage_data(triage_model, triage_uuid=triage_uuid)
         triage_data = model_to_dict(triage_data)
 
         dbt_sectors = get_dbt_sectors()
@@ -72,29 +72,29 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
         return {'postcode': '', 'sector': ''}
 
 
-def get_triage_data(model: Model, session_id: str) -> Model:
+def get_triage_data(model: Model, triage_uuid: str) -> Model:
     try:
-        return model.objects.get(session_id=session_id)
+        return model.objects.get(triage_uuid=triage_uuid)
     except AttributeError:
         return None
     except model.DoesNotExist:
         return None
 
 
-def get_session_id(request: HttpRequest) -> str:
+def get_triage_uuid(request: HttpRequest) -> str:
     """
     returns a session ID from query string params (if present)
     or else the session's session_key (if present)
     """
-    session_id = None
+    triage_uuid = None
 
-    # give preference to the session_id in a qs parameter
-    if request.GET.get('session_id', False):
-        session_id = request.GET.get('session_id')
+    # give preference to the triage_uuid in a qs parameter
+    if request.GET.get('triage_uuid', False):
+        triage_uuid = request.GET.get('triage_uuid')
     elif hasattr(request.session, 'session_key'):
-        session_id = request.session.session_key
+        triage_uuid = request.session.session_key
 
-    return session_id
+    return triage_uuid
 
 
 def is_sector_triage_question_incomplete(triage_data: Model) -> bool:
@@ -113,9 +113,9 @@ def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
     """
     redirect_to = None
 
-    session_id = get_session_id(request)
+    triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
-    triage_data = get_triage_data(triage_model, session_id)
+    triage_data = get_triage_data(triage_model, triage_uuid)
 
     # no triage data return to start of triage
     if not triage_data and triage_model == domestic_growth_models.StartingABusinessTriage:
@@ -152,9 +152,9 @@ def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
             redirect_to = form_url
             break
 
-    # add session_id qs if it was in url
-    if redirect_to and request.GET.get('session_id', False):
-        return f'{redirect_to}?session_id={session_id}'
+    # add triage_uuid qs if it was in url
+    if redirect_to and request.GET.get('triage_uuid', False):
+        return f'{redirect_to}?triage_uuid={triage_uuid}'
 
     return redirect_to
 
@@ -224,23 +224,23 @@ def get_change_answers_link(request: HttpRequest) -> str:
     else:
         triage_start_url = reverse('domestic_growth:domestic-growth-existing-location')
 
-    if request.GET.get('session_id', False):
-        return triage_start_url + f"?session_id={request.GET.get('session_id')}"
+    if request.GET.get('triage_uuid', False):
+        return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
 
     return triage_start_url
 
 
 def get_guide_url(request: HttpRequest) -> str:
-    return f'{request.build_absolute_uri(request.path)}?session_id={get_session_id(request)}'
+    return f'{request.build_absolute_uri(request.path)}?triage_uuid={get_triage_uuid(request)}'
 
 
 def save_email_as_guide_recipient(request: HttpRequest, email: str):
     """
     Saves an email address to the relevent guide receipient table
     """
-    session_id = get_session_id(request)
+    triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
-    triage_data = get_triage_data(triage_model, session_id)
+    triage_data = get_triage_data(triage_model, triage_uuid)
     recipient_model = (
         domestic_growth_models.StartingABusinessGuideEmailRecipient
         if type(triage_data) is domestic_growth_models.StartingABusinessTriage
