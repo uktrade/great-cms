@@ -4,7 +4,8 @@ from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.urls import reverse
 
-from config import settings
+from core.constants import TEMPLATE_TAG_ENUM
+from core.helpers import get_template_id
 from export_academy import helpers
 from export_academy.models import Registration
 from sso_profile.enrolment.constants import RESEND_VERIFICATION
@@ -19,17 +20,9 @@ class BookingMixin(GovNotifyEmailActionMixin):
 
     def send_email_confirmation(self, booking_object, post_data):
         if post_data['status'] == booking_object.CONFIRMED:
-            if settings.FEATURE_USE_BGS_TEMPLATES:
-                pass
-            else:
-                template_id = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
-            self.notify_template = template_id
+            self.notify_template = get_template_id(TEMPLATE_TAG_ENUM.EXPORT_ACADEMY_NOTIFY_BOOKING.value)
         else:
-            if settings.FEATURE_USE_BGS_TEMPLATES:
-                pass
-            else:
-                template_id = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
-            self.notify_template = template_id
+            self.notify_template = get_template_id(TEMPLATE_TAG_ENUM.EXPORT_ACADEMY_NOTIFY_CANCELLATION.value)
 
         notify_data = dict(
             first_name=booking_object.registration.first_name,
