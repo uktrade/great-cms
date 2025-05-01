@@ -304,13 +304,22 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'disclaimer': 'Figures reflect 2023 data. Source: Statista',
         }
 
+        measurements = {
+            'large-warehouse': '31,000 sq m / 340,000 sq foot',
+            'small-warehouse': '460 sq m / 5000 sq foot',
+            'shopping-centre': '18 sq m / 204 sq foot',
+            'high-street-retail': '460 sq m / 2195 sq foot',
+            'work-office': '1500 sq m / 16,671 sq foot',
+        }
+
+
         # Create a list of property types and their explanations
         property_types = [
             {
                 'id': 'large-warehouse',
                 'title': 'Large warehouse',
                 'value_key': 'large_warehouse_rent',
-                'explanation': 'A large warehouse is an industrial unit that is 340,000 sq foot on average in the UK.',
+                'explanation': f"A large warehouse is an industrial unit that is {measurements['large-warehouse']} on average in the UK.",
                 'icon': 'svg/icon-large-warehouse.svg',
             },
             {
@@ -318,7 +327,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'Small warehouse',
                 'value_key': 'small_warehouse_rent',
                 'explanation': 'A small warehouse is an industrial unit. Calculation'
-                ' based on a small warehouse being 5000 sq foot',
+                f" based on a small warehouse being {measurements['small-warehouse']}",
                 'icon': 'svg/icon-small-warehouse.svg',
             },
             {
@@ -326,7 +335,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'Shopping centre',
                 'value_key': 'shopping_centre',
                 'explanation': 'A shopping centre unit is near a group of shops, sometimes under one roof.'
-                ' Calculation based on average UK unit being 204 sq foot',
+                f"Calculation based on average UK unit being {measurements['shopping-centre']}",
                 'icon': 'svg/icon-shopping-centre.svg',
             },
             {
@@ -334,7 +343,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'High street retail',
                 'value_key': 'high_street_retail',
                 'explanation': 'High street retail is a concentration of shops in either urban or'
-                ' urban-like areas. Calculation based on average UK unit being 2195 sq foot',
+                f"urban-like areas. Calculation based on average UK unit being {measurements['high-street-retail']}",
                 'icon': 'svg/icon-high-street-retail.svg',
             },
             {
@@ -343,7 +352,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'value_key': 'work_office',
                 'explanation': 'A work office is a room or set of rooms in which business, professional'
                 ' duties, clerical work, etc, are carried out. Calculation based on average UK work'
-                ' office being 16,671 sq foot',
+                f"office being {measurements['work-office']}",
                 'icon': 'svg/icon-work-office.svg',
             },
         ]
