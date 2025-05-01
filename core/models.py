@@ -1691,6 +1691,8 @@ class CaseStudy(ClusterableModel):
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
         super().save(**kwargs)
         if self.meta_robot_nofollow or self.meta_robot_noindex:
+            delete_cs_index(self.id)
+        else:
             update_cs_index(self)
 
     def delete(self, **kwargs):
