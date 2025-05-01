@@ -318,7 +318,8 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'id': 'large-warehouse',
                 'title': 'Large warehouse',
                 'value_key': 'large_warehouse_rent',
-                'explanation': f"A large warehouse is an industrial unit that is {measurements['large-warehouse']} on average in the UK.",
+                'explanation': f"A large warehouse is an industrial unit that is {measurements['large-warehouse']} "
+                'on average in the UK.',
                 'icon': 'svg/icon-large-warehouse.svg',
             },
             {
