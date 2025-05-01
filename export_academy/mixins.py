@@ -20,9 +20,9 @@ class BookingMixin(GovNotifyEmailActionMixin):
 
     def send_email_confirmation(self, booking_object, post_data):
         if post_data['status'] == booking_object.CONFIRMED:
-            self.notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_BOOKING.value)
+            self.notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_BOOKING)
         else:
-            self.notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_CANCELLATION.value)
+            self.notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_CANCELLATION)
 
         notify_data = dict(
             first_name=booking_object.registration.first_name,

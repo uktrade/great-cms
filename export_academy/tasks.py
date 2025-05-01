@@ -15,7 +15,7 @@ def send_automated_events_notification():
     Sends a reminder to all people booked on an Event that it is starting shortly.
     """
 
-    template_id = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER.value)
+    template_id = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER)
 
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
