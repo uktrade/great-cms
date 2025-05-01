@@ -369,6 +369,15 @@ class SeoMixin(WagtailSeoMixin):
             return parsed_url._replace(netloc='www.' + parsed_url.netloc).geturl()
         return canonical_url
 
+    seo_meta_panels = WagtailSeoMixin.seo_meta_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel('meta_robots_nofollow'),
+                FieldPanel('meta_robots_noindex'),
+            ],
+        ),
+    ]
+
 
 # Content models
 
