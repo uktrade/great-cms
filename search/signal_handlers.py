@@ -10,7 +10,9 @@ def post_save_signal_handler(instance, **kwargs):
     We only want to update_or_create the index if both nofollow and noindex are true
     """
     try:
-        instance = None if instance.meta_robots_nofollow or instance.meta_robots_noindex else instance
+        if instance.meta_robots_nofollow or instance.meta_robots_noindex:
+            index.remove_object(instance)
+        instance = None
     except FieldError:
         pass
     if instance:
