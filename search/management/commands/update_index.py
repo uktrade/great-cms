@@ -41,6 +41,7 @@ class Command(WagtailCommand):
         return object_count
 
     def update_backend(self, backend_name, schema_only=False, chunk_size=DEFAULT_CHUNK_SIZE):
+
         self.write('Updating backend: ' + backend_name)
 
         backend = get_search_backend(backend_name)
