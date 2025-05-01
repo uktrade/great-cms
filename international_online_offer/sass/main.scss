@@ -5,7 +5,9 @@
 @import 'utils.scss';
 
 // Great International Expand your business
+
 @import 'pages/index.scss';
+@import 'pages/signup.scss';
 @import 'components/service-start.scss';
 @import 'components/guide.scss';
 @import 'pages/guide-dynamic.scss';
@@ -14,3 +16,17 @@
 @import 'components/csat.scss';
 @import 'components/sector-lookup.scss';
 @import 'components/company-lookup.scss';
+
+
+// Temp
+.bgs-change-your-answers {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  
+    &:focus {
+      svg path {
+        fill: #222;
+      }
+    }
+}

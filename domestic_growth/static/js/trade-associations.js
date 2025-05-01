@@ -1,6 +1,12 @@
 ;(function () {
   const hidden_ta_trigger = document.querySelector('[data-hidden-ta-trigger]')
   const show_ta_trigger = document.querySelector('[data-show-ta-trigger]')
+  const tas = document.querySelectorAll('[data-hidden-ta="true"]')
+  const tas_footer = document.getElementById('trade-associations-footer')
+
+  if (tas && tas_footer && hidden_ta_trigger && tas.length < 4) {
+    tas_footer.classList = 'govuk-!-display-none'
+  }
 
   if (hidden_ta_trigger && show_ta_trigger) {
     hidden_ta_trigger.addEventListener('click', (e) => {

@@ -38,7 +38,9 @@ from international_online_offer.forms import (
     WagtailAdminDBTSectors,
 )
 from international_online_offer.services import get_median_salaries, get_rent_data
-from international_online_offer.templatetags.location_select_filters import get_location_display
+from international_online_offer.templatetags.location_select_filters import (
+    get_location_display,
+)
 
 
 class EYBIndexPage(BaseContentPage):
@@ -95,7 +97,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         'international_online_offer.EYBTradeShowsPage',
         'international_online_offer.EYBArticlesPage',
     ]
-    template = 'eyb/guide-new.html'
+    template = 'eyb/guide.html'
 
     def create_investment_opportunity_cards(self, context):
         investment_opportunity_cards = []
@@ -417,7 +419,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'right_panel_sections': right_panel_sections,
         }
 
-        return TemplateResponse(request, 'eyb/guide-new.html', context)
+        return TemplateResponse(request, 'eyb/guide.html', context)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)

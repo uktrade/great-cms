@@ -8,6 +8,7 @@
 {% block meta_title %}Sign in {{ block.super }}{% endblock %}
 {% block content %}
     <div class="great-container">
+        
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 {% if form.non_field_errors %}
@@ -28,60 +29,36 @@
                 {% endif %}
             </div>
         </div>
+
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-l">Sign in</h1>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                <div id="login">
-                    <form method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="govuk-grid-row govuk-!-margin-bottom-3">
-                                <div class="govuk-grid-column-full">
-                                    <div class="{% if field.errors %} govuk-form-group--error{% endif %}">
-                                        {% include 'international/includes/form_field.html' with field=field %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-1"
-                             data-module="govuk-checkboxes">
-                            <div class="govuk-checkboxes__item">
-                                <input class="govuk-checkboxes__input"
-                                       id="showHidePassword"
-                                       name="showHidePassword"
-                                       type="checkbox"
-                                       value="1"
-                                       onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
-                                <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
-                            </div>
+                <form id="login" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% include 'international/includes/form_field.html' with field=field show_vertical_error_line=field.errors %}   
+                    {% endfor %}
+                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input"
+                                   id="showHidePassword"
+                                   name="showHidePassword"
+                                   type="checkbox"
+                                   value="1"
+                                   onclick="document.getElementById('id_password').type == 'password'? document.getElementById('id_password').type = 'text': document.getElementById('id_password').type = 'password'">
+                            <label class="govuk-label govuk-checkboxes__label" for="showHidePassword">Show password</label>
                         </div>
-                        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-                            <div class="govuk-grid-column-full">
-                                <p>
-                                    <a class="govuk-link"
-                                       href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="govuk-grid-row govuk-!-margin-bottom-3">
-                            <div class="govuk-grid-column-full">{% include "_button.html" with text='Sign in' %}</div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <p class="govuk-body govuk-!-margin-top-3"><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
+                    {% include "_button.html" with text='Sign in' classes="govuk-!-margin-bottom-4" %}
+                    <p class="govuk-body">
+                        Don't have an account? <a href="{% url 'international_online_offer:signup' %}"
+        class="govuk-link">Sign up</a>
+                    </p>
+                </form>
             </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h2 class="govuk-body-m">
-                    Don't have an account? <a href="{% url 'international_online_offer:signup' %}"
-    class="govuk-link">Sign up</a>
-                </h2>
-            </div>
-        </div>
+        </div> 
+        
     </div>
 {% endblock %}
 {% block body_js %}{{ block.super }}{% endblock %}

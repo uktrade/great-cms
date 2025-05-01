@@ -23,11 +23,11 @@ from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_events,
-    get_welcome_event,
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
+    get_welcome_event,
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -372,6 +372,12 @@ class DomesticGrowthChildGuidePage(
                         ),
                         (
                             'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'border_color',
                             blocks.CharBlock(
                                 required=False,
                             ),

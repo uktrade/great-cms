@@ -63,6 +63,18 @@
                 errorMessage.focus();
             }
         }
+
+        const dont_know_checkbox = document.getElementById('id_dont_know_sector_yet')
+
+        if (dont_know_checkbox) {
+            dont_know_checkbox.addEventListener('click', () => {
+                const sector_input = document.getElementById('js-sector-select')
+
+                if (sector_input) {
+                    sector_input.value = ''
+                }
+            })
+        }
     </script>
     <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
 {% endblock %}

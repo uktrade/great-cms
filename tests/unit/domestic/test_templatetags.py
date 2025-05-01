@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.http import QueryDict
 from django.template import Context, Template
 from django.test import override_settings
@@ -17,6 +18,8 @@ from domestic.templatetags.component_tags import (
     get_projected_or_actual,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
+    pagination_obj_range_lower_limit,
+    pagination_obj_range_upper_limit,
     persist_language,
     replace_underscores,
 )
@@ -460,3 +463,103 @@ def test_regular_link_is_not_converted_to_span():
     actual_output = convert_anchor_identifier_a_to_span(input_html)
     expected_output = '<p data-block-key="321"><a href="http://www.google.com">text for regular link</a></p>'
     assert actual_output == expected_output
+
+
+@pytest.mark.parametrize(
+    'paginator,expected_outputs',
+    (
+        (
+            Paginator([obj for obj in range(12)], 4),
+            {'page_one': 1, 'page_two': 5, 'page_three': 9},
+        ),
+        (
+            Paginator([obj for obj in range(7)], 5),
+            {
+                'page_one': 1,
+                'page_two': 6,
+            },
+        ),
+        (
+            Paginator([obj for obj in range(27)], 10),
+            {
+                'page_one': 1,
+                'page_two': 11,
+                'page_three': 21,
+            },
+        ),
+        (
+            Paginator([obj for obj in range(123)], 10),
+            {
+                'page_one': 1,
+                'page_two': 11,
+                'page_three': 21,
+                'page_fore': 31,
+                'page_five': 41,
+                'page_six': 51,
+                'page_severn': 61,
+                'page_eight': 71,
+                'page_nine': 81,
+                'page_ten': 91,
+                'page_eleven': 101,
+                'page_twelve': 111,
+                'page_thirteen': 121,
+            },
+        ),
+    ),
+)
+def test_pagination_obj_range_lower_limit(paginator, expected_outputs):
+    count = 1
+    for expected_output in expected_outputs.items():
+        page_obj = paginator.page(count)
+        assert pagination_obj_range_lower_limit(page_obj) == expected_output[1]
+        count += 1
+
+
+@pytest.mark.parametrize(
+    'paginator,expected_outputs',
+    (
+        (
+            Paginator([obj for obj in range(12)], 4),
+            {'page_one': 4, 'page_two': 8, 'page_three': 12},
+        ),
+        (
+            Paginator([obj for obj in range(7)], 5),
+            {
+                'page_one': 5,
+                'page_two': 7,
+            },
+        ),
+        (
+            Paginator([obj for obj in range(27)], 10),
+            {
+                'page_one': 10,
+                'page_two': 20,
+                'page_three': 27,
+            },
+        ),
+        (
+            Paginator([obj for obj in range(123)], 10),
+            {
+                'page_one': 10,
+                'page_two': 20,
+                'page_three': 30,
+                'page_fore': 40,
+                'page_five': 50,
+                'page_six': 60,
+                'page_severn': 70,
+                'page_eight': 80,
+                'page_nine': 90,
+                'page_ten': 100,
+                'page_eleven': 110,
+                'page_twelve': 120,
+                'page_thirteen': 123,
+            },
+        ),
+    ),
+)
+def test_pagination_obj_range_upper_limit(paginator, expected_outputs):
+    count = 1
+    for expected_output in expected_outputs.items():
+        page_obj = paginator.page(count)
+        assert pagination_obj_range_upper_limit(page_obj) == expected_output[1]
+        count += 1
