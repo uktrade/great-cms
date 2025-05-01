@@ -312,7 +312,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'work-office': '1500 sq m / 16,671 sq foot',
         }
 
-
         # Create a list of property types and their explanations
         property_types = [
             {
