@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from config.celery import app
-from core.constants import TEMPLATE_TAG_ENUM
+from core.constants import TemplateTagsEnum
 from core.helpers import get_template_id
 from export_academy.models import Event, send_notifications_for_all_bookings
 
@@ -15,7 +15,7 @@ def send_automated_events_notification():
     Sends a reminder to all people booked on an Event that it is starting shortly.
     """
 
-    template_id = get_template_id(TEMPLATE_TAG_ENUM.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER.value)
+    template_id = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER.value)
 
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
