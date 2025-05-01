@@ -329,6 +329,7 @@ class SeoMixin(WagtailSeoMixin):
 
     seo_twitter_card = TwitterCard.LARGE
 
+    search_auto_update = False
     meta_robots_nofollow = models.BooleanField(default=False)
     meta_robots_noindex = models.BooleanField(default=False)
 
