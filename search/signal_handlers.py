@@ -14,7 +14,7 @@ def post_save_signal_handler(instance, **kwargs):
         if instance.meta_robots_nofollow or instance.meta_robots_noindex:
             index.remove_object(instance)
             instance = None
-    except FieldError:
+    except (AttributeError, FieldError):
         pass
     if instance:
         insert_or_update_object_task(instance._meta.app_label, instance._meta.model_name, str(instance.pk))
