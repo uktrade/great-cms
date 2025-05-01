@@ -2,7 +2,8 @@ from django.core.exceptions import FieldError
 from django.db.models.signals import post_delete, post_save
 from wagtail.search import index
 from wagtail.search.signal_handlers import post_delete_signal_handler
-from wagtail.search.tasks import insert_or_update_object_task
+
+from .tasks import insert_or_update_object_task
 
 
 def post_save_signal_handler(instance, **kwargs):
@@ -12,11 +13,11 @@ def post_save_signal_handler(instance, **kwargs):
     try:
         if instance.meta_robots_nofollow or instance.meta_robots_noindex:
             index.remove_object(instance)
-        instance = None
+            instance = None
     except FieldError:
         pass
     if instance:
-        insert_or_update_object_task.enqueue(instance._meta.app_label, instance._meta.model_name, str(instance.pk))
+        insert_or_update_object_task(instance._meta.app_label, instance._meta.model_name, str(instance.pk))
 
 
 def register_signal_handlers():
