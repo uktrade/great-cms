@@ -1,7 +1,9 @@
+from secrets import token_urlsafe
 from urllib.parse import urlencode
 
 from directory_forms_api_client import actions
 from django.db import models
+from django.shortcuts import redirect
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
@@ -16,6 +18,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
+from core.fern import Fern
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
@@ -27,7 +30,9 @@ from domestic_growth.helpers import (
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
+    get_triage_uuid_from_url_token,
     get_welcome_event,
+    guide_link_valid,
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -44,21 +49,31 @@ class EmailGuideFormMixin:
 
             if self.email_guide_form.is_valid():
                 self.send_email_address = self.email_guide_form.cleaned_data['email']
+                url_token = token_urlsafe(128)
+
                 action = actions.GovNotifyEmailAction(
                     email_address=self.send_email_address,
                     template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                    form_url=get_guide_url(request),
+                    form_url=get_guide_url(request, url_token),
                 )
-                response = action.save({'guide_url': get_guide_url(request)})
+                response = action.save({'guide_url': get_guide_url(request, url_token)})
                 response.raise_for_status()
                 # save and reset form after successful send
-                save_email_as_guide_recipient(request, self.send_email_address)
+                save_email_as_guide_recipient(request, self.send_email_address, url_token)
                 self.email_guide_form = EmailGuideForm()
                 self.send_success = True
         elif request.method == 'GET':
             # reset on page load
             self.send_email_address = None
             self.send_success = False
+            # user returning via clicked link
+            link_valid = guide_link_valid(request)
+            if request.GET.get('url_token', False) and link_valid:
+                triage_uuid = get_triage_uuid_from_url_token(request)
+                request.META['triage_uuid'] = Fern().encrypt(triage_uuid)
+            elif request.GET.get('url_token', False) and not link_valid:
+                # if the link is not valid redirect user to homepage
+                return redirect('/')
 
         return super().serve(request, *args, **kwargs)
 
@@ -293,9 +308,14 @@ class DomesticGrowthGuidePage(
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
 
+        params = {}
+
         if request.GET.get('triage_uuid', False):
-            params = {}
             params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid', False):
+            params['triage_uuid'] = request.META.get('triage_uuid')
+
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -426,9 +446,14 @@ class DomesticGrowthChildGuidePage(
         sub_sector = triage_data.get('sub_sector', None)
         turnover = triage_data.get('turnover', None)
 
+        params = {}
+
         if request.GET.get('triage_uuid', False):
-            params = {}
             params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid', False):
+            params['triage_uuid'] = request.META.get('triage_uuid')
+
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -649,9 +674,14 @@ class DomesticGrowthDynamicChildGuidePage(
 
         currently_export = triage_data.get('currently_export', False)
 
+        params = {}
+
         if request.GET.get('triage_uuid', False):
-            params = {}
             params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid', False):
+            params['triage_uuid'] = request.META.get('triage_uuid')
+
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -753,6 +783,7 @@ class StartingABusinessTriage(TimeStampedModel):
 class StartingABusinessGuideEmailRecipient(TimeStampedModel):
     email = models.EmailField(max_length=255)
     triage = models.ForeignKey(StartingABusinessTriage, on_delete=models.DO_NOTHING)
+    url_token = models.CharField(max_length=256, null=True, blank=True)
 
 
 class ExistingBusinessTriage(TimeStampedModel):
@@ -774,6 +805,7 @@ class ExistingBusinessTriage(TimeStampedModel):
 class ExistingBusinessGuideEmailRecipient(TimeStampedModel):
     email = models.EmailField(max_length=255)
     triage = models.ForeignKey(ExistingBusinessTriage, on_delete=models.DO_NOTHING)
+    url_token = models.CharField(max_length=256, null=True, blank=True)
 
 
 @register_snippet

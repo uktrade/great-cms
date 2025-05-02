@@ -102,7 +102,7 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
         back_url = (
-            f'{PRE_START_GUIDE_URL}?triage_uuid={self.triage_uuid}'
+            f'{PRE_START_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
             if PRE_START_GUIDE_URL in self.request.META.get('HTTP_REFERER', [])
             else '/'
         )
@@ -175,9 +175,9 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
         back_url = '/'
 
         if START_UP_GUIDE_URL in http_referer:
-            back_url = f'{START_UP_GUIDE_URL}?triage_uuid={self.triage_uuid}'
+            back_url = f'{START_UP_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
         elif ESTABLISHED_GUIDE_URL in http_referer:
-            back_url = f'{ESTABLISHED_GUIDE_URL}?triage_uuid={self.triage_uuid}'
+            back_url = f'{ESTABLISHED_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
 
         return {'back_url': back_url, **ctx_data}
 

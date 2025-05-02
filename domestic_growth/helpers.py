@@ -1,12 +1,15 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.base import Model
 from django.forms.models import model_to_dict
 from django.http import HttpRequest
 from django.urls import reverse
+from django.utils import timezone
 
 import domestic_growth.models as domestic_growth_models
+from config.settings import BGS_GUIDE_SHARE_LINK_TTL_DAYS
 from core.fern import Fern
 from directory_api_client import api_client
 from domestic_growth.constants import PRE_START_GUIDE_URL
@@ -50,27 +53,29 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
     # give preference to the triage_uuid in a qs parameter
     if request.GET.get('triage_uuid', False):
-        triage_uuid = request.GET.get('triage_uuid')
+        triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
+    elif request.META.get('triage_uuid', False):
+        triage_uuid = Fern().decrypt(request.META.get('triage_uuid'))
     elif request.session.session_key:
         triage_uuid = request.session.session_key
 
     triage_model = get_triage_model(request)
 
-    try:
-        triage_data = get_triage_data(triage_model, triage_uuid=triage_uuid)
-        triage_data = model_to_dict(triage_data)
+    # try:
+    triage_data = get_triage_data(triage_model, triage_uuid=triage_uuid)
+    triage_data = model_to_dict(triage_data)
 
-        dbt_sectors = get_dbt_sectors()
+    dbt_sectors = get_dbt_sectors()
 
-        parent_sector = None
-        sub_sector = None
+    parent_sector = None
+    sub_sector = None
 
-        if triage_data and triage_data['sector_id']:
-            parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
+    if triage_data and triage_data['sector_id']:
+        parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
-        return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
-    except Exception:
-        return {'postcode': '', 'sector': ''}
+    return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
+    # except Exception:
+    #     return {'postcode': '', 'sector': ''}
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:
@@ -155,7 +160,7 @@ def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
 
     # add triage_uuid qs if it was in url
     if redirect_to and request.GET.get('triage_uuid', False):
-        return f'{redirect_to}?triage_uuid={triage_uuid}'
+        return f'{redirect_to}?triage_uuid={Fern().encrypt(triage_uuid)}'
 
     return redirect_to
 
@@ -227,15 +232,17 @@ def get_change_answers_link(request: HttpRequest) -> str:
 
     if request.GET.get('triage_uuid', False):
         return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
+    elif request.META.get('triage_uuid', False):
+        return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}"
 
     return triage_start_url
 
 
-def get_guide_url(request: HttpRequest) -> str:
-    return f'{request.build_absolute_uri(request.path)}?triage_uuid={Fern().encrypt(get_triage_uuid(request))}'
+def get_guide_url(request: HttpRequest, url_token: str) -> str:
+    return f'{request.build_absolute_uri(request.path)}?url_token={url_token}'
 
 
-def save_email_as_guide_recipient(request: HttpRequest, email: str):
+def save_email_as_guide_recipient(request: HttpRequest, email: str, url_token: str):
     """
     Saves an email address to the relevent guide receipient table
     """
@@ -248,4 +255,32 @@ def save_email_as_guide_recipient(request: HttpRequest, email: str):
         else domestic_growth_models.ExistingBusinessGuideEmailRecipient
     )
 
-    recipient_model.objects.create(email=email, triage=triage_data)
+    recipient_model.objects.create(email=email, triage=triage_data, url_token=url_token)
+
+
+def get_email_recipient_record_from_url_token(request: HttpRequest) -> Model:
+    email_recipient_model = (
+        domestic_growth_models.StartingABusinessGuideEmailRecipient
+        if PRE_START_GUIDE_URL in request.path
+        else domestic_growth_models.ExistingBusinessGuideEmailRecipient
+    )
+    if request.GET.get('url_token', False):
+        try:
+            return email_recipient_model.objects.get(url_token=request.GET.get('url_token'))
+        except ObjectDoesNotExist:
+            return None
+    return None
+
+
+def get_triage_uuid_from_url_token(request: HttpRequest) -> str:
+    record = get_email_recipient_record_from_url_token(request)
+    if record and hasattr(record, 'triage'):
+        return record.triage.triage_uuid
+    return ''
+
+
+def guide_link_valid(request: HttpRequest) -> bool:
+    record = get_email_recipient_record_from_url_token(request)
+    if record:
+        return timezone.now() <= (record.created + timedelta(days=BGS_GUIDE_SHARE_LINK_TTL_DAYS))
+    return False

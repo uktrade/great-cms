@@ -6,6 +6,7 @@ from rest_framework import status
 from wagtail.test.utils import WagtailPageTests
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
+from core.fern import Fern
 from domestic_growth.models import (
     DomesticGrowthCard,
     DomesticGrowthContent,
@@ -99,7 +100,9 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.trade_associations_intro, 'Test intro')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action, patch(
+            'domestic_growth.models.token_urlsafe'
+        ) as mock_token_urlsafe:
             try:
                 page = DomesticGrowthGuidePageFactory(
                     hero_title='Test title',
@@ -126,9 +129,12 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_triage_uuid = '12345'
+            mock_token_urlsafe.return_value = 'urltokensafestring'
+            encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
+
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={test_triage_uuid}', {'email': test_email})
+            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -136,7 +142,7 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                form_url=f'http://testserver/test-email-guide?triage_uuid={test_triage_uuid}',
+                form_url='http://testserver/test-email-guide?url_token=urltokensafestring',
             )
 
 
@@ -152,7 +158,9 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(page.body_intro, 'Test intro')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action, patch(
+            'domestic_growth.models.token_urlsafe'
+        ) as mock_token_urlsafe:
             try:
                 page = DomesticGrowthChildGuidePageFactory(
                     body_title='Test title',
@@ -166,9 +174,12 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_triage_uuid = '12345'
+            mock_token_urlsafe.return_value = 'urltokensafestring'
+            encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
+
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={test_triage_uuid}', {'email': test_email})
+            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -176,7 +187,7 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
             mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,  # /PS-IGNORE
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                form_url=f'http://testserver/test-email-guide?triage_uuid={test_triage_uuid}',
+                form_url='http://testserver/test-email-guide?url_token=urltokensafestring',
             )
 
 
@@ -200,7 +211,9 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
         self.assertEqual(page.page_b_body_intro, 'Test intro b')
 
     def test_can_email_guide(self):
-        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action:
+        with patch('domestic_growth.models.actions.GovNotifyEmailAction') as mock_gov_uk_notify_action, patch(
+            'domestic_growth.models.token_urlsafe'
+        ) as mock_token_urlsafe:
             try:
                 page = DomesticGrowthDynamicChildGuidePageFactory(
                     page_a_type='interested_in_exporting',
@@ -218,9 +231,12 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
             test_triage_uuid = '12345'
+            mock_token_urlsafe.return_value = 'urltokensafestring'
+
+            encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={test_triage_uuid}', {'email': test_email})
+            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -228,7 +244,7 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
             mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,  # /PS-IGNORE
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                form_url=f'http://testserver/test-email-guide?triage_uuid={test_triage_uuid}',
+                form_url='http://testserver/test-email-guide?url_token=urltokensafestring',
             )
 
 

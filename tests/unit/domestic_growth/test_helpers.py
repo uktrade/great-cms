@@ -1,8 +1,13 @@
+# flake8: noqa: E203
+
+from secrets import token_urlsafe
 from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
+from freezegun import freeze_time
 
+from core.fern import Fern
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.constants import (
     ESTABLISHED_GUIDE_URL,
@@ -16,6 +21,7 @@ from domestic_growth.helpers import (
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
+    guide_link_valid,
     save_email_as_guide_recipient,
 )
 from domestic_growth.models import (
@@ -102,7 +108,7 @@ def test_get_triage_data(mock_get_dbt_sectors, guide_url, business_type):
             currently_export=mock_triage_data['currently_export'],
         )
 
-    req = factory.get(guide_url + f"?triage_uuid={mock_triage_data['triage_uuid']}")
+    req = factory.get(guide_url + f"?triage_uuid={Fern().encrypt(mock_triage_data['triage_uuid'])}")
 
     triage_data = get_triage_data_with_sectors(req)
 
@@ -111,24 +117,25 @@ def test_get_triage_data(mock_get_dbt_sectors, guide_url, business_type):
 
 
 @pytest.mark.parametrize(
-    'guide_url, triage_uuid_qs_param, expected_redirect_url',
+    'guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params',
     (
         (ESTABLISHED_GUIDE_URL, None, '/support/existing/location/'),
         (START_UP_GUIDE_URL, None, '/support/existing/location/'),
         (PRE_START_GUIDE_URL, None, '/support/pre-start/location/'),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/?triage_uuid=1234'),
-        (START_UP_GUIDE_URL, '1234', '/support/existing/location/?triage_uuid=1234'),
-        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/?triage_uuid=1234'),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/'),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/location/'),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/'),
     ),
 )
 @pytest.mark.django_db
 def test_get_triage_drop_off_point_no_triage_data(
-    mock_get_dbt_sectors, guide_url, triage_uuid_qs_param, expected_redirect_url
+    mock_get_dbt_sectors, guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params
 ):
     factory = RequestFactory()
+    fern = Fern()
 
     if triage_uuid_qs_param:
-        req = factory.get(guide_url + f'?triage_uuid={triage_uuid_qs_param}')
+        req = factory.get(guide_url + f'?triage_uuid={fern.encrypt(triage_uuid_qs_param)}')
     else:
         req = factory.get(guide_url)
         req.session = mock.Mock()
@@ -136,30 +143,44 @@ def test_get_triage_drop_off_point_no_triage_data(
 
     redirect_url = get_triage_drop_off_point(req)
 
-    assert redirect_url == expected_redirect_url
+    if triage_uuid_qs_param:
+        assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid_qs_param
+
+    assert expected_redirect_url_ex_qs_params in redirect_url
 
 
 @pytest.mark.django_db
 def test_get_triage_drop_off_point_prestart(mock_get_dbt_sectors, client):
     factory = RequestFactory()
+    fern = Fern()
 
-    StartingABusinessTriage.objects.create(triage_uuid='1')
-    req = factory.get(PRE_START_GUIDE_URL + '?triage_uuid=1')
+    triage_uuid = '1'
+    StartingABusinessTriage.objects.create(triage_uuid=triage_uuid)
+    req = factory.get(PRE_START_GUIDE_URL + f"?triage_uuid={fern.encrypt(triage_uuid)}")
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/pre-start/location/?triage_uuid=1'
+    assert '/support/pre-start/location/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
-    StartingABusinessTriage.objects.create(triage_uuid='2', postcode='BT123AQ')  # /PS-IGNORE
-    req = factory.get(PRE_START_GUIDE_URL + '?triage_uuid=2')
+    triage_uuid = '2'
+    StartingABusinessTriage.objects.create(triage_uuid=triage_uuid, postcode='BT123AQ')  # /PS-IGNORE
+    req = factory.get(PRE_START_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/pre-start/sector/?triage_uuid=2'
+    assert '/support/pre-start/sector/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
-    StartingABusinessTriage.objects.create(triage_uuid='3', postcode='BT123AQ', sector_id='SL0003')  # /PS-IGNORE
-    req = factory.get(PRE_START_GUIDE_URL + '?triage_uuid=3')
+    triage_uuid = '3'
+    StartingABusinessTriage.objects.create(
+        triage_uuid=triage_uuid, postcode='BT123AQ', sector_id='SL0003'  # /PS-IGNORE
+    )
+    req = factory.get(PRE_START_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
     assert redirect_url is None
 
-    StartingABusinessTriage.objects.create(triage_uuid='4', postcode='BT123AQ', dont_know_sector=True)  # /PS-IGNORE
-    req = factory.get(PRE_START_GUIDE_URL + '?triage_uuid=4')
+    triage_uuid = '4'
+    StartingABusinessTriage.objects.create(
+        triage_uuid=triage_uuid, postcode='BT123AQ', dont_know_sector=True  # /PS-IGNORE
+    )
+    req = factory.get(PRE_START_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
     assert redirect_url is None
 
@@ -167,87 +188,105 @@ def test_get_triage_drop_off_point_prestart(mock_get_dbt_sectors, client):
 @pytest.mark.django_db
 def test_get_triage_drop_off_point_existing(mock_get_dbt_sectors):
     factory = RequestFactory()
+    fern = Fern()
 
-    ExistingBusinessTriage.objects.create(triage_uuid='1')
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=1')
+    triage_uuid = '1'
+    ExistingBusinessTriage.objects.create(triage_uuid=triage_uuid)
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/location/?triage_uuid=1'
+    assert '/support/existing/location/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
-    ExistingBusinessTriage.objects.create(triage_uuid='2', postcode='BT123AQ')  # /PS-IGNORE
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=2')
+    triage_uuid = '2'
+    ExistingBusinessTriage.objects.create(triage_uuid=triage_uuid, postcode='BT123AQ')  # /PS-IGNORE
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/sector/?triage_uuid=2'
+    assert '/support/existing/sector/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
-    ExistingBusinessTriage.objects.create(triage_uuid='3', postcode='BT123AQ', sector_id='SL0003')  # /PS-IGNORE
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=3')
+    triage_uuid = '3'
+    ExistingBusinessTriage.objects.create(triage_uuid=triage_uuid, postcode='BT123AQ', sector_id='SL0003')  # /PS-IGNORE
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/set-up/?triage_uuid=3'
+    assert '/support/existing/set-up/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
-    ExistingBusinessTriage.objects.create(triage_uuid='4', postcode='BT123AQ', cant_find_sector=True)  # /PS-IGNORE
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=4')
-    redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/set-up/?triage_uuid=4'
-
+    triage_uuid = '4'
     ExistingBusinessTriage.objects.create(
-        triage_uuid='5', postcode='BT123AQ', sector_id='SL0003', when_set_up=LESS_THAN_3_YEARS_AGO  # /PS-IGNORE
+        triage_uuid=triage_uuid, postcode='BT123AQ', cant_find_sector=True  # /PS-IGNORE
     )
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=5')
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/turnover/?triage_uuid=5'
+    assert '/support/existing/set-up/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
+    triage_uuid = '5'
     ExistingBusinessTriage.objects.create(
-        triage_uuid='6',
+        triage_uuid=triage_uuid, postcode='BT123AQ', sector_id='SL0003', when_set_up=LESS_THAN_3_YEARS_AGO  # /PS-IGNORE
+    )
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
+    redirect_url = get_triage_drop_off_point(req)
+    assert '/support/existing/turnover/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
+
+    triage_uuid = '6'
+    ExistingBusinessTriage.objects.create(
+        triage_uuid=triage_uuid,
         postcode='BT123AQ',  # /PS-IGNORE
         sector_id='SL0003',
         when_set_up=LESS_THAN_3_YEARS_AGO,
         turnover='2M_TO_5M',  # /PS-IGNORE
     )
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=6')
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
-    assert redirect_url == '/support/existing/exporter/?triage_uuid=6'
+    assert '/support/existing/exporter/?triage_uuid=' in redirect_url
+    assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid
 
+    triage_uuid = '7'
     ExistingBusinessTriage.objects.create(
-        triage_uuid='7',
+        triage_uuid=triage_uuid,
         postcode='BT123AQ',  # /PS-IGNORE
         sector_id='SL0003',
         when_set_up=LESS_THAN_3_YEARS_AGO,
         turnover='2M_TO_5M',
         currently_export=True,
     )
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=7')
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
     assert redirect_url is None
 
+    triage_uuid = '8'
     ExistingBusinessTriage.objects.create(
-        triage_uuid='8',
+        triage_uuid=triage_uuid,
         postcode='BT123AQ',  # /PS-IGNORE
         cant_find_sector=True,
         when_set_up=LESS_THAN_3_YEARS_AGO,
         turnover='2M_TO_5M',
         currently_export=True,
     )
-    req = factory.get(ESTABLISHED_GUIDE_URL + '?triage_uuid=8')
+    req = factory.get(ESTABLISHED_GUIDE_URL + f'?triage_uuid={fern.encrypt(triage_uuid)}')
     redirect_url = get_triage_drop_off_point(req)
     assert redirect_url is None
 
 
 @pytest.mark.parametrize(
-    'guide_url, triage_uuid_qs_param, expected_redirect_url',
+    'guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params',
     (
         (ESTABLISHED_GUIDE_URL, None, '/support/existing/location/'),
         (START_UP_GUIDE_URL, None, '/support/existing/location/'),
         (PRE_START_GUIDE_URL, None, '/support/pre-start/location/'),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/?triage_uuid=1234'),
-        (START_UP_GUIDE_URL, '1234', '/support/existing/location/?triage_uuid=1234'),
-        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/?triage_uuid=1234'),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/location/'),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/location/'),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/location/'),
     ),
 )
 @pytest.mark.django_db
-def test_get_change_your_answers_link(guide_url, triage_uuid_qs_param, expected_redirect_url):
+def test_get_change_your_answers_link(guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params):
     factory = RequestFactory()
+    fern = Fern()
 
     if triage_uuid_qs_param:
-        req = factory.get(guide_url + f'?triage_uuid={triage_uuid_qs_param}')
+        req = factory.get(guide_url + f'?triage_uuid={fern.encrypt(triage_uuid_qs_param)}')
     else:
         req = factory.get(guide_url)
         req.session = mock.Mock()
@@ -255,7 +294,10 @@ def test_get_change_your_answers_link(guide_url, triage_uuid_qs_param, expected_
 
     redirect_url = get_change_answers_link(req)
 
-    assert redirect_url == expected_redirect_url
+    assert expected_redirect_url_ex_qs_params in redirect_url
+
+    if triage_uuid_qs_param:
+        assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid_qs_param
 
 
 @pytest.mark.parametrize(
@@ -275,10 +317,79 @@ def test_save_email_as_guide_recipient(triage_model, triage_recipient_model, gui
 
     triage = triage_model.objects.create(triage_uuid=triage_uuid)
 
-    req = factory.get(guide_url + f'?triage_uuid={triage_uuid}')
+    req = factory.get(guide_url + f'?triage_uuid={Fern().encrypt(triage_uuid)}')
 
     for email in emails:
-        save_email_as_guide_recipient(req, email)
+        save_email_as_guide_recipient(req, email, token_urlsafe())
         assert triage_recipient_model.objects.filter(email=email).exists()
         triage_recipient_record = triage_recipient_model.objects.get(email=email)
         assert triage.id == triage_recipient_record.triage_id
+
+
+@pytest.mark.parametrize(
+    'create_freeze_time, triage_model, triage_recipient_model, request_freeze_time, request_url, link_valid',
+    (
+        (
+            '2025-01-01 01:00:00',
+            ExistingBusinessTriage,
+            ExistingBusinessGuideEmailRecipient,
+            '2025-06-29 01:00:00',
+            ESTABLISHED_GUIDE_URL,
+            True,
+        ),
+        (
+            '2025-01-01 01:00:00',
+            ExistingBusinessTriage,
+            ExistingBusinessGuideEmailRecipient,
+            '2025-06-29 01:00:00',
+            START_UP_GUIDE_URL,
+            True,
+        ),
+        (
+            '2025-01-01 01:00:00',
+            StartingABusinessTriage,
+            StartingABusinessGuideEmailRecipient,
+            '2025-06-29 01:00:00',
+            PRE_START_GUIDE_URL,
+            True,
+        ),
+        (
+            '2025-01-01 01:00:00',
+            ExistingBusinessTriage,
+            ExistingBusinessGuideEmailRecipient,
+            '2025-06-30 02:00:00',
+            ESTABLISHED_GUIDE_URL,
+            False,
+        ),
+        (
+            '2025-01-01 01:00:00',
+            ExistingBusinessTriage,
+            ExistingBusinessGuideEmailRecipient,
+            '2025-06-30 02:00:00',
+            START_UP_GUIDE_URL,
+            False,
+        ),
+        (
+            '2025-01-01 01:00:00',
+            StartingABusinessTriage,
+            StartingABusinessGuideEmailRecipient,
+            '2025-06-30 02:00:00',
+            PRE_START_GUIDE_URL,
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_guide_link_valid(
+    create_freeze_time, triage_model, triage_recipient_model, request_freeze_time, request_url, link_valid
+):
+    factory = RequestFactory()
+
+    with freeze_time(create_freeze_time):
+        triage = triage_model.objects.create(triage_uuid='12345')
+        recipient = triage_recipient_model.objects.create(
+            email='test@example.com', triage=triage, url_token=token_urlsafe()  # /PS-IGNORE
+        )
+    with freeze_time(request_freeze_time):
+        req = factory.get(request_url + f'?url_token={recipient.url_token}')
+        assert guide_link_valid(req) == link_valid
