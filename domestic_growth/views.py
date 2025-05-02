@@ -8,6 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import FormView
 from pydantic import HttpUrl
 
+from core.fern import Fern
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.constants import (
     ESTABLISHED_GUIDE_URL,
@@ -32,36 +33,37 @@ from international_online_offer.services import get_dbt_sectors
 @method_decorator(never_cache, name='dispatch')
 class BaseTriageFormView(FormView):
 
-    session_id: str = ''
+    triage_uuid: str = ''
     triage_model: Model = ExistingBusinessTriage
     triage_field_name: str = ''
+    fern = Fern()
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.session_id = self.get_session_id()
+        self.triage_uuid = self.get_triage_uuid()
 
-    def get_session_id(self) -> str:
+    def get_triage_uuid(self) -> str:
         """
         Returns a string to be used as a unique identifier for Domestic Growth triage records.
         The return value will either be a django session ID, an existing session ID from QS params
         or a UUIDv4. This is necessary to facilitate users who have not accepted cookies and
         therefore do not have a django request.session.session_key
         """
-        if self.request.GET.get('session_id', False):
-            return self.request.GET.get('session_id')
+        if self.request.GET.get('triage_uuid', False):
+            return self.fern.decrypt(self.request.GET.get('triage_uuid'))
         elif self.request.session.session_key:
             return self.request.session.session_key
         else:
             return uuid4()
 
-    def get_url_with_optional_session_id_param(self, url: str, params: dict = {}) -> HttpUrl:
+    def get_url_with_optional_triage_uuid_param(self, url: str, params: dict = {}) -> HttpUrl:
         """
         Accepts a success url and if we are using a uuid as opposed to a session_key appends a
         query string parameter
         """
         try:
-            if type(self.session_id) is UUID or type(UUID(self.session_id)) is UUID:
-                params = {'session_id': self.session_id, **params}
+            if type(self.triage_uuid) is UUID or type(UUID(self.triage_uuid)) is UUID:
+                params = {'triage_uuid': self.fern.encrypt(str(self.triage_uuid)), **params}
                 return f'{url}?{urlencode(params)}'
         except ValueError as e:  # NOQA:F841
             # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
@@ -70,7 +72,7 @@ class BaseTriageFormView(FormView):
         return url
 
     def get_initial(self):
-        triage_data = get_triage_data(self.triage_model, self.session_id)
+        triage_data = get_triage_data(self.triage_model, self.triage_uuid)
         if triage_data:
             return {self.triage_field_name: getattr(triage_data, self.triage_field_name, None)}
 
@@ -84,7 +86,7 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             StartingABusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     self.triage_field_name: form.cleaned_data['postcode'],
                 },
@@ -93,14 +95,14 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(
+        return super().get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-pre-start-sector')
         )
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
         back_url = (
-            f'{PRE_START_GUIDE_URL}?session_id={self.session_id}'
+            f'{PRE_START_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
             if PRE_START_GUIDE_URL in self.request.META.get('HTTP_REFERER', [])
             else '/'
         )
@@ -116,7 +118,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
-        back_url = self.get_url_with_optional_session_id_param(
+        back_url = self.get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-pre-start-location')
         )
 
@@ -125,7 +127,7 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             StartingABusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     'sector_id': form.cleaned_data['sector'],
                     'dont_know_sector': form.cleaned_data['dont_know_sector_yet'],
@@ -135,10 +137,10 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(PRE_START_GUIDE_URL)
+        return super().get_url_with_optional_triage_uuid_param(PRE_START_GUIDE_URL)
 
     def get_initial(self):
-        triage_data = get_triage_data(StartingABusinessTriage, self.session_id)
+        triage_data = get_triage_data(StartingABusinessTriage, self.triage_uuid)
         if triage_data:
             return {
                 'sector': getattr(triage_data, 'sector_id', None),
@@ -154,7 +156,7 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             ExistingBusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     self.triage_field_name: form.cleaned_data['postcode'],
                 },
@@ -163,7 +165,7 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(
+        return super().get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-sector')
         )
 
@@ -173,9 +175,9 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
         back_url = '/'
 
         if START_UP_GUIDE_URL in http_referer:
-            back_url = f'{START_UP_GUIDE_URL}?session_id={self.session_id}'
+            back_url = f'{START_UP_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
         elif ESTABLISHED_GUIDE_URL in http_referer:
-            back_url = f'{ESTABLISHED_GUIDE_URL}?session_id={self.session_id}'
+            back_url = f'{ESTABLISHED_GUIDE_URL}?triage_uuid={Fern().encrypt(self.triage_uuid)}'
 
         return {'back_url': back_url, **ctx_data}
 
@@ -187,7 +189,7 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
-        back_url = self.get_url_with_optional_session_id_param(
+        back_url = self.get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-location')
         )
 
@@ -196,7 +198,7 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             ExistingBusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     'sector_id': form.cleaned_data['sector'],
                     'cant_find_sector': form.cleaned_data['cant_find_sector'],
@@ -206,12 +208,12 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(
+        return super().get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-when-set-up')
         )
 
     def get_initial(self):
-        triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
+        triage_data = get_triage_data(ExistingBusinessTriage, self.triage_uuid)
         if triage_data:
             return {
                 'sector': getattr(triage_data, 'sector_id', None),
@@ -227,7 +229,7 @@ class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             ExistingBusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     self.triage_field_name: form.cleaned_data['when_set_up'],
                 },
@@ -236,13 +238,13 @@ class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(
+        return super().get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-turnover')
         )
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
-        back_url = self.get_url_with_optional_session_id_param(
+        back_url = self.get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-sector')
         )
 
@@ -257,7 +259,7 @@ class ExistingBusinessTurnoverFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             ExistingBusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     self.triage_field_name: form.cleaned_data['turnover'],
                 },
@@ -266,13 +268,13 @@ class ExistingBusinessTurnoverFormView(BaseTriageFormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return super().get_url_with_optional_session_id_param(
+        return super().get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-exporter')
         )
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
-        back_url = self.get_url_with_optional_session_id_param(
+        back_url = self.get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-when-set-up')
         )
 
@@ -287,7 +289,7 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
     def form_valid(self, form):
         if form.is_valid():
             ExistingBusinessTriage.objects.update_or_create(
-                session_id=self.session_id,
+                triage_uuid=self.triage_uuid,
                 defaults={
                     self.triage_field_name: True if form.cleaned_data['currently_export'] == 'YES' else False,
                 },
@@ -297,25 +299,25 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
     def get_success_url(self):
 
-        triage_data = ExistingBusinessTriage.objects.get(session_id=self.session_id)
+        triage_data = ExistingBusinessTriage.objects.get(triage_uuid=self.triage_uuid)
 
         success_url = ESTABLISHED_GUIDE_URL
 
         if triage_data and triage_data.when_set_up == LESS_THAN_3_YEARS_AGO:
             success_url = START_UP_GUIDE_URL
 
-        return super().get_url_with_optional_session_id_param(success_url)
+        return super().get_url_with_optional_triage_uuid_param(success_url)
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
-        back_url = self.get_url_with_optional_session_id_param(
+        back_url = self.get_url_with_optional_triage_uuid_param(
             reverse_lazy('domestic_growth:domestic-growth-existing-turnover')
         )
 
         return {'back_url': back_url, **ctx_data}
 
     def get_initial(self):
-        triage_data = get_triage_data(ExistingBusinessTriage, self.session_id)
+        triage_data = get_triage_data(ExistingBusinessTriage, self.triage_uuid)
 
         if triage_data and getattr(triage_data, self.triage_field_name) is not None:
             return {
