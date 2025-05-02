@@ -73,8 +73,6 @@ class GreatInternationalHomePage(cms_panels.GreatInternationalHomePagePanels, Ba
         }
         return context
 
-    
-
 
 class Sector(models.Model):
     name = models.CharField(max_length=255)
