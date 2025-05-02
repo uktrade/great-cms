@@ -31,16 +31,10 @@
 </section>
 <section class="great-hero-cards govuk-!-padding-bottom-6">
     <div class="great-container">
-        <div class="govuk-grid-row great-card-row">
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with content="Get the guidance and insights to help you set up and grow your business in the UK" data_attr_title='How to expand your business' data_attr_location='International homepage' title='How to expand your business' url="/international/expand-your-business-in-the-uk/" show_title_link=True heading_class="govuk-heading-m" content_class="govuk-body" classes="great-international-card--cta" heading_level="h2" %}
-            </div>
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with content="Explore a range of foreign direct investment projects to suit your needs, by sector and location" data_attr_title='Find investment opportunities' data_attr_location='International homepage' title='Find investment opportunities' url="/international/investment/" show_title_link=True heading_class="govuk-heading-m" content_class="govuk-body" classes="great-international-card--cta" heading_level="h2" %}
-            </div>
-            <div class="govuk-grid-column-one-third-from-desktop govuk-!-margin-bottom-6">
-                {% include 'components/great/card.html' with content="Find UK suppliers that can partner with your business to achieve success" data_attr_title='Buy UK products and services' data_attr_location='International homepage' title='Buy UK products and services' url="/international/buy-from-the-uk/" show_title_link=True heading_class="govuk-heading-m" content_class="govuk-body" classes="great-international-card--cta" heading_level="h2" %}
-            </div>
+        <div class="great-ds-card-container">
+            {% include "_card.html" with href="/international/expand-your-business-in-the-uk/" title="How to expand your business" tag="h2" titleSize="m" id="how-to-expand-your-business" description="Get the guidance and insights to help you set up and grow your business in the UK" type="mounted" classes="great-ds-card--3" attributes=eyb_card_attributes %}
+            {% include "_card.html" with href="/international/investment/" title="Find investment opportunities" tag="h2" titleSize="m" id="find-investment-opportunities" description="Explore a range of foreign direct investment projects to suit your needs, by sector and location" type="mounted" classes="great-ds-card--3" attributes=investment_card_attributes %}
+            {% include "_card.html" with href="/international/buy-from-the-uk/" title="Buy UK products and services" tag="h2" titleSize="m" id="buy-uk-products-and-services" description="Find UK suppliers that can partner with your business to achieve success" type="mounted" classes="great-ds-card--3" attributes=buy_from_uk_card_attributes %}
         </div>
     </div>
 </section>
