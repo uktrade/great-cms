@@ -61,21 +61,21 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
     triage_model = get_triage_model(request)
 
-    # try:
-    triage_data = get_triage_data(triage_model, triage_uuid=triage_uuid)
-    triage_data = model_to_dict(triage_data)
+    try:
+        triage_data = get_triage_data(triage_model, triage_uuid=triage_uuid)
+        triage_data = model_to_dict(triage_data)
 
-    dbt_sectors = get_dbt_sectors()
+        dbt_sectors = get_dbt_sectors()
 
-    parent_sector = None
-    sub_sector = None
+        parent_sector = None
+        sub_sector = None
 
-    if triage_data and triage_data['sector_id']:
-        parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
+        if triage_data and triage_data['sector_id']:
+            parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
-    return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
-    # except Exception:
-    #     return {'postcode': '', 'sector': ''}
+        return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
+    except Exception:
+        return {'postcode': '', 'sector': ''}
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:

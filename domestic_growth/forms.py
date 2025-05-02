@@ -13,7 +13,7 @@ class StartingABusinessLocationForm(forms.Form):
     postcode = forms.CharField(
         is_page_heading=True,
         label='What is your postcode?',
-        help_text='We’ll use this to show support and information services closest to you.',
+        help_text='We’ll use this to show business support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
         validators=[is_valid_uk_postcode],

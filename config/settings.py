@@ -532,18 +532,18 @@ if AWS_STORAGE_BUCKET_NAME:
         PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
 
 
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
-    INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
-    if IS_LOCAL_DOCKER_DEVELOPMENT:
-        import socket
+# if DEBUG:
+#     INSTALLED_APPS += ['debug_toolbar']
+#     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+#     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
+#     if IS_LOCAL_DOCKER_DEVELOPMENT:
+#         import socket
 
-        hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-        INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
+#         hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#         INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + INTERNAL_IPS
+#         DEBUG_TOOLBAR_CONFIG = {
+#             'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+#         }
 
 ELASTIC_APM_ENABLED = env.elastic_apm_enabled
 if ELASTIC_APM_ENABLED:
