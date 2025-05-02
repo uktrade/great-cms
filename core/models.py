@@ -2310,8 +2310,10 @@ class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
     parent_page_types = [
         'core.Support',
         'core.SupportPage',
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
     ]
-    subpage_types = ['core.SupportPage']
+    subpage_types = ['core.SupportPage', 'core.TaskBasedCategoryPage']
 
     class Meta:
         verbose_name = 'Support page'
@@ -2470,6 +2472,7 @@ class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
     template = 'domestic/contact/export-support/task-based-category-page.html'
     parent_page_types = [
         'core.Support',
+        'core.SupportPage',
     ]
     subpage_types = ['core.TaskBasedSubCategoryPage']
 
