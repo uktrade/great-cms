@@ -613,6 +613,8 @@ class GeoLocationRedirector:
     }
     COOKIE_NAME = 'disable_geoloaction'
     LANGUAGE_PARAM = 'lang'
+    GREAT_URL = '/international/'
+    BGS_URL = '/invest-in-uk/'
 
     def __init__(self, request):
         self.request = request
@@ -641,10 +643,24 @@ class GeoLocationRedirector:
             and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa: W503
         )
 
+    @property
+    def get_redirect_url(self):
+        """
+        /international will now be /invest-in-uk when business.gov.uk is launched.
+
+        The new re-direct logic is:
+        - /invest-in-uk if the user request domain is business.gov.uk
+        - /international if the user request domain is great.gov.uk
+
+        """
+        if 'business.gov.uk' in self.request.build_absolute_uri().split('/')[2]:
+            return self.BGS_URL
+        return self.GREAT_URL
+
     def get_response(self):
         params = self.request.GET.dict()
         params[self.LANGUAGE_PARAM] = self.country_language
-        url = '{url}?{querystring}'.format(url='/international/', querystring=urllib.parse.urlencode(params))
+        url = '{url}?{querystring}'.format(url=self.get_redirect_url, querystring=urllib.parse.urlencode(params))
         response = redirect(url)
         response.set_cookie(
             key=self.COOKIE_NAME,
