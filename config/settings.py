@@ -124,6 +124,7 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     'core.middleware.GA4TrackingMiddleware',
+    'international.middleware.CheckForBGSDomainMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
@@ -1104,5 +1105,5 @@ WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
-BGS_INTERNATIONAL_URL = '/invest-in-uk'
-GREAT_INTERNATIONAL_URL = '/international'
+BGS_INTERNATIONAL_URL = 'invest-in-uk'
+GREAT_INTERNATIONAL_URL = 'international'

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import reverse_lazy
 
+from core.helpers import is_bgs_domain
 from international_online_offer.context_processors import (
     hide_primary_nav,
     is_triage_complete,
@@ -36,14 +37,15 @@ def international_header(request):
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
 
-    is_bgs_site = True if 'business' in request.build_absolute_uri().split('/')[2] else False
-    international_base_url = settings.BGS_INTERNATIONAL_URL if is_bgs_site else settings.GREAT_INTERNATIONAL_URL
+    international_base_url = (
+        settings.BGS_INTERNATIONAL_URL if is_bgs_domain(request) else settings.GREAT_INTERNATIONAL_URL
+    )
 
     is_authenticated = is_authenticated = getattr(getattr(request, 'user', None), 'is_authenticated', False)
-    site_title_href = f'{international_base_url}/expand-your-business-in-the-uk/'
+    site_title_href = f'/{international_base_url}/expand-your-business-in-the-uk/'
 
     if is_authenticated:
-        site_title_href = f'{international_base_url}/expand-your-business-in-the-uk/guide/'
+        site_title_href = f'/{international_base_url}/expand-your-business-in-the-uk/guide/'
 
     site_title = {
         'text': 'Expand your business in the UK',
@@ -86,7 +88,7 @@ def international_header(request):
         nav_items_list_children.insert(1, details_object)
 
     return {
-        'is_bgs_site': is_bgs_site,
+        'is_bgs_site': is_bgs_domain(request),
         'international_header_context': {
             'header_classes': '',
             'isInternational': True,
@@ -98,49 +100,49 @@ def international_header(request):
             'hideMainNav': hide_primary_nav(request)['hide_primary_nav'],
             'siteTitle': site_title,
             'domesticLink': {'href': '/', 'text': 'Export from the UK'},
-            'internationalLink': {'href': f'{international_base_url}/', 'text': 'Invest in the UK'},
+            'internationalLink': {'href': f'/{international_base_url}/', 'text': 'Invest in the UK'},
             'searchFormAction': reverse_lazy('search:search'),
             'navItemsList': [
                 {
-                    'href': f'{international_base_url}/expand-your-business-in-the-uk/',
+                    'href': f'/{international_base_url}/expand-your-business-in-the-uk/',
                     'text': 'Expand your business',
                     'location': 'International header',
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                     'navItemsListChildren': nav_items_list_children if not user_on_verify_code_page else [],
                 },
                 {
-                    'href': f'{international_base_url}/investment/',
+                    'href': f'/{international_base_url}/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
-                    'isCurrent': f'{international_base_url}/investment/' == request.path
-                    or f'{international_base_url}/investment/' in request.path
+                    'isCurrent': f'/{international_base_url}/investment/' == request.path
+                    or f'/{international_base_url}/investment/' in request.path
                     and '?back=' in request.get_full_path(),
                 },
                 {
-                    'href': f'{international_base_url}/buy-from-the-uk/',
+                    'href': f'/{international_base_url}/buy-from-the-uk/',
                     'text': 'Buy from the UK',
                     'location': 'International header',
-                    'isCurrent': f'{international_base_url}/buy-from-the-uk/' in request.path,
+                    'isCurrent': f'/{international_base_url}/buy-from-the-uk/' in request.path,
                 },
             ],
             'menuItemsList': [
                 {
-                    'href': f'{international_base_url}/expand-your-business-in-the-uk/',
+                    'href': f'/{international_base_url}/expand-your-business-in-the-uk/',
                     'location': 'International header',
                     'text': 'Expand your business',
                     'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                 },
                 {
-                    'href': f'{international_base_url}/investment/',
+                    'href': f'/{international_base_url}/investment/',
                     'text': 'Investment opportunities',
                     'location': 'International header',
-                    'isCurrent': f'{international_base_url}/investment/' in request.path,
+                    'isCurrent': f'/{international_base_url}/investment/' in request.path,
                 },
                 {
-                    'href': f'{international_base_url}/buy-from-the-uk/',
+                    'href': f'/{international_base_url}/buy-from-the-uk/',
                     'text': 'Buy from the UK',
                     'location': 'International header',
-                    'isCurrent': f'{international_base_url}/buy-from-the-uk/' in request.path,
+                    'isCurrent': f'/{international_base_url}/buy-from-the-uk/' in request.path,
                 },
             ],
             'mobileSiteLink': {'href': '/', 'text': 'Export from the UK'},
