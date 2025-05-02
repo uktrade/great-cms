@@ -5,6 +5,7 @@
     Help using this website
     {{ block.super }}
 {% endblock %}
+{% block meta_tags %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block page_title %}Help using this website {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
     {% block breadcrumb_region %}
@@ -48,7 +49,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 {% if bgs_flag %}
-                    <h1 class="govuk-heading-xl">Get help using Business.gov.uk.</h1>
+                    <h1 class="govuk-heading-xl">Get help using Business.gov.uk</h1>
                     <p class="govuk-body">This form is for reporting issues while using Business.gov.uk.</p>
                     <p class="govuk-body">
                         For example, a broken link or a missing page. Do not include personal or commercially sensitive information.
@@ -96,14 +97,14 @@
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
                     <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
                         {% include 'international/includes/form_field.html' with field=form.email %}
                     </div>
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-4">
                     <p class="govuk-body">
                         By sending us your enquiry, you agree to our
                         <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and

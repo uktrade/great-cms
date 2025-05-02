@@ -10,7 +10,7 @@
 
             {% if related_cta.block_type == 'card' %}
                 {% image related_cta.value.image width-300 as relayed_cta_image %}
-                {% include "_card.html" with metadataIconType="guidance" metaDataIconPath="/static/icons" metadataText=related_cta.value.meta_text imageUrl=relayed_cta_image.url href=related_cta.value.url type="unmounted" title=related_cta.value.title description=related_cta.value.description id=related_cta.value.title classes="great-ds-card--full" hideArrow="true" %}
+                {% include "_card.html" with metaDataIconPath="/static/icons/guidance.svg" metadataText=related_cta.value.meta_text imageUrl=relayed_cta_image.url href=related_cta.value.url type="unmounted" title=related_cta.value.title description=related_cta.value.description id=related_cta.value.title classes="great-ds-card--full" hideArrow="true" %}
             {% endif %}
         {% endfor %} 
     {% endfor %}

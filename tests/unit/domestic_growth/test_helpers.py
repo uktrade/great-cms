@@ -4,6 +4,7 @@ from secrets import token_urlsafe
 from unittest import mock
 
 import pytest
+from django.conf import settings
 from django.test.client import RequestFactory
 from freezegun import freeze_time
 
@@ -18,6 +19,8 @@ from domestic_growth.constants import (
 )
 from domestic_growth.helpers import (
     get_change_answers_link,
+    get_change_sector_link,
+    get_filtered_trade_associations,
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
@@ -36,19 +39,23 @@ from domestic_growth.models import (
     'trade_associations, sector, sub_sector, expected_output',
     (
         (
-            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}],
+            [{'sectors': 'Food and drink', 'regions': None}, {'sectors': 'Aerospace', 'regions': None}],
             'Food and drink',
             None,
-            {'sector_tas': [{'sectors': 'Food and drink'}]},
+            {'sector_tas': [{'sectors': 'Food and drink', 'regions': None}]},
         ),
         (
-            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}, {'sectors': 'Food and drink : Tea'}],
+            [
+                {'sectors': 'Food and drink', 'regions': None},
+                {'sectors': 'Aerospace', 'regions': None},
+                {'sectors': 'Food and drink : Tea', 'regions': None},
+            ],
             'Food and drink',
             'Tea',
             {
                 'sub_sector_and_sector_only_tas': [
-                    {'sectors': 'Food and drink : Tea', 'type': 'sub_sector'},
-                    {'sectors': 'Food and drink', 'type': 'sector'},
+                    {'sectors': 'Food and drink : Tea', 'type': 'sub_sector', 'regions': None},
+                    {'sectors': 'Food and drink', 'type': 'sector', 'regions': None},
                 ]
             },
         ),
@@ -60,7 +67,38 @@ def test_get_trade_association_results(
     sub_sector,
     expected_output,
 ):
-    assert get_trade_association_results(trade_associations, sector, sub_sector) == expected_output
+    assert (
+        get_trade_association_results(trade_associations, sector, sub_sector, {'postcode_data': {'region': 'London'}})
+        == expected_output
+    )
+
+
+@pytest.mark.parametrize(
+    'trade_associations, local_support_data, expected_output',
+    (
+        (
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}, {'sectors': 'Technology', 'regions': 'Scotland'}],
+            {'postcode_data': {'region': 'London'}},
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}],
+        ),
+        (
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}, {'regions': 'Scotland'}],
+            {'postcode_data': {'region': 'Scotland'}},
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}, {'regions': 'Scotland'}],
+        ),
+        (
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}],
+            None,
+            [{'sectors': 'Food and drink'}, {'sectors': 'Aerospace'}],
+        ),
+    ),
+)
+def test_get_filtered_trade_associations(
+    trade_associations,
+    local_support_data,
+    expected_output,
+):
+    assert get_filtered_trade_associations(trade_associations, local_support_data) == expected_output
 
 
 @pytest.mark.parametrize(
@@ -298,6 +336,37 @@ def test_get_change_your_answers_link(guide_url, triage_uuid_qs_param, expected_
 
     if triage_uuid_qs_param:
         assert fern.decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid_qs_param
+
+
+@pytest.mark.parametrize(
+    'guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled',
+    (
+        (ESTABLISHED_GUIDE_URL, None, '/support/existing/sector/', True),
+        (START_UP_GUIDE_URL, None, '/support/existing/sector/', True),
+        (PRE_START_GUIDE_URL, None, '/support/pre-start/sector/', True),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/sector/?session_id=1234', True),
+        (ESTABLISHED_GUIDE_URL, None, None, False),
+        (START_UP_GUIDE_URL, None, None, False),
+    ),
+)
+@pytest.mark.django_db
+def test_get_change_sector_link(guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled):
+    settings.FEATURE_DOMESTIC_GROWTH = feature_domestic_growth_enabled
+
+    factory = RequestFactory()
+
+    if session_id_qs_param:
+        req = factory.get(guide_url + f'?session_id={session_id_qs_param}')
+    else:
+        req = factory.get(guide_url)
+        req.session = mock.Mock()
+        req.session.session_key = '1234'
+
+    redirect_url = get_change_sector_link(req)
+
+    assert redirect_url == expected_redirect_url
 
 
 @pytest.mark.parametrize(

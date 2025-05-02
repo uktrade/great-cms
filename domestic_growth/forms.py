@@ -1,4 +1,4 @@
-from core.validators import is_valid_uk_postcode
+from core.validators import is_valid_uk_postcode_and_within_uk
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
@@ -16,7 +16,7 @@ class StartingABusinessLocationForm(forms.Form):
         help_text='We’ll use this to show business support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
-        validators=[is_valid_uk_postcode],
+        validators=[is_valid_uk_postcode_and_within_uk],
     )
 
 
@@ -72,7 +72,7 @@ class ExistingBusinessLocationForm(forms.Form):
         help_text='We’ll use this to show support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
-        validators=[is_valid_uk_postcode],
+        validators=[is_valid_uk_postcode_and_within_uk],
     )
 
 
@@ -173,7 +173,7 @@ class EmailGuideForm(forms.Form):
                 'type': 'email',
                 'spellcheck': 'false',
                 'aria-describedby': 'email_guide_email_field_description',
-            }
+            },
         ),
         required=True,
         error_messages={
