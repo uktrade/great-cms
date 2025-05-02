@@ -43,7 +43,13 @@
             - great.gov.uk
         {% endblock %}
     </title>
-    {% block meta_tags %}{% endblock %}
+    {% block meta_tags %}
+        {% with page=page %}
+            {% if page %}
+                {% if page.meta_robot_html %}{{page.meta_robot_html|safe}}{% endif %}
+            {% endif %}
+        {% endwith %}
+    {% endblock %}
     {% with is_wagtail_page=page %}
         {% if is_wagtail_page %}
             {% include "core/includes/seo_meta.html" %}
