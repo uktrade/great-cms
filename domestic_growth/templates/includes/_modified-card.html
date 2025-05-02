@@ -24,11 +24,7 @@
         <div class="great-ds-card__content">
             {% if title %}
                 <div class="great-ds-card__title-wrapper">
-                    {% if type == "elevated" or completedTag == "true" %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow="true"  %}
-                    {% else %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow=hideArrow  %}
-                    {% endif %}
+                    <h4 class="{% if titleSize %}govuk-heading-{{titleSize}}{% else %}govuk-heading-m">{{title}}</h4>  
                     {% if completedTag == "true" %}
                         {% include "_tag.html" with text="Completed" type="success"  %}
                     {% endif %}
