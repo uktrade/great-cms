@@ -75,57 +75,82 @@
                         </div>
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-                                <p class="govuk-body">
-                                    By signing up, you agree to our
-                                    <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
-                                    <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="govuk-grid-row govuk-!-margin-top-4">
-                            <div class="govuk-grid-column-full">{% include "_button.html" with text='Continue' %}</div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <p class="govuk-body-m">
-                        Already signed up? <a href="{% url 'international_online_offer:login' %}"
-    class="govuk-link">Sign in to access your guide</a>
-                    </p>
-                </div>
-            </div>
-        {% else %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
-                    <div id="sign-up-confirm">
-                        <h1 class="govuk-heading-l">Check your email</h1>
-                        <!-- djlint:off T027-->
-                        {% include '_inset-text.html' with html="We've sent an email to: <strong>"|add:request.GET.email|add:"</strong>" %}
-                        <!-- djlint:on -->
-                        <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
-                        <p class="govuk-body">
-                            Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.
-                        </p>
-                        <p class="govuk-body">The code will expire after 30 minutes.</p>
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="govuk-grid-row govuk-!-margin-bottom-7">
-                                <div class="govuk-grid-column-full">
-                                    <div class="{% if form.code_confirm.errors %} govuk-form-group--error{% endif %}">
-                                        {% include 'international/includes/form_field.html' with field=form.code_confirm %}
-                                    </div>
+                                {% if bgs_site %}
+                                    <div class="{% if form.agree_terms.errors %} govuk-form-group--error{% endif %}">
+                                        {% for error in form.agree_terms.errors %}
+                                            <p class="govuk-error-message" role="alert">
+                                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                            </p>
+                                        {% endfor %}
+                                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                            <div class="govuk-checkboxes__item">
+                                                <input class="govuk-checkboxes__input"
+                                                       id="agree_terms"
+                                                       name="agree_terms"
+                                                       type="checkbox"
+                                                       value="agree_terms" />
+                                                <label class="govuk-label govuk-checkboxes__label" for="agree_terms">
+                                                    I have read and agree to the terms and conditions.
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <p class="govuk-body govuk-!-margin-top-2">
+                                            Read our
+                                            <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a> to understand how we use your personal information.
+                                        </p>
+                                    {% else %}
+                                        <p class="govuk-body">
+                                            By signing up, you agree to our
+                                            <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
+                                            <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+                                        </p>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                            <div class="govuk-grid-row govuk-!-margin-top-4">
                                 <div class="govuk-grid-column-full">{% include "_button.html" with text='Continue' %}</div>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-    </div>
-{% endblock %}
-{% block body_js %}{{ block.super }}{% endblock %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <p class="govuk-body-m">
+                            Already signed up? <a href="{% url 'international_online_offer:login' %}"
+    class="govuk-link">Sign in to access your guide</a>
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
+                        <div id="sign-up-confirm">
+                            <h1 class="govuk-heading-l">Check your email</h1>
+                            <!-- djlint:off T027-->
+                            {% include '_inset-text.html' with html="We've sent an email to: <strong>"|add:request.GET.email|add:"</strong>" %}
+                            <!-- djlint:on -->
+                            <p class="govuk-body">The email contains a 5 digit confirmation code.</p>
+                            <p class="govuk-body">
+                                Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.
+                            </p>
+                            <p class="govuk-body">The code will expire after 30 minutes.</p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="govuk-grid-row govuk-!-margin-bottom-7">
+                                    <div class="govuk-grid-column-full">
+                                        <div class="{% if form.code_confirm.errors %} govuk-form-group--error{% endif %}">
+                                            {% include 'international/includes/form_field.html' with field=form.code_confirm %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                                    <div class="govuk-grid-column-full">{% include "_button.html" with text='Continue' %}</div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endblock %}
+    {% block body_js %}{{ block.super }}{% endblock %}

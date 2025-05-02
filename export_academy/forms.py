@@ -1,6 +1,7 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.core.exceptions import ValidationError
 from django.forms import (
+    BooleanField,
     CheckboxInput,
     DateTimeField,
     HiddenInput,
@@ -326,6 +327,10 @@ class SignUpForm(forms.Form):
             'required': 'Enter a password',
         },
     )
+    agree_terms = BooleanField(
+        required=True,
+        error_messages={'required': 'Tick the box to accept the terms and conditions'},
+    )  # noqa:E501
 
 
 class CodeConfirmForm(forms.Form):

@@ -455,6 +455,13 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
         label='I would like to receive additional information by telephone',
         required=False,
     )
+    agree_terms = forms.BooleanField(
+        label='I have read and agree to the terms and conditions.',
+        required=True,
+        error_messages={
+            'required': 'Tick the box to accept the terms and conditions',
+        },
+    )
 
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):

@@ -136,9 +136,7 @@
                                     <div class="govuk-checkboxes__item">
                                         {{ form.terms }}
                                         <label class="govuk-label govuk-checkboxes__label" for="id_terms">
-                                            <p class="govuk-body">
-                                                I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">great.gov.uk terms and conditions</a> and I understand that:
-                                            </p>
+                                            <p class="govuk-body">I have read and agree to the terms and conditions and I understand that:</p>
                                             <ul class="govuk-list govuk-list--bullet">
                                                 <li>
                                                     the Department for Business and Trade (DBT) is not endorsing the character, ability, goods or services of members of the directory
@@ -149,6 +147,10 @@
                                                 </li>
                                             </ul>
                                         </label>
+                                        <p class="govuk-body">
+                                            Read our
+                                            <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a> to understand how we use your personal information.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +179,6 @@
 {% block body_js %}
     {{ block.super }}
     {% include 'captcha/includes/js_v3.html' %}
-
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>

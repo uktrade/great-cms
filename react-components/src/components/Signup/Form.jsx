@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
@@ -20,10 +20,18 @@ const Form = ({
   googleLoginUrl,
   phoneNumber,
   handlePhoneNumber,
-}) => (
+}) => {
+  const[agreeTerms, setAgreeTerms] = useState(false)
+  const[agreeError, setAgreeError] = useState(false)
+  return(
   <form
     onSubmit={(event) => {
       event.preventDefault()
+      if(!agreeTerms){
+        setAgreeError(true)
+        return
+      }
+      setAgreeError(false)
       handleSubmit()
     }}
     className="signup__form"
@@ -69,11 +77,35 @@ const Form = ({
       errors={errors.password || []}
       isPasswordShowHide={true}
     />
-    <p className="signup__conditions">
-      By signing up, you agree to our{' '}
-      <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
-      <a href="/privacy/">privacy notice</a>
-    </p>
+    <div className={`govuk-form-group ${agreeError ? 'govuk-form-group--error': ''}`}>
+      {agreeError && (
+        <span className="govuk-error-message">
+           <span className="govuk-visually-hidden">Error:</span>Tick the box to accept the terms and conditions
+        </span>
+      )
+
+      }
+    <div className="govuk-checkboxes" data-module="govuk-checkboxes">
+      <div className="govuk-checkboxes__item">
+      <input className="govuk-checkboxes__input"
+        name="agreeTerms"
+        type="checkbox"
+        value="agreeTerms"
+        id="agreeTerms"
+        checked={agreeTerms}
+        onChange={()=> setAgreeTerms(!agreeTerms)}
+      />
+      <label className="govuk-label govuk-checkboxes__label" htmlFor="agreeTerms">
+      I have read and agree to the terms and conditions.
+      </label>
+      </div>
+    </div>
+    </div>
+
+
+ <p className="govuk-body govuk-!-margin-top-2">
+ Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
+ </p>
     <button
       type="submit"
       id="signup-modal-submit"
@@ -106,6 +138,7 @@ const Form = ({
     </p>
   </form>
 )
+}
 
 Form.propTypes = {
   disabled: PropTypes.bool,

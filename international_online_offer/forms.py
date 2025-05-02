@@ -219,9 +219,11 @@ class ContactDetailsForm(forms.Form):
         widget=TextInput(attrs={'class': 'govuk-input', 'autocomplete': 'tel'}),
     )
     agree_info_email = BooleanField(
-        required=False,
-        label="""I would like to receive emails from partner organisations
-        providing expansion support in my chosen UK location.""",
+        required=True,
+        label="""I have read and agree to the terms and conditions.""",
+        error_messages={
+            'required': 'Tick the box to accept the terms and conditions',
+        },
         widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
@@ -386,6 +388,10 @@ class SignUpForm(forms.Form):
             'required': 'Enter a password',
         },
     )
+    agree_terms = BooleanField(
+        required=True,
+        error_messages={'required': 'Tick the box to accept the terms and conditions'},
+    )  # noqa:E501
 
 
 class CodeConfirmForm(forms.Form):

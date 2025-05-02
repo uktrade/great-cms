@@ -79,15 +79,21 @@
     <a id="previous-button"
        class="link"
        href="{% url 'domestic:report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
-    <h2 class="heading-medium">How we use your information</h2>
-    <p>The Department for Business and Trade will use the information provided in this form to respond to your enquiry.</p>
-    <p>
-        You can read about how we protect your data in our <a class="link"
+    {% if bgs_site %}
+        <p className="govuk-body govuk-!-margin-top-2">
+            Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
+        </p>
+    {% else %}
+        <h2 class="heading-medium">How we use your information</h2>
+        <p>The Department for Business and Trade will use the information provided in this form to respond to your enquiry.</p>
+        <p>
+            You can read about how we protect your data in our <a class="link"
     href='{% slugurl "privacy" %}privacy-notice-report-trade-barrier/'>privacy policy</a>.
-    </p>
-    <h2 class="heading-medium">Additional information</h2>
-    <p>
-        If you would like to receive additional information you can opt in below. You can opt out of these additional updates at any time.
-    </p>
+        </p>
+        <h2 class="heading-medium">Additional information</h2>
+        <p>
+            If you would like to receive additional information you can opt in below. You can opt out of these additional updates at any time.
+        </p>
+    {% endif %}
 {% endblock %}
 {% block submit_button_label %}Send report{% endblock %}
