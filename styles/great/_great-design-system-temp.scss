@@ -1313,3 +1313,18 @@ section.bgs-guide-hero {
     }
   }
 }
+
+.bgs-no-sector-infobox {
+  background: #dbeeff;
+  display: flex;
+  gap: 10px;
+
+  svg {
+    display: none;
+
+    @include govuk-media-query($from: tablet) {
+      display: block;
+      margin: 3px;
+    }
+  }
+}

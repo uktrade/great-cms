@@ -14,6 +14,12 @@ def is_valid_uk_postcode(value):
         raise ValidationError(_('Enter a full UK postcode'))
 
 
+def is_valid_uk_postcode_and_within_uk(value):
+    uppercase_postcode = value.replace(' ', '').upper()
+    if not validation.is_valid_postcode(uppercase_postcode) or uppercase_postcode[:2] in ['GY', 'JE', 'IM', 'GX']:
+        raise ValidationError(_('Enter a full UK postcode'))
+
+
 def validate_file_infection(file):
     if not settings.CLAM_AV_ENABLED:
         return

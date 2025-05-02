@@ -328,6 +328,24 @@ class SeoMixin(WagtailSeoMixin):
         abstract = True
 
     seo_twitter_card = TwitterCard.LARGE
+    search_auto_update = False
+    meta_robots_nofollow = models.BooleanField(default=False)
+    meta_robots_noindex = models.BooleanField(default=False)
+
+    @property
+    def meta_robot_html(self):
+        nofollow = self.meta_robots_nofollow
+        noindex = self.meta_robots_noindex
+        if nofollow or noindex:
+            start_html = '<meta name"robots" content="'
+            end_html = '">'
+            if nofollow and not noindex:
+                return f'{start_html}nofollow{end_html}'
+            elif noindex and not nofollow:
+                return f'{start_html}noindex{end_html}'
+            else:
+                return f'{start_html}noindex, nofollow{end_html}'
+        return None
 
     @property
     def seo_image_alt_text(self) -> str:
@@ -350,6 +368,15 @@ class SeoMixin(WagtailSeoMixin):
                 return parsed_url._replace(netloc=parsed_url.netloc).geturl()
             return parsed_url._replace(netloc='www.' + parsed_url.netloc).geturl()
         return canonical_url
+
+    seo_meta_panels = WagtailSeoMixin.seo_meta_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel('meta_robots_nofollow'),
+                FieldPanel('meta_robots_noindex'),
+            ],
+        ),
+    ]
 
 
 # Content models
@@ -2297,8 +2324,10 @@ class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
     parent_page_types = [
         'core.Support',
         'core.SupportPage',
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
     ]
-    subpage_types = ['core.SupportPage']
+    subpage_types = ['core.SupportPage', 'core.TaskBasedCategoryPage']
 
     class Meta:
         verbose_name = 'Support page'
@@ -2457,6 +2486,7 @@ class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
     template = 'domestic/contact/export-support/task-based-category-page.html'
     parent_page_types = [
         'core.Support',
+        'core.SupportPage',
     ]
     subpage_types = ['core.TaskBasedSubCategoryPage']
 

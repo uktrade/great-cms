@@ -9,6 +9,7 @@ from core.validators import (
     is_valid_international_phone_number,
     is_valid_uk_phone_number,
     is_valid_uk_postcode,
+    is_valid_uk_postcode_and_within_uk,
     validate_file_infection,
 )
 from tests.helpers import create_response
@@ -28,6 +29,31 @@ from tests.helpers import create_response
 def test_is_valid_uk_postcode(postcode, raise_expected):
     try:
         is_valid_uk_postcode(postcode)
+        if raise_expected:
+            assert False, f'Excepted {postcode} to fail validation. It did not'
+    except ValidationError:
+        if not raise_expected:
+            assert False, f'Excepted {postcode} to pass validation. It did not'
+
+
+@pytest.mark.parametrize(
+    'postcode, raise_expected',
+    (
+        ('SW1A1AA', False),  # /PS-IGNORE
+        ('90201', True),
+        ('postcode', True),
+        ('', True),
+        (' ', True),
+        ('\t', True),
+        ('GX11 1AA', True),
+        ('IM1 1AA', True),
+        ('JE1 1AA', True),
+        ('GY1 1AA', True),
+    ),
+)
+def test_is_valid_uk_postcode_and_within_uk(postcode, raise_expected):
+    try:
+        is_valid_uk_postcode_and_within_uk(postcode)
         if raise_expected:
             assert False, f'Excepted {postcode} to fail validation. It did not'
     except ValidationError:

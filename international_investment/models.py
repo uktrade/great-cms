@@ -233,6 +233,13 @@ class InvestmentArticlePage(BaseContentPage):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    article_thumbnail_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     article_body = StreamField(
         [
             (
@@ -293,6 +300,7 @@ class InvestmentArticlePage(BaseContentPage):
         FieldPanel('article_subheading'),
         FieldPanel('article_teaser'),
         FieldPanel('article_image'),
+        FieldPanel('article_thumbnail_image'),
         FieldPanel('article_body'),
         FieldPanel('article_case_studies'),
         FieldPanel('data_points'),
