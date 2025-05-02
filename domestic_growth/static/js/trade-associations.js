@@ -22,6 +22,13 @@
           if (index <= 4) {
             el.classList = ''
             el.dataset.hiddenTa = 'false'
+
+            if (sessionStorage) {
+              sessionStorage.setItem(
+                'last_visible_trade_association',
+                el.querySelector('h4').id
+              )
+            }
           }
         })
 
@@ -37,6 +44,10 @@
       document.querySelectorAll('[data-hidden-ta="false"]').forEach((el) => {
         el.classList = 'govuk-!-display-none'
         el.dataset.hiddenTa = 'true'
+
+        if (sessionStorage) {
+          sessionStorage.removeItem('last_visible_trade_association')
+        }
       })
 
       show_ta_trigger.classList = 'govuk-!-display-none'
@@ -49,5 +60,28 @@
     })
 
     show_ta_trigger.classList = 'govuk-!-display-none'
+
+    if (
+      sessionStorage &&
+      sessionStorage.getItem('last_visible_trade_association')
+    ) {
+      const ta_id = sessionStorage.getItem('last_visible_trade_association')
+
+      const last_visible_ta = document.getElementById(ta_id)
+
+      if (
+        last_visible_ta &&
+        last_visible_ta.checkVisibility &&
+        hidden_ta_trigger
+      ) {
+        const ta_interval = setInterval(() => {
+          if (!last_visible_ta.checkVisibility()) {
+            hidden_ta_trigger.click()
+          } else {
+            clearInterval(ta_interval)
+          }
+        }, 200)
+      }
+    }
   }
 })()
