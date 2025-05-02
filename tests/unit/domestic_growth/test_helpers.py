@@ -339,26 +339,28 @@ def test_get_change_your_answers_link(guide_url, triage_uuid_qs_param, expected_
 
 
 @pytest.mark.parametrize(
-    'guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled',
+    'guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params, feature_domestic_growth_enabled',
     (
         (ESTABLISHED_GUIDE_URL, None, '/support/existing/sector/', True),
         (START_UP_GUIDE_URL, None, '/support/existing/sector/', True),
         (PRE_START_GUIDE_URL, None, '/support/pre-start/sector/', True),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
-        (START_UP_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
-        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/sector/?session_id=1234', True),
+        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/sector/', True),
+        (START_UP_GUIDE_URL, '1234', '/support/existing/sector/', True),
+        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/sector/', True),
         (ESTABLISHED_GUIDE_URL, None, None, False),
         (START_UP_GUIDE_URL, None, None, False),
     ),
 )
 @pytest.mark.django_db
-def test_get_change_sector_link(guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled):
+def test_get_change_sector_link(
+    guide_url, triage_uuid_qs_param, expected_redirect_url_ex_qs_params, feature_domestic_growth_enabled
+):
     settings.FEATURE_DOMESTIC_GROWTH = feature_domestic_growth_enabled
 
     factory = RequestFactory()
 
-    if session_id_qs_param:
-        req = factory.get(guide_url + f'?session_id={session_id_qs_param}')
+    if triage_uuid_qs_param:
+        req = factory.get(guide_url + f'?triage_uuid={Fern().encrypt(triage_uuid_qs_param)}')
     else:
         req = factory.get(guide_url)
         req.session = mock.Mock()
@@ -366,7 +368,13 @@ def test_get_change_sector_link(guide_url, session_id_qs_param, expected_redirec
 
     redirect_url = get_change_sector_link(req)
 
-    assert redirect_url == expected_redirect_url
+    if settings.FEATURE_DOMESTIC_GROWTH:
+        assert expected_redirect_url_ex_qs_params in redirect_url
+    else:
+        assert redirect_url is None
+
+    if triage_uuid_qs_param:
+        assert Fern().decrypt(redirect_url[redirect_url.find('triage_uuid=') + 12 :]) == triage_uuid_qs_param
 
 
 @pytest.mark.parametrize(
