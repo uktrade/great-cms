@@ -1104,3 +1104,5 @@ WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
+BGS_INTERNATIONAL_URL = '/invest-in-uk'
+GREAT_INTERNATIONAL_URL = '/international'
