@@ -57,6 +57,24 @@ class GreatInternationalHomePage(cms_panels.GreatInternationalHomePagePanels, Ba
         blank=True,
     )
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['eyb_card_attributes'] = {
+            'data_attr_location': 'International homepage',
+            'data_attr_title': 'How to expand your business',
+        }
+        context['investment_card_attributes'] = {
+            'data_attr_location': 'International homepage',
+            'data_attr_title': 'Find investment opportunities',
+        }
+        context['buy_from_uk_card_attributes'] = {
+            'data_attr_location': 'International homepage',
+            'data_attr_title': 'Buy UK products and services',
+        }
+        return context
+
+    
+
 
 class Sector(models.Model):
     name = models.CharField(max_length=255)
