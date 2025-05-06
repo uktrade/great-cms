@@ -31,13 +31,9 @@ from domestic_growth.helpers import (
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
-<<<<<<< HEAD
     get_triage_uuid_from_url_token,
     get_welcome_event,
     guide_link_valid,
-=======
-    get_welcome_event,
->>>>>>> master
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
