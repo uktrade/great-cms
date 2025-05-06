@@ -1104,3 +1104,5 @@ WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
+FERNET_KEY = env.fernet_key
+BGS_GUIDE_SHARE_LINK_TTL_DAYS = env.bgs_guide_share_link_ttl_days

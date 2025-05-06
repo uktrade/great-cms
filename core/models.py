@@ -334,18 +334,15 @@ class SeoMixin(WagtailSeoMixin):
 
     @property
     def meta_robot_html(self):
-        nofollow = self.meta_robots_nofollow
-        noindex = self.meta_robots_noindex
-        if nofollow or noindex:
+        if self.meta_robots_nofollow or self.meta_robots_noindex:
             start_html = '<meta name"robots" content="'
             end_html = '">'
-            if nofollow and not noindex:
+            if self.meta_robots_nofollow and not self.meta_robots_noindex:
                 return f'{start_html}nofollow{end_html}'
-            elif noindex and not nofollow:
+            elif self.meta_robots_noindex and not self.meta_robots_nofollow:
                 return f'{start_html}noindex{end_html}'
             else:
                 return f'{start_html}noindex, nofollow{end_html}'
-        return None
 
     @property
     def seo_image_alt_text(self) -> str:
