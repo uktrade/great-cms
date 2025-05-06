@@ -68,7 +68,10 @@
         })
       })
 
-      if (window.location.pathname.includes('/support/export-support/')) {
+      if (
+        window.location.pathname.includes('/support/export-support/') ||
+        window.location.pathname.includes('/export-from-uk/support-topics/')
+      ) {
         if (localStorage.getItem('dep_triage_journey')) {
           localStorage.setItem(
             'dep_triage_journey',
