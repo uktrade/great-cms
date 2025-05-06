@@ -21,7 +21,7 @@ from wagtail.images.views.chooser import (
     ImageUploadViewMixin,
     SelectFormatResponseMixin,
 )
-from wagtail.models import Locale
+from wagtail.models import Locale, Site
 
 from core import cms_slugs, forms, helpers, serializers, views
 from core.models import HCSAT
@@ -1081,13 +1081,13 @@ class TestMicrositeLocales(TestCase):
     @pytest.fixture(autouse=True)
     def en_microsite(self):
         root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
-
         self.en_microsite = MicrositePageFactory(
             page_title='microsite home title en-gb',
             page_subheading='a microsite subheading en-gb',
             slug='microsite-page-home',
             parent=root,
         )
+        Site.objects.create(hostname='greatcms.trade.great', root_page=root, site_name='Great', is_default_site=True)
         self.url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
     def test_correct_translation_english(self):
