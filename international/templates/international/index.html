@@ -19,7 +19,7 @@
                 <div class="great-ds-card-container govuk-!-padding-bottom-9">
                     {% for cards in page.dep_cards %}
                         {% for card in cards.value %}
-                            {% include "_card.html" with thumbnail="true" imageUrl=card.value.link_url|get_international_icon_path href=card.value.link_url title=card.value.link_text tag="h2" titleSize="m" id="how-to-expand-your-business" description=card.value.description type="mounted" classes="great-ds-card--2" attributes=eyb_card_attributes %}
+                            {% include "_card.html" with thumbnail="true" href=card.value.link_url title=card.value.link_text tag="h2" titleSize="m" id="how-to-expand-your-business" description=card.value.description type="mounted" classes="great-ds-card--2" attributes=eyb_card_attributes %}
                         {% endfor %}
                     {% endfor %}
                 </div>
