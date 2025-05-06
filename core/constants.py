@@ -1493,7 +1493,13 @@ class TemplateTagsEnum(Enum):
 # True equates to settings.FEATURE_USE_BGS_TEMPLATES being True
 # False equates to settings.FEATURE_USE_BGS_TEMPLATES being False
 TEMPLATE_TAGS = {
-    True: {},
+    True: {
+        TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_BOOKING: 'TBD',  # noqa E501
+        TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_CANCELLATION: 'TBD',  # noqa E501
+        TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER: 'TBD',  # noqa E501
+        TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP: 'TBD',  # noqa E501
+        TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_REGISTRATION: 'TBD',  # noqa E501
+    },
     False: {
         TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_BOOKING: settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID,  # noqa E501
         TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_CANCELLATION: settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID,  # noqa E501
