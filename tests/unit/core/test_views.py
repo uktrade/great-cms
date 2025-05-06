@@ -4,7 +4,6 @@ from unittest import mock
 from unittest.mock import MagicMock, Mock, patch
 from urllib.parse import urlencode
 
-from django.utils import translation
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings

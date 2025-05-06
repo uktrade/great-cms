@@ -4,7 +4,7 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import activate
 from wagtail.models import Locale, Site
@@ -410,6 +410,8 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
         )
 
+        self.site = Site.objects.create(hostname='greatcms.trade.great', root_page=self.domestic_homepage, site_name='Great', is_default_site=True) # noqa
+
     def test_no_page_slug(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
         request = self.client.get(url)
@@ -422,18 +424,17 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def test_get_current_page(self):
         self.listing_page = ArticleListingPageFactory(
-            slug='test-listing', title='test', landing_page_title='test', hero_teaser='list one'
-        )
-        ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
-        Site.objects.create(
-            hostname='greatcms.trade.great', root_page=self.listing_page, site_name='Great', is_default_site=True
-        )  # noqa
+            slug='test-listing', title='test', landing_page_title='test', hero_teaser='list one', parent = self.domestic_homepage) # noqa
+
+        self.article = ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
+
+        factory = RequestFactory()
         url = '/campaigns/test-article-one/'
-        request = self.client.get(url)
+        request = factory.get(url)
         view = domestic.views.campaign.CampaignView()
         view.setup(request, page_slug='test-article-one')
         self.assertEqual(view.path, url)
-        self.assertNotEqual(view.current_page, None)
+        self.assertIsNotNone(view.current_page)
 
     def test_get_languages_with_only_one_language(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
