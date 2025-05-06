@@ -9,7 +9,7 @@ echo "Running image_build_run.sh"
 export BUILD_STEP='true'
 
 # shellcheck disable=SC2046
-export $(grep -v '^#' ./config/env/test | xargs)
+export $(grep -v '^#' test.env | sed 's/ *#.*//' | xargs)
 export APP_ENVIRONMENT='local'
 export REDIS_URL='redis://localhost:6379'
 export BASE_URL='http://greatcms.trade.great:8020'
