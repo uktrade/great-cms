@@ -379,37 +379,6 @@ def test_get_change_sector_link(
 
 
 @pytest.mark.parametrize(
-    'guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled',
-    (
-        (ESTABLISHED_GUIDE_URL, None, '/support/existing/sector/', True),
-        (START_UP_GUIDE_URL, None, '/support/existing/sector/', True),
-        (PRE_START_GUIDE_URL, None, '/support/pre-start/sector/', True),
-        (ESTABLISHED_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
-        (START_UP_GUIDE_URL, '1234', '/support/existing/sector/?session_id=1234', True),
-        (PRE_START_GUIDE_URL, '1234', '/support/pre-start/sector/?session_id=1234', True),
-        (ESTABLISHED_GUIDE_URL, None, None, False),
-        (START_UP_GUIDE_URL, None, None, False),
-    ),
-)
-@pytest.mark.django_db
-def test_get_change_sector_link(guide_url, session_id_qs_param, expected_redirect_url, feature_domestic_growth_enabled):
-    settings.FEATURE_DOMESTIC_GROWTH = feature_domestic_growth_enabled
-
-    factory = RequestFactory()
-
-    if session_id_qs_param:
-        req = factory.get(guide_url + f'?session_id={session_id_qs_param}')
-    else:
-        req = factory.get(guide_url)
-        req.session = mock.Mock()
-        req.session.session_key = '1234'
-
-    redirect_url = get_change_sector_link(req)
-
-    assert redirect_url == expected_redirect_url
-
-
-@pytest.mark.parametrize(
     'triage_model, triage_recipient_model, guide_url',
     (
         (ExistingBusinessTriage, ExistingBusinessGuideEmailRecipient, ESTABLISHED_GUIDE_URL),
