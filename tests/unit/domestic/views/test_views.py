@@ -7,7 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import activate
-from wagtail.models import Locale
+from wagtail.models import Locale, Site
 from wagtail.test.utils import WagtailPageTests
 
 import domestic.forms
@@ -425,13 +425,15 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             slug='test-listing', title='test', landing_page_title='test', hero_teaser='list one'
         )
         ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
+        Site.objects.create(
+            hostname='greatcms.trade.great', root_page=self.listing_page, site_name='Great', is_default_site=True
+        )  # noqa
         url = '/campaigns/test-article-one/'
         request = self.client.get(url)
-        view = domestic.views.campaign.CampaignView(request=request)
-        path = view.request.context_data['view'].path
-        current_page = view.request.context_data['view'].current_page
-        self.assertEqual(path, url)
-        self.assertNotEqual(current_page, None)
+        view = domestic.views.campaign.CampaignView()
+        view.setup(request, page_slug='test-article-one')
+        self.assertEqual(view.path, url)
+        self.assertNotEqual(view.current_page, None)
 
     def test_get_languages_with_only_one_language(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})

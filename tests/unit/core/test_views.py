@@ -4,6 +4,7 @@ from unittest import mock
 from unittest.mock import MagicMock, Mock, patch
 from urllib.parse import urlencode
 
+from django.utils import translation
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -1096,18 +1097,19 @@ class TestMicrositeLocales(TestCase):
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
     def test_correct_translation_for_spanish(self):
-        site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
+        translation.activate('es')
+        site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True)
         site_es.page_title = 'página de inicio del micrositio'
         site_es.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
-        site_es.save()
+        site_es.slug = self.en_microsite.slug
+        revision = site_es.save_revision()
+        revision.publish()
 
         url_spanish = self.url + '?lang=es'
-        response = self.client.get(url_spanish)
+        response = self.client.get(url_spanish, HTTP_ACCEPT_LANGUAGE='es')
         html_response = response.content.decode('utf-8')
-        assert (
-            'página de inicio del micrositio' in html_response
-            and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
-        )
+        assert 'página de inicio del micrositio' in html_response
+        assert 'Subtítulo de la Página de Inicio del Micrositio' in html_response
 
     def test_correct_translation_french(self):
         site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
