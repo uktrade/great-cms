@@ -131,7 +131,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 {
                     'title': trade_event.tradeshow_title,
                     'location': '',
-                    'icon': 'svg/icon-event.svg',
+                    'icon': '/static/svg/icon-event.svg',
                     'url': trade_event.tradeshow_link,
                     'description': trade_event.specific.tradeshow_subheading,
                     'website': trade_event.tradeshow_link,
@@ -157,7 +157,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 0,
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-find-property.svg',
+                    'icon': '/static/svg/icon-find-property.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 },
@@ -179,7 +179,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             base_cards.append(
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-distribution.svg',
+                    'icon': '/static/svg/icon-distribution.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 }
@@ -191,7 +191,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 0,
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-staff.svg',
+                    'icon': '/static/svg/icon-staff.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 },
@@ -376,25 +376,25 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             **context,
             'essential_topics': [
                 {
-                    'icon_path': 'svg/icon-planning.svg',
+                    'icon_path': '/static/svg/icon-planning.svg',
                     'text': 'UK business registration',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/set-up-and-register-your-business',
                 },
                 {
-                    'icon_path': 'svg/icon-ukvisa.svg',
+                    'icon_path': '/static/svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
-                    'icon_path': 'svg/icon-bank.svg',
+                    'icon_path': '/static/svg/icon-bank.svg',
                     'text': 'Business bank accounts',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
-                    'icon_path': 'svg/icon-tax.svg',
+                    'icon_path': '/static/svg/icon-tax.svg',
                     'text': 'UK taxes',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/'
                     'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',

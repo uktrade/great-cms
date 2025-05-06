@@ -61,16 +61,11 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 {% capture tile_content %}
-                <ul class="essential-topics__list essential-topics">
+                <div class="great-ds-card-container">
                     {% for topic in essential_topics %}
-                        <li class="essential-topics__item">
-                            <img class="icon" alt="" src="{% static topic.icon_path %}" />
-                            <a class="great-ds-action-link" href="{{ topic.url }}">
-                                <span class="great-ds-action-link__text">{{ topic.text }}</span>
-                            </a>
-                        </li>
+                    {% include "_card.html" with iconSvg=topic.icon_path href=topic.url title=topic.text titleSize="s" id=topic.text|slugify type="elevated" classes="great-ds-card--2" %}
                     {% endfor %}
-                </ul>
+                </div>
                 {% endcapture %}
                 {% include '_tile.html' with title="Essential topics for all businesses" size="l" isSimple="true" content=tile_content %}
 
@@ -81,18 +76,22 @@
             
                 {% if locations|length > 0 %}
                 {% capture tile_content %}
-                {% for location in locations|slice:':2' %}
-                    {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
-                {% endfor %}
+                <div class="great-ds-card-container">
+                    {% for location in locations|slice:':2' %}
+                    {% include "_card.html" with thumbnail="true" iconSvg=location.image href=location.url title=location.title titleSize="s" id=location.title|slugify locationIcon="true" subText=location.location description=location.description type="unmounted" classes="great-ds-card--full" %}
+                    {% endfor %}
+                </div>
                 {% endcapture %}
                 {% include '_tile.html' with caption=triage_data.sector title="Locations of investment opportunities" size="l" description="Find out which UK nations and regions are home to attractive opportunities for your sector." content=tile_content actionLinkText='Find investment opportunities' actionLinkHref=more_locations_link %}
                 {% endif %}
 
                 {% if events|length > 0 %}
                 {% capture tile_content %}
-                {% for event in events|slice:':2' %}
-                    {% include './includes/dynamic-guide/rich_link.html' with link_external=True icon_path=event.icon link_url=event.url link_text=event.title location=event.location body=event.description website=event.website %}
-                {% endfor %}
+                <div class="great-ds-card-container">
+                    {% for event in events|slice:':2' %}
+                    {% include "_card.html" with thumbnail="true" iconSvg=event.icon href=event.url title=event.title titleSize="s" id=event.title|slugify locationIcon="true" subText=event.location description=event.description metadataText=event.website type="unmounted" classes="great-ds-card--full" %}
+                    {% endfor %}
+                </div>
                 {% endcapture %}
                 {% with "UK trade events for the " as prefix %}
                 {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
@@ -103,9 +102,11 @@
 
                 {% if associations|length > 0 %}
                 {% capture tile_content %}
+                <div class="great-ds-card-container">
                 {% for association in associations|slice:':2' %}
-                    {% include './includes/dynamic-guide/rich_link.html' with link_external=True link_url=association.url link_text=association.title body=association.description %}
+                    {% include "_card.html" with href=association.url title=association.title titleSize="s" id='eventtitle' description=association.description type="unmounted" classes="great-ds-card--full" %}
                 {% endfor %}
+                </div>
                 {% endcapture %}
                 {% with "UK trade associations for the " as prefix %}
                 {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
@@ -115,9 +116,11 @@
                 {% endif %}
 
                 {% capture tile_content %}
+                <div class="great-ds-card-container">
                 {% for base in bases %}
-                    {% include './includes/dynamic-guide/rich_link.html' with icon_path=base.icon link_url=base.url link_text=base.title location=base.location body=base.description website=base.website %}
+                    {% include "_card.html" with thumbnail="true" iconSvg=base.icon href=base.url title=base.title titleSize="s" id=base.title|slugify description=base.description metadataText=base.website type="unmounted" classes="great-ds-card--full" %}
                 {% endfor %}
+                </div>
                 <form method="get"
                     id="rent-data-location-select-form"
                     action="#rent-data-location-select-form">
