@@ -280,7 +280,7 @@ def get_region_map_image_by_region(region):
 
 
 def get_premises_image_by_sector(sector):
-    base_path = 'svg/sector-premises/'
+    base_path = '/static/svg/sector-premises/'
     file_type = '.svg'
     sector_to_image_map = {
         'Advanced engineering': f'icon-premises-advanced-engineering{file_type}',
@@ -316,7 +316,7 @@ def get_premises_image_by_sector(sector):
 
 
 def get_talent_image_by_sector(sector):
-    base_path = 'svg/sector-talent/'
+    base_path = '/static/svg/sector-talent/'
     file_type = '.svg'
     sector_to_image_map = {
         'Advanced engineering': f'icon-talent-advanced-engineering{file_type}',
