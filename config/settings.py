@@ -665,6 +665,7 @@ DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.directory_forms_api_zendesk_sevice
 EU_EXIT_ZENDESK_SUBDOMAIN = env.eu_exit_zendesk_subdomain
 
 # Contact
+CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.enquries_contactus_template_id
 CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.confirm_verification_code_template_id
 ENROLMENT_WELCOME_TEMPLATE_ID = env.enrolment_welcome_template_id
 EYB_ENROLMENT_WELCOME_TEMPLATE_ID = env.eyb_enrolment_welcome_template_id
