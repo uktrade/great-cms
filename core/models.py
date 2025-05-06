@@ -343,6 +343,7 @@ class SeoMixin(WagtailSeoMixin):
                 return f'{start_html}noindex{end_html}'
             else:
                 return f'{start_html}noindex, nofollow{end_html}'
+            
 
     @property
     def seo_image_alt_text(self) -> str:
