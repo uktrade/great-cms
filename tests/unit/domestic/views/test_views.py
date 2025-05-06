@@ -410,7 +410,9 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
         )
 
-        self.site = Site.objects.create(hostname='greatcms.trade.great', root_page=self.domestic_homepage, site_name='Great', is_default_site=True) # noqa
+        self.site = Site.objects.create(
+            hostname='greatcms.trade.great', root_page=self.domestic_homepage, site_name='Great', is_default_site=True
+        )  # noqa
 
     def test_no_page_slug(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
@@ -424,7 +426,12 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def test_get_current_page(self):
         self.listing_page = ArticleListingPageFactory(
-            slug='test-listing', title='test', landing_page_title='test', hero_teaser='list one', parent = self.domestic_homepage) # noqa
+            slug='test-listing',
+            title='test',
+            landing_page_title='test',
+            hero_teaser='list one',
+            parent=self.domestic_homepage,
+        )  # noqa
 
         self.article = ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
 
