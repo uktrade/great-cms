@@ -385,6 +385,8 @@ class BaseSettings(PydanticBaseSettings):
     cf_invalidation_role_arn: str = ''
 
     bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
+    bgs_guide_share_link_ttl_days: int = 180
+    fernet_key: str = ''
 
 
 class CIEnvironment(BaseSettings):
