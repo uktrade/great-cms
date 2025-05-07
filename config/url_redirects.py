@@ -18,7 +18,8 @@ from core.views import (
 )
 from international.url_redirects import international_migration_redirects
 
-build_great_international_url = partial(urljoin, '/international/')
+build_great_international_url = partial(urljoin, f'/{settings.GREAT_INTERNATIONAL_URL}/')
+build_bgs_international_url = partial(urljoin, f'/{settings.BGS_INTERNATIONAL_URL}/')
 
 
 redirects = [
