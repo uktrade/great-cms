@@ -89,7 +89,7 @@
                 {% capture tile_content %}
                 <div class="great-ds-card-container">
                     {% for event in events|slice:':2' %}
-                    {% include "_card.html" with thumbnail="true" iconSvg=event.icon href=event.url title=event.title titleSize="s" id=event.title|slugify locationIcon="true" subText=event.location description=event.description metadataText=event.website type="unmounted" classes="great-ds-card--full" %}
+                    {% include "_card.html" with thumbnail="true" iconSvg=event.icon href=event.url title=event.title titleSize="s" id=event.title|slugify locationIcon="true" subText=event.location description=event.description|striptags metadataText=event.website type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
                 </div>
                 {% endcapture %}
@@ -153,9 +153,11 @@
                 {% include '_tile.html' with caption=triage_data.sector title="Setting up a base in the UK" size="l" content=tile_content %}
 
                 {% capture tile_content %}
-                {% for item in recruit_and_employ %}
-                    {% include './includes/dynamic-guide/rich_link.html' with icon_path=item.icon link_url=item.url link_text=item.title location=item.location body=item.description website=item.website %}
-                {% endfor %}
+                <div class="great-ds-card-container">
+                    {% for item in recruit_and_employ %}
+                        {% include "_card.html" with thumbnail="true" iconSvg=item.icon href=item.url title=item.title titleSize="s" id=item.title|slugify description=item.description metadataText=item.website type="unmounted" classes="great-ds-card--full" %}
+                    {% endfor %}
+                </div>
                 {% include './includes/dynamic-guide/salary_data.html' with salary_data_location_select_form=salary_data_location_select_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary professions_by_sector=professions_by_sector %}
                 {% endcapture %}
                 {% include '_tile.html' with caption=triage_data.sector title="Recruiting and employing people in the UK" size="l" content=tile_content %}
@@ -166,14 +168,11 @@
                 
                 {% for section in right_panel_sections %}
                 {% capture tile_content %}
-                <ul class="link-list">
+                <div class="great-ds-card-container">
                     {% for item in section.items %}
-                        <li class="link-list__item">
-                            {% include './includes/dynamic-guide/internal-link.html' with url=item.url text=item.title %}
-                            <p class="govuk-body">{{ item.text }}</p>
-                        </li>
+                        {% include "_card.html" with href=item.url title=item.title titleSize="s" id=item.title|slugify description=item.text type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
-                </ul>
+                </div>
                 {% endcapture %}
                 {% include '_tile.html' with title=section.title size="m" icon=section.icon_path content=tile_content %}
                 {% endfor %}
