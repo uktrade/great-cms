@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load eyb_tags %}
 <div class="figures" id="salary-data">
-    <form method="get"
+    <form method="get" class="govuk-!-margin-top-3 govuk-!-padding-top-4 great-ds-border-top-grey"
           id="salary-data-location-select-form"
           action="#salary-data">
         {% csrf_token %}
@@ -15,7 +15,8 @@
                     <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-entry.svg' %}" />
-                    <p class="figures__value govuk-heading-l">£{{ entry_salary|intcomma }}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0"><strong>Entry level</strong></p>
+                    <p class="figures__value govuk-heading-l govuk-!-padding-top-0">£{{ entry_salary|intcomma }}</p>
                     {% if professions_by_sector.entry_level %}
                         <p class="figures__description govuk-body">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
                     {% endif %}
@@ -26,7 +27,8 @@
                     <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-mid.svg' %}" />
-                    <p class="figures__value govuk-heading-l">£{{ mid_salary|intcomma }}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0"><strong>Mid level</strong></p>
+                    <p class="figures__value govuk-heading-l govuk-!-padding-top-0">£{{ mid_salary|intcomma }}</p>
                     {% if professions_by_sector.entry_level %}
                         <p class="figures__description govuk-body">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
                     {% endif %}
@@ -37,7 +39,8 @@
                     <img class="icon figures__icon"
                          alt=""
                          src="{% static 'svg/icon-salary-executive.svg' %}" />
-                    <p class="figures__value govuk-heading-l">£{{ executive_salary|intcomma }}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0"><strong>Executive level</strong></p>
+                    <p class="figures__value govuk-heading-l govuk-!-padding-top-0">£{{ executive_salary|intcomma }}</p>
                     {% if professions_by_sector.executive_level %}
                         <p class="figures__description govuk-body">
                             For professions like {{ professions_by_sector.executive_level|default:'-' }}
