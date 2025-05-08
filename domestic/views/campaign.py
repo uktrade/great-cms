@@ -53,7 +53,10 @@ class CampaignView(BaseNotifyUserFormView):
     def get_correct_page(self, current_locale, request=None):
         if request:
             site = Site.find_for_request(request)
-            pages = self.page_class.objects.live().descendant_of(site.root_page)
+            translated_root = site.root_page.get_translation_or_none(current_locale)
+            if not translated_root:
+                translated_root = site.root_page
+            pages = self.page_class.objects.live().descendant_of(translated_root)
             if pages.filter(slug=self.page_slug).count() > 0:
                 if (
                     pages.filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path).count()
