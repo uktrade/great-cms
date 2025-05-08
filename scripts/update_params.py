@@ -4,7 +4,7 @@ import sys
 
 
 def print_usage():
-    print("Usage: python -m update_params <json file name>")
+    print('Usage: python -m update_params <json file name>')  # noqa T201
     sys.exit(1)
 
 
@@ -22,10 +22,10 @@ def update_params(file_name):
                 over_str = '--no-overwrite'
             cmd = f'aws ssm put-parameter --name "{name}" --type {type} --value "{value}" {over_str}'
             ret = os.system(cmd)
-            print(ret)
+            print(ret)  # noqa T201
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if len(sys.argv) < 2:
         print_usage()
     file_name = sys.argv[1]
