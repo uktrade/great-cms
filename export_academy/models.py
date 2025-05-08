@@ -434,7 +434,7 @@ class ModuleEventSet(models.Model):
     """
 
     page = ParentalKey('export_academy.EventsOnCourse', related_name='module_events')
-    event = models.ForeignKey('export_academy.Event', on_delete=models.DO_NOTHING)
+    event = models.ForeignKey('export_academy.Event', on_delete=models.CASCADE)
 
 
 class EventsOnCourse(ClusterableModel, EventsInCoursePanel):
