@@ -105,21 +105,23 @@
                                         {% endif %}
                                         {% if section.value.intro %}<p class="govuk-caption govuk-!-margin-bottom-0 great-ds-max-width-70">{{ section.value.intro }}</p>{% endif %}
                                     </div>
-                                    <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
+                                    <div class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-left-6 bgs-section-body">
                                         {% if section.value.content|length == 0 %}
                                             {% if events %}
-                                                {% for event in events %}
-                                                    {% with weekday=event.start_date|date:"l" date=event.start_date|date:"j M" time=event.start_date|date:"g:iA"|lower duration=event.start_date|timesince:event.end_date %}
-                                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
+                                                <div class="great-ds-card-container">
+                                                    {% for event in events %}
+                                                        {% with weekday=event.start_date|date:"l" date=event.start_date|date:"j M" time=event.start_date|date:"g:iA"|lower duration=event.start_date|timesince:event.end_date %}
                                                             {% include "includes/_modified-card.html" with hideMetaText=True date=event.start_date|date:"j" month=event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=event.name href=event.get_absolute_url description=event.description id=event.id hideArrow="true" %}
-                                                        </div>
-                                                    {% endwith %}
-                                                {% endfor %}
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endif %}
                                         {% else %}
-                                            {% for content in section.value.content %}
-                                                {% include "includes/_render-snippet.html" with content=content %}
-                                            {% endfor %}
+                                            <div class="great-ds-card-container">
+                                                {% for content in section.value.content %}
+                                                    {% include "includes/_render-snippet.html" with content=content %}
+                                                {% endfor %}
+                                            </div>
                                         {% endif %}
                                     </div>
                                     {% if section.value.link_text and section.value.link_url %}
@@ -163,18 +165,19 @@
                                         {% endif %}
                                         {% if section.value.intro %}<p class="govuk-caption great-ds-max-width-70 govuk-!-margin-bottom-0">{{ section.value.intro }}</p>{% endif %}
                                     </div>
-                                    <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
+                                    <div class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-left-6 bgs-section-body">
                                         {% if welcome_event and not forloop.first %}
                                             {% with weekday=welcome_event.start_date|date:"l" date=welcome_event.start_date|date:"j M" time=welcome_event.start_date|date:"g:iA"|lower duration=welcome_event.start_date|timesince:welcome_event.end_date %}
-                                                <div class="great-ds-border-bottom-light-grey-1 govuk-!-margin-bottom-3">
+                                                <div class="great-ds-card-container">
                                                     {% include "includes/_modified-card.html" with hideMetaText=True date=welcome_event.start_date|date:"j" month=welcome_event.start_date|date:"M" introText=""|add:weekday|add:" "|add:date|add:" at "|add:time|add:" - "|add:duration classes="great-ds-card--full great-ds-card--show-date" type="unmounted" title=welcome_event.name href=welcome_event.get_absolute_url description=welcome_event.description id=welcome_event.id hideArrow="true" %}
                                                 </div>
                                             {% endwith %}
                                         {% endif %}
-         
-                                        {% for content in section.value.content %}
-                                            {% include "includes/_render-snippet.html" with content=content %}
-                                        {% endfor %}
+                                        <div class="great-ds-card-container">
+                                            {% for content in section.value.content %}
+                                                {% include "includes/_render-snippet.html" with content=content %}
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                     {% if section.value.link_text and section.value.link_url %}
                                         <div class="govuk-!-padding-6 great-ds-border-top-light-grey-2">

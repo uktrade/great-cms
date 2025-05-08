@@ -89,10 +89,12 @@
                                     {% endif %}
                                     {% if section.value.intro %}<p class="govuk-caption govuk-!-margin-bottom-0 {% if section.value.logo %}great-ds-max-width-70{% endif %}">{{ section.value.intro }}</p>{% endif %}
                                 </div>
-                                <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
-                                    {% for content in section.value.content %}
-                                        {% include "includes/_render-snippet.html" with content=content %}
-                                    {% endfor %}
+                                <div class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-left-6 bgs-section-body">
+                                    <div class="great-ds-card-container">
+                                        {% for content in section.value.content %}
+                                            {% include "includes/_render-snippet.html" with content=content %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
                                 {% if section.value.link_text and section.value.link_url %}
                                     <div class="govuk-!-padding-6 great-ds-border-top-light-grey-2">

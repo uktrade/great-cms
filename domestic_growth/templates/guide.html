@@ -172,8 +172,7 @@
                             {% if trade_associations.sub_sector_and_sector_only_tas %}
                                 {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
                                     <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
-                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
-                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" tag="h4" %}
+                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full" tag="h4" %}
                                             {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                                 <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
                                                     <img class="great-ds-card__metadata-icon"
@@ -193,14 +192,12 @@
                                             {% if ta.regions %}
                                                 {% include "includes/_location-tag.html" with text=ta.regions %}
                                             {% endif %}
-                                        </div>
                                     </div>
                                 {% endfor %}
                             {% elif trade_associations.sector_tas %}
                                 {% for ta in trade_associations.sector_tas %}
                                     <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
-                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
-                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
+                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full" %}
                                             {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                                 <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
                                                     <img class="great-ds-card__metadata-icon"
@@ -217,7 +214,6 @@
                                             {% if ta.regions %}
                                                 {% include "includes/_location-tag.html" with text=ta.regions %}
                                             {% endif %}
-                                        </div>
                                     </div>
                                 {% endfor %}
                             {% endif %}
