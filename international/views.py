@@ -1,7 +1,6 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
-from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
@@ -40,7 +39,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return back_url
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success')
+        success_url = f'/{international_url(self.request)}/site-help/success/'
         if self.request.GET.get('next'):
             success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
@@ -73,7 +72,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
             email_address=cleaned_data['email'],
             subject=self.subject,
             service_name='great',
-            form_url=reverse('international:contact'),
+            form_url=f'/{international_url(self.request)}/site-help',
             sender=sender,
         )
 
@@ -101,7 +100,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         )
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success')
+        success_url = f'/{international_url(self.request)}/site-help/success/'
         if self.request.GET.get('next'):
             success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
