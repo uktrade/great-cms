@@ -609,6 +609,12 @@ def is_bgs_domain(request):
     return False
 
 
+def international_url(request):
+    if is_bgs_domain(request):
+        return settings.BGS_INTERNATIONAL_URL
+    return settings.GREAT_INTERNATIONAL_URL
+
+
 class GeoLocationRedirector:
     DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
     COUNTRY_TO_LANGUAGE_MAP = {

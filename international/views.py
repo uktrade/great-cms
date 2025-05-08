@@ -10,7 +10,7 @@ from wagtailcache.cache import WagtailCacheMixin
 from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
-from core.helpers import check_url_host_is_safelisted
+from core.helpers import check_url_host_is_safelisted, international_url
 from core.mixins import HCSATMixin
 from international import forms
 
@@ -34,7 +34,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         if settings.FEATURE_DOMESTIC_GROWTH:
             back_url = '/'
         else:
-            back_url = '/international/'
+            back_url = f'/{international_url(self.request)}/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -110,7 +110,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         if settings.FEATURE_DOMESTIC_GROWTH:
             back_url = '/'
         else:
-            back_url = '/international/'
+            back_url = f'/{international_url(self.request)}/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -171,7 +171,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
         # Apply data specific to this service
-        hcsat.URL = '/international/buy-from-the-uk/'
+        hcsat.URL = f'/{international_url(self.request)}/buy-from-the-uk/'
         hcsat.user_journey = 'COMPANY_CONTACT'
         hcsat.session_key = self.request.session.session_key
         hcsat.save(js_enabled=js_enabled)

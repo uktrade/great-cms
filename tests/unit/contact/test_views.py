@@ -124,14 +124,6 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
-        (
-            reverse('contact:contact-us-international'),
-            reverse('contact:contact-us-international-success'),
-            views.InternationalFormView,
-            settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        ),
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -232,7 +224,6 @@ success_view_params = (
     reverse('contact:contact-us-dso-success'),
     reverse('contact:contact-us-feedback-success'),
     reverse('contact:contact-us-export-advice-success'),
-    reverse('contact:contact-us-international-success'),
 )
 
 
@@ -572,7 +563,6 @@ def test_render_next_step(current_step, choice, expected_url):
     'current_step,expected_step',
     (
         (constants.DOMESTIC, constants.LOCATION),
-        # (constants.INTERNATIONAL, constants.LOCATION),  /international/contact/ is run by great-international-ui
         (constants.GREAT_SERVICES, constants.DOMESTIC),
         (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
         (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
@@ -609,10 +599,6 @@ def test_get_previous_step(current_step, expected_step):
         (
             reverse('contact:contact-us-domestic-success'),
             snippet_slugs.HELP_FORM_SUCCESS,
-        ),
-        (
-            reverse('contact:contact-us-international-success'),
-            snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
         ),
         (reverse('contact:contact-free-trade-agreements-success'), snippet_slugs.FTA_FORM_SUCCESS),
     ),
@@ -835,32 +821,6 @@ def test_marketing_join_form_notify_success(client, valid_request_export_support
             'step': 'comment',
         },
     )
-
-
-def test_contact_us_international_prepopualate(client, user, mock_get_company_profile):
-    url = reverse('contact:contact-us-international')
-
-    mock_get_company_profile.return_value = {
-        # Full spec of CompanySerializer is in
-        # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
-        'name': 'Example corp',
-        'locality': 'Paris',
-        'country': 'FRANCE',
-    }
-
-    client.force_login(user)
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data['form'].initial == {
-        'email': user.email,
-        'organisation_name': 'Example corp',
-        'country_name': 'FRANCE',
-        'city': 'Paris',
-        'family_name': 'Cross',
-        'given_name': 'Jim',
-    }
 
 
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')

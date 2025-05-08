@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
-from core.helpers import get_sender_ip_address
+from core.helpers import get_sender_ip_address, international_url
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
 from international_buy_from_the_uk.services import (
@@ -35,7 +35,11 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success') + '?next=' + '/international/buy-from-the-uk'
+        success_url = (
+            reverse_lazy('international:contact-success')
+            + '?next='
+            + f'/{international_url(self.request)}/buy-from-the-uk'
+        )
         return success_url
 
     def send_agent_email(self, form):
@@ -75,8 +79,8 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = get_sectors_as_string(dbt_sectors)
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
         ]
         return super().get_context_data(
             **kwargs,
@@ -151,8 +155,8 @@ class FindASupplierSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # /P
 
     def get_context_data(self, **kwargs):
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
         ]
         return super().get_context_data(
             **kwargs,
@@ -184,8 +188,8 @@ class FindASupplierProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):  
             find_a_supplier_url = self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
             {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
         ]
         return super().get_context_data(
@@ -224,8 +228,8 @@ class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  # /
             company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
             {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
             {
                 'name': self.case_study['company']['name'],
@@ -253,7 +257,11 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success') + '?next=' + '/international/buy-from-the-uk'
+        success_url = (
+            reverse_lazy('international:contact-success')
+            + '?next='
+            + f'/{international_url(self.request)}/buy-from-the-uk'
+        )
         return success_url
 
     def send_email(self, form):
@@ -293,8 +301,8 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Buy from the UK', 'url': '/international/buy-from-the-uk/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
             {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
             {'name': self.company['name'], 'url': company_profile_url},
         ]

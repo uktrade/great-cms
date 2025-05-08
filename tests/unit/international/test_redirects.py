@@ -320,7 +320,7 @@ from django.test import override_settings
         ),
         (
             '/international/contact/',
-            '/international/site-help/',
+            '/site-help/',
         ),
         (
             '/international/content/investment/how-we-can-help/global-entrepreneur-program/',
@@ -707,7 +707,7 @@ def test_international_redirects(previous_url, migrated_url, client):
         ),
         (
             '/international/contact/',
-            '/invest-in-uk/site-help/',
+            '/site-help/',
         ),
         (
             '/international/content/investment/how-we-can-help/global-entrepreneur-program/',

@@ -18,6 +18,7 @@ checks:
 ENV_FILES?='test,dev'
 pytest:
 	ENV_FILES=$(ENV_FILES) \
+	DEBUG=False \
 	pytest \
 		tests/unit \
 		--junit-xml=./results/pytest_unit_report.xml \
