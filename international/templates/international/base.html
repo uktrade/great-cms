@@ -15,7 +15,7 @@
                 <meta id="utmCookieDomain"
                       value="{{ great_components_analytics.UTM_COOKIE_DOMAIN }}" />
             {% endif %}
-            {% include 'great_components/google_tag_manager_head.html' %}
+            {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}<meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />{% endblock %}
         <meta charset="utf-8" />
@@ -82,7 +82,7 @@
     </head>
     <body {% block body_attributes %}{% endblock %}>
         {% block body_google_tag_manager %}
-            {% include 'great_components/google_tag_manager_body.html' %}
+            {% include 'components/google_tag_manager_body.html' %}
         {% endblock %}
         <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
         {% block skip_link %}

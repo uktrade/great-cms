@@ -465,7 +465,7 @@ def get_international_icon_path(url):
     )
     for url_to_icon in url_to_icon_list:
         if url_to_icon[0] in url:
-            return 'international/includes/svg/' + url_to_icon[1] + '.svg'
+            return '/static/' + url_to_icon[1] + '.svg'
     return ''
 
 

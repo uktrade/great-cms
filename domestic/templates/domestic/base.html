@@ -42,7 +42,13 @@
                 - great.gov.uk
             {% endblock %}
         </title>
-        {% block meta_tags %}{% endblock %}
+        {% block meta_tags %}
+            {% with page=page %}
+                {% if page %}
+                    {% if page.meta_robot_html %}{{page.meta_robot_html|safe}}{% endif %}
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}
@@ -162,7 +168,6 @@
             <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
         {% endblock %}
         {% block body_header %}
-
             {% if bgs_site %}
                 {% include "_header-bgs.html" with header_classes=bgs_header_context.header_classes sso_is_logged_in=bgs_header_context.sso_is_logged_in isAuthenticated=bgs_header_context.isAuthenticated hideSearch=bgs_header_context.hideSearch hideMenuOnDesktop=bgs_header_context.hideMenuOnDesktop searchFormAction=bgs_header_context.searchFormAction menuItemsList=bgs_header_context.menuItemsList %}
             {% else %}
@@ -190,8 +195,8 @@
             {% include 'components/great/migration_notice_banner.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
-            {% if not '/' == request.path %}
-                <div class='great-ds-bg-white'>
+            {% if not '/' == request.path and not '/export-from-uk/' == request.path %}
+                <div class="great-ds-bg-white">
                     <div class="great-ds-container">
                         {% if bespoke_breadcrumbs %}
                             {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}

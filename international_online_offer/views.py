@@ -44,6 +44,10 @@ from international_online_offer.services import (
     get_country_display_name,
     get_dbt_sectors,
 )
+from international_online_offer.templatetags.location_select_filters import (
+    get_company_location_display,
+)
+from international_online_offer.templatetags.sector_filters import get_sector_display
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
@@ -1096,31 +1100,326 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
             site_section='change-your-answers',
         )
 
+    def format_user_address(self, user_data) -> str:
+        address_parts = []
+
+        address_line_1 = user_data.address_line_1 if user_data.address_line_1 else '-'
+        address_parts.append(address_line_1)
+
+        if user_data.address_line_2:
+            address_parts.append(user_data.address_line_2)
+
+        address_parts.append(user_data.town)
+
+        if user_data.county:
+            address_parts.append(user_data.county)
+
+        if user_data.postcode:
+            address_parts.append(user_data.postcode)
+
+        return '<br>'.join(address_parts)
+
+    def format_sector_industry(self, triage_data) -> str:
+        sector_name = get_sector_display(triage_data.sector)
+        parts = []
+
+        if triage_data.sector_sub_sub:
+            parts.append(f'{triage_data.sector_sub}, {triage_data.sector_sub_sub}')
+        elif triage_data.sector_sub:
+            parts.append(triage_data.sector_sub)
+
+        if parts:
+            parts.append(f'(in our <strong>{sector_name}</strong> sector)')
+            return '<br>'.join(parts)
+
+        return sector_name
+
+    def format_location(self, triage_data) -> str:
+        if triage_data.get_location_city_display():
+            return f'{triage_data.get_location_city_display()} ({triage_data.get_location_display()})'
+        return triage_data.get_location_display()
+
+    def format_intent(self, triage_data) -> str:
+        intent_out = '<ol class="govuk-list govuk-list--bullet">'
+        for intent in triage_data.get_intent_display():
+            if intent == 'Other':
+                intent_out += (
+                    f'<li>{intent}<ol class="govuk-list govuk-list--bullet"><li>{triage_data.intent_other}</li></ol>'
+                )
+            else:
+                intent_out += f'<li>{intent}</li>'
+
+        intent_out += '</ol>'
+        return intent_out
+
+    def get(self, *args, **kwargs):
+        triage_data = get_triage_data_for_user(self.request)
+
+        # an edge case where a user doesn't have triage data
+        if not triage_data or not triage_data.sector:
+            return redirect(reverse_lazy('international_online_offer:business-sector'))
+
+        return super().get(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_for_user(self.request)
         user_data = get_user_data_for_user(self.request)
         spend_choices = helpers.get_spend_choices_by_currency(self.request.session.get('spend_currency'))
 
-        sub_and_sub_sub_sector = '-'
         spend = '-'
         if triage_data:
-            if triage_data.sector_sub:
-                sub_and_sub_sub_sector = triage_data.sector_sub
-                if triage_data.sector_sub_sub:
-                    sub_and_sub_sub_sector = sub_and_sub_sub_sector + ', ' + triage_data.sector_sub_sub
-
             for spend_choice in spend_choices:
                 if spend_choice[0] == triage_data.spend:
                     spend = spend_choice[1]
 
+        duns_matched = getattr(user_data, 'duns_number', None) if user_data else None
+
+        change_your_answers_url = reverse_lazy('international_online_offer:change-your-answers')
+        company_headquarters_url = reverse_lazy('international_online_offer:business-headquarters')
+        edit_company_name_url = reverse_lazy('international_online_offer:find-your-company')
+        sector_industry_url = reverse_lazy('international_online_offer:business-sector')
+        know_where_want_to_setup_location_url = reverse_lazy('international_online_offer:know-setup-location')
+        setup_location_url = reverse_lazy('international_online_offer:location')
+        when_want_to_set_up_url = reverse_lazy('international_online_offer:when-want-setup')
+        intent_url = reverse_lazy('international_online_offer:intent')
+        hiring_url = reverse_lazy('international_online_offer:hiring')
+        spend_url = reverse_lazy('international_online_offer:spend')
+        contact_details_url = reverse_lazy('international_online_offer:contact-details')
+
+        # Empty object for these if user used D&B to find company details, not editable
+        company_address_row = {}
+        company_website_row = {}
+
+        if duns_matched or not user_data.address_line_1:  # User found company via D&B
+            edit_company_name_url = (
+                edit_company_name_url + '?next=' + change_your_answers_url + '&back=' + change_your_answers_url
+            )
+        else:
+            edit_company_name_url = (
+                f"{reverse_lazy('international_online_offer:company-details')}?next={change_your_answers_url}"
+            )
+            company_address_row = {
+                'key': {'text': 'Address of headquarters'},
+                'value': {'html': self.format_user_address(user_data)},
+                'actions': {
+                    'items': [
+                        {
+                            'href': edit_company_name_url,
+                            'text': 'Change',
+                            'visuallyHiddenText': 'address of headquarters',
+                        }
+                    ]
+                },
+            }
+            company_website_row = {
+                'key': {'text': 'Company website address'},
+                'value': {'html': user_data.company_website},
+                'actions': {
+                    'items': [
+                        {
+                            'href': edit_company_name_url,
+                            'text': 'Change',
+                            'visuallyHiddenText': 'company website address',
+                        }
+                    ]
+                },
+            }
+
+        business_details_card = {
+            'title': {'text': 'Business details'},
+        }
+
+        business_details_rows = [
+            {
+                'key': {'text': 'Location of company headquarters'},
+                'value': {'html': get_company_location_display(user_data.company_location)},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{company_headquarters_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'location of company headquarters',
+                        }
+                    ]
+                },
+            },
+            {
+                'key': {'text': 'Company name'},
+                'value': {'html': user_data.company_name},
+                'actions': {
+                    'items': [{'href': edit_company_name_url, 'text': 'Change', 'visuallyHiddenText': 'company name'}]
+                },
+            },
+            company_address_row,
+            company_website_row,
+            {
+                'key': {'text': 'Sector or industry'},
+                'value': {'html': self.format_sector_industry(triage_data)},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{sector_industry_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'sector or industry',
+                        }
+                    ]
+                },
+            },
+        ]
+
+        setup_location_row = {}
+
+        if not triage_data.location_none:
+            setup_location_row = {
+                'key': {'text': 'Where do you want to set up?'},
+                'value': {'html': self.format_location(triage_data)},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{setup_location_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'where do you want to set up?',
+                        }
+                    ]
+                },
+            }
+
+        expansion_plans_card = {
+            'title': {'text': 'Expansion plans'},
+        }
+
+        expansion_plans_rows = [
+            {
+                'key': {'text': 'Do you know where you want to set up in the UK?'},
+                'value': {'html': """No, I'd like guidance on locations""" if triage_data.location_none else 'Yes'},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{know_where_want_to_setup_location_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'do you know where you want to set up in the UK?',
+                        }
+                    ]
+                },
+            },
+            setup_location_row,
+            {
+                'key': {'text': 'When do you want to set up?'},
+                'value': {'html': user_data.get_landing_timeframe_display()},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{when_want_to_set_up_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'when do you want to set up?',
+                        }
+                    ]
+                },
+            },
+            {
+                'key': {'text': 'How do you plan to expand your business in the UK?'},
+                'value': {'html': self.format_intent(triage_data)},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{intent_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'how do you plan to expand your business in the UK?',
+                        }
+                    ]
+                },
+            },
+            {
+                'key': {'text': 'How many people do you want to hire in the UK in the first three years?'},
+                'value': {'html': triage_data.get_hiring_display()},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{hiring_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'how many people do you want to hire in the UK in the'
+                            ' first three years?',
+                        }
+                    ]
+                },
+            },
+            {
+                'key': {'text': 'How much do you want to spend on setting up in the first three years?'},
+                'value': {'html': spend},
+                'actions': {
+                    'items': [
+                        {
+                            'href': f'{spend_url}?next={change_your_answers_url}',
+                            'text': 'Change',
+                            'visuallyHiddenText': 'how much do you want to spend on setting up in the'
+                            ' first three years?',
+                        }
+                    ]
+                },
+            },
+        ]
+
+        contact_details_card = {
+            'title': {'text': 'Contact details'},
+            'actions': {
+                'items': [
+                    {
+                        'href': f'{contact_details_url}?next={change_your_answers_url}',
+                        'text': 'Change',
+                        'visuallyHiddenText': 'contact details',
+                    }
+                ]
+            },
+        }
+        contact_details_rows = [
+            {
+                'key': {'text': 'Full name'},
+                'value': {
+                    'html': (
+                        user_data.full_name
+                        if user_data.full_name
+                        else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">'
+                        'Enter full name</a>'
+                    )
+                },
+            },
+            {
+                'key': {'text': 'Job title'},
+                'value': {
+                    'html': (
+                        user_data.role
+                        if user_data.role
+                        else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">'
+                        'Enter job title</a>'
+                    )
+                },
+            },
+            {
+                'key': {'text': 'Phone number'},
+                'value': {
+                    'html': (
+                        user_data.telephone_number
+                        if user_data.telephone_number
+                        else f'<a class="govuk-link" href="{contact_details_url}?next={change_your_answers_url}">'
+                        'Enter phone number</a>'
+                    )
+                },
+            },
+            {
+                'key': {'text': 'Receive emails from partner organisations'},
+                'value': {'html': 'Yes' if user_data.agree_info_email else 'No'},
+            },
+        ]
+
         return super().get_context_data(
             **kwargs,
-            triage_data=triage_data,
-            user_data=user_data,
-            duns_matched=getattr(user_data, 'duns_number', None) if user_data else None,
             back_url='/international/expand-your-business-in-the-uk/guide/',
-            spend=spend,
-            sub_and_sub_sub_sector=sub_and_sub_sub_sector,
+            business_details_card=business_details_card,
+            business_details_rows=business_details_rows,
+            expansion_plans_card=expansion_plans_card,
+            expansion_plans_rows=expansion_plans_rows,
+            contact_details_card=contact_details_card,
+            contact_details_rows=contact_details_rows,
         )
 
 
@@ -1249,7 +1548,7 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
         # an edge case where a user doesn't have triage data or a sector in which case
         # it isn't possible to display meaningful bci information
         if not triage_data or not triage_data.sector:
-            return redirect(reverse_lazy('international_online_offer:sector'))
+            return redirect(reverse_lazy('international_online_offer:business-sector'))
 
         return super().get(*args, **kwargs)
 
@@ -1279,7 +1578,9 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             triage_data.sector, geo_area
         )
 
-        page_title = bci_headline.get('geo_description', '')
+        page_title = 'UK nations:'
+        if bci_headline.get('geo_description', '') == 'England':
+            page_title = 'English regions:'
 
         # sort alphabetically by geo description
         bci_detail = sorted(bci_detail, key=lambda e: e['geo_description'])

@@ -24,12 +24,14 @@ from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.contrib.humanize.templatetags.humanize import intword
 from django.core.management import call_command
+from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
 from geoip2.errors import GeoIP2Error
 from hashids import Hashids
+from wagtail.models import Site
 
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
@@ -920,5 +922,11 @@ def send_hcsat_feedback(data: HCSAT) -> None:
     response.raise_for_status()
 
 
-def is_bgs_site(root_url):
+def is_bgs_site(root_url: str) -> bool:
+    sentry_sdk.capture_message(f'BGS_SITE: {settings.BGS_SITE} match root_url: {root_url}')
     return settings.BGS_SITE in root_url
+
+
+def is_bgs_site_from_request(request: HttpRequest) -> bool:
+    site = Site.find_for_request(request)
+    return is_bgs_site(site.root_url)

@@ -38,6 +38,9 @@ from international_online_offer.forms import (
     WagtailAdminDBTSectors,
 )
 from international_online_offer.services import get_median_salaries, get_rent_data
+from international_online_offer.templatetags.location_select_filters import (
+    get_location_display,
+)
 
 
 class EYBIndexPage(BaseContentPage):
@@ -94,7 +97,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         'international_online_offer.EYBTradeShowsPage',
         'international_online_offer.EYBArticlesPage',
     ]
-    template = 'eyb/guide-new.html'
+    template = 'eyb/guide.html'
 
     def create_investment_opportunity_cards(self, context):
         investment_opportunity_cards = []
@@ -301,13 +304,22 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'disclaimer': 'Figures reflect 2023 data. Source: Statista',
         }
 
+        measurements = {
+            'large-warehouse': '31,000 sq m / 340,000 sq foot',
+            'small-warehouse': '460 sq m / 5000 sq foot',
+            'shopping-centre': '18 sq m / 204 sq foot',
+            'high-street-retail': '460 sq m / 2195 sq foot',
+            'work-office': '1500 sq m / 16,671 sq foot',
+        }
+
         # Create a list of property types and their explanations
         property_types = [
             {
                 'id': 'large-warehouse',
                 'title': 'Large warehouse',
                 'value_key': 'large_warehouse_rent',
-                'explanation': 'A large warehouse is an industrial unit that is 340,000 sq foot on average in the UK.',
+                'explanation': f"A large warehouse is an industrial unit that is {measurements['large-warehouse']} "
+                'on average in the UK.',
                 'icon': 'svg/icon-large-warehouse.svg',
             },
             {
@@ -315,7 +327,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'Small warehouse',
                 'value_key': 'small_warehouse_rent',
                 'explanation': 'A small warehouse is an industrial unit. Calculation'
-                ' based on a small warehouse being 5000 sq foot',
+                f" based on a small warehouse being {measurements['small-warehouse']}",
                 'icon': 'svg/icon-small-warehouse.svg',
             },
             {
@@ -323,7 +335,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'Shopping centre',
                 'value_key': 'shopping_centre',
                 'explanation': 'A shopping centre unit is near a group of shops, sometimes under one roof.'
-                ' Calculation based on average UK unit being 204 sq foot',
+                f"Calculation based on average UK unit being {measurements['shopping-centre']}",
                 'icon': 'svg/icon-shopping-centre.svg',
             },
             {
@@ -331,7 +343,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'title': 'High street retail',
                 'value_key': 'high_street_retail',
                 'explanation': 'High street retail is a concentration of shops in either urban or'
-                ' urban-like areas. Calculation based on average UK unit being 2195 sq foot',
+                f"urban-like areas. Calculation based on average UK unit being {measurements['high-street-retail']}",
                 'icon': 'svg/icon-high-street-retail.svg',
             },
             {
@@ -340,7 +352,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 'value_key': 'work_office',
                 'explanation': 'A work office is a room or set of rooms in which business, professional'
                 ' duties, clerical work, etc, are carried out. Calculation based on average UK work'
-                ' office being 16,671 sq foot',
+                f"office being {measurements['work-office']}",
                 'icon': 'svg/icon-work-office.svg',
             },
         ]
@@ -416,7 +428,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             'right_panel_sections': right_panel_sections,
         }
 
-        return TemplateResponse(request, 'eyb/guide-new.html', context)
+        return TemplateResponse(request, 'eyb/guide.html', context)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
@@ -437,20 +449,35 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         else:
             triage_data = kwargs['triage_data']
 
-        market_data_location = request.GET.get(
-            'market_data_location',
-            triage_data.location if triage_data and triage_data.location else choices.regions.LONDON,
-        )
+        # Default region fallback
+        default_location = triage_data.location if triage_data and triage_data.location else choices.regions.LONDON
 
+        # Location filters from GET params, fallback to default
+        market_data_location = request.GET.get('market_data_location', default_location)
+        rent_data_location = request.GET.get('rent_data_location', default_location)
+        salary_data_location = request.GET.get('salary_data_location', default_location)
+
+        # Determine meta title based on which data filter is present
+        location_params = {
+            'market_data_location': 'showing market data filtered by ',
+            'rent_data_location': 'showing average rent data filtered by ',
+            'salary_data_location': 'showing average annual salary data filtered by ',
+        }
+
+        page_title_meta = ''
+        for param, prefix in location_params.items():
+            if request.GET.get(param):
+                page_title_meta = prefix + get_location_display(request.GET.get(param))
+                break
+
+        # Market data
         bci_data = services.get_bci_data_by_dbt_sector(
-            triage_data.sector, [regions.region_choices_to_geocode_mapping[market_data_location]]
+            triage_data.sector,
+            [regions.region_choices_to_geocode_mapping[market_data_location]],
         )
 
-        rent_data_location = request.GET.get(
-            'rent_data_location', triage_data.location if triage_data.location else choices.regions.LONDON
-        )
+        # Rent data
         region = helpers.get_salary_region_from_region(rent_data_location)
-
         (
             large_warehouse_rent,
             small_warehouse_rent,
@@ -458,10 +485,6 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             high_street_retail,
             work_office,
         ) = get_rent_data(region)
-
-        salary_data_location = request.GET.get(
-            'salary_data_location', triage_data.location if triage_data.location else choices.regions.LONDON
-        )
         salary_region = helpers.get_salary_region_from_region(salary_data_location)
         median_salaries = get_median_salaries(triage_data.sector, geo_region=salary_region)
         cleaned_median_salaries = helpers.clean_salary_data(median_salaries)
@@ -561,6 +584,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             trade_associations=trade_associations,
             hero_image_url=hero_image_url,
             region_map_image_url=region_map_image_url,
+            page_title_meta=page_title_meta,
         )
 
         self.set_ga360_payload(

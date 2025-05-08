@@ -4,22 +4,25 @@
     {% if email_guide_form.errors %}Error: {% endif %}
     {{ page.hero_title }}: {{ page.body_title }} - Business.gov.uk
 {% endblock %}
-{% block meta_tags %}<meta name="robots" content="noindex">{% endblock %}
+{% block meta_tags %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block content %}
     <section class="great-ds-bg-blue govuk-!-padding-bottom-9 bgs-guide-hero"
-             style="background-image: url({{ hero_image_url }})">
+             style="background-image: url({% if hero_image_url %}{{ hero_image_url }}{% else %}/static/images/triage-bg.jpg{% endif %})">
         <div class="great-ds-container govuk-!-padding-top-9">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
                     <div class="great-ds-bg-white govuk-!-padding-6">
                         {% if page.hero_title %}<h1 class="govuk-heading-xl govuk-!-margin-bottom-3">{{ page.hero_title }}</h1>{% endif %}
                         {% if page.hero_intro %}<p class="govuk-body govuk-!-margin-bottom-4">{{ page.hero_intro }}</p>{% endif %}
-                        {% if sector %}
-                            {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1" %}
-                        {% endif %}
-                        {% if local_support_data.postcode_data.admin_district %}
-                            {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
-                        {% endif %}
+                        <div class="bgs-hero-tags">
+                            {% if sector %}
+                                {% include "includes/_sector-tag.html" with text=sector classes="govuk-!-margin-right-1" %}
+                            {% endif %}
+                            {% if local_support_data.postcode_data.admin_district %}
+                                {% include "includes/_location-tag.html" with text=local_support_data.postcode_data.admin_district %}
+                            {% endif %}
+                        </div>
+                        
                         {% include "includes/_change-answers.html" with change_answers_link=change_answers_link %}
                     </div>
                 </div>
@@ -68,7 +71,7 @@
         <div class="great-ds-container govuk-!-padding-top-7">
             <div class="govuk-grid-row bgs-reverse-content">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
-                    {% if page.body_title %}<h2 class="govuk-heading-l govuk-!-margin-bottom-3">{{ page.body_title }}</h2>{% endif %}
+                    {% if page.body_title %}<h2 class="govuk-heading-l {% if page.body_intro %}govuk-!-margin-bottom-3{% else %}govuk-!-margin-bottom-7{% endif %}">{{ page.body_title }}</h2>{% endif %}
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
                         {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
@@ -111,7 +114,7 @@
                                 {% include 'includes/_growth-hub.html' with local_support_data=local_support_data %}
                             </div>
                         {% endwith %}
-                        {% if local_support_data.chambers_of_commerce|length > 0 and local_support_data.postcode_data.country != 'Northern Ireland' %}
+                        {% if local_support_data.chambers_of_commerce|length > 0 %}
                             <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub">
                                 {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                     <h3 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h3>
@@ -153,86 +156,100 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    {% if trade_associations %}
-                        <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow"
-                             id="trade-associations">
-                            <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
-                                {% if page.trade_associations_title %}
-                                    <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
-                                {% endif %}
-                                {% if page.trade_associations_intro %}
-                                    <p class="govuk-body govuk-!-margin-bottom-0">{{ page.trade_associations_intro }}</p>
-                                {% endif %}
-                            </div>
-                            <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
-                                {% if trade_associations.sub_sector_and_sector_only_tas %}
-                                    {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
-                                        <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
-                                            <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" tag="h4" %}
-                                                {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
-                                                    <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
-                                                        <img class="great-ds-card__metadata-icon"
-                                                             src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
-                                                             alt=""
-                                                             aria-hidden="true"
-                                                             onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
-                                                        <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
-                                                    </div>
-                                                {% endwith %}
-                                                {% if sub_sector and ta.type == 'sub_sector' %}
-                                                    {% include "includes/_sector-tag.html" with text=sub_sector %}
-                                                {% endif %}
-                                                {% if sector and ta.type == 'sector' %}
-                                                    {% include "includes/_sector-tag.html" with text=sector %}
-                                                {% endif %}
-                                            </div>
+                    
+                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow"
+                            id="trade-associations">
+                        <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
+                            {% if page.trade_associations_title %}
+                                <h3 class="govuk-heading-m govuk-!-margin-bottom-4">{{ page.trade_associations_title }}</h3>
+                            {% endif %}
+                            {% if page.trade_associations_intro %}
+                                <p class="govuk-body govuk-!-margin-bottom-0">{{ page.trade_associations_intro }}</p>
+                            {% endif %}
+                        </div>
+                        {% if trade_associations %}
+                        <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
+                            {% if trade_associations.sub_sector_and_sector_only_tas %}
+                                {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
+                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" tag="h4" %}
+                                            {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                                <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
+                                                    <img class="great-ds-card__metadata-icon"
+                                                            src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
+                                                            alt=""
+                                                            aria-hidden="true"
+                                                            onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                                    <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                                </div>
+                                            {% endwith %}
+                                            {% if sub_sector and ta.type == 'sub_sector' %}
+                                                {% include "includes/_sector-tag.html" with text=sub_sector %}
+                                            {% endif %}
+                                            {% if sector and ta.type == 'sector' %}
+                                                {% include "includes/_sector-tag.html" with text=sector %}
+                                            {% endif %}
+                                            {% if ta.regions %}
+                                                {% include "includes/_location-tag.html" with text=ta.regions %}
+                                            {% endif %}
                                         </div>
-                                    {% endfor %}
-                                {% elif trade_associations.sector_tas %}
-                                    {% for ta in trade_associations.sector_tas %}
-                                        <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
-                                            <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
-                                                {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
-                                                    <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
-                                                        <img class="great-ds-card__metadata-icon"
-                                                             src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
-                                                             alt=""
-                                                             aria-hidden="true"
-                                                             onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
-                                                        <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
-                                                    </div>
-                                                {% endwith %}
-                                                {% if sector %}
-                                                    {% include "includes/_sector-tag.html" with text=sector %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="govuk-!-padding-6 great-ds-bg-light-blue">
-                                        <p class="govuk-body">
-                                            To view trade associations <a href="" class="govuk-link">enter your sector or industry</a>
-                                        </p>
                                     </div>
-                                {% endif %}
-                            </div>
-                            <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1">
-                                <button data-hidden-ta-trigger
-                                        class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
-                                    Show more
-                                </button>
-                                <button data-show-ta-trigger
-                                        class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
-                                    Show less
-                                </button>
+                                {% endfor %}
+                            {% elif trade_associations.sector_tas %}
+                                {% for ta in trade_associations.sector_tas %}
+                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-6 govuk-!-margin-bottom-2">
+                                            {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full great-ds-card--no-border great-ds-card--no-content-margin" hideArrow="true" %}
+                                            {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
+                                                <div class="great-ds-card__metadata govuk-!-padding-bottom-3">
+                                                    <img class="great-ds-card__metadata-icon"
+                                                            src="/static/icons/favicons/{{ card_meta_data.filename }}.png"
+                                                            alt=""
+                                                            aria-hidden="true"
+                                                            onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
+                                                    <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
+                                                </div>
+                                            {% endwith %}
+                                            {% if sector %}
+                                                {% include "includes/_sector-tag.html" with text=sector %}
+                                            {% endif %}
+                                            {% if ta.regions %}
+                                                {% include "includes/_location-tag.html" with text=ta.regions %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1" id="trade-associations-footer">
+                            <button data-hidden-ta-trigger
+                                    class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
+                                Show more <span class="govuk-visually-hidden">trade associations in your sector</span>
+                            </button>
+                            <button data-show-ta-trigger
+                                    class="govuk-!-margin-bottom-0 great-ds-button great-ds-button--secondary">
+                                Show less <span class="govuk-visually-hidden">trade associations in your sector</span>
+                            </button>
+                        </div>
+                        {% elif change_sector_link %}
+                        <div class="govuk-!-padding-6">
+                            <div class="govuk-!-padding-4 bgs-no-sector-infobox">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hideen="true">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.7165 0.95151C9.233 0.32332 10.8585 0 12.5 0C14.1415 0 15.767 0.32332 17.2835 0.95151C18.8001 1.57969 20.1781 2.50043 21.3388 3.66117C22.4996 4.8219 23.4203 6.19989 24.0485 7.7165C24.6767 9.233 25 10.8585 25 12.5C25 15.8152 23.683 18.9946 21.3388 21.3388C18.9946 23.683 15.8152 25 12.5 25C10.8585 25 9.233 24.6767 7.7165 24.0485C6.19989 23.4203 4.8219 22.4996 3.66117 21.3388C1.31696 18.9946 0 15.8152 0 12.5C0 9.1848 1.31696 6.00537 3.66117 3.66117C4.8219 2.50043 6.19989 1.57969 7.7165 0.95151ZM13.8574 19.9121H11.1621V10.45H13.8574V19.9121ZM10.8789 6.70898C10.8789 6.48763 10.9212 6.2793 11.0059 6.08398C11.0905 5.88216 11.2044 5.70964 11.3477 5.56641C11.4974 5.41667 11.6699 5.29948 11.8652 5.21484C12.0605 5.13021 12.2721 5.08789 12.5 5.08789C12.7214 5.08789 12.9297 5.13021 13.125 5.21484C13.3268 5.29948 13.4993 5.41667 13.6426 5.56641C13.7923 5.70964 13.9095 5.88216 13.9941 6.08398C14.0788 6.2793 14.1211 6.48763 14.1211 6.70898C14.1211 6.93685 14.0788 7.14844 13.9941 7.34375C13.9095 7.5391 13.7923 7.7116 13.6426 7.8613C13.4993 8.0046 13.3268 8.1185 13.125 8.2031C12.9297 8.2878 12.7214 8.3301 12.5 8.3301C12.2721 8.3301 12.0605 8.2878 11.8652 8.2031C11.6699 8.1185 11.4974 8.0046 11.3477 7.8613C11.2044 7.7116 11.0905 7.5391 11.0059 7.34375C10.9212 7.14844 10.8789 6.93685 10.8789 6.70898Z" fill="#1D70B8"/>
+                                </svg>
+                                <div>
+                                    <h4 class="govuk-heading-m govuk-!-margin-bottom-2">More information needed</h4>
+                                    <p class="govuk-body govuk-!-margin-bottom-0">To view trade associations <a href="{{ change_sector_link }}" class="govuk-link">enter your sector or industry</a></p>
+                                </div>
                             </div>
                         </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                    
                 </div>
                 <div class="govuk-grid-column-one-third-from-desktop">
-                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success %}
+                    {% include 'includes/_email-guide-form.html' with email_guide_form=email_guide_form send_email_address=send_email_address send_success=send_success hidden_text=page.hero_title %}
                 </div>
             </div>
             <div class="govuk-grid-row">
@@ -253,4 +270,5 @@
             errorGroup.focus();
         }
     </script>
+    <script type="text/javascript" src="/static/js/bss-webchat.js"></script>
 {% endblock %}

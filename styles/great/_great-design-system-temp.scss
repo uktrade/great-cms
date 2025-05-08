@@ -811,6 +811,10 @@ section.bgs-guide-hero {
   background-position: 95% 5%;
 }
 
+.bgs-section-logo--exporting {
+  background-position: 95% 30px;
+}
+
 .bgs-section-logo--regions {
   background-size: 250px;
   background-position: 100% -230px;
@@ -993,12 +997,18 @@ section.bgs-guide-hero {
 
   @include govuk-media-query($from: tablet) {
     border-left: 5px solid #8ce2d0;
+    padding-left: 20px;
   }
 
   h3 {
     display: flex;
     align-items: center;
     gap: 10px;
+
+    @include govuk-media-query($until: tablet) {
+      align-items: flex-start;
+      flex-direction: column;
+    }
   }
 }
 
@@ -1198,13 +1208,13 @@ section.bgs-guide-hero {
 
 #bgs-homepage-benefits {
   .govuk-grid-row {
-    @media only screen and (min-width: 641px) and (max-width: 1440px) {
+    @include govuk-media-query($from: tablet) {
       display: flex;
     }
   }
 
   .bgs-benefit-card > div {
-    @media only screen and (min-width: 641px) and (max-width: 1440px) {
+    @include govuk-media-query($from: tablet) {
       height: 100%;
     }
   }
@@ -1293,5 +1303,28 @@ section.bgs-guide-hero {
 
   @include govuk-media-query($from: desktop) {
     display: block;
+  }
+}
+
+.bgs-hero-tags {
+  strong:first-of-type {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.bgs-no-sector-infobox {
+  background: #dbeeff;
+  display: flex;
+  gap: 10px;
+
+  svg {
+    display: none;
+
+    @include govuk-media-query($from: tablet) {
+      display: block;
+      margin: 3px;
+    }
   }
 }

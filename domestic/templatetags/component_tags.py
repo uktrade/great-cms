@@ -222,7 +222,10 @@ def pagination_obj_range_lower_limit(page_obj):
     current_page_number = page_obj.number
     per_page = page_obj.paginator.per_page
 
-    lower_limit = per_page * current_page_number
+    if current_page_number == 1:
+        return 1
+
+    lower_limit = (per_page * (current_page_number - 1)) + 1
 
     return lower_limit
 
@@ -233,7 +236,7 @@ def pagination_obj_range_upper_limit(page_obj):
     current_page_number = page_obj.number
     per_page = page_obj.paginator.per_page
 
-    upper_limit = per_page * (current_page_number + 1)
+    upper_limit = per_page * current_page_number
 
     if upper_limit > total_objects:
         upper_limit = total_objects

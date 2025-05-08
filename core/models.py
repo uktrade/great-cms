@@ -328,6 +328,21 @@ class SeoMixin(WagtailSeoMixin):
         abstract = True
 
     seo_twitter_card = TwitterCard.LARGE
+    search_auto_update = False
+    meta_robots_nofollow = models.BooleanField(default=False)
+    meta_robots_noindex = models.BooleanField(default=False)
+
+    @property
+    def meta_robot_html(self):
+        if self.meta_robots_nofollow or self.meta_robots_noindex:
+            start_html = '<meta name"robots" content="'
+            end_html = '">'
+            if self.meta_robots_nofollow and not self.meta_robots_noindex:
+                return f'{start_html}nofollow{end_html}'
+            elif self.meta_robots_noindex and not self.meta_robots_nofollow:
+                return f'{start_html}noindex{end_html}'
+            else:
+                return f'{start_html}noindex, nofollow{end_html}'
 
     @property
     def seo_image_alt_text(self) -> str:
@@ -350,6 +365,15 @@ class SeoMixin(WagtailSeoMixin):
                 return parsed_url._replace(netloc=parsed_url.netloc).geturl()
             return parsed_url._replace(netloc='www.' + parsed_url.netloc).geturl()
         return canonical_url
+
+    seo_meta_panels = WagtailSeoMixin.seo_meta_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel('meta_robots_nofollow'),
+                FieldPanel('meta_robots_noindex'),
+            ],
+        ),
+    ]
 
 
 # Content models
@@ -2081,6 +2105,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_menu_items(self, request=None):
         parent_page = self.get_parent_page(request)
         menu_items = []
+        bgs_menu_items = []
 
         multiple_languages = len(settings.LANGUAGES) > 1
 
@@ -2093,6 +2118,19 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             menu_items = [{'href': parent_url, 'text': _('Home'), 'isCurrent': parent_url_clean == self.url}]
 
             menu_items.extend(
+                [
+                    {
+                        'href': (
+                            persist_language_to_url(child.get_url(), request) if multiple_languages else child.get_url()
+                        ),
+                        'text': child.title,
+                        'isCurrent': self.url == child.url,
+                    }
+                    for child in parent_page.get_children().live()
+                ]
+            )
+
+            bgs_menu_items.extend(
                 [
                     {
                         'href': (
@@ -2283,8 +2321,10 @@ class SupportPage(SeoMixin, cms_panels.SupportPanels, Page):
     parent_page_types = [
         'core.Support',
         'core.SupportPage',
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
     ]
-    subpage_types = ['core.SupportPage']
+    subpage_types = ['core.SupportPage', 'core.TaskBasedCategoryPage']
 
     class Meta:
         verbose_name = 'Support page'
@@ -2443,6 +2483,7 @@ class TaskBasedCategoryPage(cms_panels.TaskBasedCategoryPage, Page):
     template = 'domestic/contact/export-support/task-based-category-page.html'
     parent_page_types = [
         'core.Support',
+        'core.SupportPage',
     ]
     subpage_types = ['core.TaskBasedSubCategoryPage']
 

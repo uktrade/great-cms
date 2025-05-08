@@ -15,14 +15,12 @@ from international.choices import INTENSION_CHOICES
 
 class ContactForm(forms.Form):
     how_we_can_help = CharField(
-        label='What were you trying to do?',
-        help_text="""For example, following a link to a page and getting an error message.
-        Do not include personal or commercially sensitive information.""",
+        label='What can we help with you with?',
         max_length=1000,
         required=True,
         error_messages={
-            'required': ('Enter information on what you were trying to do'),
-            'max_length': ('Information on what you were trying to do must be no more than 1,000 characters'),
+            'required': ('Enter information on what you want help with'),
+            'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
@@ -36,7 +34,6 @@ class ContactForm(forms.Form):
     )
     email = CharField(
         label='Your email address',
-        help_text="We'll only use this to reply to your message",
         max_length=255,
         required=True,
         validators=[is_valid_email_address],

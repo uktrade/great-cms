@@ -72,7 +72,6 @@ def migration_support_vars(request):
         'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
         'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
         'FEATURE_SHOW_BRAND_BANNER': settings.FEATURE_SHOW_BRAND_BANNER,
-        'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK': settings.FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK,
     }
 
 
@@ -80,7 +79,6 @@ def feature_flags(request):
     """General way to make feature flags available in the template"""
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
-    retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
     retval['features']['FEATURE_DIGITAL_POINT_OF_ENTRY'] = settings.FEATURE_DIGITAL_POINT_OF_ENTRY
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
@@ -565,7 +563,7 @@ def footer_bgs(request):
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
                     },
-                    {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
+                    {'href': '/export-from-uk/markets/', 'text': 'Market guides', 'title': 'Market guides'},
                     {'href': '/export-from-uk/support-topics/', 'text': 'Export support', 'title': 'Export support'},
                     {
                         'href': '/export-from-uk/export-academy/',
@@ -626,8 +624,6 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
@@ -659,8 +655,6 @@ def footer_bgs(request):
                         'href': '/',
                         'text': 'Find support and information for your business on Business.gov.uk',
                         'title': 'Find support and information for your business on Business.gov.uk',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     },
                 ],
                 [
@@ -668,8 +662,6 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
