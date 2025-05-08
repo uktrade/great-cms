@@ -1,0 +1,4 @@
+session_cookie_domain:
+  dev: .dev.great.uktrade.digital
+  staging>: .staging.great.uktrade.digital
+  uat: .uat.great.uktrade.digital

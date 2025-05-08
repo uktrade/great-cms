@@ -1,0 +1,4 @@
+session_cookie_domain:
+  dev: www.dev.bgs.uktrade.digital
+  staging>: www.staging.bgs.uktrade.digital
+  uat: www.uat.great.uktrade.digital
