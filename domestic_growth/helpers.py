@@ -51,16 +51,7 @@ def get_triage_model(request: HttpRequest) -> Model:
 
 def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
-    triage_uuid = None
-
-    # give preference to the triage_uuid in a qs parameter
-    if request.GET.get('triage_uuid'):
-        triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
-    elif request.META.get('triage_uuid'):
-        triage_uuid = Fern().decrypt(request.META.get('triage_uuid'))
-    elif request.session.session_key:
-        triage_uuid = request.session.session_key
-
+    triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
 
     try:
@@ -99,6 +90,10 @@ def get_triage_uuid(request: HttpRequest) -> str:
     # give preference to the triage_uuid in a qs parameter
     if request.GET.get('triage_uuid'):
         triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
+    elif request.META.get('triage_uuid'):
+        triage_uuid = Fern().decrypt(request.META.get('triage_uuid'))
+    elif request.GET.get('url_token'):
+        triage_uuid = get_triage_uuid_from_url_token(request)
     elif hasattr(request.session, 'session_key'):
         triage_uuid = request.session.session_key
 
@@ -301,6 +296,7 @@ def save_email_as_guide_recipient(request: HttpRequest, email: str, url_token: s
     triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
     triage_data = get_triage_data(triage_model, triage_uuid)
+
     recipient_model = (
         domestic_growth_models.StartingABusinessGuideEmailRecipient
         if type(triage_data) is domestic_growth_models.StartingABusinessTriage
