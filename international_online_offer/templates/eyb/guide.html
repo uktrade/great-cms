@@ -61,7 +61,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-top-4">
                     {% for topic in essential_topics %}
                     {% include "_card.html" with iconSvg=topic.icon_path href=topic.url title=topic.text titleSize="s" id=topic.text|slugify type="elevated" classes="great-ds-card--2" %}
                     {% endfor %}
@@ -76,7 +76,7 @@
             
                 {% if locations|length > 0 %}
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                     {% for location in locations|slice:':2' %}
                     {% include "_card.html" with thumbnail="true" iconSvg=location.image href=location.url title=location.title titleSize="s" id=location.title|slugify locationIcon="true" subText=location.location description=location.description type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
@@ -87,7 +87,7 @@
 
                 {% if events|length > 0 %}
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                     {% for event in events|slice:':2' %}
                     {% include "_card.html" with thumbnail="true" iconSvg=event.icon href=event.url title=event.title titleSize="s" id=event.title|slugify locationIcon="true" subText=event.location description=event.description|striptags metadataText=event.website type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
@@ -102,7 +102,7 @@
 
                 {% if associations|length > 0 %}
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                 {% for association in associations|slice:':2' %}
                     {% include "_card.html" with href=association.url title=association.title titleSize="s" id='eventtitle' description=association.description type="unmounted" classes="great-ds-card--full" %}
                 {% endfor %}
@@ -116,12 +116,12 @@
                 {% endif %}
 
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                 {% for base in bases %}
                     {% include "_card.html" with thumbnail="true" iconSvg=base.icon href=base.url title=base.title titleSize="s" id=base.title|slugify description=base.description metadataText=base.website type="unmounted" classes="great-ds-card--full" %}
                 {% endfor %}
                 </div>
-                <form method="get"
+                <form method="get" class="govuk-!-margin-top-3 govuk-!-padding-top-4 great-ds-border-top-grey"
                     id="rent-data-location-select-form"
                     action="#rent-data-location-select-form">
                     {% csrf_token %}
@@ -153,7 +153,7 @@
                 {% include '_tile.html' with caption=triage_data.sector title="Setting up a base in the UK" size="l" content=tile_content %}
 
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                     {% for item in recruit_and_employ %}
                         {% include "_card.html" with thumbnail="true" iconSvg=item.icon href=item.url title=item.title titleSize="s" id=item.title|slugify description=item.description metadataText=item.website type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
@@ -168,7 +168,7 @@
                 
                 {% for section in right_panel_sections %}
                 {% capture tile_content %}
-                <div class="great-ds-card-container">
+                <div class="great-ds-card-container govuk-!-margin-bottom-0">
                     {% for item in section.items %}
                         {% include "_card.html" with href=item.url title=item.title titleSize="s" id=item.title|slugify description=item.text type="unmounted" classes="great-ds-card--full" %}
                     {% endfor %}
