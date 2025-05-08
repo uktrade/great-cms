@@ -1,4 +1,4 @@
 {% extends 'common/wizard.html' %}
 {% load static %}
-{% block head_title %}Create a great.gov.uk account{% endblock %}
-{% block meta_title %}Create a great.gov.uk account{% endblock %}
+{% block head_title %}Create a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account{% endblock %}
+{% block meta_title %}Create a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account{% endblock %}

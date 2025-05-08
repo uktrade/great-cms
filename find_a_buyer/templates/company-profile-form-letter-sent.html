@@ -1,6 +1,6 @@
 {% extends 'enrolment-base.html' %}
 {% load static %}
-{% block head_title %}Verification letter request - great.gov.uk{% endblock %}
+{% block head_title %}Verification letter request - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
 {% block formarea %}
     <div class="outer-container">
@@ -8,7 +8,7 @@
         <h1 class="govuk-heading-xl">Confirmation letter requested</h1>
         <p>You should receive a confirmation letter by post within 5 working days.</p>
         <p>
-            The letter contains a 12 digit verification code.  You can publish your business profile by signing into your great.gov.uk account and entering the code.
+            The letter contains a 12 digit verification code.  You can publish your business profile by signing into your {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account and entering the code.
         </p>
         <p>If you do not receive this letter within 2 weeks, contact us to let us know.</p>
         <p>

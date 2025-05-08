@@ -6,7 +6,7 @@
     <div class="grid-row" id="tab-content">
         <div class="column-two-thirds">
             <section id="welcome-message">
-                <h2>Welcome to your great.gov.uk account</h2>
+                <h2>Welcome to your {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account</h2>
                 <p class="body-text">
                     From now on, every time you sign in you’ll be able to quickly access all of our exporting tools in one place. The tools are here to help your business succeed internationally.
                 </p>

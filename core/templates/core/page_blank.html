@@ -10,7 +10,7 @@
     {% firstof page.seo_title page.title as seo_title %}
     {% block sharing_title %}
         <meta name="title"
-              content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+              content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endif %} - great.gov.uk{% endblock %}">
     {% endblock %}
     {% get_canonical_url as canonical_url %}
     <link rel="canonical" href="{{ canonical_url }}">
@@ -21,9 +21,9 @@
             {% if seo_title %}
                 {{ seo_title }}
             {% else %}
-                Welcome to great.gov.uk
+                Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
             {% endif %}
-            - great.gov.uk
+            - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
         {% endblock %}
     </title>
     {% block meta_tags %}

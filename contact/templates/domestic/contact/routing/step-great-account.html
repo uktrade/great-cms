@@ -12,7 +12,7 @@
 {% block meta_title %}Account{% endblock %}
 {% block step_title_container %}
     <div id="form-step-body-text">
-        <h1 class="heading-large">Get help with your great.gov.uk account</h1>
+        <h1 class="heading-large">Get help with your {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account</h1>
     </div>
 {% endblock %}
 {% block body_js %}

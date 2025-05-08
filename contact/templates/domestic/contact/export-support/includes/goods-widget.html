@@ -48,7 +48,7 @@
         <summary class="govuk-!-padding-bottom-6" data-task="et06030100|Understand rules of origin|Guidance|2" data-task-element-name="summary">
             <span class="great-meta-label govuk-!-padding-top-3 govuk-!-margin-bottom-2" data-task-element-name="meta label">
                 <img src="/static/icons/guidance.svg" alt="Guidance icon" data-task-element-name="meta icon" />
-                Guidance on great.gov.uk
+                Guidance on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
             </span>
 
             <span class="great-ds-card-meta-label govuk-!-margin-bottom-2">
