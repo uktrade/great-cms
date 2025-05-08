@@ -5,6 +5,8 @@ from django.test import override_settings
 @pytest.mark.parametrize(
     'previous_url,migrated_url',
     (
+        ('/international/site-help/', '/get-help/'),
+        ('/international/site-help/success/', '/get-help/success/'),
         ('/investment-support-directory/', '/international/investment-support-directory/'),
         ('/international/trade/search/', '/international/buy-from-uk/find-a-supplier/'),
         ('/international/trade/', '/international/buy-from-uk/'),
@@ -320,7 +322,7 @@ from django.test import override_settings
         ),
         (
             '/international/contact/',
-            '/site-help/',
+            '/get-help/',
         ),
         (
             '/international/content/investment/how-we-can-help/global-entrepreneur-program/',
@@ -399,6 +401,8 @@ def test_international_redirects(previous_url, migrated_url, client):
 @pytest.mark.parametrize(
     'previous_url,migrated_url',
     (
+        ('/international/site-help/', '/get-help/'),
+        ('/international/site-help/success/', '/get-help/success/'),
         ('/international/trade/search/', '/invest-in-uk/buy-from-uk/find-a-supplier/'),
         ('/international/trade/', '/invest-in-uk/buy-from-uk/'),
         ('/international/content/trade/how-we-help-you-buy/', '/invest-in-uk/buy-from-uk/'),
@@ -707,7 +711,7 @@ def test_international_redirects(previous_url, migrated_url, client):
         ),
         (
             '/international/contact/',
-            '/site-help/',
+            '/get-help/',
         ),
         (
             '/international/content/investment/how-we-can-help/global-entrepreneur-program/',

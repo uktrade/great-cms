@@ -29,7 +29,6 @@ import domestic_growth.urls
 import export_academy.urls
 import exportplan.urls
 import find_a_buyer.urls
-import international.urls
 import international_buy_from_the_uk.urls
 import international_investment.urls
 import international_investment_support_directory.urls
@@ -121,8 +120,6 @@ if settings.DEBUG:
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
 
 # Great International
-urlpatterns = [path('international/', include(international.urls))] + urlpatterns
-urlpatterns = [path('invest-in-uk/', include(international.urls, namespace='bgs_international'))] + urlpatterns
 urlpatterns = [
     path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
 ] + urlpatterns

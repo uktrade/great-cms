@@ -427,15 +427,23 @@ international_migration_redirects = [
     ),
     re_path(
         r'^international/contact/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
     ),
     re_path(
         r'^contact/international/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
+    ),
+    re_path(
+        r'^international/site-help/$',
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
+    ),
+    re_path(
+        r'^international/site-help/success/$',
+        PermanentQuerystringRedirectView.as_view(url='/get-help/success/'),
     ),
     re_path(
         r'^contact/international/success/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/success/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/success/'),
     ),
     re_path(
         r'^international/content/investment/how-we-can-help/global-entrepreneur-program/$',
@@ -920,15 +928,23 @@ invest_in_uk_redirects = [
     ),
     re_path(
         r'^invest-in-uk/contact/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
     ),
     re_path(
         r'^contact/invest-in-uk/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
     ),
     re_path(
         r'^contact/invest-in-uk/success/$',
-        PermanentQuerystringRedirectView.as_view(url='/site-help/success/'),
+        PermanentQuerystringRedirectView.as_view(url='/get-help/success/'),
+    ),
+    re_path(
+        r'^invest-in-uk/site-help/$',
+        PermanentQuerystringRedirectView.as_view(url='/get-help/'),
+    ),
+    re_path(
+        r'^invest-in-uk/site-help/success/$',
+        PermanentQuerystringRedirectView.as_view(url='/get-help/success/'),
     ),
     re_path(
         r'^invest-in-uk/content/investment/how-we-can-help/global-entrepreneur-program/$',
