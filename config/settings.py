@@ -1094,7 +1094,7 @@ CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 BGS_SITE = env.bgs_site
 
 # Allows us to fool the bgs middleware in testing.
-OVERRIDE_BGS_REDIRECT = True
+OVERRIDE_BGS_REDIRECT = False
 BGS_INTERNATIONAL_URL = 'invest-in-uk'
 GREAT_INTERNATIONAL_URL = 'international'
 FERNET_KEY = env.fernet_key
