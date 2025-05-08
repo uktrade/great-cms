@@ -16,7 +16,10 @@ from core.views import (
     QuerystringRedirectView,
     TranslationRedirectView,
 )
-from international.url_redirects import international_migration_redirects
+from international.url_redirects import (
+    international_migration_redirects,
+    invest_in_uk_redirects,
+)
 
 build_great_international_url = partial(urljoin, f'/{settings.GREAT_INTERNATIONAL_URL}/')
 build_bgs_international_url = partial(urljoin, f'/{settings.BGS_INTERNATIONAL_URL}/')
@@ -1202,4 +1205,5 @@ redirects += (
     + articles_redirects
     + unguided_journey_redirects
     + international_migration_redirects
+    + invest_in_uk_redirects
 )

@@ -604,7 +604,7 @@ def get_s3_file_stream(file_name, bucket_name=settings.AWS_STORAGE_BUCKET_NAME_D
 
 
 def is_bgs_domain(request):
-    if 'business' in request.build_absolute_uri().split('/')[2]:
+    if any(['business' in request.build_absolute_uri().split('/')[2], settings.OVERRIDE_BGS_REDIRECT]):
         return True
     return False
 
