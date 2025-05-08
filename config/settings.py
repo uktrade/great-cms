@@ -1048,6 +1048,7 @@ CSP_STYLE_SRC = (
     "'self'",
     "'unsafe-inline'",
     'https://fonts.googleapis.com',
+    'https://web-modules-de-uk1.niceincontact.com',
 )
 CSP_FONT_SRC = (
     "'self'",
