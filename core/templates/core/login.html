@@ -4,7 +4,7 @@
 
 {% block sharing_description %}
 <meta name="description"
-        content="Enter your username and password to access great.gov.uk tools and services" />
+        content="Enter your username and password to access {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} tools and services" />
 {% endblock %}
 {% block inner_content %}<div id="login"></div>{% endblock %}
 {% block body_js %}

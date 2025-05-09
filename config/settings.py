@@ -210,6 +210,7 @@ TEMPLATES = [
                 'core.context_processors.cms_slug_urls',
                 'core.context_processors.feature_flags',
                 'core.context_processors.cookie_management_vars',
+                'core.context_processors.current_website_name',
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
                 'core.context_processors.services_home_links',
