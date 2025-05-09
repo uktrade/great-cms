@@ -27,8 +27,6 @@ from contact.views import (
     FTASubscribeFormView,
     GuidanceView,
     InlineFeedbackView,
-    InternationalFormView,
-    InternationalSuccessView,
     RoutingFormView,
 )
 from core import snippet_slugs
@@ -178,20 +176,6 @@ urlpatterns = [
             ),
         ),
         name='contact-us-export-advice',
-    ),
-    path(
-        'contact/international/',
-        skip_ga360(InternationalFormView.as_view()),
-        name='contact-us-international',
-    ),
-    path(
-        'contact/international/success/',
-        skip_ga360(InternationalSuccessView.as_view()),
-        {
-            'slug': snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
-            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
-        },
-        name='contact-us-international-success',
     ),
     path(
         'contact/free-trade-agreements/',

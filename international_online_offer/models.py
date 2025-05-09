@@ -16,6 +16,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
 
 from core.blocks import ColumnsBlock
+from core.helpers import international_url
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
@@ -54,9 +55,9 @@ class EYBIndexPage(BaseContentPage):
 
     def serve(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/international/expand-your-business-in-the-uk/guide/')
+            return HttpResponseRedirect(f'/{international_url(request)}/expand-your-business-in-the-uk/guide/')
 
-        breadcrumbs = [{'name': 'Home', 'url': '/international/'}]
+        breadcrumbs = [{'name': 'Home', 'url': f'/{international_url(request)}/'}]
         return render(
             request,
             'eyb/index.html',
@@ -377,25 +378,25 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 {
                     'icon_path': 'svg/icon-planning.svg',
                     'text': 'UK business registration',
-                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/set-up-and-register-your-business',
                 },
                 {
                     'icon_path': 'svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
-                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
                     'icon_path': 'svg/icon-bank.svg',
                     'text': 'Business bank accounts',
-                    'url': '/international/expand-your-business-in-the-uk/guide/'
+                    'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
                     'icon_path': 'svg/icon-tax.svg',
                     'text': 'UK taxes',
-                    'url': '/international/expand-your-business-in-the-uk/'
+                    'url': f'/{international_url(request)}/expand-your-business-in-the-uk/'
                     'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
                 },
             ],
@@ -409,16 +410,18 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 initial={'salary_data_location': context['salary_data_location']}
             ),
             'locations': self.create_investment_opportunity_cards(context),
-            'more_locations_link': '/international/investment/' if len(context['investment_opportunities']) > 2 else '',
+            'more_locations_link': (
+                f'/{international_url(request)}/investment/' if len(context['investment_opportunities']) > 2 else ''
+            ),
             'events': self.create_trade_event_cards(context),
             'more_events_link': (
-                '/international/expand-your-business-in-the-uk/guide/trade-shows'
+                f'/{international_url(request)}/expand-your-business-in-the-uk/guide/trade-shows'
                 if len(context['trade_events']) > 2
                 else ''
             ),
             'associations': self.create_trade_association_cards(context),
             'more_associations_link': (
-                '/international/expand-your-business-in-the-uk/trade-associations'
+                f'/{international_url(request)}/expand-your-business-in-the-uk/trade-associations'
                 if len(context['trade_associations']) > 2
                 else ''
             ),
@@ -553,7 +556,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         ).order_by('association_name')[:3]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         hero_image_url = helpers.get_hero_image_by_sector(triage_data.sector)
@@ -729,15 +732,15 @@ class EYBArticlePage(BaseContentPage, EYBHCSAT):
 
                 professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
-                home_url = '/international/expand-your-business-in-the-uk/guide/'
+                home_url = f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                 if request.GET.get('back'):
                     home_url += '#tailored-guide'
 
                 breadcrumbs = [
-                    {'name': 'Home', 'url': '/international/'},
+                    {'name': 'Home', 'url': f'/{international_url(request)}/'},
                     {
                         'name': 'Your expansion guide',
-                        'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                        'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/#tailored-guide',
                     },
                 ]
 
@@ -805,10 +808,10 @@ class EYBTradeShowsPage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             all_tradeshows = IOOTradeShowPage.objects.live().filter(tags__name__iexact=user_sector)
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
             {
                 'name': 'Your expansion guide',
-                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/#tailored-guide',
             },
         ]
         context.update(

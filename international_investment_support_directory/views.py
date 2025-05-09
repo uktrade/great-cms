@@ -12,7 +12,7 @@ from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
-from core.helpers import get_sender_ip_address
+from core.helpers import get_sender_ip_address, international_url
 from core.mixins import HCSATMixin
 from international_buy_from_the_uk.services import get_case_study, get_company_profile
 from international_investment.core.helpers import get_location_display
@@ -93,8 +93,11 @@ class FindASpecialistSearchView(GA360Mixin, SubmitFormOnGetMixin, FormView):  # 
 
     def get_context_data(self, **kwargs):
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {
+                'name': 'Investment support directory',
+                'url': f'/{international_url(self.request)}/investment-support-directory/',
+            },
         ]
         return super().get_context_data(
             **kwargs,
@@ -126,8 +129,11 @@ class FindASpecialistProfileView(CompanyProfileMixin, GA360Mixin, TemplateView):
             find_a_specialist_url = self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {
+                'name': 'Investment support directory',
+                'url': f'/{international_url(self.request)}/investment-support-directory/',
+            },
             {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
         ]
         return super().get_context_data(
@@ -166,8 +172,11 @@ class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  #
             company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {
+                'name': 'Investment support directory',
+                'url': f'/{international_url(self.request)}/investment-support-directory/',
+            },
             {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
             {
                 'name': self.case_study['company']['name'],
@@ -264,7 +273,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
             hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
             # Apply data specific to this service
-            hcsat.URL = '/international/investment-support-directory'
+            hcsat.URL = f'/{international_url(self.request)}/investment-support-directory'
             hcsat.user_journey = 'ISD_CONTACT'
             hcsat.session_key = self.request.session.session_key
             hcsat.service_name = 'isd'
@@ -295,8 +304,11 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
             company_profile_url = company_profile_url + '?back=' + self.request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
-            {'name': 'Investment support directory', 'url': '/international/investment-support-directory/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
+            {
+                'name': 'Investment support directory',
+                'url': f'/{international_url(self.request)}/investment-support-directory/',
+            },
             {'name': 'Find a UK specialist', 'url': find_a_specialist_url},
             {'name': self.company['name'], 'url': company_profile_url},
         ]
@@ -305,7 +317,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
             company=self.company,
-            continue_url='/international/investment-support-directory/',
+            continue_url=f'/{international_url(self.request)}/investment-support-directory/',
         )
 
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)

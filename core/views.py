@@ -256,7 +256,7 @@ class SuggestedCountriesView(generics.GenericAPIView):
 
 
 def handler404(request, *args, **kwargs):
-    if '/international/' in request.path:
+    if helpers.international_url(request) in request.path:
         return TemplateResponse(request=request, template='international/404.html', context={}, status=404)
     else:
         return TemplateResponse(request=request, template='core/404.html', context={}, status=404)
@@ -564,7 +564,6 @@ class StaticViewSitemap(DjangoSitemap):
             '/contact/feedback/',
             '/contact/domestic/',
             '/contact/domestic/enquiries/',
-            '/contact/international/',
             # These were removed from the V1 sitemap because the pages were 404ing anyway because
             # FEATURE_EXPORTING_TO_UK_ON_ENABLED was not set on production any more, so the views
             # ExportingToUKDERAFormView, ExportingToUKBEISFormView and ExportingToUKFormView have

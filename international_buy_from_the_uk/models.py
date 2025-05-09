@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from core.helpers import international_url
 from domestic.models import BaseContentPage
 from international_buy_from_the_uk.forms import IndexSearchForm
 
@@ -16,7 +17,7 @@ class BuyFromTheUKIndexPage(BaseContentPage):
 
         # Set breadcrumbs and render the page
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
         return render(
             request,

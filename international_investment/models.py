@@ -11,6 +11,7 @@ from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import BasicTopicCardBlock, ColumnsBlock
 from core.forms import HCSATForm
+from core.helpers import international_url
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage
 from domestic.models import BaseContentPage
@@ -87,7 +88,7 @@ class InvestmentIndexPage(BaseContentPage):
         ]
 
         # Set breadcrumbs and render the page
-        breadcrumbs = [{'name': 'Home', 'url': '/international/'}]
+        breadcrumbs = [{'name': 'Home', 'url': f'/{international_url(request)}/'}]
         return render(
             request,
             'investment/index.html',
@@ -113,7 +114,7 @@ class InvestmentIndexPage(BaseContentPage):
         context['ga360'] = self.ga360_payload
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         opportunities = InvestmentOpportunityArticlePage.objects.live()
@@ -161,7 +162,7 @@ class InvestmentSectorsPage(BaseContentPage):
         context['ga360'] = self.ga360_payload
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         context.update(
@@ -191,7 +192,7 @@ class InvestmentRegionsPage(BaseContentPage):
         context['ga360'] = self.ga360_payload
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         context.update(
@@ -325,7 +326,7 @@ class InvestmentArticlePage(BaseContentPage):
         parent_directory = '/'.join(parent_page_url.split('/')[:-1]) + '/'
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         if not parent_page_name == 'Investment':
@@ -486,12 +487,12 @@ class InvestmentOpportunityArticlePage(BaseContentPage, HCSATNonFormPageMixin):
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
 
-        investment_opportunities_url = '/international/investment/'
+        investment_opportunities_url = f'/{international_url(request)}/investment/'
         if request.GET.get('back'):
             investment_opportunities_url = request.get_full_path().split('back=', 1)[1]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
             {'name': 'Investment opportunities', 'url': investment_opportunities_url},
         ]
 

@@ -122,13 +122,37 @@ urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_
 
 # Great International
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
+urlpatterns = [path('invest-in-uk/', include(international.urls, namespace='bgs_international'))] + urlpatterns
 urlpatterns = [
     path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
 ] + urlpatterns
+urlpatterns = [
+    path(
+        'invest-in-uk/expand-your-business-in-the-uk/',
+        include(international_online_offer.urls, namespace='bgs_international_online_offer'),
+    )
+] + urlpatterns
 urlpatterns = [path('international/investment/', include(international_investment.urls))] + urlpatterns
+urlpatterns = [
+    path('invest-in-uk/investment/', include(international_investment.urls, namespace='bgs_international_investment'))
+] + urlpatterns
 urlpatterns = [path('international/buy-from-the-uk/', include(international_buy_from_the_uk.urls))] + urlpatterns
 urlpatterns = [
+    path(
+        'invest-in-uk/buy-from-the-uk/',
+        include(international_buy_from_the_uk.urls, namespace='bgs_international_buy_from_the_uk'),
+    )
+] + urlpatterns
+urlpatterns = [
     path('international/investment-support-directory/', include(international_investment_support_directory.urls))
+] + urlpatterns
+urlpatterns = [
+    path(
+        'invest-in-uk/investment-support-directory/',
+        include(
+            international_investment_support_directory.urls, namespace='bgs_international_investment_support_directory'
+        ),
+    )
 ] + urlpatterns
 
 if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:

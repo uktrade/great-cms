@@ -6,11 +6,11 @@
           href="{% static 'expand_your_business_styles.css' %}">
 {% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
+    <div class="{% if request.path == expend_your_business_in_the_uk_url %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' %}
     </div>
     {% include './includes/back_link.html' with back_url=back_url %}
-    <div class="{% if request.path == '/international/expand-your-business-in-the-uk/' %}light-blue-background{% endif %}">
+    <div class="{% if request.path == expend_your_business_in_the_uk_url %}light-blue-background{% endif %}">
         {{ block.super }}
     </div>
 {% endblock %}
