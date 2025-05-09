@@ -69,10 +69,10 @@ class EmailGuideFormMixin:
             self.send_success = False
             # user returning via clicked link
             link_valid = guide_link_valid(request)
-            if request.GET.get('url_token', False) and link_valid:
+            if request.GET.get('url_token') and link_valid:
                 triage_uuid = get_triage_uuid_from_url_token(request)
                 request.META['triage_uuid'] = Fern().encrypt(triage_uuid)
-            elif request.GET.get('url_token', False) and not link_valid:
+            elif request.GET.get('url_token') and not link_valid:
                 # if the link is not valid redirect user to homepage
                 return redirect('/')
 
@@ -312,9 +312,9 @@ class DomesticGrowthGuidePage(
 
         params = {}
 
-        if request.GET.get('triage_uuid', False):
+        if request.GET.get('triage_uuid'):
             params['triage_uuid'] = request.GET.get('triage_uuid')
-        elif request.META.get('triage_uuid', False):
+        elif request.META.get('triage_uuid'):
             params['triage_uuid'] = request.META.get('triage_uuid')
 
         if len(params) > 0:
@@ -456,9 +456,9 @@ class DomesticGrowthChildGuidePage(
 
         params = {}
 
-        if request.GET.get('triage_uuid', False):
+        if request.GET.get('triage_uuid'):
             params['triage_uuid'] = request.GET.get('triage_uuid')
-        elif request.META.get('triage_uuid', False):
+        elif request.META.get('triage_uuid'):
             params['triage_uuid'] = request.META.get('triage_uuid')
 
         if len(params) > 0:
@@ -684,9 +684,9 @@ class DomesticGrowthDynamicChildGuidePage(
 
         params = {}
 
-        if request.GET.get('triage_uuid', False):
+        if request.GET.get('triage_uuid'):
             params['triage_uuid'] = request.GET.get('triage_uuid')
-        elif request.META.get('triage_uuid', False):
+        elif request.META.get('triage_uuid'):
             params['triage_uuid'] = request.META.get('triage_uuid')
 
         if len(params) > 0:

@@ -8,7 +8,7 @@
     {% elif is_results_state %}
         Selling {{ product }} to {{ country.display_name }}
     {% endif %}
-    - great.gov.uk
+    - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
 {% endblock %}
 {% block meta_title %}
     {% if is_market_lookup_state %}
@@ -18,7 +18,7 @@
     {% elif is_results_state %}
         Selling {{ product }} to {{ country.display_name }}
     {% endif %}
-    - great.gov.uk
+    - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
 {% endblock %}
 {% block head_css %}
     {{ block.super }}
