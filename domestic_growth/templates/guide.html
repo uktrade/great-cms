@@ -171,25 +171,29 @@
                         {% if trade_associations %}
                         <div class="govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
                             {% if trade_associations.sub_sector_and_sector_only_tas %}
+                                <div class="great-ds-card-container">
                                 {% for ta in trade_associations.sub_sector_and_sector_only_tas %}
-                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                    {% with card_attributes=forloop.counter|gt:3|create_card_attributes %}
                                         {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                             {% with tags=ta|get_trade_association_tags:"{'sector': sector, 'sub_sector': sub_sector}" %}
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".svg" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags %}
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".svg" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
                                             {% endwith %}
                                         {% endwith %}
-                                    </div>
+                                    {% endwith %}
                                 {% endfor %}
+                                </div>
                             {% elif trade_associations.sector_tas %}
+                                <div class="great-ds-card-container">
                                 {% for ta in trade_associations.sector_tas %}
-                                    <div {% if forloop.counter > 3 %}data-hidden-ta="true" class="govuk-!-display-none"{% endif %}>
+                                    {% with card_attributes=forloop.counter|gt:3|create_card_attributes %}
                                         {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                             {% with tags=ta|get_trade_association_tags:"{'sector': sector}" %}
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id classes="great-ds-card--full" tags=tags %}
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".svg" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
                                             {% endwith %}
                                         {% endwith %}
-                                    </div>
+                                    {% endwith %}
                                 {% endfor %}
+                                </div>
                             {% endif %}
                         </div>
                         <div class="govuk-!-padding-6 great-ds-border-top-light-grey-1" id="trade-associations-footer">

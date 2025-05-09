@@ -917,6 +917,10 @@ section.bgs-guide-hero {
   }
 }
 
+[data-hidden-ta="true"] {
+  display: none !important;
+}
+
 .bgs-change-your-answers {
   display: inline-flex;
   align-items: center;
