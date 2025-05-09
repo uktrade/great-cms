@@ -897,6 +897,26 @@ section.bgs-guide-hero {
   max-width: 70%;
 }
 
+.great-ds-modified-tag {
+  &.great-ds-modified-tag--location,
+  &.great-ds-modified-tag--sector {
+    border-radius: 15px;
+    display: inline-flex;
+    gap: 8px;
+    line-height: 18px;
+  }
+
+  &.great-ds-modified-tag--location {
+    background: #dbeeff;
+    color: #003078;
+  }
+
+  &.great-ds-modified-tag--sector {
+    background: #c2f0e6;
+    color: #004f59;
+  }
+}
+
 .bgs-change-your-answers {
   display: inline-flex;
   align-items: center;
@@ -929,7 +949,6 @@ section.bgs-guide-hero {
     }
   }
 }
-
 
 .bgs-ita-block {
   @include govuk-media-query($until: tablet) {

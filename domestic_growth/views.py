@@ -76,6 +76,16 @@ class BaseTriageFormView(FormView):
         if triage_data:
             return {self.triage_field_name: getattr(triage_data, self.triage_field_name, None)}
 
+    def get_trade_association_tags(self, ta, sector=None, sub_sector=None):
+        tags = []
+        if sub_sector and ta.type == 'sub_sector':
+            tags.append({'text': sub_sector, 'type': 'sector'})
+        elif sector and ta.type == 'sector':
+            tags.append({'text': sector, 'type': 'sector'})
+        if ta.regions:
+            tags.append({'text': ta.regions, 'type': 'location'})
+        return tags
+
 
 class StartingABusinessLocationFormView(BaseTriageFormView):
     template_name = 'starting-a-business/triage-location.html'
