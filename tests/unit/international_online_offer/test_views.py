@@ -767,7 +767,7 @@ def test_trade_association_hcsat(client, user):
     assert type(trade_association_view.get_csat_form()) == InternationalHCSATForm
     assert (
         trade_association_view.get_service_csat_heading(trade_association_view.hcsat_service_name)
-        == 'Overall, how would you rate your experience with the\n         Expand your business service today?'
+        == 'Overall, how would you rate your experience\n         with the Expand your business service today?'
     )
 
 
