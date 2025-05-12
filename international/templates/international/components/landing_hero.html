@@ -14,22 +14,26 @@
     }
 
     .great-hero-no-image {
-        background-image: url({% static 'images/international-hero-1920x420.jpeg' %});
+        background-image: url({% static 'images/Great-homepage-hero-domestic.png' %});
     }
 </style>
 <section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}"
          id="hero">
     <div class="great-container">
-        <div class="great-hero__container govuk-grid-row">
-            <div class="great-hero__text govuk-grid-column-one-half">
-                <h1 class="govuk-heading-l great-hero-heading">{{ heading }}</h1>
-                <p class="govuk-body-m great-hero-subheading">{{ subtitle }}</p>
+        <div class="great-position-relative">
+            <div class="govuk-grid-row">
+                <div class="great-hero__text govuk-grid-column-one-half">
+                    <h1 class="govuk-heading-xl great-hero-heading govuk-!-margin-bottom-6">{{ heading }}</h1>
+                    <p class="great-hero-subheading govuk-body-l">{{ subtitle }}</p>
+                </div>
+            
+      
+                {% include '../includes/great_logo_ribbon.html' %}
             </div>
-            <div class="govuk-grid-column-one-half"></div>
         </div>
     </div>
 </section>
-<section class="great-hero-cards govuk-!-padding-bottom-6">
+<section class="great-hero-cards govuk-!-padding-top-4 govuk-!-padding-bottom-6">
     <div class="great-container">
         <div class="great-ds-card-container">
             {% include "_card.html" with href="/international/expand-your-business-in-the-uk/" title="How to expand your business" tag="h2" titleSize="m" id="how-to-expand-your-business" description="Get the guidance and insights to help you set up and grow your business in the UK" type="mounted" classes="great-ds-card--3" attributes=eyb_card_attributes %}

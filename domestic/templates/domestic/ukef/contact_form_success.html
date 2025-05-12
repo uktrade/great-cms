@@ -33,6 +33,6 @@
             </ul>
         </div>
     </div>
-    <a href="/" class="link block margin-top-30 margin-bottom-60">Continue to great.gov.uk</a>
+    <a href="/" class="link block margin-top-30 margin-bottom-60">Continue to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}</a>
 </div>
 {% endblock content %}

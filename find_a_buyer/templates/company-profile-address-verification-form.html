@@ -1,6 +1,6 @@
 {% extends "form-wrapper.html" %}
 {% load static %}
-{% block head_title %}Verify your company - great.gov.uk{% endblock %}
+{% block head_title %}Verify your company - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block form_title %}Verify your company{% endblock %}
 {% block button_next_label %}Next{% endblock %}
 {% block button_finish_label %}Continue{% endblock %}

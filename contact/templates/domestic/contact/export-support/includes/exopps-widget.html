@@ -3,7 +3,7 @@
 <div class="govuk-!-padding-6 great-bg-white great-ds-box-shadow great-ds-card-panels__item{% if full_width %} great-ds-card-panels__item--full-width{% endif %}">
     <span class="great-meta-label govuk-!-margin-bottom-2">
         <img src="/static/icons/hand.svg" alt="" />
-        Service on great.gov.uk
+        Service on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
     </span>
 
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Live export opportunities in {% if market %}{{ session_data.market }}{% else %}your export market{% endif %}</h2>

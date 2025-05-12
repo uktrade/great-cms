@@ -5,7 +5,7 @@
 {% load content_tags %}
 <html lang="en-gb">
     <head>
-        <title>great.gov.uk - pdf download</title>
+        <title>{% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} - pdf download</title>
         <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
         <meta name="description" content="">
         <meta name="keywords" content="">
@@ -16,7 +16,7 @@
         <!-- Content for static frame 'footer_frame' -->
         <div id="footer_content" class="text-align-right page-footer">
             <p class="body-s">
-                Created at great.gov.uk
+                Created at {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
                 &nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;
                 {% timezone "Europe/London" %}
                 {% now "h:i A" %} {% now "jS F Y" %}

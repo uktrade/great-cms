@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
-{% block meta_title %}Business profile - Account - great.gov.uk{% endblock %}
+{% block head_title %}Business profile - Account - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
+{% block meta_title %}Business profile - Account - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block head_css %}
     {{ block.super }}
     <style type="text/css">
