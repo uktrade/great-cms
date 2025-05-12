@@ -19,8 +19,8 @@ class ContactForm(gds_forms.Form):
         max_length=1000,
         required=True,
         error_messages={
-            'required': ('Enter information on what you were trying to do'),
-            'max_length': ('Information on what you were trying to do must be no more than 1,000 characters'),
+            'required': ('Enter information on what you want help with'),
+            'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
         },
         widget=gds_forms.Textarea(attrs={'class': 'govuk-!-width-two-thirds govuk-js-character-count', 'rows': 7}),
     )
@@ -34,7 +34,6 @@ class ContactForm(gds_forms.Form):
     )
     email = gds_forms.CharField(
         label='Your email address',
-        help_text="We'll only use this to reply to your message",
         max_length=255,
         required=True,
         validators=[is_valid_email_address],

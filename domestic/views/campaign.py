@@ -5,7 +5,7 @@ from django.http import Http404
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import get_language
-from wagtail.models import Locale
+from wagtail.models import Locale, Site
 
 from contact.views import BaseNotifyUserFormView
 from core.context_processors import microsite_footer, microsite_header
@@ -38,7 +38,7 @@ class CampaignView(BaseNotifyUserFormView):
         user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
     )
 
-    def get_current_page(self):
+    def get_current_page(self, request=None):
         if self.page_slug is None:
             return None
         try:
@@ -48,39 +48,34 @@ class CampaignView(BaseNotifyUserFormView):
             from config.settings import LANGUAGE_CODE
 
             current_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
-        return self.get_correct_page(current_locale)
+        return self.get_correct_page(current_locale, request)
 
-    def get_correct_page(self, current_locale):
-        if self.page_class.objects.live().filter(slug=self.page_slug).count() > 0:
-            if (
-                self.page_class.objects.live()
-                .filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path)
-                .count()
-                == 1  # noqa: W503
-            ):
-                return self.page_class.objects.live().get(
-                    slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path
-                )
-            else:
-                from config.settings import LANGUAGE_CODE
-
-                default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
+    def get_correct_page(self, current_locale, request=None):
+        if request:
+            site = Site.find_for_request(request)
+            translated_root = site.root_page.get_translation_or_none(current_locale)
+            if not translated_root:
+                translated_root = site.root_page
+            pages = self.page_class.objects.live().descendant_of(translated_root)
+            if pages.filter(slug=self.page_slug).count() > 0:
                 if (
-                    self.page_class.objects.live()
-                    .filter(slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path)
-                    .count()
-                    == 1
+                    pages.filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path).count()
+                    == 1  # noqa: W503
                 ):
-                    return self.page_class.objects.live().get(
-                        slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
-                    )
+                    return pages.get(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path)
                 else:
-                    return (
-                        self.page_class.objects.live()
-                        .filter(slug=self.page_slug, url_path__endswith=self.path)
-                        .order_by('-path')
-                        .first()
-                    )
+                    from config.settings import LANGUAGE_CODE
+
+                    default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
+                    if (
+                        pages.filter(
+                            slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
+                        ).count()
+                        == 1
+                    ):
+                        return pages.get(slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path)
+                    else:
+                        return pages.filter(slug=self.page_slug, url_path__endswith=self.path).order_by('-path').first()
 
     def get_form_value(self):
         values = [
@@ -142,7 +137,8 @@ class CampaignView(BaseNotifyUserFormView):
         self.form_success = True if 'form_success=True' in request.get_full_path() else False
         self.success_url = self.get_success_url()
         self.path = request.path
-        self.current_page = self.get_current_page()
+        self.request = request
+        self.current_page = self.get_current_page(request)
         self.available_languages = self.get_languages()['available_languages'] if self.current_page else None
         self.current_language = self.get_languages()['current_language'] if self.current_page else None
         self.form_config = self.get_form_value() if self.current_page else None
@@ -177,13 +173,17 @@ class CampaignView(BaseNotifyUserFormView):
         include_link_to_great = page.get_include_link_to_great() if hasattr(page, 'get_include_link_to_great') else ''
         use_domestic_logo = page.get_use_domestic_header_logo() if hasattr(page, 'get_use_domestic_header_logo') else ''
         site_title = page.get_site_title() if hasattr(page, 'get_site_title') else ''
-        menu_items = page.get_menu_items() if hasattr(page, 'get_menu_items') else ''
-        bgs_menu_items = page.get_bgs_menu_items() if hasattr(page, 'get_bgs_menu_items') else ''
+        menu_items = page.get_menu_items(self.request) if hasattr(page, 'get_menu_items') else ''
+        bgs_menu_items = page.get_bgs_menu_items(self.request) if hasattr(page, 'get_bgs_menu_items') else ''
         site_href = (
-            page.get_menu_items()[0]['href'] if hasattr(page, 'get_menu_items') and page.get_menu_items() else ''
+            page.get_menu_items(self.request)[0]['href']
+            if hasattr(page, 'get_menu_items') and page.get_menu_items(self.request)
+            else ''
         )
         great_logo_href = (
-            page.get_menu_items()[0]['href'] if hasattr(page, 'get_menu_items') and page.get_menu_items() else ''
+            page.get_menu_items(self.request)[0]['href']
+            if hasattr(page, 'get_menu_items') and page.get_menu_items(self.request)
+            else ''
         )
         microsite_context = microsite_header(self.request)
         microsite_context['include_link_to_great'] = include_link_to_great

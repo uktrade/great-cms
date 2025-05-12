@@ -1,11 +1,11 @@
 {% extends 'core/signup-wizard-step-base.html' %}
 {% load url_map %}
 {% block above_form %}
-    <h2 class="h-l p-b-xs">Sign up to great.gov.uk</h2>
+    <h2 class="h-l p-b-xs">Sign up to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}</h2>
     <div class="grid">
         <div class="c-2-3">
             <div id="signup-app-root">
-                <a href="{% url 'core:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">I already have a great.gov.uk account<a />
+                <a href="{% url 'core:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">I already have a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account<a />
                 </div>
             </div>
         </div>

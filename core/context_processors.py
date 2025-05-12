@@ -7,12 +7,7 @@ from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
-from domestic_growth.constants import (
-    ESTABLISHED_GUIDE_URL,
-    PRE_START_GUIDE_URL,
-    START_UP_GUIDE_URL,
-)
-from domestic_growth.helpers import create_request_for_path, get_triage_drop_off_point
+from domestic_growth.constants import EXISTING_TRIAGE_URL, PRE_START_TRIAGE_URL
 
 
 def javascript_components(request):
@@ -77,7 +72,6 @@ def migration_support_vars(request):
         'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
         'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
         'FEATURE_SHOW_BRAND_BANNER': settings.FEATURE_SHOW_BRAND_BANNER,
-        'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK': settings.FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK,
     }
 
 
@@ -85,7 +79,6 @@ def feature_flags(request):
     """General way to make feature flags available in the template"""
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
-    retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
     retval['features']['FEATURE_DIGITAL_POINT_OF_ENTRY'] = settings.FEATURE_DIGITAL_POINT_OF_ENTRY
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
@@ -162,17 +155,6 @@ def domestic_header(request):
         '13.7122C11.5109 14.0959 12.1334 14.0959 12.5172 13.7122L13.2122 13.0172C13.5959 12.6334 13.5959 '
         '12.0113 13.2122 11.6272L10.085 8.5Z"/></svg>'
     )
-
-    # Create request objects for each guide type
-    pre_start_request = create_request_for_path(request, PRE_START_GUIDE_URL)
-    startup_request = create_request_for_path(request, START_UP_GUIDE_URL)
-    established_request = create_request_for_path(request, ESTABLISHED_GUIDE_URL)
-
-    # Get the appropriate URLs
-    pre_start_url = get_triage_drop_off_point(pre_start_request) or PRE_START_GUIDE_URL
-    startup_triage_url = get_triage_drop_off_point(startup_request)
-    established_triage_url = get_triage_drop_off_point(established_request)
-    existing_url = startup_triage_url or established_triage_url or ESTABLISHED_GUIDE_URL
 
     return {
         'header_classes': '',
@@ -265,48 +247,57 @@ def domestic_header(request):
             'menuItemsList': [
                 {
                     'icon': '/static/icons/start-icon.svg',
-                    'href': pre_start_url,
+                    'href': PRE_START_TRIAGE_URL,
                     'text': 'Starting a business',
-                    'isCurrent': '/export' in request.path,
-                    'overviewText': 'Get support and information',
+                    'isCurrent': PRE_START_TRIAGE_URL in request.path,
+                    'overviewText': (
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> for starting a business</span>'
+                    ),
                     'description': """Tell us about your plans and we'll connect you to expert guidance and
  support for setting up your business.""",
                 },
                 {
                     'icon': '/static/icons/run-icon.svg',
-                    'href': existing_url,
+                    'href': EXISTING_TRIAGE_URL,
                     'text': 'Running and growing a business',
-                    'isCurrent': '/invest' in request.path,
-                    'overviewText': 'Get support and information',
+                    'isCurrent': EXISTING_TRIAGE_URL in request.path,
+                    'overviewText': (
+                        'Get support and information'
+                        '<span class="govuk-visually-hidden"> for running and growing a business</span>'
+                    ),
                     'description': """Tell us a bit about your business and we'll link you up to the right
  resources to help it thrive.""",
                 },
                 {
                     'icon': '/static/icons/export-icon.svg',
-                    'href': '/greatgovuk/',
+                    'href': '/export-from-uk/',
                     'text': 'Selling overseas from the UK',
                     'overviewText': 'Start exporting',
                     'children': [
-                        {'href': '/greatgovuk/markets/', 'text': 'Markets', 'isCurrent': '/markets' in request.path},
-                        {'href': '/greatgovuk/export-support/', 'text': 'Export support'},
                         {
-                            'href': '/greatgovuk/export-academy/',
+                            'href': '/export-from-uk/markets/',
+                            'text': 'Market guides',
+                            'isCurrent': '/markets' in request.path,
+                        },
+                        {'href': '/export-from-uk/support-topics/', 'text': 'Export support'},
+                        {
+                            'href': '/export-from-uk/export-academy/',
                             'text': 'UK Export Academy',
                             'isCurrent': '/export-support/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/learn/categories/',
+                            'href': '/export-from-uk/learn/categories/',
                             'text': 'Learn to export',
                             'isCurrent': '/learn/categories/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/services/',
+                            'href': '/export-from-uk/services/',
                             'text': 'Export resources',
-                            'requiresAuth': True,
                             'isCurrent': '/services/' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/dashboard/',
+                            'href': '/export-from-uk/dashboard/',
                             'text': 'Export dashboard',
                             'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
@@ -314,16 +305,17 @@ def domestic_header(request):
                         {
                             'href': reverse_lazy('core:compare-countries'),
                             'text': 'Where to export',
+                            'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/export-plan/',
+                            'href': '/export-from-uk/export-plan/',
                             'text': 'Make an export plan',
                             'requiresAuth': True,
                             'isCurrent': '/export-plan' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/profile/',
+                            'href': '/export-from-uk/profile/',
                             'text': 'Export account',
                             'requiresAuth': True,
                             'isCurrent': '/profile' in request.path,
@@ -344,29 +336,27 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
-                    'href': '/greatgovuk/international/',
+                    'href': '/invest-in-uk/',
                     'text': 'Investing and expanding in the UK',
                     'overviewText': 'Start investing',
                     'children': [
                         {
-                            'href': '/greatgovuk/international/expand-your-business-in-the-uk/',
+                            'href': '/invest-in-uk/expand-your-business-in-the-uk/',
                             'text': 'Expand your business in the UK',
                             'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                         },
                         {
-                            'href': '/greatgovuk/international/investment/',
+                            'href': '/invest-in-uk/investment/',
                             'text': 'Investment opportunities',
                             'isCurrent': (
-                                '/international/investment/' == request.path
-                                or (
-                                    '/international/investment/' in request.path and '?back=' in request.get_full_path()
-                                )
+                                '/invest-in-uk/investment/' == request.path
+                                or ('/invest-in-uk/investment/' in request.path and '?back=' in request.get_full_path())
                             ),
                         },
                         {
-                            'href': '/greatgovuk/international/buy-from-the-uk/',
+                            'href': '/invest-in-uk/buy-from-the-uk/',
                             'text': 'Buy from the UK',
-                            'isCurrent': '/international/buy-from-the-uk/' in request.path,
+                            'isCurrent': '/buy-from-the-uk/' in request.path,
                         },
                         {
                             'href': '#',
@@ -552,15 +542,15 @@ def footer_bgs(request):
             'upperFooterSection': [
                 [
                     {
-                        'href': '#TBC',
+                        'href': PRE_START_TRIAGE_URL,
                         'text': 'Starting a business',
-                        'title': 'Export support for UK businesses',
+                        'title': 'Starting a business',
                         'isHeading': 'true',
                     }
                 ],
                 [
                     {
-                        'href': '#TBC',
+                        'href': EXISTING_TRIAGE_URL,
                         'text': 'Running and growing a business',
                         'title': 'Running and growing a business',
                         'isHeading': 'true',
@@ -568,13 +558,13 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '',
+                        'href': '/export-from-uk/',
                         'text': 'Selling overseas from the UK',
                         'title': 'Selling overseas from the UK',
                         'isHeading': 'true',
                     },
-                    {'href': '/export-from-uk/markets/', 'text': 'Markets', 'title': 'Markets'},
-                    {'href': '/export-from-uk/export-support/', 'text': 'Export support', 'title': 'Export support'},
+                    {'href': '/export-from-uk/markets/', 'text': 'Market guides', 'title': 'Market guides'},
+                    {'href': '/export-from-uk/support-topics/', 'text': 'Export support', 'title': 'Export support'},
                     {
                         'href': '/export-from-uk/export-academy/',
                         'text': 'UK Export Academy',
@@ -589,22 +579,22 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '/international/',
+                        'href': '/invest-in-uk/',
                         'text': 'Investing and expanding in the UK',
                         'title': 'Investing and expanding in the UK',
                         'isHeading': 'true',
                     },
                     {
-                        'href': '/international/expand-your-business-in-the-uk/',
+                        'href': '/invest-in-uk/expand-your-business-in-the-uk/',
                         'text': 'Expand your business in the UK',
                         'title': 'Expand your business in the UK',
                     },
                     {
-                        'href': '/international/investment/',
+                        'href': '/invest-in-uk/investment/',
                         'text': 'Investment opportunities',
                         'title': 'Investment opportunities',
                     },
-                    {'href': 'international/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
+                    {'href': '/invest-in-uk/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
                 ],
             ],
             'lowerFooterSection': [
@@ -622,9 +612,9 @@ def footer_bgs(request):
                     {'href': '/sitemap/', 'text': 'Sitemap', 'title': 'Sitemap'},
                 ],
                 [
-                    {'href': '#TBC', 'text': 'About this website', 'title': 'About this website'},
+                    {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
-                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'href': '/help-using-this-website/',
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },
@@ -634,8 +624,6 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
@@ -667,8 +655,6 @@ def footer_bgs(request):
                         'href': '/',
                         'text': 'Find support and information for your business on Business.gov.uk',
                         'title': 'Find support and information for your business on Business.gov.uk',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     },
                 ],
                 [
@@ -676,10 +662,19 @@ def footer_bgs(request):
                         'href': 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
                         'text': 'Department for Business and Trade on GOV.UK',
                         'title': 'Department for Business and Trade on GOV.UK',
-                        'target': '_blank',
-                        'rel': 'noopener',
                     }
                 ],
             ],
         },
     }
+
+
+def current_website_name(request):
+    website_name = 'great.gov.uk'
+    bgs_domains = ['.bgs.', 'business.gov.uk']
+
+    for domain in bgs_domains:
+        if domain in request.get_host():
+            website_name = 'business.gov.uk'
+
+    return {'current_website_name': website_name}

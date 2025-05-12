@@ -20,7 +20,11 @@
                 {% elif snippet_name == 'Finance and support for your business' and local_support_data %}
                     {% include 'includes/dynamic-snippets/_finance-and-support.html' with content=content region=local_support_data.postcode_data|get_region_for_finance_and_support_snippet region_name=local_support_data.postcode_data|get_region_name %}
                 {% elif snippet_name == 'Talk to an International Trade Adviser' and turnover not in ita_excluded_turnovers %}
-                    {% include "includes/dynamic-snippets/_ita.html" with content=content %}
+                    {% with country=local_support_data.postcode_data.country region=local_support_data.postcode_data.region %}
+                        {% if country == 'England' and region != 'London' %}
+                            {% include "includes/dynamic-snippets/_ita.html" with content=content %}
+                        {% endif %}
+                    {% endwith %}
                 {% elif snippet_name == 'Find a grant' and local_support_data %}
                     {% with region_name=local_support_data.postcode_data|get_region_name %}
                         {% include 'includes/dynamic-snippets/_find-a-grant.html' with content=content region=region_name|get_region_for_find_a_grant_snippet %}
@@ -47,14 +51,18 @@
                             {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
                         {% endif %}
                     {% endwith %}
-                {% elif snippet_name == 'Innovate UK Business Connect' and sector  %}
-                    {% with snippet_content=content|sector_snippet:sector %}
-                        {% if snippet_content %}
-                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
-                        {% else %}
-                            {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
-                        {% endif %}
-                    {% endwith %}
+                {% elif snippet_name == 'Innovate UK Business Connect' %}
+                    {% if sector %}
+                        {% with snippet_content=content|sector_snippet:sector %}
+                            {% if snippet_content %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=snippet_content %}
+                            {% else %}
+                                {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        {% include 'includes/dynamic-snippets/_placeholder-snippet.html' with content=content %}
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endfor %}

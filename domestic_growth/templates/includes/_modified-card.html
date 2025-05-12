@@ -1,6 +1,6 @@
-{% load get_url_favicon_and_domain from content_tags %}
+{% load get_url_favicon_and_domain get_is_internal_url from content_tags %}
 
-{% with card_meta_data=content.url|get_url_favicon_and_domain %}
+{% with card_meta_data=content.url|get_url_favicon_and_domain is_internal_url=content.url|get_is_internal_url %}
 <div class="great-ds-card great-ds-card--no-border {% if classes %} {{ classes }}{% endif %}{% if type %} great-ds-card--{{ type }}{% endif %} {% if content.show_image %}great-ds-card--image-to-side{% endif %}" {% if href %}role="article"{% endif %}>
     <div class="great-ds-card__inner">
         {% if href %}
@@ -25,10 +25,10 @@
             {% if title %}
                 <div class="great-ds-card__title-wrapper">
                     {% if type == "elevated" or completedTag == "true" %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h3" hideArrow="true"  %}
+                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow="true"  %}
                     {% else %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h3" hideArrow=hideArrow  %}
-                    {% endif %}
+                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow=hideArrow  %}
+                    {% endif %} 
                     {% if completedTag == "true" %}
                         {% include "_tag.html" with text="Completed" type="success"  %}
                     {% endif %}
@@ -40,10 +40,10 @@
             {% endif %}
 
             {% if description %}
-                <div class="great-ds-card__description">{{ description }}</div>
+                <div class="great-ds-card__description">{{ description|striptags }}</div>
             {% endif %}
     
-            {% if not hideMetaText %}
+            {% if not hideMetaText and not is_internal_url %}
             <div class="great-ds-card__metadata">
                 <img class="great-ds-card__metadata-icon" src="/static/icons/favicons/{{ card_meta_data.filename }}.png" alt="" aria-hidden="true" onerror="this.src='/static/icons/favicons/icon-favicon-placeholder.png'">
                 <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>

@@ -9,8 +9,10 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http import HttpRequest
 from django.template import Context, Template
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
+from wagtail.models import Site
+from wagtail_factories import PageFactory, SiteFactory
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.bgs_tags import is_bgs_site
@@ -25,6 +27,7 @@ from core.templatetags.content_tags import (
     get_icon_path,
     get_inline_feedback_visibility,
     get_international_icon_path,
+    get_is_internal_url,
     get_lesson_progress_for_topic,
     get_link_blocks,
     get_region_bg_class,
@@ -54,6 +57,7 @@ from core.templatetags.content_tags import (
     url_type,
     val_to_int,
 )
+from core.templatetags.ga_tags import google_tag_manager_id_tag
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
@@ -1061,7 +1065,7 @@ def test_get_icon_path_with_slash(input, expected_output):
 @pytest.mark.parametrize(
     'input, expected_output',
     (
-        ('/support/uk-investment-zones/', 'international/includes/svg/investment-zones.svg'),
+        ('/support/uk-investment-zones/', '/static/investment-zones.svg'),
         ('', ''),
     ),
 )
@@ -1346,3 +1350,47 @@ def test_get_region_name(input_data, expected_output):
 )
 def test_get_region_for_find_a_grant_snippet(input_data, expected_output):
     assert get_region_for_find_a_grant_snippet(input_data) == expected_output
+
+
+@pytest.mark.parametrize(
+    'input_data, expected_output',
+    (
+        ('great.gov.uk/learn', True),
+        ('business.gov.uk/support', True),
+        ('gov.uk', False),
+        ('something-else.com', False),
+    ),
+)
+def test_get_is_internal_url(input_data, expected_output):
+    assert get_is_internal_url(input_data) == expected_output
+
+
+@override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
+@override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
+@mock.patch.object(Site, 'find_for_request')
+@pytest.mark.django_db
+def test_google_tag_manager_id_tag_non_bgs_page(mock_site, root_page):
+    welcome_page = PageFactory(parent=root_page)
+    site = SiteFactory(id=1, hostname='www.hotfix.great.uktrade.digital', port=443, root_page=welcome_page)
+    http_request = HttpRequest()
+    http_request.META['HTTP_HOST'] = 'www.hotfix.great.uktrade.digital'
+    http_request.META['SERVER_PORT'] = 443
+    http_request.site = site
+    context = Context({'request': http_request})
+    google_tag_manager_id = google_tag_manager_id_tag(context)
+    assert google_tag_manager_id == settings.GOOGLE_TAG_MANAGER_ID
+
+
+@override_settings(BGS_SITE='www.hotfix.bgs.uktrade.digital')
+@override_settings(BGS_GOOGLE_TAG_MANAGER_ID='GTM-9999999')
+@pytest.mark.django_db
+def test_google_tag_manager_id_tag_bgs_page(root_page):
+    welcome_page = PageFactory(parent=root_page)
+    site = SiteFactory(id=1, hostname='www.hotfix.bgs.uktrade.digital', port=443, root_page=welcome_page)
+    http_request = HttpRequest()
+    http_request.META['HTTP_HOST'] = 'www.hotfix.bgs.uktrade.digital'
+    http_request.META['SERVER_PORT'] = 443
+    http_request.site = site
+    context = Context({'request': http_request})
+    google_tag_manager_id = google_tag_manager_id_tag(context)
+    assert google_tag_manager_id == settings.BGS_GOOGLE_TAG_MANAGER_ID

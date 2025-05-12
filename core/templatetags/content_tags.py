@@ -28,6 +28,8 @@ from domestic_growth.constants import (
     DYNAMIC_SNIPPET_NAMES,
     FINANCE_AND_SUPPORT_REGION_MAPPINGS,
     FIND_A_GRANT_MAPPINGS,
+    INTERNAL_BUSINESS_DOMAIN,
+    INTERNAL_GREAT_DOMAIN,
     REGION_IMAGES,
 )
 
@@ -463,7 +465,7 @@ def get_international_icon_path(url):
     )
     for url_to_icon in url_to_icon_list:
         if url_to_icon[0] in url:
-            return 'international/includes/svg/' + url_to_icon[1] + '.svg'
+            return '/static/' + url_to_icon[1] + '.svg'
     return ''
 
 
@@ -870,3 +872,10 @@ def get_region_for_find_a_grant_snippet(region):
             return mapped_region_name
 
     return None
+
+
+@register.filter
+def get_is_internal_url(url):
+    if INTERNAL_GREAT_DOMAIN in url or INTERNAL_BUSINESS_DOMAIN in url:
+        return True
+    return False

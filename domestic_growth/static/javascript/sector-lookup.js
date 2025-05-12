@@ -142,7 +142,7 @@ GreatFrontend.SectorLookup = {
       } else if (e.key != 'Tab') {
         // user has started typing again so show dropdown if num chars > 2 (value used when initilising auto complete library)
         setTimeout(() => {
-          show = parentInput.value.length > 2
+          show = parentInput.value.length > 1
           showDropdown(dropdown, show)
         }, 1)
       }

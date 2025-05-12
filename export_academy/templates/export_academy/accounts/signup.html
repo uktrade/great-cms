@@ -18,7 +18,7 @@
                         </summary>
                         <div class="g-panel govuk-!-margin-top-2 govuk-!-margin-bottom-2">
                             <p class="govuk-body-s">
-                                By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk.
+                                By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}.
                             </p>
                         </div>
                     </details>
@@ -52,12 +52,6 @@
     {% block right_panel_heading %}{{ heading }}{% endblock %}
     {% block right_panel_content %}
         {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
-    {% endblock %}
-    {% block body_inline_feedback %}
-        {{block.super }}
-    {% endblock %}
-    {% block body_footer%}
-        {% include "_footer.html" with isInternational=domestic_footer_context.is_international currentYear=domestic_footer_context.current_year footerLinks=domestic_footer_context.footer_links logoLinkHref=domestic_footer_context.logo_link_href %}
     {% endblock %}
     {% block body_js %}
         {{ block.super }}

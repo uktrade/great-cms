@@ -1,21 +1,30 @@
 {% extends 'includes/base_triage.html' %}
 {% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Sector - existing business - Business.gov.uk
+{% endblock %}
 {% block form %}
-    <form method="post" autocomplete="off" data-target-market-form>
+    <form method="post"
+          autocomplete="off"
+          data-target-market-form
+          onsubmit="return onSubmitBusinessDetails()">
         {% csrf_token %}
         <div class="govuk-form-group{% if form.errors %} govuk-form-group--error{% endif %}">
             <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" aria-describedby="sector-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l"
+                        aria-describedby="sector-hint">
                     <h1 class="govuk-fieldset__heading">What is your sector or industry?</h1>
                 </legend>
                 <div id="sector-hint" class="govuk-hint">
                     Enter your sector or industry and choose the closest match to get relevant information and support.
                 </div>
                 <div class="govuk-!-margin-bottom-2">
+                    <label class="govuk-visually-hidden" for="id_sector">What is your sector or industry?</label>
                     {% include 'international/includes/form_field.html' with field=form.sector help_class='govuk-label great-font-bold js-enabled-only' inputWrapperClass='prepend-search-icon' %}
                 </div>
-                <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-margin-left-2">Or</p>
-                <div class="govuk-checkboxes govuk-!-margin-bottom-6">
+                <p class="govuk-body govuk-!-margin-bottom-2 govuk-!-margin-left-2">or</p>
+                <div class="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
                         {{ form.cant_find_sector }}
                         <label class="govuk-label govuk-checkboxes__label" for="id_cant_find_sector">{{ form.cant_find_sector.label }}</label>
@@ -42,6 +51,25 @@
     <script>
         const allSectors = JSON.parse("{{autocomplete_sector_data | escapejs}}");
         GreatFrontend.SectorLookup.init(sectorData=allSectors)
+
+        const errorGroup = document.querySelector('.govuk-error-message');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+
+        const dont_know_checkbox = document.getElementById('id_dont_know_sector_yet')
+
+        if (dont_know_checkbox) {
+            dont_know_checkbox.addEventListener('click', () => {
+                const sector_input = document.getElementById('js-sector-select')
+
+                if (sector_input) {
+                    sector_input.value = ''
+                }
+            })
+        }
     </script>
     <script type="text/javascript">autocompleteFocusOnESC('#js-sector-select', '#js-sector-select__listbox')</script>
 {% endblock %}

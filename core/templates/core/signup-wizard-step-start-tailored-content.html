@@ -1,7 +1,7 @@
 {% extends 'core/signup-wizard-step-base.html' %}
 {% block above_form %}
     <h2 class="h-l">Get content tailored to your business</h2>
-    <p>Tell us what you’re selling and sign up to great.gov.uk.</p>
+    <p>Tell us what you’re selling and sign up to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}.</p>
 {% endblock %}
 {% block button_submit_label %}
     {% block button_next_label %}I'd like tailored content{% endblock %}
@@ -9,6 +9,6 @@
 {% block below_submit_button %}
     <p class="m-t-xl m-b-xxs great-mvp-grey-link">
         <a class="link"
-           href="{% url 'core:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">I already have a great.gov.uk account</a>
+           href="{% url 'core:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">I already have a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account</a>
     </p>
 {% endblock %}

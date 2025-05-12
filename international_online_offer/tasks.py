@@ -52,3 +52,8 @@ def rescore_eyb_users():
 @app.task
 def check_trade_association_links():
     call_command('check_trade_association_links')
+
+
+@app.task
+def email_eyb_users_with_incomplete_triage():
+    call_command('send_triage_reminder_email')

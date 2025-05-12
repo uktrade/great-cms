@@ -2,10 +2,11 @@
 {% load static %}
 {% block head_title %}
     {% if form.errors %}Error:{% endif %}
-    Get help using great.gov.uk/international
+    Help using this website
     {{ block.super }}
 {% endblock %}
-{% block page_title %}Get help using great.gov.uk/international {{ block.super }}{% endblock %}
+{% block meta_tags %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block page_title %}Help using this website {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
     {% block breadcrumb_region %}
         <div class="great-container">
@@ -25,10 +26,18 @@
     <div class="great-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl">Get help using great.gov.uk/international</h1>
-                <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
-                <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
-                {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
+                {% if bgs_flag %}
+                    <h1 class="govuk-heading-xl">Get help using Business.gov.uk</h1>
+                    <p class="govuk-body">This form is for reporting issues while using Business.gov.uk.</p>
+                    <p class="govuk-body">
+                        For example, a broken link or a missing page. Do not include personal or commercially sensitive information.
+                    </p>
+                {% else %}
+                    <h1 class="govuk-heading-xl">Help using this website</h1>
+                    <p class="govuk-body">This form is for issues with the {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}/international website.</p>
+                    <p class="govuk-body">You can use it to report a problem to the {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} team.</p>
+                    {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
+                {% endif %}
             </div>
         </div>
         <form method="post" novalidate action="{{ request.build_absolute_uri }}">
@@ -37,8 +46,13 @@
                 {{form}}
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-                    {% include '_button.html' with text='Send message' %}
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-4">
+                    <p class="govuk-body">
+                        By sending us your enquiry, you agree to our
+                        <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
+                        <a href='/privacy' target="_blank">privacy notice</a>.
+                    </p>
+                    {% include '_button.html' with text='Send' %}
                 </div>
             </div>
         </form>

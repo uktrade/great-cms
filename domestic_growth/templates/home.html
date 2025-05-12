@@ -35,13 +35,7 @@
                             {% if block.block_type == 'explore_card' %}
                                 {% with index=forloop.counter|stringformat:"i" %}
                                     {% with svg_icon_path="/static/icons/homepage/"|add:index|add:".svg" %}
-                                        {% if index == '1' and card_urls.pre_start_url %}
-                                            {% include "_card.html" with type="elevated" href=card_urls.pre_start_url iconSvg=svg_icon_path title=block.value.title id=block.value.title|slugify %}
-                                        {% elif index == '2' and card_urls.existing_url  %}
-                                            {% include "_card.html" with type="elevated" href=card_urls.existing_url iconSvg=svg_icon_path title=block.value.title id=block.value.title|slugify %}
-                                        {% else %}
-                                            {% include "_card.html" with type="elevated" href=block.value.url iconSvg=svg_icon_path title=block.value.title id=block.value.title|slugify %}
-                                        {% endif %}   
+                                        {% include "_card.html" with type="elevated" href=block.value.url iconSvg=svg_icon_path title=block.value.title id=block.value.title|slugify %}
                                     {% endwith %}
                                 {% endwith %}
                             {% endif %}
@@ -148,7 +142,7 @@
                     {% if news %}
                     <div class="great-ds-card-container govuk-!-padding-bottom-4">
                         {% for article in news %}
-                            {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href=article.href type="mounted" title=article.title description=article.summary|safe id=article.title|slugify classes="great-ds-card--3" hideArrow="true"  %}
+                            {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href="https://www.gov.uk"|add:article.href type="mounted" title=article.title description=article.summary|safe id=article.title|slugify classes="great-ds-card--3" hideArrow="true"  %}
                         {% endfor %}
                     </div>
                     {% endif %}

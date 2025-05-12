@@ -1,4 +1,4 @@
-from core.validators import is_valid_uk_postcode
+from core.validators import is_valid_uk_postcode_and_within_uk
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
@@ -13,11 +13,10 @@ class StartingABusinessLocationForm(forms.Form):
     postcode = forms.CharField(
         is_page_heading=True,
         label='What is your postcode?',
-        help_text='We’ll use this to show support and information services closest to you.',
+        help_text='We’ll use this to show business support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
-        max_length=10,
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
-        validators=[is_valid_uk_postcode],
+        validators=[is_valid_uk_postcode_and_within_uk],
     )
 
 
@@ -52,16 +51,18 @@ class StartingABusinessSectorForm(forms.Form):
     )
 
     def clean(self):
-        # require either sector or explicit, I don't know yet
         cleaned_data = super().clean()
         sector = cleaned_data['sector']
         dont_know_sector_yet = cleaned_data['dont_know_sector_yet']
 
-        if not (sector or dont_know_sector_yet):
+        # require either sector or explicit, I don't know yet but not both
+        if (not (sector or dont_know_sector_yet)) or (sector and dont_know_sector_yet):
             self.add_error(
                 'sector',
                 "Enter your sector or industry and select the closest result, or select 'I don't know yet'",  # NOQA: E501
             )
+        else:
+            return cleaned_data
 
 
 class ExistingBusinessLocationForm(forms.Form):
@@ -70,9 +71,8 @@ class ExistingBusinessLocationForm(forms.Form):
         label='What is your business postcode?',
         help_text='We’ll use this to show support and information services closest to you.',
         widget=forms.TextInput(attrs={'class': 'govuk-input--width-10', 'autocomplete': 'postal-code'}),
-        max_length=10,
         error_messages={'required': 'Enter your postcode', 'invalid': 'Enter a full UK postcode'},
-        validators=[is_valid_uk_postcode],
+        validators=[is_valid_uk_postcode_and_within_uk],
     )
 
 
@@ -108,11 +108,14 @@ class ExistingBusinessSectorForm(forms.Form):
         sector = cleaned_data['sector']
         cant_find_sector = cleaned_data['cant_find_sector']
 
-        if not (sector or cant_find_sector):
+        # require either sector or explicit, can't find sector but not both
+        if (not (sector or cant_find_sector)) or (sector and cant_find_sector):
             self.add_error(
                 'sector',
                 "Enter your sector or industry and select the closest result, or select 'I can't find my sector or industry'",  # NOQA: E501
             )
+        else:
+            return cleaned_data
 
 
 class ExistingBusinessWhenSetUpForm(forms.Form):
@@ -164,7 +167,14 @@ class ExistingBusinessCurrentlyExportForm(forms.Form):
 class EmailGuideForm(forms.Form):
     email = forms.CharField(
         label='Email address',
-        widget=forms.TextInput(attrs={'autocomplete': 'email', 'type': 'email', 'spellcheck': 'false'}),
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete': 'email',
+                'type': 'email',
+                'spellcheck': 'false',
+                'aria-describedby': 'email_guide_email_field_description',
+            },
+        ),
         required=True,
         error_messages={
             'required': 'Enter an email address',

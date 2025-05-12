@@ -30,19 +30,25 @@
         {% firstof page.seo_title page.title as seo_title %}
         {% block sharing_title %}
             <meta name="title"
-                  content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+                  content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endif %} - great.gov.uk{% endblock %}">
         {% endblock %}
         <title>
             {% block head_title %}
                 {% if seo_title %}
                     {{ seo_title }}
                 {% else %}
-                    Welcome to great.gov.uk
+                    Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
                 {% endif %}
-                - great.gov.uk
+                - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
             {% endblock %}
         </title>
-        {% block meta_tags %}{% endblock %}
+        {% block meta_tags %}
+            {% with page=page %}
+                {% if page %}
+                    {% if page.meta_robot_html %}{{page.meta_robot_html|safe}}{% endif %}
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}
@@ -189,8 +195,8 @@
             {% include 'components/great/migration_notice_banner.html' %}
         {% endblock %}
         {% block breadcrumbs_block %}
-            {% if not '/' == request.path %}
-                <div class='great-ds-bg-white'>
+            {% if not '/' == request.path and not '/export-from-uk/' == request.path %}
+                <div class="great-ds-bg-white">
                     <div class="great-ds-container">
                         {% if bespoke_breadcrumbs %}
                             {% include '_breadcrumbs.html' with itemsList=bespoke_breadcrumbs homeURL=BREADCRUMBS_ROOT_URL collapseOnMobile=True classes='great-ds-breadcrumbs--bg-white' %}

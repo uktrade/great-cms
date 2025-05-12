@@ -1,9 +1,9 @@
-<p>We’ve upgraded the UK Export Academy website and it has now joined all our other services on great.gov.uk.</p>
+<p>We’ve upgraded the UK Export Academy website and it has now joined all our other services on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}.</p>
 <p>
     {% if is_signin %}
-        You can now access your events with your great.gov.uk username and password.
+        You can now access your events with your {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} username and password.
     {% else %}
-        Please create a great.gov.uk password to continue to access your bookings.
+        Please create a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} password to continue to access your bookings.
     {% endif %}
 </p>
 <p>

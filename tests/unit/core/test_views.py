@@ -21,7 +21,7 @@ from wagtail.images.views.chooser import (
     ImageUploadViewMixin,
     SelectFormatResponseMixin,
 )
-from wagtail.models import Locale
+from wagtail.models import Locale, Site
 
 from core import cms_slugs, forms, helpers, serializers, views
 from core.models import HCSAT
@@ -1067,7 +1067,6 @@ class TestMicrositeLocales(TestCase):
         self.client = Client()
         self.en_locale = Locale.objects.get_or_create(language_code='en-gb')
         self.es_locale = Locale.objects.get_or_create(language_code='es')
-        self.ar_locale = Locale.objects.get_or_create(language_code='ar')
         self.fr_locale = Locale.objects.get_or_create(language_code='fr')
         self.pt_locale = Locale.objects.get_or_create(language_code='pt')
         self.ko_locale = Locale.objects.get_or_create(language_code='ko')
@@ -1081,13 +1080,13 @@ class TestMicrositeLocales(TestCase):
     @pytest.fixture(autouse=True)
     def en_microsite(self):
         root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
-
         self.en_microsite = MicrositePageFactory(
             page_title='microsite home title en-gb',
             page_subheading='a microsite subheading en-gb',
             slug='microsite-page-home',
             parent=root,
         )
+        Site.objects.create(hostname='greatcms.trade.great', root_page=root, site_name='Great', is_default_site=True)
         self.url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
     def test_correct_translation_english(self):
@@ -1096,38 +1095,53 @@ class TestMicrositeLocales(TestCase):
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
     def test_correct_translation_for_spanish(self):
-        site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
+        site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True)
         site_es.page_title = 'página de inicio del micrositio'
         site_es.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
+
         site_es.save()
+        revision = site_es.save_revision()
+        revision.publish()
+        spanish_site = Site.objects.get(hostname='greatcms.trade.great')
+        spanish_site.root_page = site_es.get_parent()
+        spanish_site.save()
 
         url_spanish = self.url + '?lang=es'
-        response = self.client.get(url_spanish)
+        response = self.client.get(url_spanish, HTTP_ACCEPT_LANGUAGE='es')
         html_response = response.content.decode('utf-8')
-        assert (
-            'página de inicio del micrositio' in html_response
-            and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
-        )
+        assert 'página de inicio del micrositio' in html_response
+        assert 'Subtítulo de la Página de Inicio del Micrositio' in html_response
 
     def test_correct_translation_french(self):
-        site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
+        site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True)
         site_fr.page_title = 'page d&amp;#x27;accueil du microsite'
         site_fr.page_subheading = 'Sous-titre de la page d&#x27;accueil du microsite'
+
         site_fr.save()
+        revision = site_fr.save_revision()
+        revision.publish()
+        french_site = Site.objects.get(hostname='greatcms.trade.great')
+        french_site.root_page = site_fr.get_parent()
+        french_site.save()
 
         url_french = self.url + '?lang=fr'
         response = self.client.get(url_french)
         html_response = response.content.decode('utf-8')
-        assert (
-            'page d&amp;#x27;accueil du microsite' in html_response
-            and 'Sous-titre de la page d&amp;#x27;accueil du microsite' in html_response  # noqa: W503
-        )
+        assert 'page d&amp;#x27;accueil du microsite' in html_response
+        assert 'Sous-titre de la page d&amp;#x27;accueil du microsite' in html_response
 
     def test_correct_translation_portguese(self):
-        site_pt = self.en_microsite.copy_for_translation(self.pt_locale[0], copy_parents=True, alias=True)
+        site_pt = self.en_microsite.copy_for_translation(self.pt_locale[0], copy_parents=True)
         site_pt.page_title = 'página inicial do microsite'
         site_pt.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
+
         site_pt.save()
+        revision = site_pt.save_revision()
+        revision.publish()
+        portguese_site = Site.objects.get(hostname='greatcms.trade.great')
+        portguese_site.root_page = site_pt.get_parent()
+        portguese_site.save()
+
         url_portugeuse = self.url + '?lang=pt'
         response = self.client.get(url_portugeuse)
         html_response = response.content.decode('utf-8')
@@ -1137,10 +1151,17 @@ class TestMicrositeLocales(TestCase):
         )
 
     def test_correct_translation_korean(self):
-        site_ko = self.en_microsite.copy_for_translation(self.ko_locale[0], copy_parents=True, alias=True)
+        site_ko = self.en_microsite.copy_for_translation(self.ko_locale[0], copy_parents=True)
         site_ko.page_title = '페이지 제목: 무역 기회 창출: 영국-대한민국 수출 포럼'
         site_ko.page_subheading = '부제: 국제 무역과 경제 성장을 위한 강력한 동반자관계 구축'
         site_ko.save()
+
+        revision = site_ko.save_revision()
+        revision.publish()
+        korean_site = Site.objects.get(hostname='greatcms.trade.great')
+        korean_site.root_page = site_ko.get_parent()
+        korean_site.save()
+
         url_korean = self.url + '?lang=ko'
         response = self.client.get(url_korean)
         html_response = response.content.decode('utf-8')
@@ -1150,20 +1171,34 @@ class TestMicrositeLocales(TestCase):
         )
 
     def test_correct_translation_mandarin(self):
-        site_zh = self.en_microsite.copy_for_translation(self.zh_locale[0], copy_parents=True, alias=True)
+        site_zh = self.en_microsite.copy_for_translation(self.zh_locale[0], copy_parents=True)
         site_zh.page_title = '微型网站首页'
         site_zh.page_subheading = '微型网站主页字幕'
         site_zh.save()
+
+        revision = site_zh.save_revision()
+        revision.publish()
+        mandarin_site = Site.objects.get(hostname='greatcms.trade.great')
+        mandarin_site.root_page = site_zh.get_parent()
+        mandarin_site.save()
+
         url_mandarin = self.url + '?lang=zh-cn'
         response = self.client.get(url_mandarin)
         html_response = response.content.decode('utf-8')
         assert site_zh.page_title in html_response and site_zh.page_subheading in html_response  # noqa: W503
 
     def test_correct_translation_malay(self):
-        site_ms = self.en_microsite.copy_for_translation(self.ms_locale[0], copy_parents=True, alias=True)
+        site_ms = self.en_microsite.copy_for_translation(self.ms_locale[0], copy_parents=True)
         site_ms.page_title = 'laman utama laman mikro'
         site_ms.page_subheading = 'Sarikata Halaman Utama Microsite'
         site_ms.save()
+
+        revision = site_ms.save_revision()
+        revision.publish()
+        malay_site = Site.objects.get(hostname='greatcms.trade.great')
+        malay_site.root_page = site_ms.get_parent()
+        malay_site.save()
+
         url_malay = self.url + '?lang=ms'
         response = self.client.get(url_malay)
         html_response = response.content.decode('utf-8')

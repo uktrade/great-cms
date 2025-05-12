@@ -24,7 +24,7 @@
     </ul>
     {% if ingress_url %}
         <p>
-            Continue to <a href="{{ ingress_url }}">great.gov.uk</a>
+            Continue to <a href="{{ ingress_url }}">{% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}</a>
         </p>
     {% else %}
         <p>

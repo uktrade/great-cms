@@ -1,7 +1,9 @@
+from secrets import token_urlsafe
 from urllib.parse import urlencode
 
 from directory_forms_api_client import actions
 from django.db import models
+from django.shortcuts import redirect
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
@@ -16,17 +18,22 @@ from wagtailcache.cache import WagtailCacheMixin
 from wagtailseo.models import SeoMixin
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
+from core.fern import Fern
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
 from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
+    get_change_sector_link,
     get_events,
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
     get_triage_data_with_sectors,
+    get_triage_uuid_from_url_token,
+    get_welcome_event,
+    guide_link_valid,
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -43,21 +50,31 @@ class EmailGuideFormMixin:
 
             if self.email_guide_form.is_valid():
                 self.send_email_address = self.email_guide_form.cleaned_data['email']
+                url_token = token_urlsafe(128)
+
                 action = actions.GovNotifyEmailAction(
                     email_address=self.send_email_address,
                     template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
-                    form_url=get_guide_url(request),
+                    form_url=get_guide_url(request, url_token),
                 )
-                response = action.save({'guide_url': get_guide_url(request)})
+                response = action.save({'guide_url': get_guide_url(request, url_token)})
                 response.raise_for_status()
                 # save and reset form after successful send
-                save_email_as_guide_recipient(request, self.send_email_address)
+                save_email_as_guide_recipient(request, self.send_email_address, url_token)
                 self.email_guide_form = EmailGuideForm()
                 self.send_success = True
         elif request.method == 'GET':
             # reset on page load
             self.send_email_address = None
             self.send_success = False
+            # user returning via clicked link
+            link_valid = guide_link_valid(request)
+            if request.GET.get('url_token') and link_valid:
+                triage_uuid = get_triage_uuid_from_url_token(request)
+                request.META['triage_uuid'] = Fern().encrypt(triage_uuid)
+            elif request.GET.get('url_token') and not link_valid:
+                # if the link is not valid redirect user to homepage
+                return redirect('/')
 
         return super().serve(request, *args, **kwargs)
 
@@ -201,7 +218,6 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)
         context['news'] = helpers.get_dbt_news_articles()
-        context['card_urls'] = helpers.get_homepage_card_urls(request)
 
         return context
 
@@ -292,35 +308,41 @@ class DomesticGrowthGuidePage(
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
+        local_support_data = None
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
+        params = {}
 
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
+        if request.GET.get('triage_uuid'):
+            params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid'):
+            params['triage_uuid'] = request.META.get('triage_uuid')
 
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
-            context['local_support_data'] = helpers.get_local_support_by_postcode(postcode)
+            local_support_data = helpers.get_local_support_by_postcode(postcode)
+            context['local_support_data'] = local_support_data
 
         if sector:
-            sector_trade_associations = get_trade_association_results(trade_associations, sector, None)
+            sector_trade_associations = get_trade_association_results(
+                trade_associations, sector, None, local_support_data
+            )
 
             context['trade_associations'] = sector_trade_associations
             context['hero_image_url'] = get_hero_image_by_sector(sector)
             context['sector'] = sector
 
             if sub_sector:
-                context['trade_associations'] = get_trade_association_results(trade_associations, sector, sub_sector)
+                context['trade_associations'] = get_trade_association_results(
+                    trade_associations, sector, sub_sector, local_support_data
+                )
                 context['sub_sector'] = sub_sector
         else:
             context['trade_associations'] = None
 
         context['change_answers_link'] = get_change_answers_link(request)
+        context['change_sector_link'] = get_change_sector_link(request)
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
@@ -383,6 +405,12 @@ class DomesticGrowthChildGuidePage(
                             ),
                         ),
                         (
+                            'border_color',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
                             'content',
                             blocks.ListBlock(
                                 SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
@@ -424,16 +452,16 @@ class DomesticGrowthChildGuidePage(
         postcode = triage_data['postcode']
         sector = triage_data['sector']
         sub_sector = triage_data.get('sub_sector', None)
+        turnover = triage_data.get('turnover', None)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
+        params = {}
 
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
+        if request.GET.get('triage_uuid'):
+            params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid'):
+            params['triage_uuid'] = request.META.get('triage_uuid')
 
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -448,6 +476,7 @@ class DomesticGrowthChildGuidePage(
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
         context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['scottish_enterprise_admin_districts'] = constants.SCOTTISH_ENTERPRISE_ADMIN_DISTRICTS
         context['highlands_and_islands_admin_districts'] = constants.HIGHLANDS_AND_ISLANDS_ADMIN_DISTRICTS
         context['south_of_scotland_enterprises_admin_districts'] = (
@@ -515,6 +544,12 @@ class DomesticGrowthDynamicChildGuidePage(
                         ),
                         (
                             'logo',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
+                            'border_color',
                             blocks.CharBlock(
                                 required=False,
                             ),
@@ -597,6 +632,12 @@ class DomesticGrowthDynamicChildGuidePage(
                             ),
                         ),
                         (
+                            'border_color',
+                            blocks.CharBlock(
+                                required=False,
+                            ),
+                        ),
+                        (
                             'content',
                             blocks.ListBlock(
                                 SnippetChooserBlock('domestic_growth.DomesticGrowthContent'),
@@ -637,18 +678,18 @@ class DomesticGrowthDynamicChildGuidePage(
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']
+        turnover = triage_data.get('turnover', None)
 
         currently_export = triage_data.get('currently_export', False)
 
-        if postcode and sector:
-            params = {
-                'postcode': postcode,
-                'sector': sector,
-            }
+        params = {}
 
-            if request.GET.get('session_id', False):
-                params['session_id'] = request.GET.get('session_id')
+        if request.GET.get('triage_uuid'):
+            params['triage_uuid'] = request.GET.get('triage_uuid')
+        elif request.META.get('triage_uuid'):
+            params['triage_uuid'] = request.META.get('triage_uuid')
 
+        if len(params) > 0:
             context['qs'] = f'?{urlencode(params)}'
 
         if postcode:
@@ -660,8 +701,11 @@ class DomesticGrowthDynamicChildGuidePage(
 
         context['is_interested_in_exporting'] = currently_export
         context['events'] = get_events()
+        context['welcome_event'] = get_welcome_event()
 
         context['dynamic_snippet_names'] = constants.DYNAMIC_SNIPPET_NAMES
+        context['ita_excluded_turnovers'] = constants.ITA_EXCLUED_TURNOVERS
+        context['turnover'] = turnover
         context['change_answers_link'] = get_change_answers_link(request)
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
@@ -736,9 +780,9 @@ class DomesticGrowthContent(index.Indexed, models.Model):
 
 
 class StartingABusinessTriage(TimeStampedModel):
-    # the session_id is either a django session id from request.session.session_key or
+    # the triage_uuid is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
-    session_id = models.CharField(max_length=40, unique=True)
+    triage_uuid = models.CharField(max_length=40, unique=True)
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     dont_know_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
@@ -747,12 +791,13 @@ class StartingABusinessTriage(TimeStampedModel):
 class StartingABusinessGuideEmailRecipient(TimeStampedModel):
     email = models.EmailField(max_length=255)
     triage = models.ForeignKey(StartingABusinessTriage, on_delete=models.DO_NOTHING)
+    url_token = models.CharField(max_length=256, null=True, blank=True)
 
 
 class ExistingBusinessTriage(TimeStampedModel):
-    # the session_id is either a django session id from request.session.session_key or
+    # the triage_uuid is either a django session id from request.session.session_key or
     # in the case where a user has not accepted cookies a UUIDV4
-    session_id = models.CharField(max_length=40, unique=True)
+    triage_uuid = models.CharField(max_length=40, unique=True)
     sector_id = models.CharField(max_length=10, null=True, blank=True)
     cant_find_sector = models.BooleanField(default=False, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
@@ -768,6 +813,7 @@ class ExistingBusinessTriage(TimeStampedModel):
 class ExistingBusinessGuideEmailRecipient(TimeStampedModel):
     email = models.EmailField(max_length=255)
     triage = models.ForeignKey(ExistingBusinessTriage, on_delete=models.DO_NOTHING)
+    url_token = models.CharField(max_length=256, null=True, blank=True)
 
 
 @register_snippet
