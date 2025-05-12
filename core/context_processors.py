@@ -72,7 +72,6 @@ def migration_support_vars(request):
         'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
         'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
         'FEATURE_SHOW_BRAND_BANNER': settings.FEATURE_SHOW_BRAND_BANNER,
-        'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK': settings.FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK,
     }
 
 
@@ -80,7 +79,6 @@ def feature_flags(request):
     """General way to make feature flags available in the template"""
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
-    retval['features']['FEATURE_PRODUCT_EXPERIMENT_HEADER'] = settings.FEATURE_PRODUCT_EXPERIMENT_HEADER
     retval['features']['FEATURE_PRODUCT_EXPERIMENT_LINKS'] = settings.FEATURE_PRODUCT_EXPERIMENT_LINKS
     retval['features']['FEATURE_DIGITAL_POINT_OF_ENTRY'] = settings.FEATURE_DIGITAL_POINT_OF_ENTRY
     retval['features']['FEATURE_DESIGN_SYSTEM'] = settings.FEATURE_DESIGN_SYSTEM
@@ -669,3 +667,14 @@ def footer_bgs(request):
             ],
         },
     }
+
+
+def current_website_name(request):
+    website_name = 'great.gov.uk'
+    bgs_domains = ['.bgs.', 'business.gov.uk']
+
+    for domain in bgs_domains:
+        if domain in request.get_host():
+            website_name = 'business.gov.uk'
+
+    return {'current_website_name': website_name}

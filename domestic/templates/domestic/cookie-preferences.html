@@ -2,8 +2,8 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load success_box from component_tags %}
-{% block head_title %}Cookies on great.gov.uk{% endblock %}
-{% block meta_title %}Cookies on great.gov.uk{% endblock %}
+{% block head_title %}Cookies on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
+{% block meta_title %}Cookies on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block content %}
 <div class='great-ds-bg-white'>
     <div class="great-ds-container">
@@ -14,10 +14,10 @@
                     {% include 'components/great/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading="Your cookie settings were saved" banner_body='<a id="back-from-preferences" class="link go-back margin-top-15 block" href="#">Back to previous page</a>' %}
                     {# djlint:on #}
                 </div>
-                <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
+                <h1 class="heading-xlarge margin-bottom-60-m">Cookies on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}</h1>
                 <div class="margin-bottom-30 margin-bottom-60-m">
                     <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
-                    <p>We use cookies to store information about how you use the great.gov.uk website, such as the pages you visit.</p>
+                    <p>We use cookies to store information about how you use the {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} website, such as the pages you visit.</p>
                 </div>
                 <div class="display-only-no-js">
                     <p>
@@ -39,7 +39,7 @@
                             </p>
                             <ul class="list list-bullet">
                                 <li>how you got to the site</li>
-                                <li>the pages you visit on great.gov.uk and government digital services, and how long you spend on each page</li>
+                                <li>the pages you visit on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} and government digital services, and how long you spend on each page</li>
                                 <li>what you click on while you're visiting the site</li>
                             </ul>
                             <p>We do not allow Google to use or share the data about how you use this site.</p>
@@ -58,7 +58,7 @@
                         </div>
                         <h3 class="heading-medium">Cookies that help with our communications and marketing</h3>
                         <p>
-                            These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on great.gov.uk.
+                            These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}.
                         </p>
                         <fieldset>
                             <ul>
@@ -108,7 +108,7 @@
                         </ul>
                         <p>They always need to be on.</p>
                         <p class="margin-top-45 margin-bottom-45 margin-bottom-90-m">
-                            <a href="{% slugurl 'cookies-policy' %}" class="link">Find out more about cookies on great.gov.uk</a>
+                            <a href="{% slugurl 'cookies-policy' %}" class="link">Find out more about cookies on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}</a>
                         </p>
                         <p>
                             <button class="button primary-button" type="submit">Save changes</button>

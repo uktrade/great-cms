@@ -30,19 +30,25 @@
         {% firstof page.seo_title page.title as seo_title %}
         {% block sharing_title %}
             <meta name="title"
-                  content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to great.gov.uk{% endif %} - great.gov.uk{% endblock %}">
+                  content="{% block meta_title %}{% if seo_title %}{{ seo_title }}{% else %}Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endif %} - great.gov.uk{% endblock %}">
         {% endblock %}
         <title>
             {% block head_title %}
                 {% if seo_title %}
                     {{ seo_title }}
                 {% else %}
-                    Welcome to great.gov.uk
+                    Welcome to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
                 {% endif %}
-                - great.gov.uk
+                - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
             {% endblock %}
         </title>
-        {% block meta_tags %}{% endblock %}
+        {% block meta_tags %}
+            {% with page=page %}
+                {% if page %}
+                    {% if page.meta_robot_html %}{{page.meta_robot_html|safe}}{% endif %}
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
         {% with is_wagtail_page=page %}
             {% if is_wagtail_page %}
                 {% include "core/includes/seo_meta.html" %}

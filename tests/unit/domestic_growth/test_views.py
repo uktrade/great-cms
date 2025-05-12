@@ -1,3 +1,4 @@
+# flake8: noqa: E203
 from unittest import mock
 from uuid import UUID
 
@@ -5,6 +6,7 @@ import pytest
 from django.test.client import RequestFactory
 from django.urls import reverse, reverse_lazy
 
+from core.fern import Fern
 from domestic_growth.choices import LESS_THAN_3_YEARS_AGO
 from domestic_growth.constants import (
     ESTABLISHED_GUIDE_URL,
@@ -114,7 +116,7 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     postcode_response = StartingABusinessLocationFormView.as_view()(req)
 
-    assert StartingABusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to sector entry
     req = factory.post(
@@ -128,9 +130,9 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     sector_response = StartingABusinessSectorFormView.as_view()(req)  # NOQA:F841
 
-    assert StartingABusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
-    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(session_id=mock_session_key).first()
+    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
 
@@ -141,8 +143,10 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
     """
     No session key occurs when a user does not accept cookies, private-browsing mode etc.
     """
+    fern = Fern()
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
+    mock_uuid4_val = str(mock_uuid4._mock_return_value)
 
     # first step in triage
     postcode_response = client.post(
@@ -152,8 +156,8 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in postcode_response.url
-    assert StartingABusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(postcode_response.url[postcode_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -163,12 +167,10 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in sector_response.url
-    assert StartingABusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(sector_response.url[sector_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
-    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(
-        session_id=mock_uuid4._mock_return_value
-    ).first()
+    starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4_val).first()
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
 
@@ -195,7 +197,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     postcode_response = ExistingBusinessLocationFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to sector entry
     req = factory.post(
@@ -208,7 +210,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     sector_response = ExistingBusinessSectorFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when set up entry
     req = factory.post(
@@ -221,7 +223,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     when_set_up_response = ExistingBusinessWhenSetupFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when turnover entry
     req = factory.post(
@@ -234,7 +236,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     turnover_response = ExistingBusinessTurnoverFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     # follow redirect to when currently export entry
     req = factory.post(
@@ -247,9 +249,9 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     ExistingBusinessCurrentlyExportFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_session_key).count() == 1
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
-    existing_business_triage_obj = ExistingBusinessTriage.objects.filter(session_id=mock_session_key).first()
+    existing_business_triage_obj = ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
 
     assert existing_business_triage_obj.postcode == postcode
     assert existing_business_triage_obj.sector_id == sector_id
@@ -264,6 +266,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     """
     No session key occurs when a user does not accept cookies, private-browsing mode etc.
     """
+    fern = Fern()
+    mock_uuid4_val = str(mock_uuid4._mock_return_value)
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
     when_set_up = LESS_THAN_3_YEARS_AGO
@@ -278,8 +282,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in postcode_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(postcode_response.url[postcode_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -289,8 +293,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in sector_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(sector_response.url[sector_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when set up entry
     when_set_up_response = client.post(
@@ -300,8 +304,10 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in when_set_up_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert (
+        fern.decrypt(when_set_up_response.url[when_set_up_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    )
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when turnover entry
     turnover_response = client.post(
@@ -311,8 +317,8 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in turnover_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(turnover_response.url[turnover_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     # follow redirect to when currently export entry
     export_response = client.post(
@@ -322,11 +328,11 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
         },
     )
 
-    assert f'session_id={mock_uuid4._mock_return_value}' in export_response.url
-    assert ExistingBusinessTriage.objects.filter(session_id=mock_uuid4._mock_return_value).count() == 1
+    assert fern.decrypt(export_response.url[export_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     existing_business_triage_obj = ExistingBusinessTriage.objects.filter(
-        session_id=mock_uuid4._mock_return_value
+        triage_uuid=mock_uuid4._mock_return_value
     ).first()
 
     assert existing_business_triage_obj.postcode == postcode
@@ -337,7 +343,7 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
 
 
 @pytest.mark.parametrize(
-    'model,form_view,form_url,session_id,model_field_name,model_field_value,form_field_name,form_field_value',
+    'model,form_view,form_url,triage_uuid,model_field_name,model_field_value,form_field_name,form_field_value',
     (
         (
             StartingABusinessTriage,
@@ -427,20 +433,20 @@ def test_triage_form_init(
     model,
     form_view,
     form_url,
-    session_id,
+    triage_uuid,
     model_field_name,
     model_field_value,
     form_field_name,
     form_field_value,
 ):
 
-    data = {'session_id': session_id, model_field_name: model_field_value}
+    data = {'triage_uuid': triage_uuid, model_field_name: model_field_value}
 
     model.objects.create(**data)
 
     factory = RequestFactory()
 
-    req = factory.get(f'{form_url}?session_id={session_id}')
+    req = factory.get(f'{form_url}?triage_uuid={Fern().encrypt(triage_uuid)}')
     view = form_view.as_view()(req)
     assert view.context_data['form'].initial[form_field_name] == form_field_value
 
@@ -449,37 +455,37 @@ def test_triage_form_init(
     'form_url, referer_url, form_view, expected_back_url',
     (
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
-            f'http://test.com/{PRE_START_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?triage_uuid={Fern().encrypt('1234')}",
+            f"http://test.com/{PRE_START_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
             StartingABusinessLocationFormView,
-            f'{PRE_START_GUIDE_URL}?session_id=1234',
+            f"{PRE_START_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-pre-start-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             StartingABusinessLocationFormView,
             '/',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
-            f'http://test.com/{START_UP_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid={Fern().encrypt('1234')}",
+            f"http://test.com/{START_UP_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
             ExistingBusinessLocationFormView,
-            f'{START_UP_GUIDE_URL}?session_id=1234',
+            f"{START_UP_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             ExistingBusinessLocationFormView,
             '/',
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
-            f'http://test.com/{ESTABLISHED_GUIDE_URL}?session_id=1234',
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid={Fern().encrypt('1234')}",
+            f"http://test.com/{ESTABLISHED_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
             ExistingBusinessLocationFormView,
-            f'{ESTABLISHED_GUIDE_URL}?session_id=1234',
+            f"{ESTABLISHED_GUIDE_URL}?triage_uuid={Fern().encrypt('1234')}",
         ),
         (
-            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?session_id=1234",
+            f"{reverse_lazy('domestic_growth:domestic-growth-existing-location')}?triage_uuid=1234",
             'http://test.com/exampleurl',
             ExistingBusinessLocationFormView,
             '/',
@@ -493,4 +499,15 @@ def test_back_links(form_url, referer_url, form_view, expected_back_url):
     req = factory.get(form_url)
     req.META['HTTP_REFERER'] = referer_url
     view = form_view.as_view()(req)
-    assert view.context_data['back_url'] == expected_back_url
+
+    if 'triage_uuid' in expected_back_url:
+        assert (
+            view.context_data['back_url'][: view.context_data['back_url'].find('?')]
+            == expected_back_url[: expected_back_url.find('?')]
+        )
+        assert (
+            Fern().decrypt(view.context_data['back_url'][view.context_data['back_url'].find('triage_uuid=') + 12 :])
+            == '1234'
+        )
+    else:
+        assert view.context_data['back_url'] == expected_back_url

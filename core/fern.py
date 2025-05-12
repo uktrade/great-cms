@@ -12,7 +12,7 @@ class Fern:
         if key:
             self.key = key
         else:
-            self.key = settings.BETA_ENVIRONMENT
+            self.key = settings.FERNET_KEY
 
     def encrypt(self, message: str) -> str:
         message_b = message.encode('utf-8')

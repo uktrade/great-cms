@@ -1,6 +1,6 @@
 <p>Hello,</p>
 <p>
-    An Exporting from the UK form was submitted on great.gov.uk:
+    An Exporting from the UK form was submitted on {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}:
     <p>
         <ul>
             {% for key, value in form_data.items %}<li>{{ key }}: {{ value }}</li>{% endfor %}

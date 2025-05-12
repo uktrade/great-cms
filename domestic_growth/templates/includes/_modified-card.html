@@ -28,7 +28,7 @@
                         {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow="true"  %}
                     {% else %}
                         {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow=hideArrow  %}
-                    {% endif %}
+                    {% endif %} 
                     {% if completedTag == "true" %}
                         {% include "_tag.html" with text="Completed" type="success"  %}
                     {% endif %}

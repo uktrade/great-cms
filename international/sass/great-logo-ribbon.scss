@@ -1,0 +1,43 @@
+.great-logo-ribbon {
+    position: absolute;
+    bottom: 40px;
+    right: -60px;
+    width: auto;
+    height: auto;
+    max-width: 100%; 
+}
+
+.great-logo-ribbon::after {
+    content: "";
+    position: absolute;
+    bottom: 8.5px; /* Adjust top positioning to match image alignment */
+    left: calc(100% - 2px); /* Start right after the image */
+    width: calc(100vw - 100%); /* Make the width the difference between viewport and image width */
+    height: calc(100% - 30.5px); /* Adjust height to match the image height */
+    background-color: #e80000;
+    box-sizing: border-box; /* Ensures padding and borders are included in width/height calculation */
+  }
+
+  @media (max-width: 639px) {
+    .great-logo-ribbon {
+        right: -50px;
+        bottom: 30px;
+    }
+
+    .great-logo-ribbon::after {
+        bottom: 8.5px; /* Adjust top positioning to match image alignment */
+        height: calc(100% - 22.5px); /* Adjust height to match the image height */
+    }
+  }
+
+  @media (max-width: 420px) {
+    .great-logo-ribbon {
+        right: -50px;
+        bottom: 10px;
+    }
+
+    .great-logo-ribbon::after {
+        bottom: 8.5px; /* Adjust top positioning to match image alignment */
+        height: calc(100% - 22.5px); /* Adjust height to match the image height */
+    }
+  }

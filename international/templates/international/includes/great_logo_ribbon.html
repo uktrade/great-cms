@@ -1,0 +1,12 @@
+{% load static %}
+{% load bgs_tags %}
+{% load wagtailcore_tags %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
+{% if bgs_site %}
+<picture class="great-logo-ribbon">
+    <source media="(max-width: 640px)" srcset="{% static 'Great-brand-ribbon-small.svg' %}">
+    <source media="(min-width: 641px)" srcset="{% static 'Great-brand-ribbon-large.svg' %}">
+    <img src="{% static 'images/Great-brand-ribbon-large.svg' %}" alt="Great.gov brand logo">
+</picture>
+{% endif %}

@@ -56,8 +56,8 @@
                     </p>
                 {% else %}
                     <h1 class="govuk-heading-xl">Help using this website</h1>
-                    <p class="govuk-body">This form is for issues with the great.gov.uk/international website.</p>
-                    <p class="govuk-body">You can use it to report a problem to the great.gov.uk team.</p>
+                    <p class="govuk-body">This form is for issues with the {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}/international website.</p>
+                    <p class="govuk-body">You can use it to report a problem to the {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} team.</p>
                     {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
                 {% endif %}
             </div>

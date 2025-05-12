@@ -23,12 +23,12 @@
                            href="{% url 'sso_profile:business-profile-personal-details' %}">Update your details</a>
                     </li>
                     <li>
-                        <a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a>
+                        <a class="link" href="{{ services_urls.great_domestic }}">Go back to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} home</a>
                     </li>
                 </ul>
             {% else %}
                 <p class="margin-bottom-30">
-                    Only UK business representatives can {{ user_journey_verb }}. You can still create a great.gov.uk account, which will let you:
+                    Only UK business representatives can {{ user_journey_verb }}. You can still create a {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} account, which will let you:
                 </p>
                 <ul class="margin-top-30">
                     <li>
@@ -44,7 +44,7 @@
                            href="{% url 'sso_profile:enrolment-individual' step='user-account' %}">Continue creating account for individual</a>
                     </li>
                     <li>
-                        <a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a>
+                        <a class="link" href="{{ services_urls.great_domestic }}">Go back to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} home</a>
                     </li>
                 </ul>
             {% endif %}

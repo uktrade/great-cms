@@ -125,17 +125,11 @@ class BaseSettings(PydanticBaseSettings):
 
     eu_exit_zendesk_subdomain: str
 
-    invest_contact_url: str = 'https://invest.great.gov.uk/contact/'
-
-    capital_invest_contact_url: str = '/international/content/capital-invest/contact/'
-
-    find_a_supplier_contact_url: str = '/international/trade/contact/'
-
-    contact_exporting_to_uk_hmrc_url: str = 'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF'
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
+    bgs_confirm_verification_code_template_id: str = '81a965c2-6269-451d-878b-6f460d3611c9'
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
-    enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'  # /PS-IGNORE
+    bgs_eyb_enrolment_welcome_template_id: str = '768abbf5-8175-442e-a4f7-859359e10fec'  # /PS-IGNORE
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
     contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
@@ -144,8 +138,6 @@ class BaseSettings(PydanticBaseSettings):
     contact_ecommerce_export_support_agent_email_address: str
     contact_ecommerce_export_support_agent_notify_template_id: str = 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
     contact_ecommerce_export_support_notify_template_id: str = '18d807d2-f4cf-4b93-96c1-0d3169bd0906'
-    contact_office_agent_notify_template_id: str = '0492eb2b-7daf-4b37-99cd-be3abbb9eb32'
-    contact_office_user_notify_template_id: str = '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'  # /PS-IGNORE
     contact_dit_agent_email_address: str
     contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'  # /PS-IGNORE
     contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
@@ -164,10 +156,12 @@ class BaseSettings(PydanticBaseSettings):
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
     contact_industry_user_reply_to_id: str = None
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'  # /PS-IGNORE
+    enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'  # /PS-IGNORE
 
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
+    bgs_gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
@@ -178,20 +172,22 @@ class BaseSettings(PydanticBaseSettings):
     ukef_contact_agent_email_address: str
     ukef_form_submit_tracker_url: str
 
-    export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'
-
-    export_academy_notify_booking_template_id: str = '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'
+    export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'  # /PS-IGNORE
+    export_academy_notify_booking_template_id: str = '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'  # /PS-IGNORE
     export_academy_notify_cancellation_template_id: str = 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'  # /PS-IGNORE
-    export_academy_notify_event_reminder_template_id: str = 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'
+    export_academy_notify_event_reminder_template_id: str = 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'  # /PS-IGNORE
     export_academy_notify_follow_up_template_id: str = 'ff45b258-ae9e-4939-a049-089d959ddfee'  # /PS-IGNORE
+
+    bgs_export_academy_notify_cancellation_template_id: str = 'a8a6f32e-599f-4208-a2a5-4f18c0049bf7'  # /PS-IGNORE
+    bgs_export_academy_notify_registration_template_id: str = 'f729e8ad-4b78-410a-8eae-5c60e682afdf'  # /PS-IGNORE
+    bgs_export_academy_notify_booking_template_id: str = '1eaeb0f1-027c-4178-a250-28daa3ba2dff'  # /PS-IGNORE
+    bgs_export_academy_notify_event_reminder_template_id: str = 'de52c217-eadb-455e-826e-e4aabf16ae7d'  # /PS-IGNORE
+    bgs_export_academy_notify_follow_up_template_id: str = 'd4f77344-39f0-425b-81e2-556f5134739f'  # /PS-IGNORE
+
     export_academy_event_allow_join_before_start_mins: int = 30
     export_academy_automated_notify_time_delay_minutes: int = 30
     export_academy_remove_event_media_after_days: int = 14
     export_academy_automated_event_complete_time_delay_minutes: int = 15
-
-    international_investment_notify_agent_template_id: str = 'ca1a4f1b-7c0b-4eb7-bfb2-fdff898b09f3'
-    international_investment_notify_user_template_id: str = '37b5fa22-0850-49f5-af1f-5c2984ca0309'
-    international_investment_agent_email: str = ''
 
     domestic_growth_email_guide_template_id: str = '112a0c49-ed1d-48e0-be6b-2def33122cb9'
 
@@ -264,16 +260,13 @@ class BaseSettings(PydanticBaseSettings):
 
     feature_export_plan_sections_disabled_list: list = []
     feature_compare_markets_tabs: str = '{ }'
-    feature_opensearch: bool = False
-    feature_search_preview: bool = False
     feature_show_report_barrier_content: bool = False
     feature_show_brand_banner: bool = False
-    feature_show_international_footer_link: bool = False
     feature_show_case_study_rankings: bool = False
     feature_microsite_enable_template_translation: bool = False
     feature_digital_point_of_entry: bool = False
-    feature_product_experiment_header: bool = False
     feature_product_experiment_links: bool = False
+    feature_test_search_api_pages_enabled: bool = False
     feature_design_system: bool = False
     feature_courses_landing_page: bool = False
     feature_dea_v2: bool = False
@@ -292,21 +285,16 @@ class BaseSettings(PydanticBaseSettings):
     feature_ukea_market_filter: bool = False
     feature_ukea_trading_bloc_filter: bool = False
     feature_market_guides_sector_links: bool = False
-    feature_design_system: bool = False
     feature_great_error: bool = False
     feature_guided_journey: bool = False
     feature_unguided_journey: bool = False
-    feature_test_search_api_pages_enabled: bool = False
     feature_maintenance_mode_enabled: bool = False
     feature_admin_requests_enabled: bool = False
     feature_redis_use_ssl: bool = False
     feature_great_cms_openapi_enabled: bool = False
     feature_guided_journey_extras: bool = False
     feature_guided_journey_enhanced_search: bool = False
-    feature_activity_stream: bool = False
     feature_domestic_growth: bool = False
-
-    ax_compare_places_allowed: int = 10
 
     beta_token: str = ''
     beta_whitelisted_endpoints: str = None
@@ -385,8 +373,13 @@ class BaseSettings(PydanticBaseSettings):
     cf_invalidation_role_arn: str = ''
 
     bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
+    bgs_guide_share_link_ttl_days: int = 180
+    fernet_key: str = ''
 
     feature_use_bgs_templates: bool = False
+
+    eyb_incomplete_triage_reminder_template_id: str = '596269d5-b6a5-4d81-a9bb-362849930640'
+    bgs_eyb_incomplete_triage_reminder_template_id: str = '3e991f09-0305-449e-b4a0-88e8121cfb16'
 
 
 class CIEnvironment(BaseSettings):

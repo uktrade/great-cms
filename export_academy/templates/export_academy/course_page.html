@@ -5,8 +5,8 @@
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 {% load add_govuk_classes from content_tags %}
 {% load render_course_cta from course_cta %}
-{% block head_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
-{% block meta_title %}{{ page.title }} – UK Export Academy – great.gov.uk{% endblock %}
+{% block head_title %}{{ page.title }} – UK Export Academy – {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
+{% block meta_title %}{{ page.title }} – UK Export Academy – {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block body_js %}
     {{ block.super }}
 {% endblock %}
