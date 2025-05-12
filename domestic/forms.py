@@ -239,19 +239,19 @@ class CompanyDetailsForm(forms.Form):
         return {**cleaned_data, 'not_companies_house': not cleaned_data.get('company_number')}
 
 
-class HelpForm(ConsentFieldMixin, forms.Form):
+class HelpForm(ConsentFieldMixin):
     error_css_class = 'input-field-container has-error'
 
-    comment = forms.CharField(
+    comment = gds_forms.CharField(
         label='Tell us about your export experience, including any challenges you are facing.',
         help_text=(
             "We're particularly interested in the markets you "
             'have exported to and whether you have already '
             'spoken to your bank or a broker. '
         ),
-        widget=Textarea(attrs={'class': 'margin-top-15'}),
+        widget=gds_forms.Textarea(attrs={'class': 'margin-top-15'}),
     )
-    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+    captcha = gds_forms.ReCaptchaField(label='', label_suffix='', widget=gds_forms.ReCaptchaV3())
 
 
 class SerializeMixin:
