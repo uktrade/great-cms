@@ -7,27 +7,31 @@
 {% block content %}
     <section class="eyb-home-section">
         <div class="great-container">
-            <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-6">
-                <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-bottom-4">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">How to successfully expand your business and set up in the UK</h1>
-                    <p class="govuk-body-l">
-                        Tell us about your business and we'll give you the official information and data you need, in one place
-                    </p>
-                    <p class="govuk-body">
-                    {% url 'international_online_offer:signup' as signup_link %}
-                    {% include '_action-link.html' with linkText='Get started by signing up' linkHref=signup_link %}
-                    </p>
-                    {% if not request.user.is_authenticated %}
-                        <p class="govuk-body">
-                            Already started? <a href="{% url 'international_online_offer:login' %}"
-    class="govuk-link govuk-link--no-visited-state">Sign in</a>
+            <div class="great-position-relative">
+                <div class="govuk-grid-row govuk-!-padding-top-8 govuk-!-padding-bottom-6">
+                    <div class="govuk-grid-column-one-half-from-desktop govuk-!-padding-bottom-4">
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">How to successfully expand your business and set up in the UK</h1>
+                        <p class="govuk-body-l">
+                            Tell us about your business and we'll give you the official information and data you need, in one place
                         </p>
-                    {% endif %}
-                </div>
-                <div class="govuk-grid-column-one-half great-display-from-desktop">
-                    <div class="eyb-preview-image"></div>
+                        <p class="govuk-body">
+                        {% url 'international_online_offer:signup' as signup_link %}
+                        {% include '_action-link.html' with linkText='Get started by signing up' linkHref=signup_link %}
+                        </p>
+                        {% if not request.user.is_authenticated %}
+                            <p class="govuk-body">
+                                Already started? <a href="{% url 'international_online_offer:login' %}"
+        class="govuk-link govuk-link--no-visited-state">Sign in</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="govuk-grid-column-one-half great-display-from-desktop">
+                        <div class="eyb-preview-image"></div>
+                    </div>
+                    {% include 'international/includes/great_logo_ribbon.html' %}
                 </div>
             </div>
+            
         </div>
     </section>
     <section class="eyb-guidance-section">
