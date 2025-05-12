@@ -11,7 +11,7 @@ from django.db.models import ForeignKey
 from django.db.models.fields import Field
 from modelcluster.contrib.taggit import _ClusterTaggableManager
 from taggit.managers import _TaggableManager
-from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.field_block import CharBlock, RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.rich_text import RichText
@@ -196,6 +196,13 @@ class Command(BaseCommand):
                 sys.exit(-1)
         return snippet_updated, block
 
+    def process_charblock_block(self, block):
+        snippet_updated = False
+        updated, new_value = self.process_string(block.value)
+        if updated:
+            block.value = new_value
+        return snippet_updated, block
+
     def process_block(self, block):  # noqa C901
 
         snippet_updated = False
@@ -212,6 +219,10 @@ class Command(BaseCommand):
                 snippet_updated = True
         elif isinstance(block.block, StreamBlock):
             updated, new_block = self.process_stream_block(block)
+            if updated:
+                snippet_updated = True
+        elif isinstance(block.block, CharBlock):
+            updated, new_block = self.process_charblock_block(block)
             if updated:
                 snippet_updated = True
         elif isinstance(block.block, CaseStudyQuoteBlock):
@@ -352,7 +363,6 @@ class Command(BaseCommand):
                 and field.name
                 not in (
                     'document',
-                    'link',
                     'type',
                     'id',
                     'index_entries',
