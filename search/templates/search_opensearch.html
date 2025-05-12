@@ -9,7 +9,7 @@
           rel="stylesheet"
           type="text/css" />
 {% endblock %}
-{% block head_title %}{{ search_query }} - Search - great.gov.uk{% endblock %}
+{% block head_title %}{{ search_query }} - Search - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block meta_title %}Search{% endblock %}
 {% block css_layout_class %}
     search-results-page

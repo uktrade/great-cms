@@ -1,5 +1,5 @@
 {% extends 'enrolment-base.html' %}
-{% block head_title %}Company verified - great.gov.uk
+{% block head_title %}Company verified - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}
 {% endblock %}
 {% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
 {% block formarea %}

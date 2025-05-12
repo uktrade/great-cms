@@ -137,7 +137,7 @@
                                         {{ form.terms }}
                                         <label class="govuk-label govuk-checkboxes__label" for="id_terms">
                                             <p class="govuk-body">
-                                                I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">great.gov.uk terms and conditions</a> and I understand that:
+                                                I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">{% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} terms and conditions</a> and I understand that:
                                             </p>
                                             <ul class="govuk-list govuk-list--bullet">
                                                 <li>

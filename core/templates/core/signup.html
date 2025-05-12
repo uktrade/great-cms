@@ -4,7 +4,7 @@
 {% block inner_content %}<div id="sign-up"></div>{% endblock %}
 {% block sharing_description %}
     <meta name="description"
-          content="Sign up to great.gov.uk to learn how to export, see live market data for your product and create an export plan" />
+          content="Sign up to {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} to learn how to export, see live market data for your product and create an export plan" />
 {% endblock %}
 {% block body_js %}
     {{ block.super }}

@@ -1,7 +1,7 @@
 {% extends 'business_profile/base-form.html' %}
 {% load static %}
-{% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
-{% block meta_title %}Business profile - Account - great.gov.uk{% endblock %}
+{% block head_title %}Business profile - Account - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
+{% block meta_title %}Business profile - Account - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block form_contents %}
 <h1 class="heading-large margin-top-0">Company description</h1>
 {{ block.super }}

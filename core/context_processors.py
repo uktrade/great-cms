@@ -667,3 +667,14 @@ def footer_bgs(request):
             ],
         },
     }
+
+
+def current_website_name(request):
+    website_name = 'great.gov.uk'
+    bgs_domains = ['.bgs.', 'business.gov.uk']
+
+    for domain in bgs_domains:
+        if domain in request.get_host():
+            website_name = 'business.gov.uk'
+
+    return {'current_website_name': website_name}

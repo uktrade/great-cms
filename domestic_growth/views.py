@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 from uuid import UUID, uuid4
 
+import sentry_sdk
 from django.db.models.base import Model
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -49,7 +50,7 @@ class BaseTriageFormView(FormView):
         or a UUIDv4. This is necessary to facilitate users who have not accepted cookies and
         therefore do not have a django request.session.session_key
         """
-        if self.request.GET.get('triage_uuid', False):
+        if self.request.GET.get('triage_uuid'):
             return self.fern.decrypt(self.request.GET.get('triage_uuid'))
         elif self.request.session.session_key:
             return self.request.session.session_key
@@ -66,8 +67,7 @@ class BaseTriageFormView(FormView):
                 params = {'triage_uuid': self.fern.encrypt(str(self.triage_uuid)), **params}
                 return f'{url}?{urlencode(params)}'
         except ValueError as e:  # NOQA:F841
-            # todo logging of invalid session id in URL. thrown by UUID constructor when invalid parameter passed.
-            pass
+            sentry_sdk.capture_exception(e)
 
         return url
 

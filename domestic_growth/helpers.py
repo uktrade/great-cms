@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta
 
+import sentry_sdk
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.base import Model
@@ -50,16 +51,7 @@ def get_triage_model(request: HttpRequest) -> Model:
 
 def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
-    triage_uuid = None
-
-    # give preference to the triage_uuid in a qs parameter
-    if request.GET.get('triage_uuid', False):
-        triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
-    elif request.META.get('triage_uuid', False):
-        triage_uuid = Fern().decrypt(request.META.get('triage_uuid'))
-    elif request.session.session_key:
-        triage_uuid = request.session.session_key
-
+    triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
 
     try:
@@ -75,16 +67,16 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
             parent_sector, sub_sector, _ = get_sectors_by_selected_id(dbt_sectors, triage_data['sector_id'])
 
         return {**triage_data, 'sector': parent_sector, 'sub_sector': sub_sector}
-    except Exception:
+    except Exception as e:
+        sentry_sdk.capture_exception(e)
         return {'postcode': '', 'sector': ''}
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:
     try:
         return model.objects.get(triage_uuid=triage_uuid)
-    except AttributeError:
-        return None
-    except model.DoesNotExist:
+    except (AttributeError, model.DoesNotExist) as e:
+        sentry_sdk.capture_exception(e)
         return None
 
 
@@ -96,8 +88,12 @@ def get_triage_uuid(request: HttpRequest) -> str:
     triage_uuid = None
 
     # give preference to the triage_uuid in a qs parameter
-    if request.GET.get('triage_uuid', False):
+    if request.GET.get('triage_uuid'):
         triage_uuid = Fern().decrypt(request.GET.get('triage_uuid'))
+    elif request.META.get('triage_uuid'):
+        triage_uuid = Fern().decrypt(request.META.get('triage_uuid'))
+    elif request.GET.get('url_token'):
+        triage_uuid = get_triage_uuid_from_url_token(request)
     elif hasattr(request.session, 'session_key'):
         triage_uuid = request.session.session_key
 
@@ -160,7 +156,7 @@ def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
             break
 
     # add triage_uuid qs if it was in url
-    if redirect_to and request.GET.get('triage_uuid', False):
+    if redirect_to and request.GET.get('triage_uuid'):
         return f'{redirect_to}?triage_uuid={Fern().encrypt(triage_uuid)}'
 
     return redirect_to
@@ -196,7 +192,7 @@ def get_trade_associations_file():
     for ta in deserialised_data:
         _ta = ta
 
-        if _ta.get('regions', False) == '':
+        if _ta.get('regions') == '':
             _ta['regions'] = None
 
         mapped_ta_data.append(_ta)
@@ -264,9 +260,9 @@ def get_change_answers_link(request: HttpRequest) -> str:
     else:
         triage_start_url = reverse('domestic_growth:domestic-growth-existing-location')
 
-    if request.GET.get('triage_uuid', False):
+    if request.GET.get('triage_uuid'):
         return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
-    elif request.META.get('triage_uuid', False):
+    elif request.META.get('triage_uuid'):
         return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}"
 
     return triage_start_url
@@ -281,9 +277,9 @@ def get_change_sector_link(request: HttpRequest) -> str:
         else:
             triage_sector_url = reverse('domestic_growth:domestic-growth-existing-sector')
 
-        if request.GET.get('triage_uuid', False):
+        if request.GET.get('triage_uuid'):
             return triage_sector_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
-        elif request.META.get('triage_uuid', False):
+        elif request.META.get('triage_uuid'):
             return triage_sector_url + f"?triage_uuid={request.META.get('triage_uuid')}"
 
     return triage_sector_url
@@ -300,6 +296,7 @@ def save_email_as_guide_recipient(request: HttpRequest, email: str, url_token: s
     triage_uuid = get_triage_uuid(request)
     triage_model = get_triage_model(request)
     triage_data = get_triage_data(triage_model, triage_uuid)
+
     recipient_model = (
         domestic_growth_models.StartingABusinessGuideEmailRecipient
         if type(triage_data) is domestic_growth_models.StartingABusinessTriage
@@ -315,12 +312,12 @@ def get_email_recipient_record_from_url_token(request: HttpRequest) -> Model:
         if PRE_START_GUIDE_URL in request.path
         else domestic_growth_models.ExistingBusinessGuideEmailRecipient
     )
-    if request.GET.get('url_token', False):
+    if request.GET.get('url_token'):
         try:
             return email_recipient_model.objects.get(url_token=request.GET.get('url_token'))
-        except ObjectDoesNotExist:
+        except ObjectDoesNotExist as e:
+            sentry_sdk.capture_exception(e)
             return None
-    return None
 
 
 def get_triage_uuid_from_url_token(request: HttpRequest) -> str:

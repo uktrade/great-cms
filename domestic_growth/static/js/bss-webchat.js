@@ -1,5 +1,5 @@
 ;(function () {
-  const bss_webchat_link = document.querySelector('[data-bss-webchat]')
+  const bss_webchat_text = document.querySelector('[data-bss-webchat]')
 
   const load_bss_webchat = () => {
     ;(function (n, u) {
@@ -38,8 +38,23 @@
     return false
   }
 
-  if (bss_webchat_link && show_bss_webchat()) {
-    bss_webchat_link.remove()
+  if (bss_webchat_text && show_bss_webchat()) {
+    bss_webchat_text.innerText = 'Use the Business Support Service chat button'
     load_bss_webchat()
+
+    setTimeout(() => {
+      const bss_webchat_container = document.querySelector(
+        '[data-bss-webchat-container]'
+      )
+      const bss_webchat = document.getElementById('cxone-guide-container')
+
+      if (bss_webchat_container && bss_webchat) {
+        bss_webchat_container.append(bss_webchat)
+      }
+    }, 5000)
+  }
+
+  if (bss_webchat_text && !show_bss_webchat()) {
+    bss_webchat_text.innerText = 'Unavailable - out of hours'
   }
 })()

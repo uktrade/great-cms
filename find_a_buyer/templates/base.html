@@ -14,7 +14,7 @@
     {{ block.super }}
     <script type="text/javascript" src="{% static 'javascripts/index.js' %}"></script>
 {% endblock %}
-{% block head_title %}Business profile - great.gov.uk{% endblock %}
+{% block head_title %}Business profile - {% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %}{% endblock %}
 {% block body_content_container %}
     {% block sub_header %}
         <section class="ed-hero-sub-header">
