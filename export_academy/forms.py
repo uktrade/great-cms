@@ -14,6 +14,7 @@ from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact import constants, widgets as contact_widgets
+from core import helpers
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputShowHide
@@ -326,6 +327,16 @@ class SignUpForm(forms.Form):
             'required': 'Enter a password',
         },
     )
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
 
 
 class CodeConfirmForm(forms.Form):

@@ -14,6 +14,7 @@ from django.forms import (
 )
 from great_components import forms
 
+from core import helpers
 from core.validators import is_valid_email_address
 from directory_constants.choices import INDUSTRIES
 from international_buy_from_the_uk.core.choices import (
@@ -28,12 +29,6 @@ from international_online_offer.services import get_dbt_sectors
 
 
 class ContactForm(GovNotifyEmailActionMixin, forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        sector_data_json = get_dbt_sectors()
-        self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
-        self.fields['sector'].choices = (('', ''),) + self.sector_choices
-
     given_name = CharField(
         label='Given name',
         required=True,
@@ -126,16 +121,29 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         required=False,
         widget=TextInput(attrs={'class': 'govuk-input'}),
     )
-    email_contact_consent = BooleanField(
-        required=False,
-        label='I would like to receive additional information by email.',
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
-    )
-    telephone_contact_consent = BooleanField(
-        required=False,
-        label='I would like to receive additional information by telephone.',
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
-    )
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        sector_data_json = get_dbt_sectors()
+        self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
+        self.fields['sector'].choices = (('', ''),) + self.sector_choices
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+            )
+        else:
+            self.fields['email_contact_consent'] = BooleanField(
+                required=False,
+                label='I would like to receive additional information by email.',
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
+            self.fields['telephone_contact_consent'] = BooleanField(
+                required=False,
+                label='I would like to receive additional information by telephone.',
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
 
 
 # Find a supplier
@@ -188,11 +196,25 @@ class IndexSearchForm(forms.Form):
 
 
 class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, request=None, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms'] = forms.BooleanField(
+                required=True,
+                label='I have read and agree to the terms and consitions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
+        else:
+            self.fields['terms'] = BooleanField(
+                required=True,
+                label='I agree to the great.gov.uk terms and conditions and I understand that:',
+                error_messages={'required': 'Tick the box to confirm you agree to the terms and conditions'},
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
 
     given_name = CharField(
         label='Given name',
@@ -268,15 +290,6 @@ class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter your message to the UK company',
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
-    )
-
-    terms = BooleanField(
-        required=True,
-        label='I agree to the great.gov.uk terms and conditions and I understand that:',
-        error_messages={
-            'required': 'Tick the box to confirm you agree to the terms and conditions',
-        },
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
     marketing_consent = BooleanField(

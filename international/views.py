@@ -78,6 +78,11 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         self.submit_feedback(form)
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, TemplateView):  # /PS-IGNORE
     template_name = 'international/contact_success.html'

@@ -200,6 +200,11 @@ class DomesticFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, 
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.DomesticEnquiriesForm
@@ -574,6 +579,11 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
         self.save_data(form)
         self.submit_enquiry(form)
         return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, FormView):
@@ -999,6 +1009,11 @@ class FTASubscribeFormView(
     notify_settings = NotifySettings(
         user_template=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
     )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(

@@ -1,8 +1,12 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% load static %}
+{% load bgs_tags %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
 {% block form %}
     <h1 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h1>
+
     {% csrf_token %}
     {% for field in form.visible_fields %}
         <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
@@ -34,6 +38,27 @@
             {% endif %}
         </div>
     {% endfor %}
+    {% if bgs_site %}
+    <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+        {% for error in form.terms_agreed.errors %}
+            <p class="govuk-error-message" role="alert">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+            </p>
+        {% endfor %}
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+                {{ form.terms_agreed }}
+                <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">
+                    {{form.terms_agreed.label}}
+                </label>
+            </div>
+        </div>    
+    </div>
+        <p class="govuk-body govuk-!-margin-top-2">
+        Read our
+        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a> to understand how we use your personal information.
+        </p>
+    {% else %}
     <p class="govuk-!-margin-bottom-2 great-font-size-18 great-line-height-30">
         By signing up, you agree to our
         <a class="govuk-link great-font-size-18 great-line-height-30"
@@ -41,6 +66,7 @@
         <a class="govuk-link great-font-size-18 great-line-height-30"
            href="{% slugurl 'privacy' %}">privacy notice</a>
     </p>
+    {% endif %}
     <button type="submit"
             id="signup-modal-submit"
             class="govuk-button govuk-!-margin-top-6 great-width-auto">Create Account</button>
@@ -48,6 +74,7 @@
         Already have an account? <a class="govuk-link great-font-size-18 great-line-height-30 ukea-signin-link"
     href="{% url 'export_academy:signin' %}{% if next %}?next={{ next }}{% endif %}">Sign in</a>
     {% endblock %}
+
     {% block small_screen_heading %}{{ heading }}{% endblock %}
     {% block right_panel_heading %}{{ heading }}{% endblock %}
     {% block right_panel_content %}

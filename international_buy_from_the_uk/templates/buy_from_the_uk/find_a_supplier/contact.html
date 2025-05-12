@@ -136,9 +136,16 @@
                                     <div class="govuk-checkboxes__item">
                                         {{ form.terms }}
                                         <label class="govuk-label govuk-checkboxes__label" for="id_terms">
+                                            {% if bgs_site%}
+                                            <p class="govuk-body">
+                                                I have read and agree to the terms and conditions and I understand that:
+                                            </p>
+                                            {% else %}
                                             <p class="govuk-body">
                                                 I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">{% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} terms and conditions</a> and I understand that:
                                             </p>
+                                            {% endif%}
+                                            
                                             <ul class="govuk-list govuk-list--bullet">
                                                 <li>
                                                     the Department for Business and Trade (DBT) is not endorsing the character, ability, goods or services of members of the directory
@@ -165,6 +172,12 @@
                             </div>
                         </div>
                     </div>
+                    {% if bgs_site%}
+                    <p class="govuk-body">
+                        Read our
+                        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a> to understand how we use your personal information.
+                    </p>
+                    {% endif %}
                     <div class="govuk-grid-row govuk-!-margin-top-4">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text='Send message' %}</div>
                     </div>

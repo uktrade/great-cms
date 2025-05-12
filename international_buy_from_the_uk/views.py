@@ -85,6 +85,11 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             breadcrumbs=breadcrumbs,
         )
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 # Find a supplier
 
@@ -308,3 +313,8 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
             recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs

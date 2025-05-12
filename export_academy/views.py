@@ -696,6 +696,11 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
         )
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, FormView):
     template_name = 'export_academy/accounts/verification_code.html'
