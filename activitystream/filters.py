@@ -55,7 +55,7 @@ class ActivityStreamHCSATFilter(FilterSet):
         return queryset.filter(modified__gt=after_ts)
 
 
-class ActivityStreamBGSTFilter(FilterSet):
+class ActivityStreamBGSFilter(FilterSet):
     after = CharFilter(method='filter_after')
 
     def filter_after(self, queryset, name, value):

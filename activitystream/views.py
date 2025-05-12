@@ -15,7 +15,7 @@ from activitystream.authentication import (
     ActivityStreamHawkResponseMiddleware,
 )
 from activitystream.filters import (
-    ActivityStreamBGSTFilter,
+    ActivityStreamBGSFilter,
     ActivityStreamCmsContentFilter,
     ActivityStreamExpandYourBusinessFilter,
     ActivityStreamExportAcademyFilter,
@@ -30,7 +30,10 @@ from activitystream.pagination import (
     ActivityStreamHCSATPagination,
 )
 from activitystream.serializers import (
-    ActivityStreamBGSTStartingABusinessTriageSerializer,
+    ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSExistingBusinessTriageSerializer,
+    ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSStartingABusinessTriageSerializer,
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
@@ -181,7 +184,7 @@ class ActivityStreamBaseView(ListAPIView):
     permission_classes = ()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
-    # @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request, *args, **kwargs):
         """A single page of activities to be consumed by activity stream."""
         return super().list(request, *args, **kwargs)
@@ -285,18 +288,29 @@ class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
     serializer_class = ActivityStreamDomesticHCSATUserFeedbackDataSerializer
 
 
-class ActivityStreamBGSTBaseView(ActivityStreamBaseView):
-    #### remove ###
-    authentication_classes = []
-    permission_classes = []
-    ###############
-    filterset_class = ActivityStreamBGSTFilter
+class ActivityStreamBGSBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamBGSFilter
     pagination_class = ActivityStreamBasePagination
 
     def get_queryset(self):
         return self.queryset.order_by('id')
 
 
-class ActivityStreamBGSTStartingABusinessTriageView(ActivityStreamBGSTBaseView):
+class ActivityStreamBGSStartingABusinessTriageView(ActivityStreamBGSBaseView):
     queryset = StartingABusinessTriage.objects.all()
-    serializer_class = ActivityStreamBGSTStartingABusinessTriageSerializer
+    serializer_class = ActivityStreamBGSStartingABusinessTriageSerializer
+
+
+class ActivityStreamBGSStartingABusinessGuideEmailRecipient(ActivityStreamBGSBaseView):
+    queryset = StartingABusinessGuideEmailRecipient.objects.all()
+    serializer_class = ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer
+
+
+class ActivityStreamBGSExistingBusinessTriageView(ActivityStreamBGSBaseView):
+    queryset = ExistingBusinessTriage.objects.all()
+    serializer_class = ActivityStreamBGSExistingBusinessTriageSerializer
+
+
+class ActivityStreamBGSExistingBusinessGuideEmailRecipient(ActivityStreamBGSBaseView):
+    queryset = ExistingBusinessGuideEmailRecipient.objects.all()
+    serializer_class = ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer

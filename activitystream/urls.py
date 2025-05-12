@@ -62,8 +62,23 @@ urlpatterns = [
         name='domestic-hcsats',
     ),
     path(
-        'bgst-existing-business-triage/',
-        skip_ga360(activitystream.views.ActivityStreamBGSTStartingABusinessTriageView.as_view()),
-        name='bgst-existing-business-triage/',
+        'bgs-starting-a-business-triage/',
+        skip_ga360(activitystream.views.ActivityStreamBGSStartingABusinessTriageView.as_view()),
+        name='bgs-starting-a-business-triage',
+    ),
+    path(
+        'bgs-starting-a-business-guide-email-recipient/',
+        skip_ga360(activitystream.views.ActivityStreamBGSStartingABusinessGuideEmailRecipient.as_view()),
+        name='bgs-starting-a-business-guide-email-recipient',
+    ),
+    path(
+        'bgs-existing-business-triage/',
+        skip_ga360(activitystream.views.ActivityStreamBGSExistingBusinessTriageView.as_view()),
+        name='bgs-existing-business-triage',
+    ),
+    path(
+        'bgs-existing-business-guide-email-recipient/',
+        skip_ga360(activitystream.views.ActivityStreamBGSExistingBusinessGuideEmailRecipient.as_view()),
+        name='bgs-existing-business-guide-email-recipient',
     ),
 ]
