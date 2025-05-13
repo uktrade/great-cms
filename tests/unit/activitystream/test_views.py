@@ -15,6 +15,12 @@ from wagtail_factories import PageFactory
 
 from tests.unit.core.factories import IndustryTagFactory
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
+from tests.unit.domestic_growth.factories import (
+    DomesticGrowthExistingBusinessGuideEmailRecipientFactory,
+    DomesticGrowthExistingBusinessTriageFactory,
+    DomesticGrowthStartingABusinessGuideEmailRecipientFactory,
+    DomesticGrowthStartingABusinessTriageFactory,
+)
 from tests.unit.export_academy.factories import (
     BookingFactory,
     EventFactory,
@@ -557,6 +563,46 @@ def test_activity_stream_cms_content_view(api_client, en_locale):
 def test_activity_stream_ukea_video_on_demand_page_tracking_views(api_client, resource, factory):
     records_count = 10
     url = 'http://testserver' + reverse('activitystream:ukea-videoondemandpagetracking')
+    sender = auth_sender(url=url)
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert response.json() == EMPTY_COLLECTION
+    assert len(response.json()['orderedItems']) == 0
+
+    factory.create_batch(records_count)
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert len(response.json()['orderedItems']) == records_count
+
+
+@pytest.mark.parametrize(
+    'activity_stream_url,factory',
+    (
+        (reverse('activitystream:bgs-existing-business-triage'), DomesticGrowthExistingBusinessTriageFactory),
+        (
+            reverse('activitystream:bgs-existing-business-guide-email-recipient'),
+            DomesticGrowthExistingBusinessGuideEmailRecipientFactory,
+        ),
+        (reverse('activitystream:bgs-starting-a-business-triage'), DomesticGrowthStartingABusinessTriageFactory),
+        (
+            reverse('activitystream:bgs-starting-a-business-guide-email-recipient'),
+            DomesticGrowthStartingABusinessGuideEmailRecipientFactory,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_activity_stream_domestic_growth_views(api_client, activity_stream_url, factory):
+    records_count = 10
+    url = f'http://testserver{activity_stream_url}'
     sender = auth_sender(url=url)
     auth_headers = {
         'content_type': '',

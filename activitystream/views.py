@@ -15,6 +15,7 @@ from activitystream.authentication import (
     ActivityStreamHawkResponseMiddleware,
 )
 from activitystream.filters import (
+    ActivityStreamBGSFilter,
     ActivityStreamCmsContentFilter,
     ActivityStreamExpandYourBusinessFilter,
     ActivityStreamExportAcademyFilter,
@@ -22,12 +23,17 @@ from activitystream.filters import (
     PageFilter,
 )
 from activitystream.pagination import (
+    ActivityStreamBasePagination,
     ActivityStreamCmsContentPagination,
     ActivityStreamExpandYourBusinessPagination,
     ActivityStreamExportAcademyPagination,
     ActivityStreamHCSATPagination,
 )
 from activitystream.serializers import (
+    ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSExistingBusinessTriageSerializer,
+    ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSStartingABusinessTriageSerializer,
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
@@ -40,6 +46,12 @@ from activitystream.serializers import (
 )
 from core.models import HCSAT, MicrositePage
 from domestic.models import ArticlePage, CountryGuidePage
+from domestic_growth.models import (
+    ExistingBusinessGuideEmailRecipient,
+    ExistingBusinessTriage,
+    StartingABusinessGuideEmailRecipient,
+    StartingABusinessTriage,
+)
 from export_academy.models import (
     Booking,
     Event,
@@ -274,3 +286,31 @@ class ActivityStreamDomesticHCSATFeedbackDataView(ActivityStreamHCSATBaseView):
 
     queryset = HCSAT.objects.all()
     serializer_class = ActivityStreamDomesticHCSATUserFeedbackDataSerializer
+
+
+class ActivityStreamBGSBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamBGSFilter
+    pagination_class = ActivityStreamBasePagination
+
+    def get_queryset(self):
+        return self.queryset.order_by('id')
+
+
+class ActivityStreamBGSStartingABusinessTriageView(ActivityStreamBGSBaseView):
+    queryset = StartingABusinessTriage.objects.all()
+    serializer_class = ActivityStreamBGSStartingABusinessTriageSerializer
+
+
+class ActivityStreamBGSStartingABusinessGuideEmailRecipient(ActivityStreamBGSBaseView):
+    queryset = StartingABusinessGuideEmailRecipient.objects.all()
+    serializer_class = ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer
+
+
+class ActivityStreamBGSExistingBusinessTriageView(ActivityStreamBGSBaseView):
+    queryset = ExistingBusinessTriage.objects.all()
+    serializer_class = ActivityStreamBGSExistingBusinessTriageSerializer
+
+
+class ActivityStreamBGSExistingBusinessGuideEmailRecipient(ActivityStreamBGSBaseView):
+    queryset = ExistingBusinessGuideEmailRecipient.objects.all()
+    serializer_class = ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer
