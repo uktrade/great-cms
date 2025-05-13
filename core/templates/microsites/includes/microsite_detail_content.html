@@ -42,6 +42,13 @@
                 </div>
             </div>
         </div>
+        {% if hero_great_logo %}
+            <div class="great-ds-container">
+                <div class="great-position-relative">
+                    {% include 'international/includes/great_logo_ribbon.html' with classes='great-logo-ribbon--video' %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% elif page.hero_image %}
     {% image page.hero_image original as hero_image %}
