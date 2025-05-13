@@ -45,7 +45,14 @@
     </div>
 {% elif page.hero_image %}
     {% image page.hero_image original as hero_image %}
-    {% include '_hero.html' with pngImagePath=hero_image.url classes="great-ds-hero--image-only" %}
+        {% include '_hero.html' with pngImagePath=hero_image.url classes="great-ds-hero--image-only" %}
+        {% if hero_great_logo %}
+            <div class="great-ds-container">
+                <div class="great-position-relative">
+                    {% include 'international/includes/great_logo_ribbon.html' %}
+                </div>
+            </div>
+        {% endif %}
 {% endif %}
 <main id="content"
       tabindex="-1"
