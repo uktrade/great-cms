@@ -6,7 +6,6 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from wagtailcache.cache import WagtailCacheMixin
 
-from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
 from core.helpers import check_url_host_is_safelisted, international_url
@@ -30,10 +29,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_back_url(self):
-        if settings.FEATURE_DOMESTIC_GROWTH:
-            back_url = '/'
-        else:
-            back_url = f'/{international_url(self.request)}/'
+        back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -48,7 +44,6 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            bgs_flag=settings.FEATURE_DOMESTIC_GROWTH,
         )
 
     def submit_feedback(self, form):
@@ -106,10 +101,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         return success_url
 
     def get_back_url(self):
-        if settings.FEATURE_DOMESTIC_GROWTH:
-            back_url = '/'
-        else:
-            back_url = f'/{international_url(self.request)}/'
+        back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -118,7 +110,6 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         context = super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            site='Business.gov.uk' if settings.FEATURE_DOMESTIC_GROWTH else 'great.gov.uk',
         )
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
