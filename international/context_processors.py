@@ -98,6 +98,7 @@ def international_header(request):
         'buy_from_the_uk_contact_url': f'{buy_url}contact/',
         'investment_url': invest_url,
         'expend_your_business_in_the_uk_url': expand_url,
+        'expend_your_business_in_the_uk_login_url': f'{expand_url}login/',
         'expend_your_business_in_the_uk_guide_url': f'{expand_url}guide/',
         'expend_your_business_in_the_uk_business_cluster_url': f'{expand_url}business-cluster-information/?area=K03000001',  # noqa:E501
         'international_header_context': {

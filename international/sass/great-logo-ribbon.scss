@@ -4,7 +4,11 @@
     right: -60px;
     width: auto;
     height: auto;
-    max-width: 100%; 
+    max-width: 100%;
+}
+
+.great-logo-ribbon--video {
+    bottom: 60px;
 }
 
 .great-logo-ribbon::after {
@@ -24,6 +28,10 @@
         bottom: 30px;
     }
 
+    .great-logo-ribbon--video {
+        bottom: 50px;
+    }
+
     .great-logo-ribbon::after {
         bottom: 8.5px; /* Adjust top positioning to match image alignment */
         height: calc(100% - 22.5px); /* Adjust height to match the image height */
@@ -34,6 +42,10 @@
     .great-logo-ribbon {
         right: -50px;
         bottom: 10px;
+    }
+
+    .great-logo-ribbon--video {
+        bottom: 50px;
     }
 
     .great-logo-ribbon::after {
