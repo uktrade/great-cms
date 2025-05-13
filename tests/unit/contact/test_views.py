@@ -1,12 +1,14 @@
 from unittest import mock
 
 import django.forms
+
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.http import QueryDict
 from django.urls import reverse
 from requests.models import Response
+from wagtail.models import Site
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
@@ -848,6 +850,10 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
         email = django.forms.EmailField()
         save = mock.Mock()
 
+        def __init__(self, *args, **kwargs):
+            kwargs.pop('request', None)
+            super().__init__(*args, **kwargs)
+
     with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
         response = client.post(
             reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'}  # /PS-IGNORE
@@ -1027,9 +1033,11 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
     ),
 )
 @pytest.mark.django_db
+@mock.patch.object(Site, 'find_for_request')
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 def test_domestic_export_support_form_pages(
     mock_action_class,
+    mock_find_for_request,
     page_url,
     form_data,
     redirect_url,

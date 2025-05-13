@@ -92,14 +92,19 @@ def test_ukef_views(client, page_url, page_content, expected_status_code):
         assert page_content['title'] in str(response.rendered_content)
 
 
+@mock.patch.object(Site, 'find_for_request')
 @mock.patch.object(domestic.views.ukef.ContactView, 'form_session_class')
 @mock.patch.object(domestic.forms.UKEFContactForm, 'save')
 def test_ukef_contact_form_notify_success(
+    mock_find_for_request,
     mock_save,
     mock_form_session,
     client,
     valid_contact_form_data,
 ):
+    site_mock = mock.Mock()
+    site_mock.root_url = 'https://great.gov.uk'
+    mock_find_for_request.return_value = site_mock
     url = reverse('domestic:uk-export-contact')
     response = client.post(url, valid_contact_form_data)
     assert response.status_code == 302
