@@ -604,6 +604,24 @@ def get_s3_file_stream(file_name, bucket_name=settings.AWS_STORAGE_BUCKET_NAME_D
     return s3_resource['Body'].read().decode('utf-8')
 
 
+def is_bgs_domain(request):
+    if any(
+        [
+            'business' in request.build_absolute_uri().split('/')[2],
+            '.bgs.' in request.build_absolute_uri().split('/')[2],
+            settings.OVERRIDE_BGS_REDIRECT,
+        ]
+    ):
+        return True
+    return False
+
+
+def international_url(request):
+    if is_bgs_domain(request):
+        return settings.BGS_INTERNATIONAL_URL
+    return settings.GREAT_INTERNATIONAL_URL
+
+
 class GeoLocationRedirector:
     DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
     COUNTRY_TO_LANGUAGE_MAP = {
@@ -642,10 +660,24 @@ class GeoLocationRedirector:
             and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa: W503
         )
 
+    @property
+    def get_redirect_url(self):
+        """
+        /international will now be /invest-in-uk when business.gov.uk is launched.
+
+        The new re-direct logic is:
+        - /invest-in-uk if the user request domain is business.gov.uk
+        - /international if the user request domain is great.gov.uk
+
+        """
+        if is_bgs_domain(self.request):
+            return settings.BGS_INTERNATIONAL_URL
+        return settings.GREAT_INTERNATIONAL_URL
+
     def get_response(self):
         params = self.request.GET.dict()
         params[self.LANGUAGE_PARAM] = self.country_language
-        url = '{url}?{querystring}'.format(url='/international/', querystring=urllib.parse.urlencode(params))
+        url = '/{url}/?{querystring}'.format(url=self.get_redirect_url, querystring=urllib.parse.urlencode(params))
         response = redirect(url)
         response.set_cookie(
             key=self.COOKIE_NAME,

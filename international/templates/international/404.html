@@ -14,10 +14,10 @@
                 <p class="govuk-body">If you typed the web address, check it is correct.</p>
                 <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
                 <p class="govuk-body">
-                    You can <a class="govuk-link" href="/international/">browse from the home page</a> to find the information you need.
+                    You can <a class="govuk-link" href="{{international_header_context.internationalLink}}">browse from the home page</a> to find the information you need.
                 </p>
                 <p class="govuk-body">
-                    If you need to speak with someone, you can <a href="{% url 'international:contact' %}?next={{ feedback_next_url }}">contact us</a>
+                    If you need to speak with someone, you can <a href="/get-help/?next={{ feedback_next_url }}">contact us</a>
                 </p>
             </div>
         </div>

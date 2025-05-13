@@ -1,3 +1,4 @@
+from core.helpers import international_url
 from directory_constants import expertise
 from domestic.models import BaseContentPage
 
@@ -12,7 +13,7 @@ class InvestmentSupportDirectoryIndexPage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
         context.update(
