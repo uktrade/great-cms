@@ -1041,7 +1041,7 @@ CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.campaign_moderation_reques
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.campaign_moderation_reply_to_id
 
 # django-csp config
-CSP_DEFAULT_SRC = ("'self'", "https:")  # noqa
+CSP_DEFAULT_SRC = ("'self'", "https:", "wss://chat-gw-de-uk1.niceincontact.com")  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
 CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
@@ -1065,6 +1065,7 @@ CSP_STYLE_SRC = (
 CSP_FONT_SRC = (
     "'self'",
     'https://fonts.gstatic.com',
+    'https://web-modules-de-uk1.niceincontact.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
 CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
