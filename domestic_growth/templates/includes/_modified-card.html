@@ -61,7 +61,7 @@
                 <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
             </div>
             {% endif %}
-        
+
             {% if sub_sector and sub_sector in content.sub_sector %}
                 {% include "includes/_sector-tag.html" with text=sub_sector %}
             {% elif sector and sector in content.sector %}
@@ -72,8 +72,7 @@
                 {% include "includes/_location-tag.html" with text=region_name %}
             {% elif locationTagText %}
                 {% include "includes/_location-tag.html" with text=locationTagText %}
-            {% endif %}
-        
+            {% endif %}        
         </div>
     </div>
 </div>
