@@ -71,7 +71,7 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via reportlab
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 click==8.1.8
     # via
@@ -254,8 +254,6 @@ googleapis-common-protos==1.70.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
-greenlet==3.2.1
-    # via sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==23.0.0
@@ -308,7 +306,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==3.0.2
     # via jinja2
-maxminddb==2.6.3
+maxminddb==2.7.0
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -402,7 +400,7 @@ pillow==10.3.0
     #   xhtml2pdf
 pillow-heif==0.21.0
     # via willow
-platformdirs==4.3.7
+platformdirs==4.3.8
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
@@ -434,7 +432,9 @@ pyhanko-certvalidator==0.26.8
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==5.4.0
+pyjwt==2.9.0
+    # via redis
+pypdf==5.5.0
     # via xhtml2pdf
 pyquery==2.0.1
     # via readtime
@@ -474,11 +474,11 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-qrcode==8.1
+qrcode==8.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.2.1
+redis==5.3.0
     # via
     #   celery
     #   django-redis
@@ -506,7 +506,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.27.0
+sentry-sdk==2.28.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -523,7 +523,7 @@ six==1.17.0
     #   python-bidi
     #   python-dateutil
     #   w3lib
-snowballstemmer==2.2.0
+snowballstemmer==3.0.1
     # via sphinx
 soupsieve==2.7
     # via beautifulsoup4
@@ -580,7 +580,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
-uritools==4.0.3
+uritools==5.0.0
     # via pyhanko-certvalidator
 urllib3==1.26.19
     # via
@@ -597,7 +597,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.30.0
+virtualenv==20.31.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

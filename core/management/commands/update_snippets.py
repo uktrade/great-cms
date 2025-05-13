@@ -7,10 +7,7 @@ from inspect import currentframe, getframeinfo
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.db.models import ForeignKey
 from django.db.models.fields import Field
-from modelcluster.contrib.taggit import _ClusterTaggableManager
-from taggit.managers import _TaggableManager
 from wagtail.blocks.field_block import CharBlock, RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.contrib.redirects.models import Redirect
@@ -18,7 +15,16 @@ from wagtail.rich_text import RichText
 from wagtail.snippets.models import SNIPPET_MODELS
 
 from core.blocks import CaseStudyQuoteBlock, LinkStructValue
-from core.models import AltTextImage, GreatMedia, Region
+from core.models import (
+    UKEACTA,
+    AltTextImage,
+    Country,
+    GreatMedia,
+    IndustryTag,
+    Region,
+    Tag,
+)
+from domestic_growth.models import DomesticGrowthCard, DomesticGrowthContent
 
 
 class Command(BaseCommand):
@@ -307,14 +313,7 @@ class Command(BaseCommand):
             field_value = getattr(instance, field_name)
             if not field_value:
                 continue
-            if (
-                isinstance(field_value, bool)
-                or isinstance(field_value, datetime)
-                or isinstance(field_value, _ClusterTaggableManager)
-                or isinstance(field_value, ForeignKey)
-                or isinstance(field_value, _TaggableManager)
-                or isinstance(field_value, Region)
-            ):
+            if isinstance(field_value, bool) or isinstance(field_value, datetime):
                 continue
             if isinstance(field_value, str):
                 updated, new_value = self.process_string(field_value)
@@ -355,24 +354,58 @@ class Command(BaseCommand):
 
         for snippet_model in SNIPPET_MODELS:
 
+            if (
+                snippet_model is UKEACTA
+                or snippet_model is Country
+                or snippet_model is IndustryTag
+                or snippet_model is Redirect
+                or snippet_model is Region
+                or snippet_model is Tag
+                or snippet_model is DomesticGrowthCard
+                or snippet_model is DomesticGrowthContent
+            ):
+                continue
+
             instances = snippet_model.objects.all()
+
+            if instances.count() < 1:
+                continue
+
             field_names = [
                 field.name
                 for field in snippet_model._meta.get_fields()
                 if isinstance(field, Field)
                 and field.name
                 not in (
-                    'document',
                     'type',
                     'id',
+                    'tags',
+                    'hide_title',
+                    'image',
+                    'slug',
+                    'created',
+                    'modified',
+                    'seo_title',
+                    'hs_code_tags',
+                    'country_code_tags',
+                    'region_code_tags',
+                    'trading_bloc_code_tags',
+                    'document',
+                    'country_tags',
+                    'sector_tags',
+                    'meta_label',
+                    'exporter_type',
                     'index_entries',
+                    'region_tags',
+                    'trading_bloc_tags',
+                    'past_event_presentation_file',
+                    'format',
+                    'types',
                 )
             ]
 
             for instance in instances:
-                if isinstance(instance, Redirect):
-                    continue
-                self.stdout.write(self.style.SUCCESS(f'Processing Snippet: {instance}'))
+                self.stdout.write(self.style.SUCCESS(f'Processing Model:Snippet: {snippet_model}:{instance}'))
                 updated = self.process_snippet(instance, field_names)
                 if updated and not dry_run:
                     instance.save()
