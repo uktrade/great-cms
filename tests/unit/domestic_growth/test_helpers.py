@@ -4,6 +4,7 @@ from secrets import token_urlsafe
 from unittest import mock
 
 import pytest
+
 from django.conf import settings
 from django.test.client import RequestFactory
 from freezegun import freeze_time
