@@ -331,7 +331,7 @@ flake8-quotes==3.3.2
     # via -r requirements_test.in
 flake8-string-format==0.3.0
     # via -r requirements_test.in
-flask==3.1.0
+flask==3.1.1
     # via
     #   -r requirements_test.in
     #   flask-cors
@@ -447,6 +447,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==3.0.2
     # via
+    #   flask
     #   jinja2
     #   werkzeug
 matplotlib-inline==0.1.7
