@@ -1,7 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import CheckboxInput, Select, Textarea, TextInput
+from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
