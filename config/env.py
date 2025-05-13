@@ -366,6 +366,7 @@ class BaseSettings(PydanticBaseSettings):
     bgs_site: str = 'www.hotfix.bgs.uktrade.digital'
     bgs_guide_share_link_ttl_days: int = 180
     fernet_key: str = ''
+    override_bgs_redirect: bool = False
 
 
 class CIEnvironment(BaseSettings):
