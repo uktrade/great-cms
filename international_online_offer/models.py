@@ -559,6 +559,16 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         hero_image_url = helpers.get_hero_image_by_sector(triage_data.sector)
         region_map_image_url = helpers.get_region_map_image_by_region(triage_data.location)
 
+        hide_salary_component = False
+
+        entry_salary = cleaned_median_salaries.get(professions.ENTRY_LEVEL)
+        mid_salary = cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL)
+        executive_salary = cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL)
+
+        null_salaries = [s for s in [entry_salary, mid_salary, executive_salary] if s is None]
+
+        hide_salary_component = len(null_salaries) > 1
+
         context.update(
             triage_data=triage_data,
             user_data=user_data,
@@ -585,6 +595,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             hero_image_url=hero_image_url,
             region_map_image_url=region_map_image_url,
             page_title_meta=page_title_meta,
+            hide_salary_component=hide_salary_component,
         )
 
         self.set_ga360_payload(
