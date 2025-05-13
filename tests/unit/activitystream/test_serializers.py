@@ -1,4 +1,5 @@
 import json
+from hashlib import sha256
 
 import pytest
 from django.test import TestCase
@@ -6,6 +7,10 @@ from django.utils import timezone
 from wagtail_factories import PageFactory
 
 from activitystream.serializers import (
+    ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSExistingBusinessTriageSerializer,
+    ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer,
+    ActivityStreamBGSStartingABusinessTriageSerializer,
     ActivityStreamCmsContentSerializer,
     ActivityStreamDomesticHCSATUserFeedbackDataSerializer,
     ActivityStreamExpandYourBusinessTriageDataSerializer,
@@ -29,6 +34,12 @@ from tests.unit.core.factories import (
     MicrositePageFactory,
 )
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
+from tests.unit.domestic_growth.factories import (
+    DomesticGrowthExistingBusinessGuideEmailRecipientFactory,
+    DomesticGrowthExistingBusinessTriageFactory,
+    DomesticGrowthStartingABusinessGuideEmailRecipientFactory,
+    DomesticGrowthStartingABusinessTriageFactory,
+)
 from tests.unit.export_academy.factories import (
     BookingFactory,
     EventFactory,
@@ -720,6 +731,93 @@ def test_domestic_hcsat_feedback_serializer():
             'service_name': instance.service_name,
             'service_specific_feedback': instance.service_specific_feedback,
             'service_specific_feedback_other': instance.service_specific_feedback_other,
+        },
+    }
+
+    assert output == expected
+
+
+@pytest.mark.django_db
+def test_domestic_growth_existing_business_triage_serializer():
+    instance = DomesticGrowthExistingBusinessTriageFactory()
+    serializer = ActivityStreamBGSExistingBusinessTriageSerializer()
+    output = serializer.to_representation(instance)
+
+    expected = {
+        'id': f'dbt:bgs:ExistingBusinessTriage:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dbt:bgs:ExistingBusinessTriage',
+            'triage_uuid': instance.triage_uuid,
+            'sector_id': instance.sector_id,
+            'cant_find_sector': instance.cant_find_sector,
+            'when_set_up': instance.when_set_up,
+            'turnover': instance.turnover,
+            'currently_export': instance.currently_export,
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+        },
+    }
+
+    assert output == expected
+
+
+@pytest.mark.django_db
+def test_domestic_growth_starting_a_business_triage_serializer():
+    instance = DomesticGrowthStartingABusinessTriageFactory()
+    serializer = ActivityStreamBGSStartingABusinessTriageSerializer()
+    output = serializer.to_representation(instance)
+
+    expected = {
+        'id': f'dbt:bgs:StartingABusinessTriage:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dbt:bgs:StartingABusinessTriage',
+            'triage_uuid': instance.triage_uuid,
+            'sector_id': instance.sector_id,
+            'dont_know_sector': instance.dont_know_sector,
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+        },
+    }
+
+    assert output == expected
+
+
+@pytest.mark.parametrize(
+    'factory,serializer,prefix',
+    (
+        (
+            DomesticGrowthExistingBusinessGuideEmailRecipientFactory,
+            ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer,
+            'dbt:bgs:ExistingBusinessGuideEmailRecipient',
+        ),
+        (
+            DomesticGrowthStartingABusinessGuideEmailRecipientFactory,
+            ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer,
+            'dbt:bgs:StartingABusinessGuideEmailRecipient',
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_domestic_growth_email_recipient_serializers(factory, serializer, prefix):
+    instance = factory()
+    serializer = serializer()
+    output = serializer.to_representation(instance)
+
+    expected = {
+        'id': f'{prefix}:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': prefix,
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'email': sha256(instance.email.encode()).hexdigest(),
+            'triage_id': instance.triage.id,
+            'url_token': instance.url_token,
         },
     }
 

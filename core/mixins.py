@@ -283,18 +283,19 @@ class HCSATMixin:
 
     def get_service_csat_heading(self, hcsat_service_name):
         service_name_to_readable_name_map = {
-            'export_academy': 'UK Export Academy event booking',
-            'where_to_export': 'Where to export',
-            'learn_to_export': 'Learn to export',
-            'export_plan': 'Make an export plan',
-            'find_a_supplier': 'Find a supplier',
-            'find_a_buyer': 'Find a buyer',
-            'eyb': 'Expand your business',
-            'investment_ops': 'Investment Opportunities',
-            'isd': 'Investment Support Directory',
+            'business_support': 'using Business.gov.uk',
+            'export_academy': 'with the UK Export Academy event booking service',
+            'where_to_export': 'with the Where to export service',
+            'learn_to_export': 'with the Learn to export service',
+            'export_plan': 'with the Make an export plan service',
+            'find_a_supplier': 'with the Find a supplier service',
+            'find_a_buyer': 'with the Find a buyer service',
+            'eyb': 'with the Expand your business service',
+            'investment_ops': 'with the Investment Opportunities service',
+            'isd': 'with the Investment Support Directory service',
         }
-        return f"""Overall, how would you rate your experience with the
-         {service_name_to_readable_name_map[hcsat_service_name]} service today?"""
+        return f"""Overall, how would you rate your experience
+         {service_name_to_readable_name_map[hcsat_service_name]} today?"""
 
 
 class HCSATNonFormPageMixin(HCSATMixin):

@@ -1,16 +1,14 @@
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
-from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 from wagtailcache.cache import WagtailCacheMixin
 
-from config import settings
 from core.constants import HCSatStage
 from core.forms import HCSATForm
-from core.helpers import check_url_host_is_safelisted
+from core.helpers import check_url_host_is_safelisted, international_url
 from core.mixins import HCSATMixin
 from international import forms
 
@@ -31,16 +29,13 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_back_url(self):
-        if settings.FEATURE_DOMESTIC_GROWTH:
-            back_url = '/'
-        else:
-            back_url = '/international/'
+        back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success')
+        success_url = f'/{international_url(self.request)}/site-help/success/'
         if self.request.GET.get('next'):
             success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
@@ -49,7 +44,6 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            bgs_flag=settings.FEATURE_DOMESTIC_GROWTH,
         )
 
     def submit_feedback(self, form):
@@ -73,7 +67,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
             email_address=cleaned_data['email'],
             subject=self.subject,
             service_name='great',
-            form_url=reverse('international:contact'),
+            form_url=f'/{international_url(self.request)}/site-help',
             sender=sender,
         )
 
@@ -101,16 +95,13 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         )
 
     def get_success_url(self):
-        success_url = reverse_lazy('international:contact-success')
+        success_url = f'/{international_url(self.request)}/site-help/success/'
         if self.request.GET.get('next'):
             success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
 
     def get_back_url(self):
-        if settings.FEATURE_DOMESTIC_GROWTH:
-            back_url = '/'
-        else:
-            back_url = '/international/'
+        back_url = '/international/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -119,7 +110,6 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         context = super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            site='Business.gov.uk' if settings.FEATURE_DOMESTIC_GROWTH else 'great.gov.uk',
         )
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
@@ -171,7 +161,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
         # Apply data specific to this service
-        hcsat.URL = '/international/buy-from-the-uk/'
+        hcsat.URL = f'/{international_url(self.request)}/buy-from-the-uk/'
         hcsat.user_journey = 'COMPANY_CONTACT'
         hcsat.session_key = self.request.session.session_key
         hcsat.save(js_enabled=js_enabled)

@@ -1,4 +1,5 @@
 import logging
+from hashlib import sha256
 
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
@@ -7,6 +8,12 @@ from wagtail.rich_text import RichText, get_text_for_indexing
 
 from core.models import HCSAT, GreatMedia, MicrositePage
 from domestic.models import ArticlePage
+from domestic_growth.models import (
+    ExistingBusinessGuideEmailRecipient,
+    ExistingBusinessTriage,
+    StartingABusinessGuideEmailRecipient,
+    StartingABusinessTriage,
+)
 from export_academy.models import (
     Booking,
     Event,
@@ -580,5 +587,109 @@ class ActivityStreamDomesticHCSATUserFeedbackDataSerializer(serializers.ModelSer
                 'id': f'{prefix}:{instance.id}',
                 'type': prefix,
                 **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamBGSStartingABusinessTriageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StartingABusinessTriage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        prefix = 'dbt:bgs:StartingABusinessTriage'
+        type = 'Update'
+
+        serialized_instance = super().to_representation(instance)
+        serialized_instance['created'] = instance.created.isoformat()
+        serialized_instance['modified'] = instance.modified.isoformat()
+        # remove postcode as currently considered PII
+        serialized_instance.pop('postcode')
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': instance.id,
+                'type': prefix,
+                **{f'{k}': v for k, v in serialized_instance.items()},
+            },
+        }
+
+
+class ActivityStreamBGSStartingABusinessGuideEmailRecipientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StartingABusinessGuideEmailRecipient
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        prefix = 'dbt:bgs:StartingABusinessGuideEmailRecipient'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': instance.id,
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                'email': sha256(instance.email.encode()).hexdigest(),
+                'triage_id': instance.triage.id,
+                'url_token': instance.url_token,
+            },
+        }
+
+
+class ActivityStreamBGSExistingBusinessTriageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ExistingBusinessTriage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        prefix = 'dbt:bgs:ExistingBusinessTriage'
+        type = 'Update'
+
+        serialized_instance = super().to_representation(instance)
+        serialized_instance['created'] = instance.created.isoformat()
+        serialized_instance['modified'] = instance.modified.isoformat()
+        # remove postcode as currently considered PII
+        serialized_instance.pop('postcode')
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': instance.id,
+                'type': prefix,
+                **{f'{k}': v for k, v in serialized_instance.items()},
+            },
+        }
+
+
+class ActivityStreamBGSExistingBusinessGuideEmailRecipientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ExistingBusinessGuideEmailRecipient
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        prefix = 'dbt:bgs:ExistingBusinessGuideEmailRecipient'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': instance.id,
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                'email': sha256(instance.email.encode()).hexdigest(),
+                'triage_id': instance.triage.id,
+                'url_token': instance.url_token,
             },
         }

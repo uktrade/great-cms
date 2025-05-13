@@ -1,12 +1,13 @@
 from directory_forms_api_client import actions
-from django.conf import settings
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from international_online_offer.core import choices, intents, professions, regions
 
 
 def send_welcome_notification(email, form_url):
     action = actions.GovNotifyEmailAction(
-        template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.EYB_ENROLMENT_WELCOME),
         email_address=email,
         form_url=form_url,
     )

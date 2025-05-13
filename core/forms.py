@@ -22,6 +22,7 @@ from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
+from core.validators import is_valid_email_address
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -214,4 +215,40 @@ class GuidedJourneyStep3Form(forms.Form):
     market_not_listed = BooleanField(
         label="My market isn't listed",
         required=False,
+    )
+
+
+class ContactForm(forms.Form):
+    how_we_can_help = forms.CharField(
+        label='What can we help with you with?',
+        max_length=1000,
+        required=True,
+        error_messages={
+            'required': ('Enter information on what you want help with'),
+            'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
+        },
+        widget=Textarea(
+            attrs={
+                'class': 'govuk-textarea govuk-js-character-count great-font-main',
+                'rows': 7,
+            }
+        ),
+    )
+    full_name = forms.CharField(
+        label='Your name',
+        required=True,
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your name',
+        },
+    )
+    email = forms.CharField(
+        label='Your email address',
+        max_length=255,
+        required=True,
+        validators=[is_valid_email_address],
+        widget=TextInput(attrs={'class': 'govuk-input'}),
+        error_messages={
+            'required': 'Enter your email address',
+        },
     )

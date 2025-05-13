@@ -5,6 +5,7 @@ from rest_framework.utils.urls import replace_query_param
 
 class ActivityStreamBasePagination(pagination.BasePagination):
     page_query_param = 'after'
+    page_size = 100
 
     def get_paginated_response(self, data):
         next_link = self.get_next_link()
@@ -23,6 +24,13 @@ class ActivityStreamBasePagination(pagination.BasePagination):
             link = replace_query_param(url, self.page_query_param, self.next_value)
             return {'next': link}
         return {}
+
+    def paginate_queryset(self, queryset, request, view=None):
+        self.has_next = queryset.count() > self.page_size
+        page = list(queryset[: self.page_size])
+        self.next_value = page[-1].id if page else ''
+        self.request = request
+        return page
 
 
 class ActivityStreamExportAcademyPagination(ActivityStreamBasePagination):

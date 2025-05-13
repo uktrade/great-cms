@@ -37,9 +37,9 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from core.constants import HCSatStage
+from core.constants import HCSatStage, TemplateTagsEnum
 from core.forms import HCSATForm
-from core.helpers import get_location
+from core.helpers import get_location, get_template_id
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, helpers, models
@@ -482,7 +482,7 @@ class RegistrationMarketingSources(
     form_class = forms.MarketingSources
     model = models.Registration
     template_name = 'export_academy/registration_form_step4.html'
-    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+    notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_REGISTRATION)
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -519,7 +519,8 @@ class RegistrationConfirmChoices(
     model = models.Registration
     booking_model = models.Booking
     form_class = forms.RegistrationConfirm
-    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+
+    notify_template = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_REGISTRATION)
     booking_id = ''
 
     def submit_registration(self):

@@ -251,5 +251,5 @@ def test_eyb_hcsat():
         assert type(page.get_csat_form()) == InternationalHCSATForm
         assert (
             page.get_service_csat_heading(page.hcsat_service_name)
-            == 'Overall, how would you rate your experience with the\n         Expand your business service today?'
+            == 'Overall, how would you rate your experience\n         with the Expand your business service today?'
         )

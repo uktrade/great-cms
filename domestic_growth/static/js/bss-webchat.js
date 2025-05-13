@@ -55,6 +55,6 @@
   }
 
   if (bss_webchat_text && !show_bss_webchat()) {
-    bss_webchat_text.innerText = 'Unavailable - out of hours'
+    bss_webchat_text.innerText = 'Unavailable – out of hours'
   }
 })()
