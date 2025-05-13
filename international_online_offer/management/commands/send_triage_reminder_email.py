@@ -4,6 +4,8 @@ from directory_forms_api_client import actions
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import BaseCommand
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from international_online_offer.core.helpers import is_triage_complete
 from international_online_offer.models import TriageData, UserData
 
@@ -35,7 +37,7 @@ class Command(BaseCommand):
             if not is_triage_complete(user, triage_data):
 
                 action = actions.GovNotifyEmailAction(
-                    template_id='596269d5-b6a5-4d81-a9bb-362849930640',
+                    template_id=get_template_id(TemplateTagsEnum.EYB_INCOMPLETE_TRIAGE_REMINDER),
                     email_address=user.email,
                     form_url=str(),
                 )

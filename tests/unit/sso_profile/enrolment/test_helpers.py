@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.test import override_settings
 from requests.exceptions import HTTPError
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from directory_api_client import api_client
 from directory_constants import urls, user_roles
 from sso_profile.enrolment import helpers
@@ -83,6 +85,7 @@ def test_confirm_regenerate_code(mock_regenerate_code):
     assert mock_regenerate_code.call_args == mock.call({'email': 'test@example.com'})
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
 def test_notify_already_registered(mock_submit):
     email = 'test@test123.com'
@@ -102,7 +105,7 @@ def test_notify_already_registered(mock_submit):
             'form_url': form_url,
             'sender': {},
             'spam_control': {},
-            'template_id': settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID,
+            'template_id': get_template_id(TemplateTagsEnum.GOV_NOTIFY_ALREADY_REGISTERED),
             'email_address': email,
         },
     }
@@ -179,7 +182,12 @@ def test_add_collaborator(mock_add_collaborator):
     assert mock_add_collaborator.call_count == 1
     assert mock_add_collaborator.call_args == mock.call(
         sso_session_id=300,
-        data={'company': 1234, 'company_email': 'xyz@xyzcorp.com', 'name': 'Abc', 'mobile_number': '9876543210'},
+        data={
+            'company': 1234,
+            'company_email': 'xyz@xyzcorp.com',
+            'name': 'Abc',
+            'mobile_number': '9876543210',
+        },  # /PS-IGNORE
     )
 
 

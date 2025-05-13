@@ -4,6 +4,8 @@ from django.conf import settings
 from django.utils import timezone
 
 from config.celery import app
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from export_academy.models import Event, send_notifications_for_all_bookings
 
 
@@ -12,6 +14,8 @@ def send_automated_events_notification():
     """
     Sends a reminder to all people booked on an Event that it is starting shortly.
     """
+
+    template_id = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER)
 
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
@@ -31,7 +35,7 @@ def send_automated_events_notification():
         )
         send_notifications_for_all_bookings(
             event.id,
-            settings.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID,
+            template_id,
             additional_notify_data,
         )
 
@@ -49,9 +53,11 @@ def send_automated_event_complete_notification():
     time_delay = timezone.now() - timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_EVENT_COMPLETE_TIME_DELAY_MINUTES)
     events = Event.objects.filter(completed__isnull=False, completed__gte=time_delay, completed_email_sent=False)
 
+    template_id = get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP)
+
     for event in events:
         # POST bulk email submission to directory-forms-api (which will pick up submission and handle sending of emails)
-        send_notifications_for_all_bookings(event.id, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+        send_notifications_for_all_bookings(event.id, template_id)
 
         # Mark Event as having emails sent
         event.completed_email_sent = True

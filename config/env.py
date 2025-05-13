@@ -126,8 +126,10 @@ class BaseSettings(PydanticBaseSettings):
     eu_exit_zendesk_subdomain: str
 
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
+    bgs_confirm_verification_code_template_id: str = '81a965c2-6269-451d-878b-6f460d3611c9'
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
+    bgs_eyb_enrolment_welcome_template_id: str = '768abbf5-8175-442e-a4f7-859359e10fec'  # /PS-IGNORE
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
     contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
@@ -159,6 +161,7 @@ class BaseSettings(PydanticBaseSettings):
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
+    bgs_gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
@@ -169,12 +172,18 @@ class BaseSettings(PydanticBaseSettings):
     ukef_contact_agent_email_address: str
     ukef_form_submit_tracker_url: str
 
-    export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'
-
-    export_academy_notify_booking_template_id: str = '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'
+    export_academy_notify_registration_template_id: str = '3b68c119-fdc5-4517-90dc-043e88853b0f'  # /PS-IGNORE
+    export_academy_notify_booking_template_id: str = '109d5d9e-4c5f-4be5-bc35-5769ef51a8df'  # /PS-IGNORE
     export_academy_notify_cancellation_template_id: str = 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'  # /PS-IGNORE
-    export_academy_notify_event_reminder_template_id: str = 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'
+    export_academy_notify_event_reminder_template_id: str = 'b446f2be-8c92-40af-a5c8-e21b8d9e8077'  # /PS-IGNORE
     export_academy_notify_follow_up_template_id: str = 'ff45b258-ae9e-4939-a049-089d959ddfee'  # /PS-IGNORE
+
+    bgs_export_academy_notify_cancellation_template_id: str = 'a8a6f32e-599f-4208-a2a5-4f18c0049bf7'  # /PS-IGNORE
+    bgs_export_academy_notify_registration_template_id: str = 'f729e8ad-4b78-410a-8eae-5c60e682afdf'  # /PS-IGNORE
+    bgs_export_academy_notify_booking_template_id: str = '1eaeb0f1-027c-4178-a250-28daa3ba2dff'  # /PS-IGNORE
+    bgs_export_academy_notify_event_reminder_template_id: str = 'de52c217-eadb-455e-826e-e4aabf16ae7d'  # /PS-IGNORE
+    bgs_export_academy_notify_follow_up_template_id: str = 'd4f77344-39f0-425b-81e2-556f5134739f'  # /PS-IGNORE
+
     export_academy_event_allow_join_before_start_mins: int = 30
     export_academy_automated_notify_time_delay_minutes: int = 30
     export_academy_remove_event_media_after_days: int = 14
@@ -367,6 +376,11 @@ class BaseSettings(PydanticBaseSettings):
     bgs_guide_share_link_ttl_days: int = 180
     fernet_key: str = ''
     override_bgs_redirect: bool = False
+
+    feature_use_bgs_templates: bool = False
+
+    eyb_incomplete_triage_reminder_template_id: str = '596269d5-b6a5-4d81-a9bb-362849930640'
+    bgs_eyb_incomplete_triage_reminder_template_id: str = '3e991f09-0305-449e-b4a0-88e8121cfb16'
 
 
 class CIEnvironment(BaseSettings):

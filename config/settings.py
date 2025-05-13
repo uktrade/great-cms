@@ -669,8 +669,10 @@ EU_EXIT_ZENDESK_SUBDOMAIN = env.eu_exit_zendesk_subdomain
 # Contact
 CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.enquries_contactus_template_id
 CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.confirm_verification_code_template_id
+BGS_CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.bgs_confirm_verification_code_template_id
 ENROLMENT_WELCOME_TEMPLATE_ID = env.enrolment_welcome_template_id
 EYB_ENROLMENT_WELCOME_TEMPLATE_ID = env.eyb_enrolment_welcome_template_id
+BGS_EYB_ENROLMENT_WELCOME_TEMPLATE_ID = env.bgs_eyb_enrolment_welcome_template_id
 CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.contactus_enquries_confirmation_template_id
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.contact_domestic_zendesk_subject
 CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.contact_enquiries_agent_notify_template_id
@@ -703,6 +705,7 @@ CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID = env.contact_fas_company_notify_template
 SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.subscribe_to_fta_updates_notify_template_id
 
 GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.gov_notify_already_registered_template_id
+BGS_GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.bgs_gov_notify_already_registered_template_id
 GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.gov_notify_new_member_registered_template_id
 GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = env.gov_notify_collaboration_request_resent
 GOV_NOTIFY_WELCOME_TEMPLATE_ID = env.gov_notify_welcome_template_id
@@ -723,6 +726,13 @@ EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = env.export_academy_notify_cance
 EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = env.export_academy_notify_event_reminder_template_id
 EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID = env.export_academy_notify_follow_up_template_id
 EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS = env.export_academy_event_allow_join_before_start_mins
+
+# BGS Export Academy template
+BGS_EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = env.bgs_export_academy_notify_registration_template_id
+BGS_EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID = env.bgs_export_academy_notify_booking_template_id
+BGS_EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = env.bgs_export_academy_notify_cancellation_template_id
+BGS_EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = env.bgs_export_academy_notify_event_reminder_template_id
+BGS_EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID = env.bgs_export_academy_notify_follow_up_template_id
 
 # International Dunn and Bradstreet company lookup
 DNB_API_USERNAME = env.dnb_api_username
@@ -1094,6 +1104,7 @@ WAGTAILFRONTENDCACHE = wagtail_cf
 CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
+FEATURE_USE_BGS_TEMPLATES = env.feature_use_bgs_templates
 
 # Allows us to fool the bgs middleware in testing.
 OVERRIDE_BGS_REDIRECT = env.override_bgs_redirect
@@ -1101,3 +1112,6 @@ BGS_INTERNATIONAL_URL = 'invest-in-uk'
 GREAT_INTERNATIONAL_URL = 'international'
 FERNET_KEY = env.fernet_key
 BGS_GUIDE_SHARE_LINK_TTL_DAYS = env.bgs_guide_share_link_ttl_days
+
+EYB_INCOMPLETE_TRIAGE_REMINDER_TEMPLATE_ID = env.eyb_incomplete_triage_reminder_template_id
+BGS_EYB_INCOMPLETE_TRIAGE_REMINDER_TEMPLATE_ID = env.bgs_eyb_incomplete_triage_reminder_template_id
