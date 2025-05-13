@@ -1,0 +1,72 @@
+{% extends './base.html' %}
+{% load static %}
+{% block head_title %}
+    {% if form.errors %}Error:{% endif %}
+    Help using this website
+    {{ block.super }}
+{% endblock %}
+{% block page_title %}Help using this website {{ block.super }}{% endblock %}
+{% if not request.GET.success %}
+    {% block breadcrumb_region %}
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endif %}
+{% comment %} {% block css_layout_class %}
+    govuk-main-wrapper
+    {{ block.super }}
+{% endblock %} {% endcomment %}
+{% block content %}
+    <div class="great-container govuk-!-padding-bottom-6">
+        <div class="govuk-grid-row" id="complete_contact_form_message">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl govuk-!-margin-top-4">Thank you for contacting {{ site }}</h1>
+                <p class="govuk-body">We have received your message and will get back to you as soon as possible.</p>
+                {% include '_action-link.html' with linkText='Go back to the home page' linkHref=back_url %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block body_inline_feedback %}
+    {% if not csat_complete %}
+        <section id="hcsat_section"
+                 class="clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container">
+                    <!-- djlint:off T027-->
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <section id="inline-feedback-section"
+             class="clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-0 great-inline-feedback__container">
+        {{ block.super }}
+    </section>
+{% endblock %}
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
+    <script>
+        var csat_form = document.getElementById("hcsat_section")
+        var inline_feedback = document.getElementById("inline-feedback-section")
+        const csat_complete_key = 'business_support_csat_complete'
+        // allow hcsat feedback to be given once, after which show 'Is this page useful?'
+        if (sessionStorage.getItem(csat_complete_key)==='true') {
+            csat_form.classList.add('great-hidden')
+            inline_feedback.classList.remove('great-hidden')
+        } else {
+            inline_feedback.classList.add('great-hidden')
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form', csat_complete_key);
+        });
+    </script>
+{% endblock %}

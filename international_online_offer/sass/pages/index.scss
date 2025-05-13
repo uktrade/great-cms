@@ -1,5 +1,7 @@
 .eyb-home-section {
     background-color: $great-light-blue;
+    overflow: hidden;
+    
     .eyb-preview-image {
         background-position: top right;
         background-repeat: no-repeat;
@@ -9,7 +11,13 @@
         height: 370px;
         margin-right: auto;
         margin-left: auto;
-        background-image: url('/static/svg/eyb-preview.svg')
+        background-image: url('/static/svg/hero-preview-v2.svg')
+    }
+
+    @media (max-width: 900px) {
+        .eyb-preview-image {
+            background-image: url('/static/svg/hero-preview-v2-mobile.svg')
+        }
     }
 }
 

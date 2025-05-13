@@ -17,10 +17,6 @@
         </div>
     {% endblock %}
 {% endif %}
-{% block css_layout_class %}
-    govuk-main-wrapper
-    {{ block.super }}
-{% endblock %}
 {% block content %}
     <div class="great-container">
         {% if form.errors and not form.non_field_errors %}
@@ -46,33 +42,18 @@
             </div>
         {% endif %}
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl">Help using this website</h1>
+            <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
+                <h1 class="govuk-heading-xl">Get help using Business.gov.uk</h1>
+                <p class="govuk-body">This form is for reporting issues while using Business.gov.uk.</p>
                 <p class="govuk-body">
-                    This form is for issues with the
-                    {% if current_website_name %}
-                        {{ current_website_name }}
-                    {% else %}
-                        great.gov.uk
-                    {% endif %}
-                    /international website.
+                    For example, a broken link or a missing page. Do not include personal or commercially sensitive information.
                 </p>
-                <p class="govuk-body">
-                    You can use it to report a problem to the
-                    {% if current_website_name %}
-                        {{ current_website_name }}
-                    {% else %}
-                        great.gov.uk
-                    {% endif %}
-                    team.
-                </p>
-                {% include '_inset-text.html' with insetText='We cannot put you in touch with investment advisers, nor reply to you with investment advice.' %}
             </div>
         </div>
         <form method="post" novalidate action="{{ request.build_absolute_uri }}">
             {% csrf_token %}
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
                     <div class="govuk-character-count"
                          data-module="govuk-character-count"
                          data-maxlength="1000">
@@ -97,22 +78,22 @@
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
                     <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
                         {% include 'international/includes/form_field.html' with field=form.full_name %}
                     </div>
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
                     <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
                         {% include 'international/includes/form_field.html' with field=form.email %}
                     </div>
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-4">
-                    <p class="govuk-body">
+                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+                    <p class="govuk-body govuk-!-padding-bottom-3">
                         By sending us your enquiry, you agree to our
                         <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
                         <a href='/privacy' target="_blank">privacy notice</a>.

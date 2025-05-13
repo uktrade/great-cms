@@ -3,11 +3,14 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 from django.http import JsonResponse
+from django.test import override_settings
 from django.urls import reverse
 from requests.cookies import RequestsCookieJar
 from requests.exceptions import HTTPError
 from rest_framework.exceptions import APIException
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from directory_api_client import api_client
 from directory_constants import urls
 from directory_sso_api_client import sso_api_client
@@ -43,12 +46,13 @@ def test_get_cookie():
     assert cookie.value == 'a secret value - bar'
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_verification_code_email(mock_action_class, settings):
     verification_code = {'expiration_date': '2020-12-01T13:12:10', 'code': '12345678'}
 
     helpers.send_verification_code_email(
-        email='jim@example.com',
+        email='jim@example.com',  # /PS-IGNORE  # /PS-IGNORE
         verification_code=verification_code,
         form_url='foo',
         verification_link='/somewhere',
@@ -56,8 +60,8 @@ def test_send_verification_code_email(mock_action_class, settings):
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
-        email_address='jim@example.com',
+        template_id=get_template_id(TemplateTagsEnum.CONFIRM_VERIFICATION_CODE),
+        email_address='jim@example.com',  # /PS-IGNORE
         form_url='foo',
     )
     assert mock_action_class().save.call_count == 1
@@ -65,25 +69,26 @@ def test_send_verification_code_email(mock_action_class, settings):
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_welcome_notification(mock_action_class, settings):
-    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')
+    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')  # /PS-IGNORE
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
         template_id=settings.ENROLMENT_WELCOME_TEMPLATE_ID,
-        email_address='jim@example.com',
+        email_address='jim@example.com',  # /PS-IGNORE
         form_url='foo',
     )
     assert mock_action_class().save.call_count == 1
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_notify_already_registered(mock_action_class, settings):
-    helpers.notify_already_registered(email='test@example.com', form_url='foo', login_url='bar')
+    helpers.notify_already_registered(email='test@example.com', form_url='foo', login_url='bar')  # /PS-IGNORE
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        email_address='test@example.com',
-        template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID,
+        email_address='test@example.com',  # /PS-IGNORE
+        template_id=get_template_id(TemplateTagsEnum.GOV_NOTIFY_ALREADY_REGISTERED),
         form_url='foo',
     )
     assert mock_action_class().save.call_count == 1
@@ -161,9 +166,11 @@ def test_check_verification_code_expired(mock_verify_verification_code):
 def test_create_user_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
-    actual = helpers.create_user(email='jim@example.com', password='12345')
+    actual = helpers.create_user(email='jim@example.com', password='12345')  # /PS-IGNORE
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345', mobile_phone_number=None)
+    assert mock_create_user.call_args == mock.call(
+        email='jim@example.com', password='12345', mobile_phone_number=None
+    )  # /PS-IGNORE
     assert actual == {'a': 'b'}
 
 
@@ -172,7 +179,7 @@ def test_create_user_failure(mock_create_user):
     mock_create_user.return_value = create_response(json_body={'a': 'b'}, status_code=400)
 
     with pytest.raises(helpers.CreateUserException):
-        helpers.create_user(email='jim@example.com', password='12345')
+        helpers.create_user(email='jim@example.com', password='12345')  # /PS-IGNORE
 
 
 @mock.patch.object(api_client.company, 'profile_retrieve')

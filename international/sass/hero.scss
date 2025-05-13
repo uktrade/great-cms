@@ -7,26 +7,13 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-
-
-    & > .container {
-        min-height: 200px;
-        overflow: visible;
-        padding-top: 45px;
-    }
-
-    .great-hero__container {
-        @media (min-width: 769px) {
-          display: flex;
-        }
-    }
+    overflow: hidden;
 
     .great-hero__text {
-        max-width: 50%;
         min-height: 335px;
         display: flex;
         flex-direction: column;
-        justify-content: end;
+        justify-content: center;
         padding-bottom: 5px;
         align-items: flex-start;
 
@@ -37,12 +24,6 @@
 
         .great-hero-subheading {
             color: $great-white;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .great-hero-description {
-            margin-bottom: 0;
         }
 
     }
@@ -54,14 +35,11 @@
             justify-content: center;
 
             .great-hero-heading {
-                font-size: 60px;
+                font-size: 72px;
             }
-
-            .great-hero-subheading {
-                font-size: 24px;
-                margin-bottom: 0px;
-            }
+    
         }
+        
     }
 }
 

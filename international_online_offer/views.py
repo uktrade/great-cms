@@ -17,7 +17,7 @@ from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from wagtailcache.cache import nocache_page
 
-from core.helpers import check_url_host_is_safelisted
+from core.helpers import check_url_host_is_safelisted, international_url
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
 from international_online_offer.core import (
@@ -88,7 +88,7 @@ class IndexView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
     def get_context_data(self, **kwargs):
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
         ]
         return super().get_context_data(
             **kwargs,
@@ -515,7 +515,7 @@ class ContactDetailsView(GA360Mixin, FormView):  # /PS-IGNORE
         return back_url
 
     def get_success_url(self):
-        next_url = '/international/expand-your-business-in-the-uk/guide/'
+        next_url = f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/'
         next_url += '?signup=true' if self.request.GET.signup else ''
         if self.request.GET.get('next'):
             next_url = check_url_host_is_safelisted(self.request) + '?details_updated=true'
@@ -1003,7 +1003,9 @@ class SignUpView(
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
         return render(
-            request, self.template_name, {'form': form, 'back_url': '/international/expand-your-business-in-the-uk/'}
+            request,
+            self.template_name,
+            {'form': form, 'back_url': f'/{international_url(self.request)}/expand-your-business-in-the-uk/'},
         )
 
     def get_login_url(self):
@@ -1413,7 +1415,7 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
         return super().get_context_data(
             **kwargs,
-            back_url='/international/expand-your-business-in-the-uk/guide/',
+            back_url=f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/',
             business_details_card=business_details_card,
             business_details_rows=business_details_rows,
             expansion_plans_card=expansion_plans_card,
@@ -1437,7 +1439,7 @@ class FeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_back_url(self):
-        back_url = '/international/expand-your-business-in-the-uk/guide/'
+        back_url = f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/'
         if self.request.GET.get('next'):
             back_url = check_url_host_is_safelisted(self.request)
         return back_url
@@ -1507,10 +1509,10 @@ class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE
         ]
 
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
             {
                 'name': 'Your expansion guide',
-                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                'url': f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/#tailored-guide',
             },
         ]
 
@@ -1554,10 +1556,10 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
 
     def get_context_data(self, **kwargs):
         breadcrumbs = [
-            {'name': 'Home', 'url': '/international/'},
+            {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
             {
                 'name': 'Your expansion guide',
-                'url': '/international/expand-your-business-in-the-uk/guide/#tailored-guide',
+                'url': f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/#tailored-guide',
             },
         ]
 
@@ -1568,7 +1570,7 @@ class BusinessClusterView(GA360Mixin, TemplateView):  # /PS-IGNORE
             breadcrumbs.append(
                 {
                     'name': 'UK market data',
-                    'url': '/international/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001',
+                    'url': f'/{international_url(self.request)}/expand-your-business-in-the-uk/business-cluster-information/?area=K03000001',  # noqa:E501
                 }
             )
 

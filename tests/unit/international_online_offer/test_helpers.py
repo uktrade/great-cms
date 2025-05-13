@@ -2,7 +2,10 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.test import override_settings
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from international_online_offer.core import (
     helpers,
     intents,
@@ -35,13 +38,14 @@ def test_get_trade_assoication_sectors_from_sector():
     assert helpers.get_trade_assoication_sectors_from_sector('Consumer and retail') == ['Retail']
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_eyb_welcome_notification(mock_action_class, settings):
     helpers.send_welcome_notification(email='jim@example.com', form_url='foo')  # /PS-IGNORE
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.EYB_ENROLMENT_WELCOME),
         email_address='jim@example.com',  # /PS-IGNORE
         form_url='foo',
     )

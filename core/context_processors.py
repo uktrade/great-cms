@@ -6,6 +6,7 @@ from django.utils import translation
 from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
+from core.helpers import international_url
 from directory_constants import choices, urls
 from domestic_growth.constants import EXISTING_TRIAGE_URL, PRE_START_TRIAGE_URL
 
@@ -165,7 +166,7 @@ def domestic_header(request):
         'hideMenuOnDesktop': False,
         'use_domestic_logo': True,
         'domesticLink': {'href': '/', 'text': 'Export from the UK'},
-        'internationalLink': {'href': '/international/', 'text': 'Invest in the UK'},
+        'internationalLink': {'href': f'/{international_url(request)}/', 'text': 'Invest in the UK'},
         'searchFormAction': reverse_lazy('search:search'),
         'navItemsList': [
             {
@@ -232,7 +233,7 @@ def domestic_header(request):
             {'href': '/dashboard/', 'text': 'Dashboard', 'requiresAuth': True},
             {'href': reverse_lazy('core:login'), 'text': 'Sign in', 'requiresNoAuth': True},
         ],
-        'mobileSiteLink': {'href': '/international', 'text': 'Invest in the UK'},
+        'mobileSiteLink': {'href': f'/{international_url(request)}', 'text': 'Invest in the UK'},
         'search_icon': search_icon,
         'menu_icon': menu_icon,
         'bgs_header_context': {
@@ -336,25 +337,28 @@ def domestic_header(request):
                 },
                 {
                     'icon': '/static/icons/expand-icon.svg',
-                    'href': '/invest-in-uk/',
+                    'href': f'/{international_url(request)}/',
                     'text': 'Investing and expanding in the UK',
                     'overviewText': 'Start investing',
                     'children': [
                         {
-                            'href': '/invest-in-uk/expand-your-business-in-the-uk/',
+                            'href': f'/{international_url(request)}/expand-your-business-in-the-uk/',
                             'text': 'Expand your business in the UK',
                             'isCurrent': '/expand-your-business-in-the-uk' in request.path,
                         },
                         {
-                            'href': '/invest-in-uk/investment/',
+                            'href': f'/{international_url(request)}/investment/',
                             'text': 'Investment opportunities',
                             'isCurrent': (
-                                '/invest-in-uk/investment/' == request.path
-                                or ('/invest-in-uk/investment/' in request.path and '?back=' in request.get_full_path())
+                                f'/{international_url(request)}/investment/' == request.path
+                                or (
+                                    f'/{international_url(request)}/investment/' in request.path
+                                    and '?back=' in request.get_full_path()
+                                )
                             ),
                         },
                         {
-                            'href': '/invest-in-uk/buy-from-the-uk/',
+                            'href': f'/{international_url(request)}/buy-from-the-uk/',
                             'text': 'Buy from the UK',
                             'isCurrent': '/buy-from-the-uk/' in request.path,
                         },
@@ -414,7 +418,7 @@ def domestic_footer(request):
                     'text': 'Export support for UK businesses',
                 },
                 {
-                    'href': '/international',
+                    'href': f'/{international_url(request)}',
                     'title': 'Invest in the UK',
                     'text': 'Invest in the UK',
                 },
@@ -456,7 +460,8 @@ def international_footer(request):
             'logo_link_href': 'https://www.gov.uk/',
             'footer_links': [
                 {
-                    'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                    'href': f'/{international_url(request)}/site-help/?next='
+                    + request.build_absolute_uri(request.path),
                     'title': 'Help using this site',
                     'text': 'Help using this site',
                 },
@@ -502,7 +507,7 @@ def microsite_footer(request):
                 'text': 'Export from the UK',
             },
             {
-                'href': '/international',
+                'href': f'/{international_url(request)}',
                 'title': 'Invest in the UK',
                 'text': 'Invest in the UK',
             },
@@ -579,22 +584,26 @@ def footer_bgs(request):
                 ],
                 [
                     {
-                        'href': '/invest-in-uk/',
+                        'href': f'/{international_url(request)}/',
                         'text': 'Investing and expanding in the UK',
                         'title': 'Investing and expanding in the UK',
                         'isHeading': 'true',
                     },
                     {
-                        'href': '/invest-in-uk/expand-your-business-in-the-uk/',
+                        'href': f'/{international_url(request)}/expand-your-business-in-the-uk/',
                         'text': 'Expand your business in the UK',
                         'title': 'Expand your business in the UK',
                     },
                     {
-                        'href': '/invest-in-uk/investment/',
+                        'href': f'/{international_url(request)}/investment/',
                         'text': 'Investment opportunities',
                         'title': 'Investment opportunities',
                     },
-                    {'href': '/invest-in-uk/buy-from-the-uk/', 'text': 'Buy from the UK', 'title': 'Buy from the UK'},
+                    {
+                        'href': f'/{international_url(request)}/buy-from-the-uk/',
+                        'text': 'Buy from the UK',
+                        'title': 'Buy from the UK',
+                    },
                 ],
             ],
             'lowerFooterSection': [
@@ -643,7 +652,8 @@ def footer_bgs(request):
                 [
                     {'href': '/terms-and-conditions/', 'text': 'Terms and conditions', 'title': 'Terms and conditions'},
                     {
-                        'href': '/international/site-help/?next=' + request.build_absolute_uri(request.path),
+                        'href': f'/{international_url(request)}/site-help/?next='
+                        + request.build_absolute_uri(request.path),
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },

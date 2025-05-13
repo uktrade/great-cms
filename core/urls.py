@@ -249,4 +249,18 @@ if settings.FEATURE_GUIDED_JOURNEY:
         ),
     ]
 
+if settings.FEATURE_DOMESTIC_GROWTH:
+    urlpatterns += [
+        path(
+            'help-using-this-website/',
+            skip_ga360(views.ContactView.as_view()),
+            name='business-contact',
+        ),
+        path(
+            'help-using-this-website/sent/',
+            skip_ga360(views.ContactSuccessView.as_view()),
+            name='business-contact-sent',
+        ),
+    ]
+
 urlpatterns += redirects

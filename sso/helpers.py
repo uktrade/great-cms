@@ -8,7 +8,8 @@ from django.conf import settings
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
-from core.constants import SERVICE_NAME, USER_DATA_NAMES
+from core.constants import SERVICE_NAME, USER_DATA_NAMES, TemplateTagsEnum
+from core.helpers import get_template_id
 from core.models import DetailPage
 from directory_api_client import api_client
 from directory_constants import urls
@@ -68,7 +69,7 @@ def response_factory(upstream_response):
 
 def send_verification_code_email(email, verification_code, form_url, verification_link, resend_verification_link):
     action = actions.GovNotifyEmailAction(
-        template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.CONFIRM_VERIFICATION_CODE),
         email_address=email,
         form_url=form_url,
     )
@@ -97,7 +98,9 @@ def send_welcome_notification(email, form_url):
 
 def notify_already_registered(email, form_url, login_url):
     action = actions.GovNotifyEmailAction(
-        email_address=email, template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID, form_url=form_url
+        email_address=email,
+        template_id=get_template_id(TemplateTagsEnum.GOV_NOTIFY_ALREADY_REGISTERED),
+        form_url=form_url,
     )
 
     response = action.save(
