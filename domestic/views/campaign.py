@@ -176,8 +176,8 @@ class CampaignView(BaseNotifyUserFormView):
         menu_items = page.get_menu_items(self.request) if hasattr(page, 'get_menu_items') else ''
         bgs_menu_items = page.get_bgs_menu_items(self.request) if hasattr(page, 'get_bgs_menu_items') else ''
         site_href = (
-            page.get_menu_items(self.request)[0]['href']
-            if hasattr(page, 'get_menu_items') and page.get_menu_items(self.request)
+            page.get_bgs_menu_items(self.request)[0]['href']
+            if hasattr(page, 'get_bgs_menu_items') and page.get_bgs_menu_items(self.request)
             else ''
         )
         great_logo_href = (
