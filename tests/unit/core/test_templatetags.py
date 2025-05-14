@@ -1006,9 +1006,6 @@ class CreateInternalLinkFromHrefTagTest(TestCase):
         self.assertEqual(result, expected_result_three)
 
 
-# /Users/bobbystearman/development/great-deploy/great-docker/great-cms/tests/unit/core/test_templatetags.py
-
-
 class HandleExternalLinksFilterTest(TestCase):
     def test_should_add_target_blank_to_external_links(self):
         # Create a mock request object
