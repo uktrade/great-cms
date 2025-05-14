@@ -400,6 +400,14 @@ def extract_domain(url):
 
 
 @register.filter
+def create_internal_link_from_href(url):
+    url_parts = url.strip('/')
+    if 'http' in url_parts[0]:
+        return '/'.join(url_parts[3:])
+    return url
+
+
+@register.filter
 def handle_external_links(html_content, request):
     current_domain = request.get_host()
     soup = BeautifulSoup(html_content, 'html.parser')

@@ -19,6 +19,7 @@ from core.templatetags.bgs_tags import is_bgs_site
 from core.templatetags.content_tags import (
     add_anchor_classes,
     change_country_name_to_include_the,
+    create_internal_link_from_href,
     extract_domain,
     get_backlinked_url,
     get_card_meta_data_by_url,
@@ -976,6 +977,22 @@ class ExtractDomainFilterTest(TestCase):
 
         result = extract_domain(test_url)
         self.assertEqual(result, expected_result)
+
+
+class CreatInternalLinkFromHrefFilterTest(TestCase):
+
+    def test_create_internal_link_from_href(self):
+        test_url = 'http://www.example.com/some-page'
+        expected_result = '/some-page'
+
+        test_url_two = '/some-page'
+        expected_result_two = '/some-page'
+
+        result = create_internal_link_from_href(test_url)
+        self.assertEqual(result, expected_result)
+
+        result = create_internal_link_from_href(test_url_two)
+        self.assertEqual(result, expected_result_two)
 
 
 class HandleExternalLinksFilterTest(TestCase):
