@@ -5,6 +5,7 @@
 {% load sector_filters %}
 {% load location_select_filters %}
 {% load eyb_tags %}
+{% load content_tags %}
 {% block head_css %}
     {{ block.super }}
     <style type="text/css">
@@ -16,7 +17,7 @@
 {% block head_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == expend_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
+    <div class="{% if request.path == expand_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' with hide_border=True %}
     </div>
     {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
@@ -65,27 +66,28 @@
                     {% for topic in essential_topics %}
                         <li class="essential-topics__item">
                             <img class="icon" alt="" src="{% static topic.icon_path %}" />
-                            <a class="great-ds-action-link" href="{{ topic.url }}">
+                            <a class="great-ds-action-link" href="{% create_internal_link_from_href topic.url request %}">
                                 <span class="great-ds-action-link__text">{{ topic.text }}</span>
                             </a>
                         </li>
                     {% endfor %}
                 </ul>
                 {% endcapture %}
+                
                 {% include '_tile.html' with title="Essential topics for all businesses" size="l" isSimple="true" content=tile_content %}
 
                 {% capture tile_content %}
                 {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="Market data" size="l" content=tile_content actionLinkText='Compare data across UK nations and regions' actionLinkHref=expend_your_business_in_the_uk_business_cluster_url %}
-            
+                {% include '_tile.html' with caption=triage_data.sector title="Market data" size="l" content=tile_content actionLinkText='Compare data across UK nations and regions' actionLinkHref=expand_your_business_in_the_uk_business_cluster_url %}
                 {% if locations|length > 0 %}
                 {% capture tile_content %}
                 {% for location in locations|slice:':2' %}
                     {% include './includes/dynamic-guide/rich_link.html' with image_path=location.image link_url=location.url link_text=location.title location=location.location body=location.description %}
                 {% endfor %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="Locations of investment opportunities" size="l" description="Find out which UK nations and regions are home to attractive opportunities for your sector." content=tile_content actionLinkText='Find investment opportunities' actionLinkHref=more_locations_link %}
+                {% create_internal_link_from_href more_locations_link request as more_locations_internal_link %}
+                {% include '_tile.html' with caption=triage_data.sector title="Locations of investment opportunities" size="l" description="Find out which UK nations and regions are home to attractive opportunities for your sector." content=tile_content actionLinkText='Find investment opportunities' actionLinkHref=more_locations_internal_link %}
                 {% endif %}
 
                 {% if events|length > 0 %}
@@ -96,7 +98,8 @@
                 {% endcapture %}
                 {% with "UK trade events for the " as prefix %}
                 {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
-                    {% include '_tile.html' with caption=triage_data.sector title="UK events" content=tile_content size="l" description="Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector." actionLinkText=action_text actionLinkHref=more_events_link %}
+                    {% create_internal_link_from_href more_events_link request as more_events_internal_link %}
+                    {% include '_tile.html' with caption=triage_data.sector title="UK events" content=tile_content size="l" description="Attending conferences, fairs or trade shows can help you make industry connections in the UK and get the latest insights from your sector." actionLinkText=action_text actionLinkHref=more_events_internal_link %}
                 {% endwith %}
                 {% endwith %}
                 {% endif %}
@@ -109,7 +112,8 @@
                 {% endcapture %}
                 {% with "UK trade associations for the " as prefix %}
                 {% with prefix|add:triage_data.sector|add:" sector" as action_text %}
-                    {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText=action_text actionLinkHref=more_associations_link %}
+                    {% create_internal_link_from_href more_associations_link request as more_associations_internal_link %}
+                    {% include '_tile.html' with caption=triage_data.sector title="UK associations" content=tile_content size="l" description="Joining industry-based associations, forums or networks can be a useful way to find new clients and form partnerships." actionLinkText=action_text actionLinkHref=more_associations_internal_link %}
                 {% endwith %}
                 {% endwith %}
                 {% endif %}
@@ -159,8 +163,7 @@
                 
             </div>
             <div class="govuk-grid-column-one-third">
-                {% include '_tile.html' with title="Find a consultant" description="Hire UK experts in finance, law, tax and other specialist areas." size="m" icon="/static/svg/icon-consultant.svg" actionLinkText="Search our business directory" actionLinkHref=investment_url isSimple="true" %}
-                
+                {% include '_tile.html' with title="Find a consultant" description="Hire UK experts in finance, law, tax and other specialist areas." size="m" icon="/static/svg/icon-consultant.svg" actionLinkText="Search our business directory" actionLinkHref=investment_support_url isSimple="true" %}
                 {% for section in right_panel_sections %}
                 {% capture tile_content %}
                 <ul class="link-list">

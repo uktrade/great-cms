@@ -20,7 +20,10 @@ from core.helpers import international_url
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
-from international_investment.models import InvestmentOpportunityArticlePage
+from international_investment.models import (
+    InvestmentIndexPage,
+    InvestmentOpportunityArticlePage,
+)
 from international_online_offer import services
 from international_online_offer.core import (
     choices,
@@ -496,6 +499,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = (
             EYBArticlePage.objects.live()
+            .descendant_of(self)
             .filter(
                 Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
                 | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
@@ -517,6 +521,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
             sector_articles = (
                 EYBArticlePage.objects.live()
+                .descendant_of(self)
                 .filter(tags__name__iexact=user_sector_no_commas)
                 .order_by('article_title')
                 .distinct('article_title')
@@ -524,6 +529,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
             dbt_sector_articles = (
                 EYBArticlePage.objects.live()
+                .descendant_of(self)
                 .filter(dbt_sectors__contains=[triage_data.sector])
                 .order_by('article_title')
                 .distinct('article_title')
@@ -532,8 +538,14 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             all_articles = all_articles.union(sector_articles).union(dbt_sector_articles)
 
         # Get first three investment opportunities A-Z by sector
+        # Get the international home page (assumed to be self's parent)
+        international_home = self.get_parent().get_parent()
+        # Get the investment home page (a child of international_home of type InvestmentIndexPage)
+        investment_home = international_home.get_children().type(InvestmentIndexPage).live().first()
+
         investment_opportunities = (
             InvestmentOpportunityArticlePage.objects.live()
+            .descendant_of(investment_home)
             .filter(dbt_sectors__contains=[triage_data.sector])
             .order_by('article_title')
             .distinct('article_title')[:3]
@@ -542,6 +554,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         # Get first three trade events A-Z by sector
         trade_events = (
             IOOTradeShowPage.objects.live()
+            .descendant_of(self)
             .filter(tags__name__iexact=triage_data.sector.replace(',', ''))
             .order_by('tradeshow_title')
             .distinct('tradeshow_title')[:3]
@@ -561,6 +574,16 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
         hero_image_url = helpers.get_hero_image_by_sector(triage_data.sector)
         region_map_image_url = helpers.get_region_map_image_by_region(triage_data.location)
+
+        hide_salary_component = False
+
+        entry_salary = cleaned_median_salaries.get(professions.ENTRY_LEVEL)
+        mid_salary = cleaned_median_salaries.get(professions.MID_SENIOR_LEVEL)
+        executive_salary = cleaned_median_salaries.get(professions.DIRECTOR_EXECUTIVE_LEVEL)
+
+        null_salaries = [s for s in [entry_salary, mid_salary, executive_salary] if s is None]
+
+        hide_salary_component = len(null_salaries) > 1
 
         context.update(
             triage_data=triage_data,
@@ -588,6 +611,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             hero_image_url=hero_image_url,
             region_map_image_url=region_map_image_url,
             page_title_meta=page_title_meta,
+            hide_salary_component=hide_salary_component,
         )
 
         self.set_ga360_payload(
