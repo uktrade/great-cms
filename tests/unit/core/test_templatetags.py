@@ -979,20 +979,34 @@ class ExtractDomainFilterTest(TestCase):
         self.assertEqual(result, expected_result)
 
 
-class CreateInternalLinkFromHrefFilterTest(TestCase):
+class CreateInternalLinkFromHrefTagTest(TestCase):
 
     def test_create_internal_link_from_href(self):
+
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'www.example.com'
+
         test_url = 'http://www.example.com/some-page'
-        expected_result = 'http://www.example.com/some-page'
+        expected_result = '/some-page'
 
         test_url_two = '/some-page'
         expected_result_two = '/some-page'
 
-        result = create_internal_link_from_href(test_url)
-        self.assertEqual(result, expected_result)
+        test_url_three = 'http://www.example2.com/some-page'
+        expected_result_three = 'http://www.example2.com/some-page'
 
-        result = create_internal_link_from_href(test_url_two)
+        # test internal link
+        result = create_internal_link_from_href(test_url, request)
+        self.assertEqual(result, expected_result)
+        result = create_internal_link_from_href(test_url_two, request)
         self.assertEqual(result, expected_result_two)
+
+        # Test external link
+        result = create_internal_link_from_href(test_url_three, request)
+        self.assertEqual(result, expected_result_three)
+
+
+# /Users/bobbystearman/development/great-deploy/great-docker/great-cms/tests/unit/core/test_templatetags.py
 
 
 class HandleExternalLinksFilterTest(TestCase):
