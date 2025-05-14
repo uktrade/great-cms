@@ -21,6 +21,7 @@ from core.models import HCSAT, HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
+from export_academy.forms import SignUpForm
 from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
 from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
@@ -752,19 +753,17 @@ def test_event_list_for_joined_event(client, user, export_academy_landing_page, 
 @pytest.mark.parametrize(
     'unique_link, expected_page_heading',
     (
-        # (True, 'Set password for UK Export Academy'), - Remove comment after redomain
+        (True, 'Set password for UK Export Academy'),
         (False, 'Join the UK Export Academy'),
     ),
 )
 @pytest.mark.django_db
 def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_link_query_params, mock_site, mock_page):
     url = reverse('export_academy:signup')
-    if unique_link:
-        url += test_unique_link_query_params
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if unique_link:
+            url += test_unique_link_query_params
         response = client.get(url)
-    else:
-        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
-            response = client.get(url)
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
@@ -782,12 +781,10 @@ def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_li
 def test_sign_up_empty_password(client, unique_link, test_unique_link_query_params, mock_site):
     form_data = {'email': 'test@example.com', 'mobile_phone_number': ''}  # /PS-IGNORE
     url = reverse('export_academy:signup')
-    if unique_link:
-        url += test_unique_link_query_params
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if unique_link:
+            url += test_unique_link_query_params
         response = client.post(url, data=form_data)
-    else:
-        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
-            response = client.post(url, data=form_data)
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
     if unique_link:
@@ -809,10 +806,10 @@ def test_sign_up_400_error(
     mock_create_user.return_value = create_response(
         status_code=400, json_body={'password': ["This password contains the word 'password'"]}
     )
-    if user_ea_registered:
-        response = signup_post_request_unique_link()
-    else:
-        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link()
+        else:
             response = signup_form_post_request_new_user()
     assert response.context['form'].errors['password'] == ["This password contains the word 'password'"]
     assert response.status_code == 200
@@ -845,10 +842,10 @@ def test_signup_create_password_success(
     next,
     mock_site,
 ):
-    if user_ea_registered:
-        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
-    else:
-        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
+        else:
             response = (
                 signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
             )  # noqa

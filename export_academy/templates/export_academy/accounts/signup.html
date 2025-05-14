@@ -1,14 +1,15 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% load wagtailcore_tags %}
 {% load static %}
-{% load bgs_tags %}
-{% wagtail_site as current_site %}
-{% is_bgs_site current_site.root_url as bgs_site %}
 {% block form %}
+{% wagtail_site as current_site %}
+{% load bgs_tags %}
+{% is_bgs_site current_site.root_url as bgs_site %}
     <h1 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-6">Create an account</h1>
 
     {% csrf_token %}
     {% for field in form.visible_fields %}
+    {% if field.name != 'terms_agreed' %}
         <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
             {% if field.label == 'Password' %}
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' help_text_classes='govuk-!-padding-bottom-1 great-line-height-30 great-font-size-18 govuk-body-l great-text-dark-grey' %}
@@ -37,6 +38,7 @@
                 {% include 'domestic/contact/includes/govuk-form-field.html' with field=field label_classes='great-signup-form-label great-font-weight-semi-bold great-font-size-18 great-line-height-30' %}
             {% endif %}
         </div>
+    {% endif %}    
     {% endfor %}
     {% if bgs_site %}
     <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
