@@ -73,8 +73,8 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:
-    if model.objects.filter(triage_uuid=triage_uuid).exists():
-        return model.objects.get(triage_uuid=triage_uuid)
+    triage_record = model.objects.filter(triage_uuid=triage_uuid)
+    return triage_record[0] if triage_record else None
 
 
 def get_triage_uuid(request: HttpRequest) -> str:
