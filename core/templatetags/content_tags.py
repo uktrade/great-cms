@@ -400,25 +400,6 @@ def extract_domain(url):
 
 
 @register.filter
-def create_internal_link_from_href(url):
-    url_parts = url.strip('/')
-    if 'http' in url_parts[0]:
-        internal_domains = [
-            'great.gov.uk',
-            'business.gov.uk',
-            'hotfix.bgs.uktrade.digital',
-            'great.bgs.uktrade.digital',
-            'www.great.gov.uk',
-            'www.business.gov.uk',
-            'www.hotfix.bgs.uktrade.digital',
-            'www.great.bgs.uktrade.digital',
-        ]
-        if url_parts[2] in internal_domains:
-            return '/'.join(url_parts[3:])
-    return url
-
-
-@register.filter
 def handle_external_links(html_content, request):
     current_domain = request.get_host()
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -451,6 +432,13 @@ def is_external_link(url, current_domain):
 
     # Check if the URL is not on the current domain
     return parsed_url.netloc != current_domain
+
+@register.filter
+def create_internal_link_from_href(url):
+    url_parts = url.strip('/')
+    if is_external_link(url):
+        return '/'.join(url_parts[3:])
+    return url
 
 
 @register.filter(name='remove_bold_from_headings')

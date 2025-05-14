@@ -1,4 +1,6 @@
 {% load static %}
+{% load create_internal_link_from_href from content_tags %}
+
 <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-2 great-grey-bottom-border great-display-flex great-align-items-top great-gap">
     <div>
         {% if logo %}
@@ -9,7 +11,7 @@
         {% endif %}
     </div>
     <div class="great-full-width">
-        <a href="{{ link_url }}"
+        <a href="{% create_internal_link_from_href link_url %}"
            class="govuk-heading-xs govuk-!-margin-bottom-2 great-heading-link great-ds-heading-link">
             <h2 class="govuk-heading-xs great-heading-link__heading govuk-!-font-size-24">
                 <span>{{ title }}</span>

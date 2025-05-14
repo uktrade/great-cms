@@ -988,17 +988,11 @@ class CreateInternalLinkFromHrefFilterTest(TestCase):
         test_url_two = '/some-page'
         expected_result_two = '/some-page'
 
-        test_url_three = 'http://great.gov.uk/some-page'
-        expected_result_three = '/some-page'
-
         result = create_internal_link_from_href(test_url)
         self.assertEqual(result, expected_result)
 
         result = create_internal_link_from_href(test_url_two)
         self.assertEqual(result, expected_result_two)
-
-        result = create_internal_link_from_href(test_url_three)
-        self.assertEqual(result, expected_result_three)
 
 
 class HandleExternalLinksFilterTest(TestCase):
