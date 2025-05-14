@@ -979,7 +979,7 @@ class ExtractDomainFilterTest(TestCase):
         self.assertEqual(result, expected_result)
 
 
-class CreatInternalLinkFromHrefFilterTest(TestCase):
+class CreateInternalLinkFromHrefFilterTest(TestCase):
 
     def test_create_internal_link_from_href(self):
         test_url = 'http://www.example.com/some-page'
