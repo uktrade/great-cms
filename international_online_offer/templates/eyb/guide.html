@@ -16,7 +16,7 @@
 {% block head_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == expend_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
+    <div class="{% if request.path == expand_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
         {% include './includes/govuk/phase_banner.html' with hide_border=True %}
     </div>
     {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
@@ -77,7 +77,7 @@
                 {% capture tile_content %}
                 {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
                 {% endcapture %}
-                {% include '_tile.html' with caption=triage_data.sector title="Market data" size="l" content=tile_content actionLinkText='Compare data across UK nations and regions' actionLinkHref=expend_your_business_in_the_uk_business_cluster_url %}
+                {% include '_tile.html' with caption=triage_data.sector title="Market data" size="l" content=tile_content actionLinkText='Compare data across UK nations and regions' actionLinkHref=expand_your_business_in_the_uk_business_cluster_url %}
             
                 {% if locations|length > 0 %}
                 {% capture tile_content %}
