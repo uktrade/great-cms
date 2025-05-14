@@ -11,6 +11,7 @@ from core.cms_slugs import (
     TERMS_URL,
 )
 from core.views import (
+    BGSGenericRedirectView,
     OpportunitiesRedirectView,
     PermanentQuerystringRedirectView,
     QuerystringRedirectView,
@@ -1195,6 +1196,14 @@ else:
             QuerystringRedirectView.as_view(
                 url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
             ),
+        ),
+        re_path(
+            r'^markets/$',
+            BGSGenericRedirectView.as_view(),
+        ),
+        re_path(
+            r'^markets/<market:market>/$',
+            BGSGenericRedirectView.as_view(),
         ),
     ]
 redirects += (

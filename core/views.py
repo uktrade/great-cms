@@ -4,6 +4,7 @@ import logging
 import pickle
 from datetime import datetime
 
+import sentry_sdk
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
@@ -13,6 +14,8 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseBadRequest,
+    HttpResponseGone,
+    HttpResponsePermanentRedirect,
     HttpResponseRedirect,
     JsonResponse,
 )
@@ -475,6 +478,64 @@ class OpportunitiesRedirectView(RedirectView):
             redirect_url = '{redirect_url}?{query_string}'.format(redirect_url=redirect_url, query_string=query_string)
 
         return redirect_url
+
+
+class BGSBaseRedirectView(RedirectView):
+
+    def get(self, request, *args, **kwargs):
+        url, permanent = self.get_redirect_url(*args, **kwargs)
+        if url:
+            if permanent:
+                return HttpResponsePermanentRedirect(url)
+            else:
+                return HttpResponse(url)
+        else:
+            logger.warning('Gone: %s', request.path, extra={'status_code': 410, 'request': request})
+            return HttpResponseGone()
+
+
+class BGSGenericRedirectView(BGSBaseRedirectView):
+
+    bgs_redirect_mapping = {
+        'campaign-site': 'campaign',
+        'markets': 'export-from-uk/market-guides',
+        'campaigns': 'export-from-uk/guidance',
+        'report-a-trade-barrier': 'export-from-uk/resources/report-a-trade-barrier',
+        'get-finance': 'export-from-uk/resources/uk-export-finance',
+        'find-a-buyer': 'export-from-uk/resources/find-a-buyer',
+        'services': 'export-from-uk/resources',
+    }
+
+    def get_redirect_url(self, *args, **kwargs):
+        # Create the correct url mapping if is_bgs_domain == True
+        absolute_url_parts = self.request.build_absolute_uri().split('/')
+        redirect_url = f"/{'/'.join(absolute_url_parts[3:])}"
+        if helpers.is_bgs_domain(self.request):
+            mapping_key = absolute_url_parts[3]
+            try:
+                redirect_url = redirect_url.replace(mapping_key, self.bgs_redirect_mapping[mapping_key])
+                return [redirect, True]
+            except IndexError as e:
+                sentry_sdk.capture_exception(e)
+            return [redirect_url, True]
+
+
+class BGSLearnRedirectView(BGSBaseRedirectView):
+
+    bgs_redirect_mapping = {
+        'learn/categories': 'export-from-uk/how-to',
+    }
+
+    def get_redirect_url(self, *args, **kwargs):
+        # Create the correct url mapping if is_bgs_domain == True
+        redirect_url = f"/{'/'.join(self.request.build_absolute_uri().split('/')[3:])}"
+        if helpers.is_bgs_domain(self.request):
+            try:
+                redirect_url = redirect_url.replace('learn/categories', 'export-from-uk/how-to')
+                return [redirect, True]
+            except IndexError as e:
+                sentry_sdk.capture_exception(e)
+            return [redirect_url, True]
 
 
 class CookiePreferencesPageView(TemplateView):
