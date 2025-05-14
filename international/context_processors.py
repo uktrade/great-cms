@@ -98,7 +98,7 @@ def international_header(request):
         'buy_from_the_uk_url': buy_url,
         'buy_from_the_uk_contact_url': f'{buy_url}contact/',
         'investment_url': invest_url,
-        'invest_support_url': invest_support_url,
+        'investment_support_url': invest_support_url,
         'expand_your_business_in_the_uk_url': expand_url,
         'expand_your_business_in_the_uk_login_url': f'{expand_url}login/',
         'expand_your_business_in_the_uk_guide_url': f'{expand_url}guide/',
