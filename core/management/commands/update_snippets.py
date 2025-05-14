@@ -15,15 +15,7 @@ from wagtail.rich_text import RichText
 from wagtail.snippets.models import SNIPPET_MODELS
 
 from core.blocks import CaseStudyQuoteBlock, LinkStructValue
-from core.models import (
-    UKEACTA,
-    AltTextImage,
-    Country,
-    GreatMedia,
-    IndustryTag,
-    Region,
-    Tag,
-)
+from core.models import UKEACTA, AltTextImage, Country, IndustryTag, Region, Tag
 from domestic_growth.models import DomesticGrowthCard, DomesticGrowthContent
 
 
@@ -135,29 +127,6 @@ class Command(BaseCommand):
 
         return snippet_updated, field_value
 
-    def process_greatmedia_field(self, field_value):  # noqa C901
-
-        snippet_updated = False
-        if field_value.description:
-            updated, new_value = self.process_string(field_value.description)
-            if updated:
-                field_value.description = new_value
-                snippet_updated = True
-
-        if field_value.transcript:
-            updated, new_value = self.process_string(field_value.transcript)
-            if updated:
-                field_value.transcript = new_value
-                snippet_updated = True
-
-        if field_value.subtitles_en:
-            updated, new_value = self.process_string(field_value.subtitles_en)
-            if updated:
-                field_value.subtitles_en = new_value
-                snippet_updated = True
-
-        return snippet_updated, field_value
-
     def process_structvalue_block(self, block):  # noqa C901
         snippet_updated = False
         for name, value in block.items():
@@ -186,14 +155,16 @@ class Command(BaseCommand):
 
     def process_casestudyquoteblock_block(self, block):
         snippet_updated = False
-        for _, field_value in block.value.items():
+        for field_name, field_value in block.value.items():
             if isinstance(field_value, str):
-                updated, _ = self.process_string(field_value)
+                updated, new_value = self.process_string(field_value)
                 if updated:
+                    block[field_name] = new_value
                     snippet_updated = True
             elif isinstance(field_value, StreamValue):
-                updated, _ = self.process_streamvalue_field(field_value)
+                updated, new_value = self.process_streamvalue_field(field_value)
                 if updated:
+                    block[field_name] = new_value
                     snippet_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
@@ -246,16 +217,7 @@ class Command(BaseCommand):
         snippet_updated = False
         cnt = 0
         for block in value:
-            if block.block_type.lower() in (
-                'button',
-                'image',
-                'video',
-                'page',
-                'image_full_width',
-                'task',
-                'case_study',
-                'table',
-            ):
+            if block.block_type.lower() in ('page',):
                 cnt += 1
                 continue
             updated, new_block = self.process_block(block)
@@ -313,25 +275,15 @@ class Command(BaseCommand):
             field_value = getattr(instance, field_name)
             if not field_value:
                 continue
-            if isinstance(field_value, bool) or isinstance(field_value, datetime):
+            elif isinstance(field_value, bool) or isinstance(field_value, datetime):
                 continue
-            if isinstance(field_value, str):
+            elif isinstance(field_value, str):
                 updated, new_value = self.process_string(field_value)
                 if updated:
                     snippet_updated = True
                     setattr(instance, field_name, new_value)
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(field_value)
-                if updated:
-                    snippet_updated = True
-                    setattr(instance, field_name, new_value)
-            elif isinstance(field_value, AltTextImage):
-                updated, new_value = self.process_alttextimage_field(field_value)
-                if updated:
-                    snippet_updated = True
-                    setattr(instance, field_name, new_value)
-            elif isinstance(field_value, GreatMedia):
-                updated, new_value = self.process_greatmedia_field(field_value)
                 if updated:
                     snippet_updated = True
                     setattr(instance, field_name, new_value)
@@ -401,6 +353,21 @@ class Command(BaseCommand):
                     'past_event_presentation_file',
                     'format',
                     'types',
+                    'external_id',
+                    'start_date',
+                    'end_date',
+                    'video_recording',
+                    'past_event_recorded_date',
+                    'past_event_video_recording',
+                    'completed',
+                    'completed_email_sent',
+                    'live',
+                    'closed',
+                    'is_essential',
+                    'is_simple',
+                    'is_difficult',
+                    'is_goods',
+                    'is_services',
                 )
             ]
 
@@ -408,6 +375,11 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'Processing Model:Snippet: {snippet_model}:{instance}'))
                 updated = self.process_snippet(instance, field_names)
                 if updated and not dry_run:
+                    self.stdout.write(self.style.SUCCESS(f'Updated Snippet Model:Snippet: {snippet_model}:{instance}'))
                     instance.save()
+                elif updated:
+                    self.stdout.write(
+                        self.style.SUCCESS(f'Would Update Snippet Model:Snippet: {snippet_model}:{instance}')
+                    )
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
