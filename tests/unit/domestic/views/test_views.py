@@ -94,13 +94,7 @@ def test_ukef_views(client, page_url, page_content, expected_status_code):
 
 @mock.patch.object(domestic.views.ukef.ContactView, 'form_session_class')
 @mock.patch.object(domestic.forms.UKEFContactForm, 'save')
-def test_ukef_contact_form_notify_success(
-    mock_save,
-    mock_form_session,
-    client,
-    valid_contact_form_data,
-    mock_site
-):
+def test_ukef_contact_form_notify_success(mock_save, mock_form_session, client, valid_contact_form_data, mock_site):
     url = reverse('domestic:uk-export-contact')
     with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
         response = client.post(url, valid_contact_form_data)

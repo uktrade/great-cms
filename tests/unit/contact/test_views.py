@@ -1,7 +1,6 @@
 from unittest import mock
 
 import django.forms
-
 import pytest
 from directory_forms_api_client import actions
 from django.conf import settings

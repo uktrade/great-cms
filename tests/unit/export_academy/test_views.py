@@ -21,7 +21,6 @@ from core.models import HCSAT, HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
-
 from export_academy.models import Booking, Registration, VideoOnDemandPageTracking
 from export_academy.views import EventsDetailsView, EventVideoOnDemandView
 from sso import helpers as sso_helpers
@@ -844,13 +843,15 @@ def test_signup_create_password_success(
     query_params,
     user_ea_registered,
     next,
-    mock_site
+    mock_site,
 ):
     if user_ea_registered:
         response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
     else:
         with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next() # noqa
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -898,7 +899,7 @@ def test_sign_up_code_already_sent(
     query_params,
     user_ea_registered,
     next,
-    mock_site
+    mock_site,
 ):
     uidb64 = 'MjE1ODk1'
     token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'  # /PS-IGNORE
@@ -907,7 +908,9 @@ def test_sign_up_code_already_sent(
         if user_ea_registered:
             response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
         else:
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next() # noqa
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -945,7 +948,7 @@ def test_sign_up_already_registered(
     query_params,
     user_ea_registered,
     next,
-    mock_site
+    mock_site,
 ):
     mock_create_user.return_value = create_response(status_code=409)
     mock_regenerate_verification_code.return_value = None
@@ -953,7 +956,9 @@ def test_sign_up_already_registered(
         if user_ea_registered:
             response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
         else:
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()# noqa
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
