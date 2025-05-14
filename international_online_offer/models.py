@@ -20,7 +20,10 @@ from core.helpers import international_url
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
-from international_investment.models import InvestmentIndexPage, InvestmentOpportunityArticlePage
+from international_investment.models import (
+    InvestmentIndexPage,
+    InvestmentOpportunityArticlePage,
+)
 from international_online_offer import services
 from international_online_offer.core import (
     choices,
