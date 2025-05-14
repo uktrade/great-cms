@@ -788,7 +788,7 @@ def test_sign_up_empty_password(client, unique_link, test_unique_link_query_para
         response = client.post(url, data=form_data)
     else:
         with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
-            response = client.post(url, data=form_data)       
+            response = client.post(url, data=form_data)
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
     if unique_link:
@@ -850,7 +850,7 @@ def test_signup_create_password_success(
         response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
     else:
         with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next() # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -907,7 +907,7 @@ def test_sign_up_code_already_sent(
         if user_ea_registered:
             response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
         else:
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next() # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -953,7 +953,7 @@ def test_sign_up_already_registered(
         if user_ea_registered:
             response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
         else:
-            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()# noqa
 
     query_params = query_params.replace('next_url', next_url)
 

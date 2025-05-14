@@ -8,7 +8,6 @@ from django.conf import settings
 from django.http import QueryDict
 from django.urls import reverse
 from requests.models import Response
-from wagtail.models import Site
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
