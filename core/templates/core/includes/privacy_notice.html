@@ -1,9 +1,7 @@
 {% load bgs_tags %}
 {% is_bgs_site current_site.root_url as bgs_site %}
 
-{% if bgs_site %}
-<p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
-{% else %}
+{% if not bgs_site %}
 <h3>How we use your information</h3>
 <p>The Department for Business and Trade will use the information provided in this form to respond to your enquiry.</p>
 <p>
