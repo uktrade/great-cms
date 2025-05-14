@@ -9,7 +9,7 @@
         {{salary_data_location_select_form}}
     </form>
     <div class="figures__list" id="salary-data-figures">
-        {% if entry_salary or mid_salary or executive_salary %}
+        {% if hide_salary_component %}
             {% if entry_salary %}
                 <div class="figures__figure">
                     <img class="icon figures__icon"
