@@ -73,11 +73,8 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:
-    try:
+    if model.objects.filter(triage_uuid=triage_uuid).exists():
         return model.objects.get(triage_uuid=triage_uuid)
-    except (AttributeError, model.DoesNotExist) as e:
-        sentry_sdk.capture_exception(e)
-        return None
 
 
 def get_triage_uuid(request: HttpRequest) -> str:
