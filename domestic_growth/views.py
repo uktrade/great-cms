@@ -60,7 +60,8 @@ class BaseTriageFormView(FormView):
     def get_url_with_optional_triage_uuid_param(self, url: str, params: dict = {}) -> HttpUrl:
         """
         Accepts a success url and if we are using a uuid as opposed to a session_key appends a
-        query string parameter
+        query string parameter. An exception is thrown if we try and instantiate UUID with
+        a string that is not valid.
         """
         try:
             if type(self.triage_uuid) is UUID or type(UUID(self.triage_uuid)) is UUID:
