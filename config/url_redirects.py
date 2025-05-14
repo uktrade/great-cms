@@ -344,6 +344,18 @@ redirects += [
     ),
 ]
 
+# BGS domestic url_redirects
+redirects += [
+    re_path(
+        r'^((campaign-site\/)[^$]*)$',
+        BGSGenericRedirectView.as_view(),
+    ),
+    re_path(
+        r'^((markets\/)[^$]*)$',
+        BGSGenericRedirectView.as_view(),
+    ),
+]
+
 # (<lang code path>, <language to use in query parameter>)
 INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
     ('de', 'de'),
@@ -1196,14 +1208,6 @@ else:
             QuerystringRedirectView.as_view(
                 url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
             ),
-        ),
-        re_path(
-            r'^markets/$',
-            BGSGenericRedirectView.as_view(),
-        ),
-        re_path(
-            r'^markets/<market:market>/$',
-            BGSGenericRedirectView.as_view(),
         ),
     ]
 redirects += (

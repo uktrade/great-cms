@@ -514,7 +514,7 @@ class BGSGenericRedirectView(BGSBaseRedirectView):
             mapping_key = absolute_url_parts[3]
             try:
                 redirect_url = redirect_url.replace(mapping_key, self.bgs_redirect_mapping[mapping_key])
-                return [redirect, True]
+                return [redirect_url, True]
             except IndexError as e:
                 sentry_sdk.capture_exception(e)
             return [redirect_url, True]
