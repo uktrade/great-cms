@@ -10,13 +10,21 @@ from django.db import transaction
 from django.db.models.fields import Field
 from wagtail.blocks.field_block import CharBlock, RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
+from wagtail.blocks.struct_block import StructValue
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.rich_text import RichText
 from wagtail.snippets.models import SNIPPET_MODELS
 
 from core.blocks import CaseStudyQuoteBlock, LinkStructValue
-from core.models import UKEACTA, AltTextImage, Country, IndustryTag, Region, Tag
-from domestic_growth.models import DomesticGrowthCard, DomesticGrowthContent
+from core.models import (
+    UKEACTA,
+    AltTextImage,
+    Country,
+    GreatMedia,
+    IndustryTag,
+    Region,
+    Tag,
+)
 
 
 class Command(BaseCommand):
@@ -127,31 +135,29 @@ class Command(BaseCommand):
 
         return snippet_updated, field_value
 
-    def process_structvalue_block(self, block):  # noqa C901
-        snippet_updated = False
-        for name, value in block.items():
-            if value:
-                if isinstance(value, str):
-                    updated, new_value = self.process_string(value)
-                    if updated:
-                        setattr(block, name, new_value)
-                        snippet_updated = True
-                elif isinstance(value, LinkStructValue):
-                    for ln, lv in value.items():
-                        if lv:
-                            updated, new_value = self.process_string(lv)
-                            if updated:
-                                block[name][ln] = new_value
-                                snippet_updated = True
-                elif isinstance(value, bool):
-                    continue
-                else:
-                    frameinfo = getframeinfo(currentframe())
-                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
-                    sys.exit(-1)
+    def process_greatmedia_field(self, block):  # noqa C901
 
-        return snippet_updated, block
+        block_updated = False
+
+        if block.description:
+            updated, new_value = self.process_string(block.description)
+            if updated:
+                block.description = new_value
+                block_updated = True
+
+        if block.transcript:
+            updated, new_value = self.process_string(block.transcript)
+            if updated:
+                block.transcript = new_value
+                block_updated = True
+
+        if block.subtitles_en:
+            updated, new_value = self.process_string(block.subtitles_en)
+            if updated:
+                block.subtitles_en = new_value
+                block_updated = True
+
+        return block_updated, block
 
     def process_casestudyquoteblock_block(self, block):
         snippet_updated = False
@@ -238,6 +244,44 @@ class Command(BaseCommand):
 
         return snippet_updated, value
 
+    def process_structvalue_block(self, block):  # noqa C901
+        block_updated = False
+        for name, value in block.items():
+            if value:
+                if isinstance(value, str):
+                    updated, new_value = self.process_string_field(value)
+                    if updated:
+                        setattr(block, name, new_value)
+                        block_updated = True
+                elif isinstance(value, LinkStructValue):
+                    for ln, lv in value.items():
+                        if lv:
+                            updated, new_value = self.process_string_field(
+                                lv,
+                            )
+                            if updated:
+                                block[name][ln] = new_value
+                                block_updated = True
+                elif isinstance(value, StructValue):
+                    updated, new_value = self.process_string_field(value)
+                    if updated:
+                        setattr(block, name, new_value)
+                        block_updated = True
+                elif isinstance(value, GreatMedia):
+                    updated, new_value = self.process_greatmedia_field(value)
+                    if updated:
+                        block.value[name] = new_value
+                        block_updated = True
+                elif isinstance(value, bool):
+                    continue
+                else:
+                    frameinfo = getframeinfo(currentframe())
+                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(value)}'))
+                    sys.exit(-1)
+
+        return block_updated, block
+
     def process_streamchild_field(self, block):  # noqa C901
         snippet_updated = False
         cnt = 0
@@ -255,6 +299,11 @@ class Command(BaseCommand):
                         snippet_updated = True
                 elif isinstance(child.value, AltTextImage):
                     updated, new_value = self.process_alttextimage_field(child.value)
+                    if updated:
+                        block.value[cnt] = new_value
+                        snippet_updated = True
+                elif isinstance(child.value, StructValue):
+                    updated, new_value = self.process_structvalue_block(child.value)
                     if updated:
                         block.value[cnt] = new_value
                         snippet_updated = True
@@ -313,8 +362,6 @@ class Command(BaseCommand):
                 or snippet_model is Redirect
                 or snippet_model is Region
                 or snippet_model is Tag
-                or snippet_model is DomesticGrowthCard
-                or snippet_model is DomesticGrowthContent
             ):
                 continue
 
@@ -368,6 +415,9 @@ class Command(BaseCommand):
                     'is_difficult',
                     'is_goods',
                     'is_services',
+                    'content_id',
+                    'is_dynamic',
+                    'show_image',
                 )
             ]
 
