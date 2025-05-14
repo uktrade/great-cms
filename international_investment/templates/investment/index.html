@@ -37,7 +37,7 @@
                                 {% image opportunity.article_image original as rendition %}
                                 {% append_search_back_url opportunity.url request.get_full_path as opportunity_link %}
                                 {% if opportunity_link %}
-                                {% include 'investment/includes/list_item.html' with logo=rendition.url title=opportunity.article_title link_url='http://greatcms.trade.great:8020/international/investment/stuarts-artisan-bakery/' description=opportunity.article_teaser opportunity=opportunity %}
+                                {% include 'investment/includes/list_item.html' with logo=rendition.url title=opportunity.article_title link_url=opportunity_link description=opportunity.article_teaser opportunity=opportunity %}
                                 {% endif %}
                             {% endfor %}
                         </div>
