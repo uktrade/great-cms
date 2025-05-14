@@ -1,11 +1,13 @@
 import pytest
+from unittest import mock
 from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_buy_from_the_uk_contact_view(client):
+def test_buy_from_the_uk_contact_view(client, mock_site):
     url = reverse('international_buy_from_the_uk:contact')
-    response = client.get(url)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.get(url)
     assert response.status_code == 200
 
 
@@ -24,7 +26,8 @@ def test_buy_from_the_uk_company_profile_view(mock_get_company, client):
 
 
 @pytest.mark.django_db
-def test_buy_from_the_uk_company_contact_view(mock_get_company, client):
+def test_buy_from_the_uk_company_contact_view(mock_get_company, client, mock_site):
     url = reverse('international_buy_from_the_uk:find-a-supplier-contact', args={123})
-    response = client.get(url)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.get(url)
     assert response.status_code == 200

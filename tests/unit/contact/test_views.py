@@ -1033,22 +1033,21 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
     ),
 )
 @pytest.mark.django_db
-@mock.patch.object(Site, 'find_for_request')
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 def test_domestic_export_support_form_pages(
     mock_action_class,
-    mock_find_for_request,
     page_url,
     form_data,
     redirect_url,
     error_messages,
     client,
+    mock_site,
 ):
-    #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
     for key in form_data:
         invalid_form_data.pop(key)
-        response = client.post(page_url, invalid_form_data)
+        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+            response = client.post(page_url, invalid_form_data)
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         assert '<meta name="robots" content="noindex">' in str(response.rendered_content)
@@ -1056,7 +1055,8 @@ def test_domestic_export_support_form_pages(
         invalid_form_data = form_data.copy()
 
     #   Redirect succeeds with valid data
-    response = client.post(page_url, form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
 

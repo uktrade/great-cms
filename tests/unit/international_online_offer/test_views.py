@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from directory_sso_api_client import sso_api_client
+
 from international.forms import InternationalHCSATForm
 from international_online_offer.core import (
     helpers,
@@ -32,9 +33,10 @@ def test_login(client, settings):
 
 
 @pytest.mark.django_db
-def test_signup(client, settings):
+def test_signup(client, settings, mock_site):
     url = reverse('international_online_offer:signup')
-    response = client.get(url)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.get(url)
     assert response.status_code == 200
 
 
@@ -93,28 +95,30 @@ def test_business_eyb_sso_login_success(client, requests_mock):
 
 @pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
-def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
+def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock, mock_site):
     requests_mock.post(
         settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
         text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322", "email": "test@test.com"}',  # noqa:E501 /PS-IGNORE
         status_code=201,
     )
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'),
-        {'email': 'test@test.com', 'password': 'password1234'},  # /PS-IGNORE
-    )
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(
+            reverse_lazy('international_online_offer:signup'),
+            {'email': 'test@test.com', 'password': 'password1234'},  # /PS-IGNORE
+        )
     assert mock_send_code.call_count == 1
     assert response.status_code == 302
 
 
 @mock.patch.object(sso_api_client.user, 'create_user')
 @pytest.mark.django_db
-def test_business_eyb_sso_signup_fail(mock_create_user, client):
+def test_business_eyb_sso_signup_fail(mock_create_user, client, mock_site):
     mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'),
-        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
-    )
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(
+            reverse_lazy('international_online_offer:signup'),
+            {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
+        )
     assert response.status_code == 200
 
 
@@ -123,13 +127,14 @@ def test_business_eyb_sso_signup_fail(mock_create_user, client):
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
 @mock.patch.object(sso_api_client.user, 'create_user')
 def test_business_eyb_sso_signup_regen_code(
-    mock_create_user, mock_send_code, mock_regenerate_code, client, requests_mock
+    mock_create_user, mock_send_code, mock_regenerate_code, client, requests_mock, mock_site
 ):
     mock_create_user.return_value = create_response(status_code=409)
-    response = client.post(
-        reverse_lazy('international_online_offer:signup'),
-        {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
-    )
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(
+            reverse_lazy('international_online_offer:signup'),
+            {'email': 'test@test.com', 'password': 'passwor1234'},  # /PS-IGNORE
+        )
     assert mock_regenerate_code.call_count == 1
     assert mock_send_code.call_count == 1
     assert response.status_code == 200
