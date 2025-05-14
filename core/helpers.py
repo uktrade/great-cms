@@ -35,6 +35,7 @@ from wagtail.models import Site
 
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
+    TEMPLATE_TAGS,
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
 )
@@ -962,3 +963,7 @@ def is_bgs_site(root_url: str) -> bool:
 def is_bgs_site_from_request(request: HttpRequest) -> bool:
     site = Site.find_for_request(request)
     return is_bgs_site(site.root_url)
+
+
+def get_template_id(template_tag):
+    return TEMPLATE_TAGS[settings.FEATURE_USE_BGS_TEMPLATES][template_tag]

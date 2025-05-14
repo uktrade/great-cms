@@ -8,6 +8,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from directory_api_client import api_client
 from directory_constants import urls
 from directory_sso_api_client import sso_api_client
@@ -73,7 +75,9 @@ def create_company_profile(data):
 
 def notify_already_registered(email, form_url):
     action = actions.GovNotifyEmailAction(
-        email_address=email, template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID, form_url=form_url
+        email_address=email,
+        template_id=get_template_id(TemplateTagsEnum.GOV_NOTIFY_ALREADY_REGISTERED),
+        form_url=form_url,
     )
 
     response = action.save(

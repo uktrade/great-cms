@@ -42,5 +42,5 @@ def test_investment_ops_hcsat():
     assert page.hcsat_service_name == 'investment_ops'
     assert (
         page.get_service_csat_heading(page.hcsat_service_name)
-        == 'Overall, how would you rate your experience with the\n         Investment Opportunities service today?'
+        == 'Overall, how would you rate your experience\n         with the Investment Opportunities service today?'
     )
