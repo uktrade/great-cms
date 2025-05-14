@@ -49,7 +49,7 @@ def get_isd_case_study_url(case_study_pk):
 def append_search_back_url(url, search_url):
     if '?back=' in search_url:
         search_url = search_url.split('back=', 1)[1]
-    url += '?back=' + search_url
+        url += '?back=' + search_url
     return url
 
 
