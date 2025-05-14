@@ -403,7 +403,18 @@ def extract_domain(url):
 def create_internal_link_from_href(url):
     url_parts = url.strip('/')
     if 'http' in url_parts[0]:
-        return '/'.join(url_parts[3:])
+        internal_domains = [
+            'great.gov.uk',
+            'business.gov.uk',
+            'hotfix.bgs.uktrade.digital',
+            'great.bgs.uktrade.digital',
+            'www.great.gov.uk',
+            'www.business.gov.uk',
+            'www.hotfix.bgs.uktrade.digital',
+            'www.great.bgs.uktrade.digital',
+        ]
+        if url_parts[2] in internal_domains:
+            return '/'.join(url_parts[3:])
     return url
 
 
