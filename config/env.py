@@ -161,7 +161,7 @@ class BaseSettings(PydanticBaseSettings):
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
-    bgs_gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
+    bgs_gov_notify_already_registered_template_id: str = 'ef7e03fc-700d-4e1e-a0f6-3cc0df779e5e'  # /PS-IGNORE
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
@@ -377,7 +377,7 @@ class BaseSettings(PydanticBaseSettings):
     fernet_key: str = ''
     override_bgs_redirect: bool = False
 
-    feature_use_bgs_templates: bool = False
+    feature_use_bgs_templates: bool = True
 
     eyb_incomplete_triage_reminder_template_id: str = '596269d5-b6a5-4d81-a9bb-362849930640'
     bgs_eyb_incomplete_triage_reminder_template_id: str = '3e991f09-0305-449e-b4a0-88e8121cfb16'
