@@ -34,6 +34,7 @@ from domestic_growth.helpers import (
     get_triage_uuid_from_url_token,
     get_welcome_event,
     guide_link_valid,
+    has_triage_been_activated,
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -346,6 +347,7 @@ class DomesticGrowthGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
 
         return context
 
@@ -486,6 +488,7 @@ class DomesticGrowthChildGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
 
         return context
 
@@ -710,6 +713,7 @@ class DomesticGrowthDynamicChildGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
 
         return context
 

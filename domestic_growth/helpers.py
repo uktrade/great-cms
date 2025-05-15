@@ -106,6 +106,14 @@ def is_sector_triage_question_incomplete(triage_data: Model) -> bool:
     return False
 
 
+def has_triage_been_activated(request: HttpRequest) -> bool:
+    triage_uuid = get_triage_uuid(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, triage_uuid)
+
+    return True if triage_data else False
+
+
 def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
     """
     returns the view name of the next unanswered triage question
