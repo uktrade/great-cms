@@ -1086,7 +1086,7 @@ COUNTRIES_ISO_CODE_UPDATE_MINUTE = env.countries_iso_code_update_minute
 
 COUNTRIES_ISO_CODE_UPDATE_API = 'https://restcountries.com/v3.1/all?fields=name,cca2'
 
-FEATURE_GREAT_MIGRATION_BANNER = env.feature_great_migration_banner
+FEATURE_GREAT_MIGRATION_BANNER = True #env.feature_great_migration_banner
 
 FRONTEND_CACHE_DISTRIBUTION_ID = env.frontend_cache_distribution_id
 wagtail_cf = {}
