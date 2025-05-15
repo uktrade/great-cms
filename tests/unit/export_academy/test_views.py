@@ -17,6 +17,8 @@ from wagtail_factories import DocumentFactory
 
 from config import settings
 from core import helpers
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.models import HCSAT, HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from directory_sso_api_client import sso_api_client
@@ -498,13 +500,13 @@ def test_export_academy_registration_success(
     assert mock_action_class.call_count == 2
 
     assert mock_action_class.call_args_list[0] == mock.call(
-        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_REGISTRATION),
         email_address=user.email,
         form_url=url,
     )
     assert mock_action_class.call_args_list[1] == mock.call(
         email_address=user.email,
-        template_id=settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.EXPORT_ACADEMY_NOTIFY_BOOKING),
         form_url=url,
     )
     assert mock_action_class().save.call_count == 2
