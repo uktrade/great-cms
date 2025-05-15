@@ -11,7 +11,6 @@ from core.cms_slugs import (
     TERMS_URL,
 )
 from core.views import (
-    BGSGenericRedirectView,
     OpportunitiesRedirectView,
     PermanentQuerystringRedirectView,
     QuerystringRedirectView,
@@ -341,18 +340,6 @@ redirects += [
         r'^contact/triage/international/$',
         QuerystringRedirectView.as_view(url='/international/contact/'),
         name='contact-triage-redirect',
-    ),
-]
-
-# BGS domestic url_redirects
-redirects += [
-    re_path(
-        r'^((campaign-site\/)[^$]*)$',
-        BGSGenericRedirectView.as_view(),
-    ),
-    re_path(
-        r'^((markets\/)[^$]*)$',
-        BGSGenericRedirectView.as_view(),
     ),
 ]
 
