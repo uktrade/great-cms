@@ -47,8 +47,14 @@ class Command(BaseCommand):
             encoding='utf-8',
         ) as f:
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
-                old_path = row.get('CurrentURL')
-                redirect_path = row.get('NewURL')
+                old_path = row.get('CurrentURL').strip()
+                redirect_path = row.get('NewURL').strip()
+                if len(old_path) > 255:
+                    self.stdout.write(self.style.WARNING(f'Redirect old_path too long - {old_path}'))
+                    continue
+                if len(redirect_path) > 255:
+                    self.stdout.write(self.style.WARNING(f'Redirect redirect_link too long - {redirect_path}'))
+                    continue
                 redirect = Redirect.objects.filter(old_path=old_path, site=self.site).first()
                 if redirect:
                     self.update_redirect(redirect, redirect_path)
