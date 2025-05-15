@@ -103,7 +103,7 @@ dateparser==0.7.2
     # via -r requirements.in
 dbt-copilot-python==0.2.1
     # via -r requirements.in
-ddtrace==3.2.1
+ddtrace==3.4.1
     # via
     #   -r requirements.in
     #   django-log-formatter-asim
