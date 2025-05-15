@@ -23,7 +23,7 @@ class Command(BaseCommand):
         )
 
     def update_redirect(self, redirect, redirect_path):
-        redirect.redirect_path = redirect_path
+        redirect.redirect_link = redirect_path
 
     def create_redirect(self, old_path, redirect_path):
         redirect = Redirect.objects.create(
