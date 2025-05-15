@@ -166,7 +166,6 @@ class Command(BaseCommand):
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(field_value)
                 if updated:
-
                     block[field_name] = new_value
                     snippet_updated = True
             else:
@@ -264,9 +263,8 @@ class Command(BaseCommand):
                                 block[field_name][ln] = new_value
                                 block_updated = True
                 elif isinstance(field_value, StructValue):
-                    updated, new_value = self.process_string_field(field_value)
+                    updated, new_value = self.process_structvalue_block(block)
                     if updated:
-
                         setattr(block, field_name, new_value)
                         block_updated = True
                 elif isinstance(field_value, GreatMedia):
@@ -435,7 +433,6 @@ class Command(BaseCommand):
             for instance in instances:
                 self.stdout.write(self.style.SUCCESS(f'Processing Model:Snippet: {snippet_model}:{instance}'))
                 updated = self.process_snippet(instance, field_names)
-
                 if updated and not dry_run:
                     self.stdout.write(
                         self.style.SUCCESS(f'Updated Snippet Instance:Snippet: {snippet_model}:{instance}')
