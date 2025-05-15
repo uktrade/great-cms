@@ -27,4 +27,6 @@ def test_domestic_redirects(previous_url, migrated_url, client):
     # Middleware will alter the url and use redirect()
     assert response.status_code == 301
     assert response.url == migrated_url
+
+
 # make pytest_single tests/unit/domestic/test_redirects.py::test_domestic_redirects
