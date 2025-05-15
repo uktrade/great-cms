@@ -1,4 +1,3 @@
-from unittest.mock import patch
 import pytest
 
 from international_investment_support_directory.forms import FindASpecialistContactForm
@@ -55,7 +54,8 @@ from international_investment_support_directory.forms import FindASpecialistCont
     ),
 )
 @pytest.mark.django_db
-def test_investment_support_directory_contact_validation(mock_get_dbt_sectors, form_data, is_valid):
+def test_investment_support_directory_contact_validation(form_data, is_valid):
     data = form_data
     form = FindASpecialistContactForm(data)
+    print(dict(form.fields['sector'].choices))
     assert form.is_valid() == is_valid
