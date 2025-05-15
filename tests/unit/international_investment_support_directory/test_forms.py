@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import pytest
 
 from international_investment_support_directory.forms import FindASpecialistContactForm
@@ -16,7 +17,7 @@ from international_investment_support_directory.forms import FindASpecialistCont
                 'sector': 'Food and drink',
                 'subject': 'This is some dummy subject text',
                 'body': 'This is some dummy body text',
-                'terms': 'true',
+                'terms': 'on',
                 'marketing_consent': 'true',
             },
             True,
