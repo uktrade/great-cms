@@ -50,9 +50,18 @@ class Command(BaseCommand):
             updated, new_source = self.replace_richtextbox(field_value)
             return updated, new_source
         else:
-            if self.string_to_replace in field_value:
-                value = field_value.replace(self.string_to_replace, self.replacement_string)
-                updated = True
+            positions = [i for i in range(len(value)) if value.startswith(self.string_to_replace, i)]
+            if positions:
+                for pos in positions:
+                    start = pos - len('event.')
+                    if value[start:pos] != 'event.':
+                        if value[pos : pos + len(self.string_to_replace)] == self.string_to_replace:  # noqa E203
+                            value = (
+                                value[:pos]
+                                + self.replacement_string
+                                + value[pos + len(self.string_to_replace) :]  # noqa E203
+                            )
+                            updated = True
 
         return updated, value
 
