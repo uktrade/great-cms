@@ -105,8 +105,8 @@ INSTALLED_APPS = [
     'domestic_growth.apps.DomesticGrowthConfig',
     'great_design_system',
     'wagtail.contrib.frontend_cache',
-    'ddtrace.contrib.django',
 ]
+
 MIDDLEWARE = [
     'wagtailcache.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
