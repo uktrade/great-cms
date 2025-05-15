@@ -653,6 +653,6 @@ xhtml2pdf==0.2.16
     # via -r requirements.in
 zipp==3.21.0
     # via importlib-metadata
-
+bgs-chat-app==0.0.4
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

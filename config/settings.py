@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     'domestic_growth.apps.DomesticGrowthConfig',
     'great_design_system',
     'wagtail.contrib.frontend_cache',
+    'bgs_chat.apps.BgsChatConfig',
 ]
 
 MIDDLEWARE = [

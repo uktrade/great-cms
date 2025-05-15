@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
@@ -92,4 +92,5 @@ urlpatterns = [
         skip_ga360(CampaignView.as_view()),
         name='campaigns',
     ),
+    path('', include('bgs_chat.urls')),
 ]

@@ -986,7 +986,7 @@ zope-event==5.0
     # via gevent
 zope-interface==7.2
     # via gevent
-
+bgs-chat-app==0.0.4
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
