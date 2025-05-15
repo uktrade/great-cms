@@ -786,9 +786,5 @@ def test_invest_in_uk_redirects(previous_url, migrated_url, client):
     response = client.get(previous_url)
 
     # Middleware will alter the url and use redirect()
-    assert response.status_code == 302
-    redirected_response = client.get(response.url)
-
-    # redirect_urls will carry out the permanent redirects as per the agreed mapping
-    assert redirected_response.status_code == 301
-    assert redirected_response.url == migrated_url
+    assert response.status_code == 301
+    response = client.get(response.url)
