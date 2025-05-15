@@ -4,6 +4,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import (
     BooleanField,
     CharField,
+    CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
     HiddenInput,
@@ -258,4 +259,10 @@ class ContactForm(forms.Form):
         error_messages={
             'required': 'Enter your email address',
         },
+    )
+
+    terms_agreed = forms.BooleanField(
+        label='I have read and agree to the terms and conditions.',
+        error_messages={'required': 'Tick the box to accept the terms and conditions'},
+        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )

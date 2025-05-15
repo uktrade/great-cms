@@ -392,10 +392,11 @@ def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
 @mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
 @mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
 def test_ecommerce_export_form_notify_success(
-    mock_save, mock_form_session, client, valid_request_export_support_form_data
+    mock_save, mock_form_session, client, valid_request_export_support_form_data, mock_site
 ):
     url = reverse('contact:ecommerce-export-support-form')
-    response = client.post(url, valid_request_export_support_form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(url, valid_request_export_support_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('contact:ecommerce-export-support-success')

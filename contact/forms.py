@@ -582,17 +582,25 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={'required': 'Please answer this question'},
     )
 
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL,
-        error_messages={
-            'required': 'You must agree to the terms and conditions before registering',
-        },
-    )
     comment = forms.CharField(
         label='Please give us as much detail as you can on your enquiry',
         widget=Textarea,
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+            )
+        else:
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label=TERMS_LABEL,
+                error_messages={'required': 'You must agree to the terms and conditions before registering'},
+            )
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number'].replace(' ', '')

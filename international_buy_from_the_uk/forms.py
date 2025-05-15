@@ -204,7 +204,7 @@ class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
         if request and helpers.is_bgs_site_from_request(request):
             self.fields['terms'] = forms.BooleanField(
                 required=True,
-                label='I have read and agree to the terms and consitions.',
+                label='I have read and agree to the terms and conditions.',
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )

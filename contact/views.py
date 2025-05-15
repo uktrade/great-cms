@@ -718,6 +718,11 @@ class EcommerceSupportFormPageView(BaseNotifyFormView):
         user_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
     )
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class ExportSupportSuccessPageView(TemplateView):
     template_name = 'domestic/contact/request-export-support-success.html'
