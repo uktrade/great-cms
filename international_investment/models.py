@@ -7,6 +7,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
+from wagtail.models import Locale
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import BasicTopicCardBlock, ColumnsBlock
@@ -200,7 +201,6 @@ class InvestmentRegionsPage(BaseContentPage):
         )
         return context
 
-from wagtail.models import Locale
 
 class InvestmentArticlePage(BaseContentPage):
     parent_page_types = [
