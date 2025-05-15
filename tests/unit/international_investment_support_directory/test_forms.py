@@ -57,5 +57,4 @@ from international_investment_support_directory.forms import FindASpecialistCont
 def test_investment_support_directory_contact_validation(form_data, is_valid):
     data = form_data
     form = FindASpecialistContactForm(data)
-    print(dict(form.fields['sector'].choices))
     assert form.is_valid() == is_valid
