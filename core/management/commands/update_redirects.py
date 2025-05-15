@@ -6,12 +6,13 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 from wagtail.contrib.redirects.models import Redirect
+from wagtail.models import Site
 
 
 class Command(BaseCommand):
     help = 'Updates Redirects for BGS go-live'
 
-    site = 'Great.gov.uk'
+    site_str = 'Great.gov.uk'
 
     def add_arguments(self, parser):
         parser.add_argument('--site', type=str, required=True, help='Site (e.g., Great.gov.uk)')
@@ -34,7 +35,9 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         dry_run = options['dry_run']
-        self.site = options['site']
+        site_name = options['site']
+
+        self.site = Site.objects.get(site_name=site_name)
 
         self.stdout.write(self.style.SUCCESS('Updating Redirects'))
 
