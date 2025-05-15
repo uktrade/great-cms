@@ -16,7 +16,7 @@ from international_investment_support_directory.forms import FindASpecialistCont
                 'sector': 'Food and drink',
                 'subject': 'This is some dummy subject text',
                 'body': 'This is some dummy body text',
-                'terms': 'on',
+                'terms': 'true',
                 'marketing_consent': 'true',
             },
             True,
@@ -54,7 +54,7 @@ from international_investment_support_directory.forms import FindASpecialistCont
     ),
 )
 @pytest.mark.django_db
-def test_investment_support_directory_contact_validation(form_data, is_valid):
+def test_investment_support_directory_contact_validation(mock_get_dbt_sectors,form_data, is_valid):
     data = form_data
     form = FindASpecialistContactForm(data)
     assert form.is_valid() == is_valid

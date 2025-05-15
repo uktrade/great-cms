@@ -163,7 +163,6 @@ class FindASpecialistContactForm(GovNotifyEmailActionMixin, forms.Form):
         sector_data_json = get_dbt_sectors()
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
-        super().__init__(*args, **kwargs)
         if request and helpers.is_bgs_site_from_request(request):
             self.fields['terms'] = forms.BooleanField(
                 label='I have read and agree to the terms and conditions.',
