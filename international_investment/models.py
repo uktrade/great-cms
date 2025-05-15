@@ -7,6 +7,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
 from wagtail.blocks.stream_block import StreamBlock
 from wagtail.fields import StreamField
+from wagtail.models import Locale
 from wagtail.images.blocks import ImageChooserBlock
 
 from core.blocks import BasicTopicCardBlock, ColumnsBlock
@@ -308,33 +309,43 @@ class InvestmentArticlePage(BaseContentPage):
     ]
 
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+        # Determine user's active locale
+        user_locale = Locale.get_active()
 
-        self.set_ga360_payload(
+        # french_locale = Locale.objects.get(language_code='fr')
+
+        # Try to get translated version of this page in user's locale
+        translated_page = self.get_translations().filter(locale=user_locale).live().first()
+
+        # Fall back to the original page if translation doesn't exist
+        page = translated_page or self
+
+        context = super(InvestmentArticlePage, page).get_context(request, *args, **kwargs)
+
+        # GA360 payload setup
+        page.set_ga360_payload(
             page_id='Article',
             business_unit='Investment',
             site_section='Investment article',
         )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
+        page.add_ga360_data_to_payload(request)
+        context['ga360'] = page.ga360_payload
 
-        parent_page_name = self.get_parent().title
-
+        # Breadcrumb logic
+        parent_page_name = page.get_parent().title
         parent_page_url = request.get_full_path().rstrip('/')
-
-        # Split by slash and remove the last segment
         parent_directory = '/'.join(parent_page_url.split('/')[:-1]) + '/'
 
         breadcrumbs = [
             {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
-
-        if not parent_page_name == 'Investment':
+        if parent_page_name != 'Investment':
             breadcrumbs.append({'name': parent_page_name, 'url': parent_directory})
 
         context.update(
             breadcrumbs=breadcrumbs,
         )
+
         return context
 
 
