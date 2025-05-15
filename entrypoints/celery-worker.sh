@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-if [[ "$COPILOT_ENVIRONMENT_NAME" == "dev" ]]; then
+if [[ "$FEATURE_DATADOG" = true ]]; then
    ddtrace-run celery -A config worker -l DEBUG
 else
    celery -A config worker -l DEBUG

@@ -103,8 +103,10 @@ dateparser==0.7.2
     # via -r requirements.in
 dbt-copilot-python==0.2.1
     # via -r requirements.in
-ddtrace==2.21.0
-    # via -r requirements.in
+ddtrace==3.2.1
+    # via
+    #   -r requirements.in
+    #   django-log-formatter-asim
 defusedxml==0.7.1
     # via willow
 deprecated==1.2.18
@@ -165,6 +167,7 @@ django==4.2.20
     #   django-permissionedforms
     #   django-recaptcha
     #   django-redis
+    #   django-requestlogs
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
@@ -196,7 +199,7 @@ django-health-check==3.18.2
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
-django-log-formatter-asim==0.0.4
+django-log-formatter-asim==1.0.0
     # via -r requirements.in
 django-modelcluster==6.4
     # via wagtail
@@ -206,12 +209,12 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
+django-requestlogs==0.8.3
+    # via -r requirements.in
 django-staff-sso-client==4.3.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==6.1.0
     # via wagtail
 django-timezone-field==7.1
@@ -223,6 +226,7 @@ django-treebeard==4.7
 djangorestframework==3.15.2
     # via
     #   -r requirements.in
+    #   django-requestlogs
     #   drf-spectacular
     #   sigauth
     #   wagtail
@@ -652,9 +656,7 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.10.0
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wrapt==1.17.2
     # via
     #   ddtrace

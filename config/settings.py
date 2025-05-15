@@ -129,6 +129,7 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
+    'requestlogs.middleware.RequestLogsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -635,6 +636,7 @@ if not PRIVACY_COOKIE_DOMAIN:
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
 }
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
