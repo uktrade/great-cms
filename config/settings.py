@@ -130,7 +130,6 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
-    'requestlogs.middleware.RequestLogsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
