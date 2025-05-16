@@ -1,6 +1,8 @@
 {% extends 'core/page_blank.html' %}
 {% load get_intended_destination from url_tags %}
 {% load static %}
+{% load wagtailcore_tags %}
+{% load bgs_tags %}
 {% block inner_content %}<div id="sign-up"></div>{% endblock %}
 {% block sharing_description %}
     <meta name="description"
@@ -8,18 +10,23 @@
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
+	{% wagtail_site as current_site %}
+	{% is_bgs_site current_site.root_url as bgs_site %}
     {% get_intended_destination request as onward_destination %}
     <script type="text/javascript">
 		var element = document.getElementById('sign-up');
 		var uidb64 = '{{ request.GET.uidb64 }}';
 		var token = '{{ request.GET.token }}';
 		var currentStep = (uidb64 && token) ? 'verification-code' : 'credentials';
+		var isBgsSite = '{{ bgs_site }}' === 'True';
+
 		magna.SignupModal({
 			element: element,
 			uidb64: uidb64,
 			token: token,
 			currentStep: currentStep,
 			nextUrl: '{{onward_destination}}',
-		})
+			isBgsSite: isBgsSite,
+		});
     </script>
 {% endblock %}

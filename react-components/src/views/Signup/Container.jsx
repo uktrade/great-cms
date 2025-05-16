@@ -28,6 +28,8 @@ export function Container(props) {
   const [token, setToken] = useState(props.token)
   const [code, setCode] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [termsAndConditions, setTermsAndConditions] = useState(props.termsAndConditions)
+  const [isBgsSite] = useState(props.isBgsSite)
 
   function handleError(error) {
     // If verification code has expired
@@ -46,6 +48,11 @@ export function Container(props) {
   }
 
   function handleStepCredentialsSubmit() {
+    if (isBgsSite === true && !termsAndConditions) {
+      setErrors({ terms_and_conditions: ['Tick the box to accept the terms and conditions'] })
+      return
+    }
+
     setErrors({})
     setMessage('')
     setIsInProgress(true)
@@ -82,6 +89,7 @@ export function Container(props) {
       errors={errors}
       isInProgress={isInProgress}
       currentStep={currentStep}
+      isBgsSite={isBgsSite}
       email={email}
       setEmail={setEmail}
       password={password}
@@ -95,6 +103,8 @@ export function Container(props) {
       googleLoginUrl={googleLoginUrl}
       phoneNumber={phoneNumber}
       setPhoneNumber={setPhoneNumber}
+      termsAndConditions={termsAndConditions}
+      setTermsAndConditions={setTermsAndConditions}
       message={message}
     />
   )
