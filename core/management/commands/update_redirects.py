@@ -95,7 +95,7 @@ class Command(BaseCommand):
 
                     # Great.go.uk will need absolute_path
                     bgs_redirect_dict = self.handle_redirect(
-                        Redirect.objects.filter(old_path=old_path, site=self.site).first(),
+                        Redirect.objects.filter(old_path=old_path, site=self.bgs_site).first(),
                         old_path,
                         redirect_path,
                         self.bgs_site,
