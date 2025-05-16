@@ -113,6 +113,8 @@ def feature_flags(request):
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
+    retval['features']['FEATURE_BGS_CHAT'] = settings.FEATURE_BGS_CHAT
+    retval['features']['COPILOT_EMBED_SRC'] = settings.COPILOT_EMBED_SRC
 
     return retval
 

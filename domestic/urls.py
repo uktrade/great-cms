@@ -1,8 +1,10 @@
 from django.urls import path
 from great_components.decorators import skip_ga360
+from django.conf import settings
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+import domestic.views.chat
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -91,5 +93,10 @@ urlpatterns = [
         'campaigns/<slug:page_slug>/',
         skip_ga360(CampaignView.as_view()),
         name='campaigns',
-    ),
+    )
 ]
+
+if settings.FEATURE_BGS_CHAT:
+    urlpatterns += [
+        path('chat/', domestic.views.chat.BgsChatEmbedView, name='bgs-chat-embed')
+    ]
