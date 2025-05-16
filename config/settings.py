@@ -124,7 +124,6 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     'core.middleware.HHTPHeaderDisallowEmbeddingMiddleware',
     'core.middleware.GA4TrackingMiddleware',
-    'international.middleware.CheckForBGSDomainMiddleware',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
     'csp.middleware.CSPMiddleware',
