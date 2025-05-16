@@ -23,13 +23,6 @@ build_bgs_international_url = partial(urljoin, f'/{settings.BGS_INTERNATIONAL_UR
 
 redirects = [
     re_path(
-        r'^about/$',
-        QuerystringRedirectView.as_view(
-            url='https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'
-        ),
-        name='events-about-legacy',
-    ),
-    re_path(
         r'^jpm/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/ehome/200197163/'),
         name='JPM-fintech-nov-2019',

@@ -47,9 +47,6 @@ class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):  # /PS-IGNORE
     # to make redirects with querystring. Based on this bug https://github.com/wagtail/wagtail/issues/4414
     # Original redirect middleware 'wagtail.contrib.redirects.middleware.RedirectMiddleware' is disabled
     def process_response(self, request, response):
-        # No need to check for a redirect for non-404 responses.
-        if response.status_code != 404:
-            return response
 
         # Get the path
         path = models.Redirect.normalise_path(request.get_full_path())
