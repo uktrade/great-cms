@@ -120,7 +120,9 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
-urlpatterns = [path('export-from-uk/resources/find-a-buyer/', include(find_a_buyer.urls, namespace='bgs_find_a_buyer'))] + urlpatterns
+urlpatterns = [
+    path('export-from-uk/resources/find-a-buyer/', include(find_a_buyer.urls, namespace='bgs_find_a_buyer'))
+] + urlpatterns
 
 # Great International
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns
