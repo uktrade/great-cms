@@ -93,10 +93,8 @@ urlpatterns = [
         'campaigns/<slug:page_slug>/',
         skip_ga360(CampaignView.as_view()),
         name='campaigns',
-    )
+    ),
 ]
 
 if settings.FEATURE_BGS_CHAT:
-    urlpatterns += [
-        path('chat/', domestic.views.chat.bgs_chat_embed, name='bgs-chat-embed')
-    ]
+    urlpatterns += [path('chat/', domestic.views.chat.bgs_chat_embed, name='bgs-chat-embed')]
