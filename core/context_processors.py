@@ -114,7 +114,6 @@ def feature_flags(request):
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
     retval['features']['FEATURE_BGS_CHAT'] = settings.FEATURE_BGS_CHAT
-    retval['features']['COPILOT_EMBED_SRC'] = settings.COPILOT_EMBED_SRC
 
     return retval
 
@@ -690,3 +689,7 @@ def current_website_name(request):
             website_name = 'business.gov.uk'
 
     return {'current_website_name': website_name}
+
+
+def bgs_chat_vars(request):
+    return {'COPILOT_EMBED_SRC': settings.COPILOT_EMBED_SRC}

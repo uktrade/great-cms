@@ -220,6 +220,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.is_triage_complete',
                 'international.context_processors.international_header',
+                'core.context_processors.bgs_chat_vars',
             ],
         },
     },
