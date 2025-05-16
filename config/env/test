@@ -1,5 +1,5 @@
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
-API_CACHE_DISABLED=true
+API_CACHE_DISABLED=false
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEBUG=False
 AWS_STORAGE_BUCKET_NAME=''
