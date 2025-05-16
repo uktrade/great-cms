@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import sentry_sdk
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.base import Model
 from django.forms.models import model_to_dict
@@ -258,11 +259,11 @@ def get_change_answers_link(request: HttpRequest) -> str:
         triage_start_url = reverse('domestic_growth:domestic-growth-existing-location')
 
     if request.GET.get('triage_uuid'):
-        return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
+        return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}&edit=true"
     elif request.META.get('triage_uuid'):
-        return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}"
+        return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}&edit=true"
 
-    return triage_start_url
+    return triage_start_url + '?edit=true'
 
 
 def get_change_sector_link(request: HttpRequest) -> str:
@@ -329,3 +330,25 @@ def guide_link_valid(request: HttpRequest) -> bool:
     if record:
         return timezone.now() <= (record.created + timedelta(days=BGS_GUIDE_SHARE_LINK_TTL_DAYS))
     return False
+
+
+def persist_to_cache(key: str, data: dict):
+    """
+    Stores data in default cache. Timeout of 'None' is used so that triage data remains until either
+    it is persisted in the db (at the end of a completed triage) or stored in the db via scheduled
+    management command (in the event of a partially completed triage). On successful completion of
+    either of these events the triage data is deleted from the cache.
+    """
+    existing_data = cache.get(key, {})
+    cache.set(key, {**existing_data, **data}, None)
+
+
+def persist_to_db(key: str, model: Model, triage_uuid: str):
+    """
+    Extracts data for a given key from the cache and saves in the database table defined by the model
+    parameter
+    """
+    triage_data = cache.get(key)
+
+    if triage_data:
+        model.objects.update_or_create(triage_uuid=triage_uuid, defaults=triage_data)

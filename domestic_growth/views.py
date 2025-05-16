@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 from uuid import UUID, uuid4
 
 import sentry_sdk
+from django.core.cache import cache
 from django.db.models.base import Model
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -25,7 +26,7 @@ from domestic_growth.forms import (
     StartingABusinessLocationForm,
     StartingABusinessSectorForm,
 )
-from domestic_growth.helpers import get_triage_data
+from domestic_growth.helpers import get_triage_data, persist_to_cache, persist_to_db
 from domestic_growth.models import ExistingBusinessTriage, StartingABusinessTriage
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
@@ -37,11 +38,16 @@ class BaseTriageFormView(FormView):
     triage_uuid: str = ''
     triage_model: Model = ExistingBusinessTriage
     triage_field_name: str = ''
+    cache_key: str = ''
     fern = Fern()
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.triage_uuid = self.get_triage_uuid()
+        model_str = (
+            'ExistingBusinessTriage' if self.triage_model is ExistingBusinessTriage else 'StartingABusinessTriage'
+        )
+        self.cache_key = f'bgs:{model_str}:{self.triage_uuid}'
 
     def get_triage_uuid(self) -> str:
         """
@@ -70,12 +76,27 @@ class BaseTriageFormView(FormView):
         except ValueError as e:  # NOQA:F841
             sentry_sdk.capture_exception(e)
 
-        return url
+        return f'{url}?{urlencode(params)}' if params else url
 
-    def get_initial(self):
-        triage_data = get_triage_data(self.triage_model, self.triage_uuid)
-        if triage_data:
-            return {self.triage_field_name: getattr(triage_data, self.triage_field_name, None)}
+    def get_initial(self, triage_field_name=None) -> dict:
+        if not triage_field_name:
+            triage_field_name = self.triage_field_name
+
+        # only try and get initial data from db if the user is editing which implies there is data to begin with
+        if self.request.GET.get('edit'):
+
+            # try getting data from cache so back button pre-populates form correctly otherwise db
+            triage_data_from_cache = cache.get(self.cache_key)
+
+            if triage_data_from_cache and triage_data_from_cache.get(triage_field_name):
+                return {triage_field_name: triage_data_from_cache.get(triage_field_name)}
+            else:
+                triage_data_from_db = get_triage_data(self.triage_model, self.triage_uuid)
+
+                if triage_data_from_db:
+                    return {triage_field_name: getattr(triage_data_from_db, triage_field_name, None)}
+
+        return {triage_field_name: None}
 
 
 class StartingABusinessLocationFormView(BaseTriageFormView):
@@ -86,9 +107,9 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            StartingABusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     self.triage_field_name: form.cleaned_data['postcode'],
                 },
             )
@@ -97,7 +118,8 @@ class StartingABusinessLocationFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-pre-start-sector')
+            reverse_lazy('domestic_growth:domestic-growth-pre-start-sector'),
+            {'edit': True} if self.request.GET.get('edit') else {},
         )
 
     def get_context_data(self, **kwargs):
@@ -120,20 +142,24 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
         back_url = self.get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-pre-start-location')
+            reverse_lazy('domestic_growth:domestic-growth-pre-start-location'), {'edit': True}
         )
 
         return super().get_context_data(**kwargs, autocomplete_sector_data=autocomplete_sector_data, back_url=back_url)
 
     def form_valid(self, form):
         if form.is_valid():
-            StartingABusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     'sector_id': form.cleaned_data['sector'],
                     'dont_know_sector': form.cleaned_data['dont_know_sector_yet'],
                 },
             )
+
+            # at the last point in the triage we persist to the database and remove from cache
+            persist_to_db(self.cache_key, self.triage_model, self.triage_uuid)
+            cache.delete(self.cache_key)
 
         return super().form_valid(form)
 
@@ -141,12 +167,13 @@ class StartingABusinessSectorFormView(BaseTriageFormView):
         return super().get_url_with_optional_triage_uuid_param(PRE_START_GUIDE_URL)
 
     def get_initial(self):
-        triage_data = get_triage_data(StartingABusinessTriage, self.triage_uuid)
-        if triage_data:
-            return {
-                'sector': getattr(triage_data, 'sector_id', None),
-                'dont_know_sector_yet': getattr(triage_data, 'dont_know_sector', None),
-            }
+        if self.request.GET.get('edit'):
+            triage_data = get_triage_data(StartingABusinessTriage, self.triage_uuid)
+            if triage_data:
+                return {
+                    'sector': getattr(triage_data, 'sector_id', None),
+                    'dont_know_sector_yet': getattr(triage_data, 'dont_know_sector', None),
+                }
 
 
 class ExistingBusinessLocationFormView(BaseTriageFormView):
@@ -156,9 +183,9 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            ExistingBusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     self.triage_field_name: form.cleaned_data['postcode'],
                 },
             )
@@ -167,7 +194,8 @@ class ExistingBusinessLocationFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-sector')
+            reverse_lazy('domestic_growth:domestic-growth-existing-sector'),
+            {'edit': True} if self.request.GET.get('edit') else {},
         )
 
     def get_context_data(self, **kwargs):
@@ -191,16 +219,16 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = region_sector_helpers.get_sectors_as_string(dbt_sectors)
         back_url = self.get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-location')
+            reverse_lazy('domestic_growth:domestic-growth-existing-location'), {'edit': True}
         )
 
         return super().get_context_data(**kwargs, autocomplete_sector_data=autocomplete_sector_data, back_url=back_url)
 
     def form_valid(self, form):
         if form.is_valid():
-            ExistingBusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     'sector_id': form.cleaned_data['sector'],
                     'cant_find_sector': form.cleaned_data['cant_find_sector'],
                 },
@@ -210,16 +238,20 @@ class ExistingBusinessSectorFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-when-set-up')
+            reverse_lazy('domestic_growth:domestic-growth-when-set-up'),
+            {'edit': True} if self.request.GET.get('edit') else {},
         )
 
     def get_initial(self):
-        triage_data = get_triage_data(ExistingBusinessTriage, self.triage_uuid)
-        if triage_data:
-            return {
-                'sector': getattr(triage_data, 'sector_id', None),
-                'cant_find_sector': getattr(triage_data, 'cant_find_sector', None),
-            }
+        if self.request.GET.get('edit'):
+            triage_sector = super().get_initial(triage_field_name='sector_id')
+            triage_cant_find_sector = super().get_initial(triage_field_name='cant_find_sector')
+
+            if triage_sector or triage_cant_find_sector:
+                return {
+                    'sector': triage_sector.get('sector_id'),
+                    'cant_find_sector': triage_cant_find_sector.get('cant_find_sector'),
+                }
 
 
 class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
@@ -229,9 +261,9 @@ class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            ExistingBusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     self.triage_field_name: form.cleaned_data['when_set_up'],
                 },
             )
@@ -240,13 +272,14 @@ class ExistingBusinessWhenSetupFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-turnover')
+            reverse_lazy('domestic_growth:domestic-growth-existing-turnover'),
+            {'edit': True} if self.request.GET.get('edit') else {},
         )
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
         back_url = self.get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-sector')
+            reverse_lazy('domestic_growth:domestic-growth-existing-sector'), {'edit': True}
         )
 
         return {'back_url': back_url, **ctx_data}
@@ -259,9 +292,9 @@ class ExistingBusinessTurnoverFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            ExistingBusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
+            persist_to_cache(
+                self.cache_key,
+                {
                     self.triage_field_name: form.cleaned_data['turnover'],
                 },
             )
@@ -270,13 +303,14 @@ class ExistingBusinessTurnoverFormView(BaseTriageFormView):
 
     def get_success_url(self):
         return super().get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-exporter')
+            reverse_lazy('domestic_growth:domestic-growth-existing-exporter'),
+            {'edit': True} if self.request.GET.get('edit') else {},
         )
 
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
         back_url = self.get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-when-set-up')
+            reverse_lazy('domestic_growth:domestic-growth-when-set-up'), {'edit': True}
         )
 
         return {'back_url': back_url, **ctx_data}
@@ -289,12 +323,14 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
     def form_valid(self, form):
         if form.is_valid():
-            ExistingBusinessTriage.objects.update_or_create(
-                triage_uuid=self.triage_uuid,
-                defaults={
-                    self.triage_field_name: True if form.cleaned_data['currently_export'] == 'YES' else False,
-                },
+            persist_to_cache(
+                self.cache_key,
+                {self.triage_field_name: True if form.cleaned_data['currently_export'] == 'YES' else False},
             )
+
+            # at the last point in the triage we persist to the database and remove from cache
+            persist_to_db(self.cache_key, self.triage_model, self.triage_uuid)
+            cache.delete(self.cache_key)
 
         return super().form_valid(form)
 
@@ -312,15 +348,18 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
     def get_context_data(self, **kwargs):
         ctx_data = super().get_context_data(**kwargs)
         back_url = self.get_url_with_optional_triage_uuid_param(
-            reverse_lazy('domestic_growth:domestic-growth-existing-turnover')
+            reverse_lazy('domestic_growth:domestic-growth-existing-turnover'), {'edit': True}
         )
 
         return {'back_url': back_url, **ctx_data}
 
     def get_initial(self):
-        triage_data = get_triage_data(ExistingBusinessTriage, self.triage_uuid)
+        if self.request.GET.get('edit'):
+            triage_currently_export = super().get_initial(triage_field_name='currently_export')
 
-        if triage_data and getattr(triage_data, self.triage_field_name) is not None:
-            return {
-                self.triage_field_name: 'YES' if getattr(triage_data, self.triage_field_name, False) is True else 'NO',
-            }
+            if triage_currently_export and triage_currently_export.get(self.triage_field_name) is not None:
+                return {
+                    self.triage_field_name: (
+                        'YES' if triage_currently_export.get(self.triage_field_name) is True else 'NO'
+                    ),
+                }
