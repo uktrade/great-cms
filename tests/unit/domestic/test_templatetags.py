@@ -21,6 +21,7 @@ from domestic.templatetags.component_tags import (
     pagination_obj_range_lower_limit,
     pagination_obj_range_upper_limit,
     persist_language,
+    replace_hyphens,
     replace_underscores,
 )
 from tests.unit.export_academy.factories import EventFactory
@@ -437,6 +438,11 @@ def test_persist_language(url, language, expected_output):
 def test_replace_underscores():
     assert replace_underscores('hello_world') == 'hello-world'
     assert replace_underscores('hello world') == 'hello world'
+
+
+def test_replace_hyphens():
+    assert replace_hyphens('hello-world') == 'hello_world'
+    assert replace_hyphens('hello world') == 'hello world'
 
 
 @mock.patch('domestic.helpers.get_market_widget_data_helper')
