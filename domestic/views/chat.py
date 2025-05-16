@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.decorators.clickjacking import xframe_options_exempt
 
-def BgsChatEmbedView(request):
+
+def bgs_chat_embed(request):
     return render(request, 'domestic/chat.html')

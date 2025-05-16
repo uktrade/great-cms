@@ -98,5 +98,5 @@ urlpatterns = [
 
 if settings.FEATURE_BGS_CHAT:
     urlpatterns += [
-        path('chat/', domestic.views.chat.BgsChatEmbedView, name='bgs-chat-embed')
+        path('chat/', domestic.views.chat.bgs_chat_embed, name='bgs-chat-embed')
     ]
