@@ -3,6 +3,7 @@ from unittest import mock
 from uuid import UUID
 
 import pytest
+from django.core.cache import cache
 from django.test.client import RequestFactory
 from django.urls import reverse, reverse_lazy
 
@@ -103,6 +104,8 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
     factory = RequestFactory()
+    cache_key = f'bgs:StartingABusinessTriage:{mock_session_key}'
+    cache_key_ttl = None
 
     # first step in triage
     req = factory.post(
@@ -116,7 +119,7 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     postcode_response = StartingABusinessLocationFormView.as_view()(req)
 
-    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    assert cache.get(cache_key) == {'postcode': postcode}
 
     # follow redirect to sector entry
     req = factory.post(
