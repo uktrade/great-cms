@@ -35,14 +35,20 @@
                         <div class="govuk-form-group">
                             {% include 'international/includes/form_field.html' with field=form.telephone_number show_vertical_error_line=True %}
                         </div>
-                        <div class="govuk-form-group">
-                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item">
-                                    {{ form.agree_info_email }}
-                                    <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_email">{{ form.agree_info_email.label }}</label>
+                        {% if bgs_site %}
+                        <p>
+                            Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
+                        </p>
+                        {% else %}
+                            <div class="govuk-form-group">
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                        {{ form.agree_info_email }}
+                                        <label class="govuk-label govuk-checkboxes__label" for="id_agree_info_email">{{ form.agree_info_email.label }}</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </fieldset>
                     {% include "_button.html" with text=progress_button_text %}
                 </form>

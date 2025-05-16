@@ -28,9 +28,13 @@
                             {{ wizard.form.management_form }}
                             {% for form in wizard.form.forms %}{{ form }}{% endfor %}
                         {% else %}
+                        
                             {{ form }}
                         {% endif %}
                     </div>
+                    {% if bgs_site %}
+                        {% block privacy_policy %}{% endblock %}
+                    {% endif %}
                     <div>
                         <button type="submit" class="button primary-button">
                             {% block submit_button_label %}Continue{% endblock %}

@@ -759,11 +759,12 @@ def test_event_list_for_joined_event(client, user, export_academy_landing_page, 
     ),
 )
 @pytest.mark.django_db
-def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_link_query_params):
+def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_link_query_params, mock_site, mock_page):
     url = reverse('export_academy:signup')
-    if unique_link:
-        url += test_unique_link_query_params
-    response = client.get(url)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if unique_link:
+            url += test_unique_link_query_params
+        response = client.get(url)
     assert response.status_code == 200
     if unique_link:
         assert response.context['form'].initial['email'] == 'test@example.com'  # /PS-IGNORE
@@ -778,12 +779,13 @@ def test_sign_up_page(client, unique_link, expected_page_heading, test_unique_li
     ),
 )
 @pytest.mark.django_db
-def test_sign_up_empty_password(client, unique_link, test_unique_link_query_params):
+def test_sign_up_empty_password(client, unique_link, test_unique_link_query_params, mock_site):
     form_data = {'email': 'test@example.com', 'mobile_phone_number': ''}  # /PS-IGNORE
     url = reverse('export_academy:signup')
-    if unique_link:
-        url += test_unique_link_query_params
-    response = client.post(url, data=form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if unique_link:
+            url += test_unique_link_query_params
+        response = client.post(url, data=form_data)
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
     if unique_link:
@@ -800,15 +802,16 @@ def test_sign_up_empty_password(client, unique_link, test_unique_link_query_para
 @mock.patch.object(sso_api_client.user, 'create_user')
 @pytest.mark.django_db
 def test_sign_up_400_error(
-    mock_create_user, user_ea_registered, signup_post_request_unique_link, signup_form_post_request_new_user
+    mock_create_user, user_ea_registered, signup_post_request_unique_link, signup_form_post_request_new_user, mock_site
 ):
     mock_create_user.return_value = create_response(
         status_code=400, json_body={'password': ["This password contains the word 'password'"]}
     )
-    if user_ea_registered:
-        response = signup_post_request_unique_link()
-    else:
-        response = signup_form_post_request_new_user()
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link()
+        else:
+            response = signup_form_post_request_new_user()
     assert response.context['form'].errors['password'] == ["This password contains the word 'password'"]
     assert response.status_code == 200
     if user_ea_registered:
@@ -838,11 +841,15 @@ def test_signup_create_password_success(
     query_params,
     user_ea_registered,
     next,
+    mock_site,
 ):
-    if user_ea_registered:
-        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
-    else:
-        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
+        else:
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -890,15 +897,18 @@ def test_sign_up_code_already_sent(
     query_params,
     user_ea_registered,
     next,
+    mock_site,
 ):
     uidb64 = 'MjE1ODk1'
     token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'  # /PS-IGNORE
     mock_create_user.return_value = create_response(status_code=409)
-
-    if user_ea_registered:
-        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
-    else:
-        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
+        else:
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 
@@ -936,14 +946,17 @@ def test_sign_up_already_registered(
     query_params,
     user_ea_registered,
     next,
+    mock_site,
 ):
     mock_create_user.return_value = create_response(status_code=409)
     mock_regenerate_verification_code.return_value = None
-
-    if user_ea_registered:
-        response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
-    else:
-        response = signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        if user_ea_registered:
+            response = signup_post_request_unique_link() if not next else signup_post_request_unique_link_with_next()
+        else:
+            response = (
+                signup_form_post_request_new_user() if not next else signup_form_post_request_new_user_with_next()
+            )  # noqa
 
     query_params = query_params.replace('next_url', next_url)
 

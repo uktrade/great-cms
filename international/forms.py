@@ -1,5 +1,6 @@
 from django.forms import (
     CharField,
+    CheckboxInput,
     CheckboxSelectMultiple,
     MultipleChoiceField,
     Textarea,
@@ -7,6 +8,7 @@ from django.forms import (
 )
 from great_components import forms
 
+from core import helpers
 from core.forms import HCSATForm as DomesticHCSATForm
 from core.models import HCSAT
 from core.validators import is_valid_email_address
@@ -44,6 +46,16 @@ class ContactForm(forms.Form):
             'required': 'Enter your email address',
         },
     )
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
 
 
 class InternationalHCSATForm(DomesticHCSATForm):

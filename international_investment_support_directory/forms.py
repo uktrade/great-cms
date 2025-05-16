@@ -12,6 +12,7 @@ from django.forms import (
 )
 from great_components import forms
 
+from core import helpers
 from core.validators import is_valid_email_address
 from directory_constants import choices
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
@@ -157,11 +158,26 @@ class SearchForm(forms.Form):
 
 
 class FindASpecialistContactForm(GovNotifyEmailActionMixin, forms.Form):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, request=None, **kwargs):
         super().__init__(*args, **kwargs)
         sector_data_json = get_dbt_sectors()
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
+        else:
+            self.fields['terms'] = BooleanField(
+                required=True,
+                label='I agree to the great.gov.uk terms and conditions and I understand that:',
+                error_messages={
+                    'required': 'Tick the box to confirm you agree to the terms and conditions',
+                },
+                widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+            )
 
     given_name = CharField(
         label='Given name',
@@ -237,15 +253,6 @@ class FindASpecialistContactForm(GovNotifyEmailActionMixin, forms.Form):
             'required': 'Enter your message to the UK company',
         },
         widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
-    )
-
-    terms = BooleanField(
-        required=True,
-        label='I agree to the great.gov.uk terms and conditions and I understand that:',
-        error_messages={
-            'required': 'Tick the box to confirm you agree to the terms and conditions',
-        },
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
     marketing_consent = BooleanField(

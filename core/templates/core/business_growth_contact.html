@@ -84,19 +84,25 @@
                     </div>
                 </div>
             </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
-                    <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
-                        {% include 'international/includes/form_field.html' with field=form.email %}
-                    </div>
+            <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+                {% for error in form.terms_agreed.errors %}
+                    <p class="govuk-error-message" role="alert">
+                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                    </p>
+                {% endfor %}
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item">
+                    {{ form.terms_agreed }}
+                    <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">
+                        {{form.terms_agreed.label}}
+                    </label>
+                </div>
                 </div>
             </div>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
                     <p class="govuk-body govuk-!-padding-bottom-3">
-                        By sending us your enquiry, you agree to our
-                        <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
-                        <a href='/privacy' target="_blank">privacy notice</a>.
+                        Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
                     </p>
                     {% include '_button.html' with text='Send' %}
                 </div>

@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from great_components import forms
 
 from contact.forms import TERMS_LABEL
+from core import helpers
 from core.forms import ConsentFieldMixin
 from core.models import IndustryTag
 from directory_constants import choices
@@ -129,17 +130,26 @@ class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
         help_text=_('Please tell us briefly what type of support you’re looking for'),
         widget=Textarea,
     )
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL,
-        error_messages={
-            'required': _('You must agree to the terms and conditions' ' before registering'),
-        },
-    )
+
     captcha = ReCaptchaField(
         label='',
         label_suffix='',
         widget=ReCaptchaV3(),
     )
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+            )
+        else:
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label=TERMS_LABEL,
+                error_messages={'required': 'You must agree to the terms and conditions before registering'},
+            )
 
     @property
     def serialized_data(self):
@@ -241,7 +251,6 @@ class CompanyDetailsForm(forms.Form):
 
 class HelpForm(ConsentFieldMixin, forms.Form):
     error_css_class = 'input-field-container has-error'
-
     comment = forms.CharField(
         label='Tell us about your export experience, including any challenges you are facing.',
         help_text=(
@@ -447,14 +456,24 @@ class MarketAccessProblemDetailsForm(forms.Form):
 
 
 class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
-    contact_by_email = forms.BooleanField(
-        label='I would like to receive additional information by email',
-        required=False,
-    )
-    contact_by_phone = forms.BooleanField(
-        label='I would like to receive additional information by telephone',
-        required=False,
-    )
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+            )
+        else:
+            self.fields['contact_by_email'] = forms.BooleanField(
+                label='I would like to receive additional information by email',
+                required=False,
+            )
+            self.fields['contact_by_phone'] = forms.BooleanField(
+                label='I would like to receive additional information by telephone',
+                required=False,
+            )
 
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):

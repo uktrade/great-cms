@@ -392,10 +392,11 @@ def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
 @mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
 @mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
 def test_ecommerce_export_form_notify_success(
-    mock_save, mock_form_session, client, valid_request_export_support_form_data
+    mock_save, mock_form_session, client, valid_request_export_support_form_data, mock_site
 ):
     url = reverse('contact:ecommerce-export-support-form')
-    response = client.post(url, valid_request_export_support_form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(url, valid_request_export_support_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('contact:ecommerce-export-support-success')
@@ -848,6 +849,10 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
         email = django.forms.EmailField()
         save = mock.Mock()
 
+        def __init__(self, *args, **kwargs):
+            kwargs.pop('request', None)
+            super().__init__(*args, **kwargs)
+
     with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
         response = client.post(
             reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'}  # /PS-IGNORE
@@ -1035,12 +1040,13 @@ def test_domestic_export_support_form_pages(
     redirect_url,
     error_messages,
     client,
+    mock_site,
 ):
-    #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
     for key in form_data:
         invalid_form_data.pop(key)
-        response = client.post(page_url, invalid_form_data)
+        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+            response = client.post(page_url, invalid_form_data)
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         assert '<meta name="robots" content="noindex">' in str(response.rendered_content)
@@ -1048,7 +1054,8 @@ def test_domestic_export_support_form_pages(
         invalid_form_data = form_data.copy()
 
     #   Redirect succeeds with valid data
-    response = client.post(page_url, form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
 
