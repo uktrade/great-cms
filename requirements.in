@@ -47,7 +47,7 @@ directory-sso-api-client==7.2.7
 directory-validators==9.3.4
 django-staff-sso-client==4.3.0
 dbt-copilot-python==0.2.1
-bgs-chat-app==0.0.4
+bgs-chat-app==0.0.10
 
 # Other Python deps
 # -----------------

@@ -3,6 +3,7 @@ from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+import domestic.views.chat
 from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
@@ -93,4 +94,5 @@ urlpatterns = [
         name='campaigns',
     ),
     path('', include('bgs_chat.urls')),
+    path('chat/', domestic.views.chat.BgsChatView, name='bgs-chat')
 ]
