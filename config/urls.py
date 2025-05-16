@@ -97,6 +97,7 @@ urlpatterns += [
     path('activity-stream/', decorator_include(nocache_page, activitystream.urls, namespace='activitystream')),
     path('export-plan/', include(exportplan.urls)),
     path('profile/', decorator_include(nocache_page, sso_profile.urls, namespace='sso_profile')),
+    path('export-from-uk/profile/', decorator_include(nocache_page, sso_profile.urls, namespace='bgs_sso_profile')),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(domestic_growth.urls, namespace='domestic_growth')),
     path('', include(core.urls, namespace='core')),
@@ -119,6 +120,7 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 urlpatterns = [path('find-a-buyer/', include(find_a_buyer.urls, namespace='find_a_buyer'))] + urlpatterns
+urlpatterns = [path('export-from-uk/resources/find-a-buyer/', include(find_a_buyer.urls, namespace='bgs_find_a_buyer'))] + urlpatterns
 
 # Great International
 urlpatterns = [path('international/', include(international.urls))] + urlpatterns

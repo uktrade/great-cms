@@ -12,10 +12,13 @@ from wagtail.models import Site
 class Command(BaseCommand):
     help = 'Updates Redirects for BGS go-live'
 
-    site_str = 'Great.gov.uk'
-
     def add_arguments(self, parser):
-        parser.add_argument('--site', type=str, required=True, help='Site (e.g., Great.gov.uk)')
+        parser.add_argument(
+            '--clean_slate',
+            action=argparse.BooleanOptionalAction,
+            default=False,
+            help='Clear out all Wagtail redirects',
+        )
         parser.add_argument(
             '--dry_run',
             action=argparse.BooleanOptionalAction,
@@ -32,35 +35,63 @@ class Command(BaseCommand):
         )
         return redirect
 
+    def delete_redirect(self, dry_run):
+        self.stdout.write(self.style.SUCCESS('Deleting all redirects from Wagtail'))
+        redirects = Redirect.objects.all()
+        delete_count = redirects.count()
+        if not dry_run:
+            redirects.delete()
+            self.stdout.write(self.style.SUCCESS(f'Records deleted: {delete_count}'))
+        else:
+            self.stdout.write(self.style.SUCCESS('Records deleted: None (dry run)'))
+
     @transaction.atomic
     def handle(self, *args, **options):
         dry_run = options['dry_run']
-        site_name = options['site']
+        clean_slate = options['clean_slate']
 
-        self.site = Site.objects.get(site_name=site_name)
+        self.bgs_site = Site.objects.get(site_name='Business Growth Service')
+        self.site = Site.objects.get(site_name='Great.gov.uk')
 
-        self.stdout.write(self.style.SUCCESS('Updating Redirects'))
+        self.stdout.write(self.style.SUCCESS('Starting redirect update'))
 
+        if clean_slate:
+            self.delete_redirect(dry_run)
+
+        create_count = 0
+        update_count = 0
         with open(
-            settings.ROOT_DIR / 'core/fixtures/redirect-map.csv',
+            settings.ROOT_DIR / 'core/fixtures/redirect-map-v2.csv',
             'r',
             encoding='utf-8',
         ) as f:
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
                 old_path = row.get('CurrentURL').strip()
                 redirect_path = row.get('NewURL').strip()
-                if len(old_path) > 255:
-                    self.stdout.write(self.style.WARNING(f'Redirect old_path too long - {old_path}'))
-                    continue
-                if len(redirect_path) > 255:
-                    self.stdout.write(self.style.WARNING(f'Redirect redirect_link too long - {redirect_path}'))
-                    continue
+                redirect_path_absolute = f'https://{self.site.hostname}{redirect_path}'
+
+                # Great.go.uk will need absolute_path
                 redirect = Redirect.objects.filter(old_path=old_path, site=self.site).first()
                 if redirect:
-                    self.update_redirect(redirect, redirect_path)
+                    self.update_redirect(redirect, redirect_path_absolute)
+                    update_count += 1
                 else:
-                    redirect = self.create_redirect(old_path, redirect_path)
+                    redirect = self.create_redirect(old_path, redirect_path_absolute)
+                    create_count += 1
                 if redirect and not dry_run:
                     redirect.save()
 
+                # business.go.uk will need absolute_path
+                redirect = Redirect.objects.filter(old_path=old_path, site=self.bgs_site).first()
+                if redirect:
+                    self.update_redirect(redirect, redirect_path)
+                    update_count += 1
+                else:
+                    redirect = self.create_redirect(old_path, redirect_path)
+                    create_count += 1
+                if redirect and not dry_run:
+                    redirect.save()
+
+            self.stdout.write(self.style.SUCCESS(f'Updated {update_count} records'))
+            self.stdout.write(self.style.SUCCESS(f'Created {create_count} records'))
             self.stdout.write(self.style.SUCCESS('Redirect Data Updated'))
