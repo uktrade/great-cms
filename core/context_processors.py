@@ -623,7 +623,7 @@ def footer_bgs(request):
                 [
                     {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
-                        'href': '/help-using-this-website/',
+                        'href': '/get-help/',
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },
