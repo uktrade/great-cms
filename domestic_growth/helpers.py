@@ -337,3 +337,24 @@ def guide_link_valid(request: HttpRequest) -> bool:
     if record:
         return timezone.now() <= (record.created + timedelta(days=BGS_GUIDE_SHARE_LINK_TTL_DAYS))
     return False
+
+
+def get_data_layer_triage_data(triage_data, local_support_data):
+    data = {
+        'event': 'BGSTriageData',
+        'type': 'Growing a Business' if triage_data.get('when_set_up', False) else 'Starting a Business',
+        'userInfo': {},
+    }
+
+    if local_support_data and local_support_data.get('postcode_data', {}).get('region'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('region')
+    elif local_support_data and local_support_data.get('postcode_data', {}).get('country'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('country')
+
+    fields = ['sector', 'when_set_up', 'turnover', 'currently_export']
+
+    for field in fields:
+        if triage_data.get(field, False):
+            data['userInfo'][field] = triage_data[field]
+
+    return data

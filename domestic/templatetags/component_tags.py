@@ -316,6 +316,11 @@ def replace_underscores(value, replacement='-'):
     return value.replace('_', replacement)
 
 
+@register.filter(name='replace_hyphens')
+def replace_hyphens(value, replacement='_'):
+    return value.replace('-', replacement)
+
+
 @register.filter(name='remove_string')
 def remove_string(value, replacement=''):
     return value.replace('.', replacement)

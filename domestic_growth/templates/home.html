@@ -140,7 +140,7 @@
                     {% endif %}
 
                     {% if news %}
-                    <div class="great-ds-card-container govuk-!-padding-bottom-4">
+                    <div class="great-ds-card-container govuk-!-padding-bottom-4" data-title="bgs_news" data-location="bgs_homepage">
                         {% for article in news %}
                             {% include "_card.html" with imageUrl=article.image.medium_resolution_url  href="https://www.gov.uk"|add:article.href type="mounted" title=article.title description=article.summary|safe id=article.title|slugify classes="great-ds-card--3" hideArrow="true"  %}
                         {% endfor %}

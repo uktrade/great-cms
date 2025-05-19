@@ -21,6 +21,7 @@ from domestic_growth.helpers import (
     get_change_answers_link,
     get_change_sector_link,
     get_filtered_trade_associations,
+    get_data_layer_triage_data,
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
@@ -517,3 +518,55 @@ def test_has_triage_been_activated(mock_get_dbt_sectors, guide_url, is_triage_st
     result = has_triage_been_activated(req)
 
     assert result == expected_outcome
+
+
+@pytest.mark.parametrize(
+    'triage_data, local_support_data, expected_output',
+    (
+        (
+            {'postcode': 'ABC123', 'sector': 'Food and Drink'},
+            {'postcode_data': {'region': 'North West'}},
+            {
+                'event': 'BGSTriageData',
+                'type': 'Starting a Business',
+                'userInfo': {'sector': 'Food and Drink', 'region': 'North West'},
+            },
+        ),
+        (
+            {
+                'postcode': 'ABC123',
+                'sector': 'Aerospace',
+                'when_set_up': '1_YEAR',
+                'turnover': '1M',
+                'currently_export': 'NO',
+            },
+            {'postcode_data': {'country': 'Scotland'}},
+            {
+                'event': 'BGSTriageData',
+                'type': 'Growing a Business',
+                'userInfo': {
+                    'sector': 'Aerospace',
+                    'when_set_up': '1_YEAR',
+                    'turnover': '1M',
+                    'currently_export': 'NO',
+                    'region': 'Scotland',
+                },
+            },
+        ),
+        (
+            {'postcode': 'ABC123', 'sector': 'Technology'},
+            None,
+            {
+                'event': 'BGSTriageData',
+                'type': 'Starting a Business',
+                'userInfo': {
+                    'sector': 'Technology',
+                },
+            },
+        ),
+    ),
+)
+def test_get_data_layer_triage_data(triage_data, local_support_data, expected_output):
+    result = get_data_layer_triage_data(triage_data, local_support_data)
+
+    assert result == expected_output

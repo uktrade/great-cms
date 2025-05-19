@@ -83,3 +83,25 @@
         </section>
     {% endif %}
 {% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+
+        {% if search_results and search_query %}
+            window.dataLayer.push({
+                event: 'searchResults',
+                search_term: '{{ search_query }}',
+                num_search_results: '{{ page_obj.paginator.count|intcomma }}'
+            });
+        {% elif search_query %}
+            window.dataLayer.push({
+                event: 'searchResults',
+                search_term: '{{ search_query }}',
+                num_search_results: 0
+            });
+        {% endif %}
+    </script>
+{% endblock %}
