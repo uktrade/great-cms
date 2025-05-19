@@ -382,6 +382,9 @@ class BaseSettings(PydanticBaseSettings):
     eyb_incomplete_triage_reminder_template_id: str = '596269d5-b6a5-4d81-a9bb-362849930640'
     bgs_eyb_incomplete_triage_reminder_template_id: str = '3e991f09-0305-449e-b4a0-88e8121cfb16'
 
+    # api key for wagtail DeepL translation service
+    dl_api_key: str = ''
+
 
 class CIEnvironment(BaseSettings):
     database_url: str

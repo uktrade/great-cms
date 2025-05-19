@@ -1116,3 +1116,14 @@ BGS_GUIDE_SHARE_LINK_TTL_DAYS = env.bgs_guide_share_link_ttl_days
 
 EYB_INCOMPLETE_TRIAGE_REMINDER_TEMPLATE_ID = env.eyb_incomplete_triage_reminder_template_id
 BGS_EYB_INCOMPLETE_TRIAGE_REMINDER_TEMPLATE_ID = env.bgs_eyb_incomplete_triage_reminder_template_id
+
+# Auto translation config for wagtail.
+# Allows CMS users to click a button to translate a page with DeepL.
+DL_API_KEY = env.dl_api_key
+WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
+    "CLASS": "wagtail_localize.machine_translators.deepl.DeepLTranslator",
+    "OPTIONS": {
+        "AUTH_KEY": env.dl_api_key,
+        "FORMALITY": "default",  # optional: "default", "prefer_more", "prefer_less"
+    },
+}
