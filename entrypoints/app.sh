@@ -7,7 +7,7 @@ if [[ "$FEATURE_DATADOG" = true ]]; then
    echo "$COPILOT_ENVIRONMENT_NAME"
    ddtrace-run gunicorn config.wsgi --bind 0.0.0.0:$PORT
 else
-   echo "Daatdog Not Detected"
+   echo "Datadog Not Detected"
    echo "$COPILOT_ENVIRONMENT_NAME"
    gunicorn config.wsgi --bind 0.0.0.0:$PORT
 fi
