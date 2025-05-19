@@ -128,7 +128,7 @@ coverage[toml]==7.8.0
     #   pytest-cov
 cron-descriptor==1.4.5
     # via django-celery-beat
-cryptography==43.0.1
+cryptography==44.0.1
     # via
     #   -r requirements.in
     #   pyhanko
