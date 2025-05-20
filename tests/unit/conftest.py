@@ -741,3 +741,23 @@ def dnb_company_list_data():
             },
         ],
     }
+
+
+@pytest.fixture
+def mock_page():
+    page = mock.MagicMock()
+    page.depth = 2
+    page.pk = 1
+    page.id = 1
+    page.path = '0000100001'
+    return page
+
+
+@pytest.fixture
+def mock_site(mock_page):
+    site = mock.MagicMock()
+    site.root_url = 'https://test'
+    site.root_page = mock_page
+    site.pk = 1
+    site.id = 1
+    return site

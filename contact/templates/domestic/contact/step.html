@@ -13,6 +13,12 @@
         <h1 class="heading-large">Tell us how we can help</h1>
     </div>
 {% endblock %}
+{% if bgs_site %}
+    {% block privacy_policy %}
+    <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
+    </p>
+    {% endblock %}
+{% endif %}
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"

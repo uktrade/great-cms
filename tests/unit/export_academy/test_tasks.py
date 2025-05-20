@@ -2,6 +2,7 @@ from datetime import timedelta
 from unittest import mock
 
 import pytest
+from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -16,6 +17,7 @@ from tests.helpers import create_response
 from tests.unit.export_academy import factories
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch('directory_forms_api_client.actions.GovNotifyBulkEmailAction')
 @pytest.mark.django_db
 def test_notify_registration_valid_event(mock_notify_action, user):
@@ -131,6 +133,7 @@ def test_remove_video(user):
     assert treated_event.video_recording is None
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch('directory_forms_api_client.actions.GovNotifyBulkEmailAction')
 @pytest.mark.django_db
 def test_notify_event_complete_valid_event(mock_complete_action, user):
@@ -165,6 +168,7 @@ def test_notify_event_complete_valid_event(mock_complete_action, user):
     assert event.completed_email_sent is True
 
 
+@override_settings(FEATURE_USE_BGS_TEMPLATES=False)
 @mock.patch('directory_forms_api_client.actions.GovNotifyBulkEmailAction')
 @pytest.mark.django_db
 def test_notify_event_complete_cancelled_email_not_sent(mock_complete_action, user):

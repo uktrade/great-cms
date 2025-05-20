@@ -63,7 +63,7 @@ class InvestmentIndexPage(BaseContentPage):
         )
 
         # Get filter choices from the opportunities
-        opportunities = InvestmentOpportunityArticlePage.objects.live()
+        opportunities = InvestmentOpportunityArticlePage.objects.live().descendant_of(self)
         sector_choices, region_choices, investment_type_choices = get_investment_opportunities_search_filters(
             opportunities
         )
@@ -117,7 +117,7 @@ class InvestmentIndexPage(BaseContentPage):
             {'name': 'Home', 'url': f'/{international_url(request)}/'},
         ]
 
-        opportunities = InvestmentOpportunityArticlePage.objects.live()
+        opportunities = InvestmentOpportunityArticlePage.objects.live().descendant_of(self)
 
         sector_filters = []
         investment_type_filters = []

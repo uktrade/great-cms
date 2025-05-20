@@ -107,6 +107,14 @@ def is_sector_triage_question_incomplete(triage_data: Model) -> bool:
     return False
 
 
+def has_triage_been_activated(request: HttpRequest) -> bool:
+    triage_uuid = get_triage_uuid(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, triage_uuid)
+
+    return True if triage_data else False
+
+
 def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
     """
     returns the view name of the next unanswered triage question
@@ -352,3 +360,24 @@ def persist_to_db(key: str, model: Model, triage_uuid: str):
 
     if triage_data:
         model.objects.update_or_create(triage_uuid=triage_uuid, defaults=triage_data)
+
+
+def get_data_layer_triage_data(triage_data, local_support_data):
+    data = {
+        'event': 'BGSTriageData',
+        'type': 'Growing a Business' if triage_data.get('when_set_up', False) else 'Starting a Business',
+        'userInfo': {},
+    }
+
+    if local_support_data and local_support_data.get('postcode_data', {}).get('region'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('region')
+    elif local_support_data and local_support_data.get('postcode_data', {}).get('country'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('country')
+
+    fields = ['sector', 'when_set_up', 'turnover', 'currently_export']
+
+    for field in fields:
+        if triage_data.get(field, False):
+            data['userInfo'][field] = triage_data[field]
+
+    return data

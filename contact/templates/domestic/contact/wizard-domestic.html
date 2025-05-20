@@ -33,6 +33,9 @@
                         {% endif %}
                     </div>
                     {% block extra_content_pre_submit %}{% endblock %}
+                    {% if bgs_site %}
+                        {% block privacy_policy %}{% endblock %}
+                    {% endif %}
                     <div>
                         {% if wizard.steps.step1 != wizard.steps.count %}
                             <button type="submit" class="button primary-button margin-top-30">

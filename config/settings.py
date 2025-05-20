@@ -220,6 +220,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.is_triage_complete',
                 'international.context_processors.international_header',
+                'core.context_processors.bgs_chat_vars',
             ],
         },
     },
@@ -636,6 +637,7 @@ if not PRIVACY_COOKIE_DOMAIN:
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
 }
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
@@ -1106,6 +1108,9 @@ CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
 FEATURE_USE_BGS_TEMPLATES = env.feature_use_bgs_templates
+FEATURE_BGS_CHAT = env.feature_bgs_chat
+COPILOT_EMBED_SRC = env.copilot_embed_src
+DIRECT_LINE_URL = env.direct_line_url
 
 # Allows us to fool the bgs middleware in testing.
 OVERRIDE_BGS_REDIRECT = env.override_bgs_redirect

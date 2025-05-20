@@ -83,6 +83,12 @@ class ReportMarketAccessBarrierFormView(
             data.update(form.cleaned_data)
         return data
 
+    def get_form_kwargs(self, step=None):
+        kwargs = super().get_form_kwargs(step)
+        if step == self.SUMMARY:
+            kwargs['request'] = self.request
+        return kwargs
+
     def done(self, form_list, form_dict, **kwargs):
         data = self.serialize_form_list(form_list)
         subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {data['location']}: {data['company_name']}"

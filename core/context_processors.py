@@ -113,6 +113,7 @@ def feature_flags(request):
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
+    retval['features']['FEATURE_BGS_CHAT'] = settings.FEATURE_BGS_CHAT
 
     return retval
 
@@ -623,7 +624,7 @@ def footer_bgs(request):
                 [
                     {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
-                        'href': '/help-using-this-website/',
+                        'href': '/get-help/',
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },
@@ -688,3 +689,7 @@ def current_website_name(request):
             website_name = 'business.gov.uk'
 
     return {'current_website_name': website_name}
+
+
+def bgs_chat_vars(request):
+    return {'COPILOT_EMBED_SRC': settings.COPILOT_EMBED_SRC}

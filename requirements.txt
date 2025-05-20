@@ -52,6 +52,8 @@ botocore==1.27.96
     # via
     #   boto3
     #   s3transfer
+bytecode==0.16.1
+    # via ddtrace
 celery[redis]==5.3.6
     # via
     #   -r requirements.in
@@ -71,7 +73,7 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via reportlab
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 click==8.1.8
     # via
@@ -101,6 +103,10 @@ dateparser==0.7.2
     # via -r requirements.in
 dbt-copilot-python==0.2.1
     # via -r requirements.in
+ddtrace==3.4.1
+    # via
+    #   -r requirements.in
+    #   django-log-formatter-asim
 defusedxml==0.7.1
     # via willow
 deprecated==1.2.18
@@ -161,6 +167,7 @@ django==4.2.20
     #   django-permissionedforms
     #   django-recaptcha
     #   django-redis
+    #   django-requestlogs
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
@@ -192,7 +199,7 @@ django-health-check==3.18.2
     # via directory-healthcheck
 django-ipware==6.0.3
     # via -r requirements.in
-django-log-formatter-asim==0.0.4
+django-log-formatter-asim==1.0.0
     # via -r requirements.in
 django-modelcluster==6.4
     # via wagtail
@@ -202,12 +209,12 @@ django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.4.0
     # via -r requirements.in
+django-requestlogs==0.8.3
+    # via -r requirements.in
 django-staff-sso-client==4.3.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via
-    #   -r requirements.in
-    #   django-storages
+    # via -r requirements.in
 django-taggit==6.1.0
     # via wagtail
 django-timezone-field==7.1
@@ -219,6 +226,7 @@ django-treebeard==4.7
 djangorestframework==3.15.2
     # via
     #   -r requirements.in
+    #   django-requestlogs
     #   drf-spectacular
     #   sigauth
     #   wagtail
@@ -232,6 +240,8 @@ elastic-apm==6.1.3
     # via -r requirements.in
 elasticsearch==7.13.4
     # via -r requirements.in
+envier==0.6.1
+    # via ddtrace
 et-xmlfile==2.0.0
     # via openpyxl
 events==0.5
@@ -254,8 +264,6 @@ googleapis-common-protos==1.70.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
-greenlet==3.2.1
-    # via sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==23.0.0
@@ -308,7 +316,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==3.0.2
     # via jinja2
-maxminddb==2.6.3
+maxminddb==2.7.0
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -338,6 +346,7 @@ opensearch-py==2.6.0
     #   opensearch-dsl
 opentelemetry-api==1.22.0
     # via
+    #   ddtrace
     #   opentelemetry-distro
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
@@ -402,7 +411,7 @@ pillow==10.3.0
     #   xhtml2pdf
 pillow-heif==0.21.0
     # via willow
-platformdirs==4.3.7
+platformdirs==4.3.8
     # via virtualenv
 polib==1.2.0
     # via wagtail-localize
@@ -412,6 +421,7 @@ prompt-toolkit==3.0.51
     # via click-repl
 protobuf==4.25.7
     # via
+    #   ddtrace
     #   googleapis-common-protos
     #   opentelemetry-proto
 psycopg2==2.9.9
@@ -434,7 +444,9 @@ pyhanko-certvalidator==0.26.8
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==5.4.0
+pyjwt==2.9.0
+    # via redis
+pypdf==5.5.0
     # via xhtml2pdf
 pyquery==2.0.1
     # via readtime
@@ -474,11 +486,11 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   pre-commit
     #   pyhanko
-qrcode==8.1
+qrcode==8.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==5.2.1
+redis==5.3.0
     # via
     #   celery
     #   django-redis
@@ -506,7 +518,7 @@ requests-oauthlib==2.0.0
     # via django-staff-sso-client
 s3transfer==0.6.2
     # via boto3
-sentry-sdk==2.27.0
+sentry-sdk==2.28.0
     # via -r requirements.in
 sigauth==5.3.0
     # via
@@ -523,7 +535,7 @@ six==1.17.0
     #   python-bidi
     #   python-dateutil
     #   w3lib
-snowballstemmer==2.2.0
+snowballstemmer==3.0.1
     # via sphinx
 soupsieve==2.7
     # via beautifulsoup4
@@ -560,6 +572,8 @@ tomli==2.2.1
 typing-extensions==4.13.2
     # via
     #   asgiref
+    #   bytecode
+    #   ddtrace
     #   dj-database-url
     #   opentelemetry-sdk
     #   pydantic
@@ -580,7 +594,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
-uritools==4.0.3
+uritools==5.0.0
     # via pyhanko-certvalidator
 urllib3==1.26.19
     # via
@@ -597,7 +611,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.30.0
+virtualenv==20.31.2
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -642,15 +656,16 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.10.0
-    # via
-    #   wagtail
-    #   willow
+    # via wagtail
 wrapt==1.17.2
     # via
+    #   ddtrace
     #   deprecated
     #   opentelemetry-instrumentation
 xhtml2pdf==0.2.16
     # via -r requirements.in
+xmltodict==0.14.2
+    # via ddtrace
 zipp==3.21.0
     # via importlib-metadata
 

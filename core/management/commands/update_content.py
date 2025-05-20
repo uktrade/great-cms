@@ -44,14 +44,18 @@ class Command(BaseCommand):
 
     CALLABLES = types.FunctionType, types.MethodType
 
-    strings_to_replace = {
-        'https://www.great.gov.uk': 'https://www.hotfix.great.uktrade.digital',
-        'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
-    }
+    string_to_replace = 'great.gov.uk'
+    replacement_string = ''
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--hostname', type=str, required=True, help='Site hostname (e.g., www.dev.bgs.uktrade.digital)'
+        )
+        parser.add_argument(
+            '--replacement',
+            type=str,
+            required=True,
+            help='String to replace with replacement i.e <stringtoreplace>:<replacement>',
         )
         parser.add_argument(
             '--dry_run',
@@ -74,11 +78,19 @@ class Command(BaseCommand):
         if self.string_contains_html(original_value):
             updated, new_source = self.replace_richtextbox(page_title, original_value)
             return updated, new_source
-
-        for item in self.strings_to_replace:
-            if item in original_value:
-                value = original_value.replace(item, self.strings_to_replace[item])
-                updated = True
+        else:
+            positions = [i for i in range(len(value)) if value.startswith(self.string_to_replace, i)]
+            if positions:
+                for pos in positions:
+                    start = pos - len('event.')
+                    if value[start:pos] != 'event.':
+                        if value[pos : pos + len(self.string_to_replace)] == self.string_to_replace:  # noqa E203
+                            value = (
+                                value[:pos]
+                                + self.replacement_string
+                                + value[pos + len(self.string_to_replace) :]  # noqa E203
+                            )
+                            updated = True
 
         if updated:
             self.report_page_needs_updating(page_title, field, original_value)
@@ -90,13 +102,11 @@ class Command(BaseCommand):
         updated = False
         soup = BeautifulSoup(source, 'html.parser')
 
-        for value in self.strings_to_replace:
-            findall = soup.find_all(text=re.compile(value))
-            for text in findall:
-                self.report_page_needs_updating(page_title, 'text', source)
-                fixed_link = text.replace(value, self.strings_to_replace[value])
-                text.replace_with(fixed_link)
-                updated = True
+        findall = soup.find_all(text=re.compile(self.string_to_replace))
+        for text in findall:
+            fixed_link = text.replace(self.string_to_replace, self.replacement_string)
+            text.replace_with(fixed_link)
+            updated = True
 
         return updated, str(soup)
 
@@ -105,11 +115,9 @@ class Command(BaseCommand):
         soup = BeautifulSoup(source, 'html.parser')
         a_tags = soup.find_all('a', href=True)
         for tag in a_tags:
-            for value in self.strings_to_replace:
-                if value in tag['href']:
-                    self.report_page_needs_updating(page_title, 'text', source)
-                    tag['href'] = tag['href'].replace(value, self.strings_to_replace[value])
-                    updated = True
+            if self.string_to_replace in tag['href']:
+                tag['href'] = tag['href'].replace(self.string_to_replace, self.replacement_string)
+                updated = True
         return updated, str(soup)
 
     def process_string_field(self, page_title, field, value, dry_run):
@@ -759,6 +767,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):  # noqa: C901
         hostname = options['hostname']
         dry_run = options['dry_run']
+        replacement = options['replacement']
+
+        self.string_to_replace = replacement.split(':')[0]
+        self.replacement_string = replacement.split(':')[1]
 
         try:
             site = Site.objects.get(hostname=hostname)

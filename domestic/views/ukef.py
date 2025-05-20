@@ -95,6 +95,11 @@ class ContactView(BespokeBreadcrumbMixin, BaseNotifyFormView):
         user_template=settings.UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID,
     )
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
         user_email = form.cleaned_data['email']
         self.request.session['user_email'] = user_email
@@ -154,7 +159,9 @@ class GetFinanceLeadGenerationFormView(
 
     def get_form_kwargs(self, *args, **kwargs):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
-        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+        kwargs = super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+        kwargs['request'] = self.request
+        return kwargs
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
