@@ -126,13 +126,14 @@ class BaseSettings(PydanticBaseSettings):
     eu_exit_zendesk_subdomain: str
 
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
-    bgs_confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
+    bgs_confirm_verification_code_template_id: str = '7ea2e34d-3903-4a73-8f90-a63e33c0ba44' # /PS-IGNORE
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
     bgs_eyb_enrolment_welcome_template_id: str = '768abbf5-8175-442e-a4f7-859359e10fec'  # /PS-IGNORE
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
     contact_domestic_zendesk_subject: str = 'Great.gov.uk contact form'
     contact_enquiries_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
+    bgs_contact_enquiries_agent_notify_template_id: str = '5fcb8d4e-6ef7-482b-b25e-f8d4cbb570c3'  # /PS-IGNORE
     contact_enquiries_agent_email_address: str
     contact_enquiries_user_notify_template_id: str = '61c82be6-b140-46fc-aeb2-472df8a94d35'  # /PS-IGNORE
     contact_ecommerce_export_support_agent_email_address: str
@@ -141,8 +142,10 @@ class BaseSettings(PydanticBaseSettings):
     contact_dit_agent_email_address: str
     contact_events_user_notify_template_id: str = '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'  # /PS-IGNORE
     contact_events_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
+    bgs_contact_events_agent_notify_template_id: str = '5fcb8d4e-6ef7-482b-b25e-f8d4cbb570c3'  # /PS-IGNORE
     contact_events_agent_email_address: str
     contact_dso_agent_notify_template_id: str = '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'  # /PS-IGNORE
+    bgs_contact_dso_agent_notify_template_id: str = '5fcb8d4e-6ef7-482b-b25e-f8d4cbb570c3'  # /PS-IGNORE
     contact_dso_user_notify_template_id: str = 'a6a3db79-944f-4c59-8eeb-2f756019976c'  # /PS-IGNORE
     contact_dso_agent_email_address: str
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
@@ -153,6 +156,7 @@ class BaseSettings(PydanticBaseSettings):
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
     contact_industry_agent_email_address: str = None
     contact_industry_agent_template_id: str = 'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'  # /PS-IGNORE
+    bgs_contact_industry_agent_template_id: str = '11249d69-e31f-4c62-bce9-054558c14b6b'  # /PS-IGNORE
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
     contact_industry_user_reply_to_id: str = None
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'  # /PS-IGNORE
@@ -162,7 +166,8 @@ class BaseSettings(PydanticBaseSettings):
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     bgs_gov_notify_already_registered_template_id: str = 'ef7e03fc-700d-4e1e-a0f6-3cc0df779e5e'  # /PS-IGNORE
-    gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'
+    gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5' # /PS-IGNORE
+    bgs_gov_notify_new_member_registered_template_id: str = 'fd94eebb-b44e-41f5-9976-8d3142662720' # /PS-IGNORE
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
     campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'  # /PS-IGNORE
@@ -348,11 +353,13 @@ class BaseSettings(PydanticBaseSettings):
 
     moderation_email_dist_list: str = ''
     campaign_moderators_email_template_id: str = '75c6fde4-f27c-4f75-b7ed-2b526912a041'
+    bgs_campaign_moderators_email_template_id: str = 'b2c9094b-33ee-42f3-8c4a-b8e0e29500c1'
     campaign_moderation_requestor_email_template_id: str = '321db5bd-362c-45de-b8ce-6e9b0f36198e'
     campaign_moderation_reply_to_id: str = '654df5da-c214-4297-bb55-27690ce1813d'
     campaign_site_review_reminder_minute: str = 0
     campaign_site_review_reminder_hour: str = 0
     campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'  # /PS-IGNORE
+    bgs_campaign_site_review_reminder_template_id: str = '9647397a-8d59-4b45-aa25-9d129eac8be8'  # /PS-IGNORE
 
     is_circleci_env: bool = False
 

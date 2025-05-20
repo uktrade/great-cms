@@ -39,6 +39,8 @@ from core.constants import (
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
 )
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.models import HCSAT, CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
@@ -745,7 +747,7 @@ def send_campaign_site_review_reminder(email_list, site_name, review_days, revie
     for recipient in email_list:
         action = actions.GovNotifyEmailAction(
             email_address=recipient,
-            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CAMPAIGN_SITE_REVIEW_REMINDER),
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         )

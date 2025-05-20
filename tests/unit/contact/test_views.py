@@ -10,6 +10,8 @@ from requests.models import Response
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
@@ -104,7 +106,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-enquiries'),
             reverse('contact:contact-us-domestic-success'),
             views.DomesticEnquiriesFormView,
-            settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_ENQUIRIES_AGENT),
             settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
         ),
@@ -112,7 +114,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-events-form'),
             reverse('contact:contact-us-events-success'),
             views.EventsFormView,
-            settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_EVENTS_AGENT),
             settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         ),
@@ -120,7 +122,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-dso-form'),
             reverse('contact:contact-us-dso-success'),
             views.DefenceAndSecurityOrganisationFormView,
-            settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_DSO_AGENT),
             settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
