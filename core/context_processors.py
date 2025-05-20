@@ -696,6 +696,4 @@ def bgs_chat_vars(request):
 
 
 def webchat_vars(request):
-    return {
-        'WEBCHAT_AGENT_URL': settings.WEBCHAT_AGENT_URL
-    }
+    return {'WEBCHAT_AGENT_URL': settings.WEBCHAT_AGENT_URL}
