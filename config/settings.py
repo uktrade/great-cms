@@ -1045,9 +1045,9 @@ CAMPAIGN_MODERATION_REPLY_TO_ID = env.campaign_moderation_reply_to_id
 # django-csp config
 CSP_DEFAULT_SRC = (
     "'self'",
-    "https:",
-    "wss://chat-gw-de-uk1.niceincontact.com",
-    "wss://directline.botframework.com",
+    'https:',
+    'wss://chat-gw-de-uk1.niceincontact.com',
+    'wss://directline.botframework.com',
 )  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
 CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
