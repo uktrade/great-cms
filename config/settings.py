@@ -1042,7 +1042,7 @@ CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.campaign_moderation_reques
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.campaign_moderation_reply_to_id
 
 # django-csp config
-CSP_DEFAULT_SRC = ("'self'", "https:", "wss://chat-gw-de-uk1.niceincontact.com")  # noqa
+CSP_DEFAULT_SRC = ("'self'", "https:", "wss://chat-gw-de-uk1.niceincontact.com", "wss://directline.botframework.com")  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
 CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
@@ -1055,6 +1055,7 @@ CSP_SCRIPT_SRC = (
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
     'https://browser.sentry-cdn.com',
+    'https://cdn.botframework.com',
     'https:',
 )
 CSP_STYLE_SRC = (
@@ -1069,7 +1070,7 @@ CSP_FONT_SRC = (
     'https://web-modules-de-uk1.niceincontact.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
-CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
+CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:', 'https://directline.botframework.com')  # noqa
 CSP_FRAME_ANCESTORS = ("'self'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.csp_upgrade_insecure_requests
 CSP_BLOCK_ALL_MIXED_CONTENT = True
