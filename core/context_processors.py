@@ -693,3 +693,9 @@ def current_website_name(request):
 
 def bgs_chat_vars(request):
     return {'COPILOT_EMBED_SRC': settings.COPILOT_EMBED_SRC}
+
+
+def webchat_vars(request):
+    return {
+        'WEBCHAT_AGENT_URL': settings.WEBCHAT_AGENT_URL
+    }

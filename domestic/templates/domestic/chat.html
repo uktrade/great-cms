@@ -29,6 +29,11 @@
 
     {% block body_js %}
         {{ block.super }}
+        <script>
+            window.WEBCHAT_CONFIG = {
+                agentUrl: '{{ WEBCHAT_AGENT_URL }}'
+            };
+        </script>
         <script crossorigin="anonymous" src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
         <script src="{% static 'javascript/chat.js' %}"></script>
     {% endblock %}
