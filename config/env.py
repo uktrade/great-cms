@@ -126,7 +126,7 @@ class BaseSettings(PydanticBaseSettings):
     eu_exit_zendesk_subdomain: str
 
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
-    bgs_confirm_verification_code_template_id: str = '7ea2e34d-3903-4a73-8f90-a63e33c0ba44' # /PS-IGNORE
+    bgs_confirm_verification_code_template_id: str = '7ea2e34d-3903-4a73-8f90-a63e33c0ba44'  # /PS-IGNORE
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
     bgs_eyb_enrolment_welcome_template_id: str = '768abbf5-8175-442e-a4f7-859359e10fec'  # /PS-IGNORE
@@ -166,8 +166,8 @@ class BaseSettings(PydanticBaseSettings):
     gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     bgs_gov_notify_already_registered_template_id: str = 'ef7e03fc-700d-4e1e-a0f6-3cc0df779e5e'  # /PS-IGNORE
-    gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5' # /PS-IGNORE
-    bgs_gov_notify_new_member_registered_template_id: str = 'fd94eebb-b44e-41f5-9976-8d3142662720' # /PS-IGNORE
+    gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'  # /PS-IGNORE
+    bgs_gov_notify_new_member_registered_template_id: str = 'fd94eebb-b44e-41f5-9976-8d3142662720'  # /PS-IGNORE
     gov_notify_collaboration_request_resent: str = '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'  # /PS-IGNORE
 
     campaign_user_notify_template_id: str = '1e00a6d9-8505-44e0-b314-6c01c46bc1b7'  # /PS-IGNORE

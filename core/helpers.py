@@ -40,7 +40,6 @@ from core.constants import (
     TRADE_BARRIERS_BY_SECTOR,
 )
 from core.constants import TemplateTagsEnum
-from core.helpers import get_template_id
 from core.models import HCSAT, CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client

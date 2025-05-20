@@ -54,7 +54,6 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
                 form_url=self.request.path,
                 email_address=settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS,
                 template_id=get_template_id(TemplateTagsEnum.CONTACT_INDUSTRY_AGENT),
-                template_id=settings.CONTACT_INDUSTRY_AGENT_TEMPLATE_ID,
                 sender=sender,
                 spam_control=spam_control,
             )
