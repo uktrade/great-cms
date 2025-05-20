@@ -1,6 +1,6 @@
 {% if local_support_data.support_hubs|length > 0 %}
     {% with local_support_data.support_hubs|first as nearest_growth_hub %}
-    <div class="govuk-!-padding-6 bgs-growth-hub">
+    <div class="govuk-!-padding-6 bgs-growth-hub" data-title="growth-hubs">
         <h4 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_growth_hub.name }}</h4>
         <img src="/static/images/gh-{{ nearest_growth_hub.digest }}.png" alt="" aria-hidden="true" />
         <address class="great-ds-address">

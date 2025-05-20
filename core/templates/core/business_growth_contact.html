@@ -7,106 +7,118 @@
 {% endblock %}
 {% block page_title %}Help using this website {{ block.super }}{% endblock %}
 {% if not request.GET.success %}
-    {% block breadcrumb_region %}
-        <div class="great-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+    {% block breadcrumbs_block %}
+        <div class="great-ds-bg-white">
+            <div class="great-ds-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <a href="{{ back_url }}" class="govuk-back-link govuk-!-margin-bottom-4">Back</a>
+                    </div>
                 </div>
             </div>
         </div>
     {% endblock %}
 {% endif %}
 {% block content %}
-    <div class="great-container">
-        {% if form.errors and not form.non_field_errors %}
-            <div class="govuk-error-summary restrict-width"
-                 aria-labelledby="error-summary-title"
-                 role="alert"
-                 tabindex="-1"
-                 data-module="error-summary">
-                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list">
-                        {% for field in form %}
-                            {% if field.errors %}
-                                {% for error in field.errors %}
-                                    <li>
-                                        <a href="#{{ field.auto_id }}">{{ error }}</a>
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
-                <h1 class="govuk-heading-xl">Get help using Business.gov.uk</h1>
-                <p class="govuk-body">This form is for reporting issues while using Business.gov.uk.</p>
-                <p class="govuk-body">
-                    For example, a broken link or a missing page. Do not include personal or commercially sensitive information.
-                </p>
-            </div>
-        </div>
-        <form method="post" novalidate action="{{ request.build_absolute_uri }}">
-            {% csrf_token %}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
-                    <div class="govuk-character-count"
-                         data-module="govuk-character-count"
-                         data-maxlength="1000">
-                        <div class="govuk-form-group{% if form.how_we_can_help.errors %} govuk-form-group--error{% endif %}">
-                            <label class="govuk-label govuk-label--s"
-                                   for="{{ form.how_we_can_help.id_for_label }}">
-                                {{ form.how_we_can_help.label }}
-                            </label>
-                            <div id="more-detail-hint" class="govuk-hint">{{ form.how_we_can_help.help_text }}</div>
-                            {% for error in form.how_we_can_help.errors %}
-                                <p class="govuk-error-message" role="alert">
-                                    <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                                </p>
+    <div class="great-ds-bg-white govuk-!-padding-top-6">
+        <div class="great-ds-container">
+            {% if form.errors and not form.non_field_errors %}
+                <div class="govuk-error-summary restrict-width"
+                     aria-labelledby="error-summary-title"
+                     role="alert"
+                     tabindex="-1"
+                     data-module="error-summary">
+                    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                    <div class="govuk-error-summary__body">
+                        <ul class="govuk-list govuk-error-summary__list">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <li>
+                                            <a href="#{{ field.auto_id }}">{{ error }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
-                            {{ form.how_we_can_help }}
-                        </div>
-                        <div id="id_how_we_can_help-info"
-                             class="govuk-hint govuk-character-count__message">
-                            You can enter up to 1000 characters
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">Get help using Business.gov.uk</h1>
+                    <p class="govuk-body">This form is for reporting issues while using Business.gov.uk.</p>
+                    <p class="govuk-body">
+                        For example, a broken link or a missing page. Do not include personal or commercially sensitive information.
+                    </p>
+                </div>
+            </div>
+            <form method="post" novalidate action="{{ request.build_absolute_uri }}">
+                {% csrf_token %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
+                        <div class="govuk-character-count"
+                             data-module="govuk-character-count"
+                             data-maxlength="1000">
+                            <div class="govuk-form-group{% if form.how_we_can_help.errors %} govuk-form-group--error{% endif %}">
+                                <label class="govuk-label govuk-label--s"
+                                       for="{{ form.how_we_can_help.id_for_label }}">
+                                    {{ form.how_we_can_help.label }}
+                                </label>
+                                <div id="more-detail-hint" class="govuk-hint">{{ form.how_we_can_help.help_text }}</div>
+                                {% for error in form.how_we_can_help.errors %}
+                                    <p class="govuk-error-message" role="alert">
+                                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                    </p>
+                                {% endfor %}
+                                {{ form.how_we_can_help }}
+                            </div>
+                            <div id="id_how_we_can_help-info"
+                                 class="govuk-hint govuk-character-count__message">
+                                You can enter up to 1000 characters
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
-                    <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
-                        {% include 'international/includes/form_field.html' with field=form.full_name %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
+                        <div class="{% if form.full_name.errors %} govuk-form-group--error{% endif %}">
+                            {% include 'international/includes/form_field.html' with field=form.full_name %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
-                {% for error in form.terms_agreed.errors %}
-                    <p class="govuk-error-message" role="alert">
-                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
-                    </p>
-                {% endfor %}
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item">
-                    {{ form.terms_agreed }}
-                    <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">
-                        {{form.terms_agreed.label}}
-                    </label>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3">
+                        <div class="{% if form.email.errors %} govuk-form-group--error{% endif %}">
+                            {% include 'international/includes/form_field.html' with field=form.email %}
+                        </div>
+                    </div>
                 </div>
+                <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}  govuk-!-margin-top-3">
+                    {% for error in form.terms_agreed.errors %}
+                        <p class="govuk-error-message" role="alert">
+                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                        </p>
+                    {% endfor %}
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            {{ form.terms_agreed }}
+                            <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">{{ form.terms_agreed.label }}</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-                    <p class="govuk-body govuk-!-padding-bottom-3">
-                        Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.
-                    </p>
-                    {% include '_button.html' with text='Send' %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+                        <p class="govuk-body govuk-!-padding-bottom-3">
+                            Read our <a href="/privacy/"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="govuk-link">privacy policy</a> to understand how we use your personal information.
+                        </p>
+                        {% include '_button.html' with text='Send' %}
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 {% endblock content %}

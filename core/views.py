@@ -1135,7 +1135,6 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         context = super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            site='Business.gov.uk',
         )
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, self.form_class)
         if 'form' in kwargs:  # pass back errors from form_invalid
@@ -1184,7 +1183,7 @@ class ContactSuccessView(WagtailCacheMixin, HCSATMixin, FormView, GA360Mixin, Te
         hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
 
         # Apply data specific to this service
-        hcsat.URL = '/help-using-this-website/sent'
+        hcsat.URL = '/get-help/sent'
         hcsat.user_journey = 'COMPANY_CONTACT'
         hcsat.session_key = self.request.session.session_key
         hcsat.save(js_enabled=js_enabled)
