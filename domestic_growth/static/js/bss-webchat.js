@@ -21,6 +21,11 @@
 
     cxone('init', '1342')
     cxone('guide', 'init', '8b9d74c6-3467-4cc0-b7fe-44ff5331f9ec')
+    cxone(
+      'chat',
+      'setCustomCss',
+      '[class^="WaitingQueueModal"] {display: none};'
+    )
   }
 
   const show_bss_webchat = () => {
