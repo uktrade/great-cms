@@ -299,7 +299,7 @@ def domestic_header(request):
                             'isCurrent': '/services/' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/dashboard/',
+                            'href': '/dashboard/',
                             'text': 'Export dashboard',
                             'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
@@ -311,13 +311,13 @@ def domestic_header(request):
                             'isCurrent': '/compare-countries' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/export-plan/',
+                            'href': '/export-plan/',
                             'text': 'Make an export plan',
                             'requiresAuth': True,
                             'isCurrent': '/export-plan' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/profile/',
+                            'href': '/profile/',
                             'text': 'Export account',
                             'requiresAuth': True,
                             'isCurrent': '/profile' in request.path,
