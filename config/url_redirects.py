@@ -16,23 +16,12 @@ from core.views import (
     QuerystringRedirectView,
     TranslationRedirectView,
 )
-from international.url_redirects import (
-    international_migration_redirects,
-    invest_in_uk_redirects,
-)
 
 build_great_international_url = partial(urljoin, f'/{settings.GREAT_INTERNATIONAL_URL}/')
 build_bgs_international_url = partial(urljoin, f'/{settings.BGS_INTERNATIONAL_URL}/')
 
 
 redirects = [
-    re_path(
-        r'^about/$',
-        QuerystringRedirectView.as_view(
-            url='https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'
-        ),
-        name='events-about-legacy',
-    ),
     re_path(
         r'^jpm/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/ehome/200197163/'),
@@ -1204,6 +1193,4 @@ redirects += (
     + international_redirects
     + articles_redirects
     + unguided_journey_redirects
-    + international_migration_redirects
-    + invest_in_uk_redirects
 )
