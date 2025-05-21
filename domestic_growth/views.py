@@ -336,7 +336,7 @@ class ExistingBusinessCurrentlyExportFormView(BaseTriageFormView):
 
     def get_success_url(self):
 
-        triage_data = ExistingBusinessTriage.objects.get(triage_uuid=self.triage_uuid)
+        triage_data = ExistingBusinessTriage.objects.filter(triage_uuid=self.triage_uuid).first()
 
         success_url = ESTABLISHED_GUIDE_URL
 
