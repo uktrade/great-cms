@@ -331,3 +331,8 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
         if 'js_enabled' in self.request.get_full_path():
             return JsonResponse(form.errors, status=400)
         return self.render_to_response(self.get_context_data(form=form))
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs

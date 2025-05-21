@@ -7,6 +7,11 @@
     <link href="{% static 'styles/ukef-lead-generation-form.css' %}"
           rel="stylesheet"
           type="text/css" />
+          <style type="text/css">
+            #id_help-terms_agreed-label{
+                padding: 8px 10px 9px 12px;
+            }
+          </style>
 {% endblock %}
 {% block content %}
     <section>
@@ -31,6 +36,9 @@
                                     {{ form }}
                                 {% endif %}
                             </div>
+                            {% if bgs_site %}
+                            {% block privacy_policy %}{% endblock %}
+                            {% endif %}
                             <div>
                                 <button type="submit" class="button primary-button">
                                     {% block submit_button_label %}Continue{% endblock %}

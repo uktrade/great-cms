@@ -8,6 +8,8 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
 from core.models import MicrositePage
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
 
 User = get_user_model()
@@ -42,13 +44,13 @@ def test_send_campaign_site_review_reminder_with_first_published_at(
     assert mock_action_class.call_args_list == [
         mock.call(
             email_address=settings.MODERATION_EMAIL_DIST_LIST,
-            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CAMPAIGN_SITE_REVIEW_REMINDER),
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         ),
         mock.call(
             email_address=user.email,
-            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CAMPAIGN_SITE_REVIEW_REMINDER),
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         ),
@@ -86,13 +88,13 @@ def test_send_campaign_site_review_reminder_with_review_reminder_sent(
     assert mock_action_class.call_args_list == [
         mock.call(
             email_address=settings.MODERATION_EMAIL_DIST_LIST,
-            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CAMPAIGN_SITE_REVIEW_REMINDER),
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         ),
         mock.call(
             email_address=user.email,
-            template_id=settings.CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CAMPAIGN_SITE_REVIEW_REMINDER),
             email_reply_to_id=settings.CAMPAIGN_MODERATION_REPLY_TO_ID,
             form_url=str(),
         ),

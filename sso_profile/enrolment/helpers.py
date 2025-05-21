@@ -117,7 +117,7 @@ def notify_company_admins_member_joined(admins, data, form_url):
     for admin in admins:
         action = actions.GovNotifyEmailAction(
             email_address=admin['company_email'],
-            template_id=settings.GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.GOV_NOTIFY_NEW_MEMBER_REGISTERED),
             form_url=form_url,
         )
         response = action.save(data)

@@ -2,6 +2,8 @@ from django.conf import settings
 from wagtail.models import TaskState
 
 from domestic.helpers import send_campaign_moderation_notification
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 
 
 class ModerationTaskStateEmailNotifier:
@@ -25,7 +27,7 @@ class ModerationTaskStateEmailNotifier:
 
     def send_notifications(self, triggering_user):
         # send email to campaign moderators group
-        template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
+        template_id = get_template_id(TemplateTagsEnum.CAMPAIGN_MODERATORS_EMAIL)
         email = settings.MODERATION_EMAIL_DIST_LIST
         self.send_email(email, template_id)
         # send email to moderation Requestor

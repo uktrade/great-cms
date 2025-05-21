@@ -1,31 +1,33 @@
-{% if send_success %}
-    <div class="govuk-!-margin-bottom-7 govuk-!-padding-top-5 great-ds-border-top-blue-3">
-        <h2 class="govuk-heading-m">Email sent</h2>
-        <p class="govuk-body govuk-!-margin-bottom-2">
-            A link has been sent to
-            <br />
-            <strong class='email-address-playback'>{{ send_email_address }}</strong>
-        </p>
-        <a class="govuk-link--no-visited-state"
-           href=".?{% for k,v in request.GET.items %}{{ k }}={{ v }}&{% endfor %}resend_email=True">Email link again</a>
-    </div>
-{% else %}
-    <div class="govuk-!-margin-bottom-4 govuk-!-padding-top-4 great-ds-border-top-blue-3 bgs-email-guide">
-        <h2 class="govuk-heading-m great-ds-max-width-70">
-            Save and share these
-            <br />
-            pages
-            <span class="govuk-visually-hidden"> on {{ hidden_text }}</span>
-        </h2>
-        <p class="govuk-body govuk-!-margin-bottom-4">Send these pages grouped in one link to an email address.</p>
-        <form method="post" novalidate>
-            {% csrf_token %}
-            <fieldset>
-                <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_email_field_description">, edit text email to save and share these pages</div>
-                <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_form_button_description">, save and share these pages</div>
-                <div class="great-ds-form-group govuk-!-margin-bottom-4">{{ email_guide_form }}</div>
-                {% include "_button.html" with text="Email link" attributes="aria-describedby='email_guide_form_button_description'" %}
-            </fieldset>
-        </form>
-    </div>
+{% if show_email_guide_form %}
+    {% if send_success %}
+        <div class="govuk-!-margin-bottom-7 govuk-!-padding-top-5 great-ds-border-top-blue-3">
+            <h2 class="govuk-heading-m">Email sent</h2>
+            <p class="govuk-body govuk-!-margin-bottom-2">
+                A link has been sent to
+                <br />
+                <strong class='email-address-playback'>{{ send_email_address }}</strong>
+            </p>
+            <a class="govuk-link--no-visited-state"
+            href=".?{% for k,v in request.GET.items %}{{ k }}={{ v }}&{% endfor %}resend_email=True">Email link again</a>
+        </div>
+    {% else %}
+        <div class="govuk-!-margin-bottom-4 govuk-!-padding-top-4 great-ds-border-top-blue-3 bgs-email-guide">
+            <h2 class="govuk-heading-m great-ds-max-width-70">
+                Save and share these
+                <br />
+                pages
+                <span class="govuk-visually-hidden"> on {{ hidden_text }}</span>
+            </h2>
+            <p class="govuk-body govuk-!-margin-bottom-4">Send these pages grouped in one link to an email address.</p>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_email_field_description">, edit text email to save and share these pages</div>
+                    <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_form_button_description">, save and share these pages</div>
+                    <div class="great-ds-form-group govuk-!-margin-bottom-4">{{ email_guide_form }}</div>
+                    {% include "_button.html" with text="Email link" attributes="aria-describedby='email_guide_form_button_description' data-title='bgs_email_guide'" %}
+                </fieldset>
+            </form>
+        </div>
+    {% endif %}
 {% endif %}

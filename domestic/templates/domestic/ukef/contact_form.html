@@ -56,8 +56,12 @@
             <form action="" method="post" autocomplete="off">
                 {% csrf_token %}
                 {{ form }}
+                {% if bgs_site %}
+                    <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
+                {% endif %}
                 <button type="submit" class="button primary-button">Submit</button>
             </form>
+            
         </div>
     </div>
 </section>

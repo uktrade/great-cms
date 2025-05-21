@@ -999,7 +999,7 @@ class SignUpView(
     def get(self, request, *args, **kwargs):
         if helpers.is_authenticated(request):
             return redirect(reverse_lazy('international_online_offer:about-your-business'))
-        form = forms.SignUpForm
+        form = forms.SignUpForm(request=self.request)
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
         return render(
@@ -1039,7 +1039,7 @@ class SignUpView(
         return render(request, self.template_name, {'form': form})
 
     def do_sign_up_flow(self, request):
-        form = forms.SignUpForm(request.POST)
+        form = forms.SignUpForm(request.POST, request=self.request)
         if form.is_valid():
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']

@@ -1,5 +1,10 @@
+{% load bgs_tags %}
+{% is_bgs_site current_site.root_url as bgs_site %}
+
+{% if not bgs_site %}
 <h3>How we use your information</h3>
 <p>The Department for Business and Trade will use the information provided in this form to respond to your enquiry.</p>
 <p>
     You can read about how we protect your data in our <a href="{{ privacy_url }}" target="_blank" rel="noopener noreferrer">privacy notice</a>.
 </p>
+{% endif %}

@@ -50,9 +50,18 @@ class Command(BaseCommand):
             updated, new_source = self.replace_richtextbox(field_value)
             return updated, new_source
         else:
-            if self.string_to_replace in field_value:
-                value = field_value.replace(self.string_to_replace, self.replacement_string)
-                updated = True
+            positions = [i for i in range(len(value)) if value.startswith(self.string_to_replace, i)]
+            if positions:
+                for pos in positions:
+                    start = pos - len('event.')
+                    if value[start:pos] != 'event.':
+                        if value[pos : pos + len(self.string_to_replace)] == self.string_to_replace:  # noqa E203
+                            value = (
+                                value[:pos]
+                                + self.replacement_string
+                                + value[pos + len(self.string_to_replace) :]  # noqa E203
+                            )
+                            updated = True
 
         return updated, value
 
@@ -166,7 +175,6 @@ class Command(BaseCommand):
             elif isinstance(field_value, StreamValue):
                 updated, new_value = self.process_streamvalue_field(field_value)
                 if updated:
-
                     block[field_name] = new_value
                     snippet_updated = True
             else:
@@ -264,9 +272,8 @@ class Command(BaseCommand):
                                 block[field_name][ln] = new_value
                                 block_updated = True
                 elif isinstance(field_value, StructValue):
-                    updated, new_value = self.process_string_field(field_value)
+                    updated, new_value = self.process_structvalue_block(block)
                     if updated:
-
                         setattr(block, field_name, new_value)
                         block_updated = True
                 elif isinstance(field_value, GreatMedia):
@@ -435,7 +442,6 @@ class Command(BaseCommand):
             for instance in instances:
                 self.stdout.write(self.style.SUCCESS(f'Processing Model:Snippet: {snippet_model}:{instance}'))
                 updated = self.process_snippet(instance, field_names)
-
                 if updated and not dry_run:
                     self.stdout.write(
                         self.style.SUCCESS(f'Updated Snippet Instance:Snippet: {snippet_model}:{instance}')

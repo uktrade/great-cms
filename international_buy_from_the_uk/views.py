@@ -9,6 +9,8 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.helpers import get_sender_ip_address, international_url
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
@@ -51,7 +53,7 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             response = form.save(
                 form_url=self.request.path,
                 email_address=settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS,
-                template_id=settings.CONTACT_INDUSTRY_AGENT_TEMPLATE_ID,
+                template_id=get_template_id(TemplateTagsEnum.CONTACT_INDUSTRY_AGENT),
                 sender=sender,
                 spam_control=spam_control,
             )
@@ -84,6 +86,11 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
         )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 # Find a supplier
@@ -308,3 +315,8 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
             recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs

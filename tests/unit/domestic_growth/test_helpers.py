@@ -22,10 +22,12 @@ from domestic_growth.helpers import (
     get_change_answers_link,
     get_change_sector_link,
     get_filtered_trade_associations,
+    get_data_layer_triage_data,
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
     guide_link_valid,
+    has_triage_been_activated,
     save_email_as_guide_recipient,
 )
 from domestic_growth.models import (
@@ -471,3 +473,101 @@ def test_guide_link_valid(
     with freeze_time(request_freeze_time):
         req = factory.get(request_url + f'?url_token={recipient.url_token}')
         assert guide_link_valid(req) == link_valid
+
+
+@pytest.mark.parametrize(
+    'guide_url, is_triage_started, expected_outcome',
+    (
+        (PRE_START_GUIDE_URL, False, False),
+        (PRE_START_GUIDE_URL, True, True),
+        (START_UP_GUIDE_URL, False, False),
+        (START_UP_GUIDE_URL, True, True),
+        (ESTABLISHED_GUIDE_URL, False, False),
+        (ESTABLISHED_GUIDE_URL, True, True),
+    ),
+)
+@pytest.mark.django_db
+def test_has_triage_been_activated(mock_get_dbt_sectors, guide_url, is_triage_started, expected_outcome):
+    factory = RequestFactory()
+
+    mock_triage_data = {
+        'triage_uuid': '12345',
+        'sector_id': 'SL0003',
+        'postcode': 'BT80 1HQ',  # /PS-IGNORE
+    }
+
+    if guide_url == PRE_START_GUIDE_URL and is_triage_started:
+        StartingABusinessTriage.objects.create(
+            triage_uuid=mock_triage_data['triage_uuid'],
+            sector_id=mock_triage_data['sector_id'],
+            postcode=mock_triage_data['postcode'],
+        )
+    elif guide_url == START_UP_GUIDE_URL or guide_url == ESTABLISHED_GUIDE_URL and is_triage_started:
+        ExistingBusinessTriage.objects.create(
+            triage_uuid=mock_triage_data['triage_uuid'],
+            sector_id=mock_triage_data['sector_id'],
+            postcode=mock_triage_data['postcode'],
+        )
+
+    if is_triage_started:
+        req = factory.get(guide_url + f"?triage_uuid={Fern().encrypt(mock_triage_data['triage_uuid'])}")
+    else:
+        req = factory.get(guide_url)
+        req.session = mock.Mock()
+        req.session.session_key = '1234'
+
+    result = has_triage_been_activated(req)
+
+    assert result == expected_outcome
+
+
+@pytest.mark.parametrize(
+    'triage_data, local_support_data, expected_output',
+    (
+        (
+            {'postcode': 'ABC123', 'sector': 'Food and Drink'},
+            {'postcode_data': {'region': 'North West'}},
+            {
+                'event': 'BGSTriageData',
+                'type': 'Starting a Business',
+                'userInfo': {'sector': 'Food and Drink', 'region': 'North West'},
+            },
+        ),
+        (
+            {
+                'postcode': 'ABC123',
+                'sector': 'Aerospace',
+                'when_set_up': '1_YEAR',
+                'turnover': '1M',
+                'currently_export': 'NO',
+            },
+            {'postcode_data': {'country': 'Scotland'}},
+            {
+                'event': 'BGSTriageData',
+                'type': 'Growing a Business',
+                'userInfo': {
+                    'sector': 'Aerospace',
+                    'when_set_up': '1_YEAR',
+                    'turnover': '1M',
+                    'currently_export': 'NO',
+                    'region': 'Scotland',
+                },
+            },
+        ),
+        (
+            {'postcode': 'ABC123', 'sector': 'Technology'},
+            None,
+            {
+                'event': 'BGSTriageData',
+                'type': 'Starting a Business',
+                'userInfo': {
+                    'sector': 'Technology',
+                },
+            },
+        ),
+    ),
+)
+def test_get_data_layer_triage_data(triage_data, local_support_data, expected_output):
+    result = get_data_layer_triage_data(triage_data, local_support_data)
+
+    assert result == expected_output

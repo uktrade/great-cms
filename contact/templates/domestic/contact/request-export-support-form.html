@@ -47,6 +47,9 @@
                             {% include 'core/includes/form_field.html' with field=form.terms_agreed %}
                             {% include 'core/includes/form_field.html' with field=form.captcha %}
                         </fieldset>
+                        {% if bgs_site%}
+                        <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
+                        {% endif %}
                         <button type="submit" class="button primary-button">Submit</button>
                     </form>
                 </div>

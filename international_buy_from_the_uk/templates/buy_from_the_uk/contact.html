@@ -124,6 +124,29 @@
                             </div>
                         </div>
                     </div>
+                    {% if bgs_site %}
+                    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                        <div class="govuk-grid-column-full">
+                            <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+                                {% for error in form.terms_agreed.errors %}
+                                    <p class="govuk-error-message" role="alert">
+                                    <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                    </p>
+                                {% endfor %}
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                    {{ form.terms_agreed }}
+                                    <label class="govuk-label govuk-checkboxes__label"
+                                           for="id_terms_agreed">
+                                        {{ form.terms_agreed.label }}
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
+                    {% else %}
                     <div class="govuk-grid-row govuk-!-margin-top-4">
                         <div class="govuk-grid-column-full">
                             <h2 class="govuk-heading-m">How we use your information</h2>
@@ -169,6 +192,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="govuk-grid-row govuk-!-margin-top-4">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text='Send message' %}</div>
                     </div>

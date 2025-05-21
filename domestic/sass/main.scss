@@ -52,6 +52,9 @@ $fa-font-path: '/static/fonts';
 @import 'pages/country-guide-page';
 @import 'pages/markets-landing';
 
+// CHAT
+@import 'chat';
+
 #content {
   padding: 0;
   color: $grey;

@@ -1,5 +1,6 @@
 from secrets import token_urlsafe
 from urllib.parse import urlencode
+import json
 
 from directory_forms_api_client import actions
 from django.db import models
@@ -30,10 +31,12 @@ from domestic_growth.helpers import (
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
+    get_data_layer_triage_data,
     get_triage_data_with_sectors,
     get_triage_uuid_from_url_token,
     get_welcome_event,
     guide_link_valid,
+    has_triage_been_activated,
     save_email_as_guide_recipient,
 )
 from international_online_offer.core.helpers import get_hero_image_by_sector
@@ -346,6 +349,8 @@ class DomesticGrowthGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
+        context['data_layer_triage_data'] = json.dumps(get_data_layer_triage_data(triage_data, local_support_data))
 
         return context
 
@@ -486,6 +491,7 @@ class DomesticGrowthChildGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
 
         return context
 
@@ -710,6 +716,7 @@ class DomesticGrowthDynamicChildGuidePage(
         context['email_guide_form'] = self.email_guide_form
         context['send_email_address'] = self.send_email_address
         context['send_success'] = self.send_success
+        context['show_email_guide_form'] = has_triage_been_activated(request)
 
         return context
 

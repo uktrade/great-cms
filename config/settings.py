@@ -220,6 +220,8 @@ TEMPLATES = [
                 'international_online_offer.context_processors.hide_primary_nav',
                 'international_online_offer.context_processors.is_triage_complete',
                 'international.context_processors.international_header',
+                'core.context_processors.bgs_chat_vars',
+                'core.context_processors.webchat_vars',
             ],
         },
     },
@@ -636,6 +638,7 @@ if not PRIVACY_COOKIE_DOMAIN:
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
 }
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
@@ -676,6 +679,7 @@ BGS_EYB_ENROLMENT_WELCOME_TEMPLATE_ID = env.bgs_eyb_enrolment_welcome_template_i
 CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.contactus_enquries_confirmation_template_id
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.contact_domestic_zendesk_subject
 CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.contact_enquiries_agent_notify_template_id
+BGS_CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.bgs_contact_enquiries_agent_notify_template_id
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.contact_enquiries_agent_email_address
 CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.contact_enquiries_user_notify_template_id
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS = env.contact_ecommerce_export_support_agent_email_address
@@ -686,8 +690,10 @@ CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID = env.contact_ecommerce_expo
 CONTACT_DIT_AGENT_EMAIL_ADDRESS = env.contact_dit_agent_email_address
 CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.contact_events_user_notify_template_id
 CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.contact_events_agent_notify_template_id
+BGS_CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.bgs_contact_events_agent_notify_template_id
 CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = env.contact_events_agent_email_address
 CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.contact_dso_agent_notify_template_id
+BGS_CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.bgs_contact_dso_agent_notify_template_id
 CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID = env.contact_dso_user_notify_template_id
 CONTACT_DSO_AGENT_EMAIL_ADDRESS = env.contact_dso_agent_email_address
 CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.contact_exporting_user_notify_template_id
@@ -698,6 +704,7 @@ CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = env.contact_international_agent_emai
 CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.contact_international_user_notify_template_id
 CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS = env.contact_industry_agent_email_address
 CONTACT_INDUSTRY_AGENT_TEMPLATE_ID = env.contact_industry_agent_template_id
+BGS_CONTACT_INDUSTRY_AGENT_TEMPLATE_ID = env.bgs_contact_industry_agent_template_id
 CONTACT_INDUSTRY_USER_TEMPLATE_ID = env.contact_industry_user_template_id
 CONTACT_INDUSTRY_USER_REPLY_TO_ID = env.contact_industry_user_reply_to_id
 CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID = env.contact_fas_company_notify_template_id
@@ -707,6 +714,7 @@ SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.subscribe_to_fta_updates_notif
 GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.gov_notify_already_registered_template_id
 BGS_GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.bgs_gov_notify_already_registered_template_id
 GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.gov_notify_new_member_registered_template_id
+BGS_GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.bgs_gov_notify_new_member_registered_template_id
 GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = env.gov_notify_collaboration_request_resent
 GOV_NOTIFY_WELCOME_TEMPLATE_ID = env.gov_notify_welcome_template_id
 
@@ -1037,11 +1045,17 @@ SPECTACULAR_SETTINGS = {
 MODERATION_EMAIL_DIST_LIST = env.moderation_email_dist_list
 
 CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.campaign_moderators_email_template_id
+BGS_CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID = env.bgs_campaign_moderators_email_template_id
 CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.campaign_moderation_requestor_email_template_id
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.campaign_moderation_reply_to_id
 
 # django-csp config
-CSP_DEFAULT_SRC = ("'self'", "https:", "wss://chat-gw-de-uk1.niceincontact.com")  # noqa
+CSP_DEFAULT_SRC = (
+    "'self'",
+    'https:',
+    'wss://chat-gw-de-uk1.niceincontact.com',
+    'wss://directline.botframework.com',
+)  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
 CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
@@ -1054,6 +1068,7 @@ CSP_SCRIPT_SRC = (
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
     'https://browser.sentry-cdn.com',
+    'https://cdn.botframework.com',
     'https:',
 )
 CSP_STYLE_SRC = (
@@ -1068,7 +1083,7 @@ CSP_FONT_SRC = (
     'https://web-modules-de-uk1.niceincontact.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
-CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
+CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:', 'https://directline.botframework.com')  # noqa
 CSP_FRAME_ANCESTORS = ("'self'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.csp_upgrade_insecure_requests
 CSP_BLOCK_ALL_MIXED_CONTENT = True
@@ -1076,6 +1091,7 @@ CSP_BLOCK_ALL_MIXED_CONTENT = True
 CAMPAIGN_SITE_REVIEW_REMINDER_MINUTE = env.campaign_site_review_reminder_minute
 CAMPAIGN_SITE_REVIEW_REMINDER_HOUR = env.campaign_site_review_reminder_hour
 CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.campaign_site_review_reminder_template_id
+BGS_CAMPAIGN_SITE_REVIEW_REMINDER_TEMPLATE_ID = env.bgs_campaign_site_review_reminder_template_id
 
 IS_CIRCLECI_ENV = env.is_circleci_env
 
@@ -1106,6 +1122,10 @@ CF_INVALIDATION_ROLE_ARN = env.cf_invalidation_role_arn
 
 BGS_SITE = env.bgs_site
 FEATURE_USE_BGS_TEMPLATES = env.feature_use_bgs_templates
+FEATURE_BGS_CHAT = env.feature_bgs_chat
+COPILOT_EMBED_SRC = env.copilot_embed_src
+DIRECT_LINE_URL = env.direct_line_url
+WEBCHAT_AGENT_URL = env.webchat_agent_url
 
 # Allows us to fool the bgs middleware in testing.
 OVERRIDE_BGS_REDIRECT = env.override_bgs_redirect
