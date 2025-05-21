@@ -392,6 +392,7 @@ class BaseSettings(PydanticBaseSettings):
     feature_bgs_chat: bool = False
     direct_line_url: str = ''
     copilot_embed_src: str = ''
+    webchat_agent_url: str = ''
 
 
 class CIEnvironment(BaseSettings):

@@ -221,6 +221,7 @@ TEMPLATES = [
                 'international_online_offer.context_processors.is_triage_complete',
                 'international.context_processors.international_header',
                 'core.context_processors.bgs_chat_vars',
+                'core.context_processors.webchat_vars',
             ],
         },
     },
@@ -1049,7 +1050,12 @@ CAMPAIGN_MODERATION_REQUESTOR_EMAIL_TEMPLATE_ID = env.campaign_moderation_reques
 CAMPAIGN_MODERATION_REPLY_TO_ID = env.campaign_moderation_reply_to_id
 
 # django-csp config
-CSP_DEFAULT_SRC = ("'self'", "https:", "wss://chat-gw-de-uk1.niceincontact.com")  # noqa
+CSP_DEFAULT_SRC = (
+    "'self'",
+    'https:',
+    'wss://chat-gw-de-uk1.niceincontact.com',
+    'wss://directline.botframework.com',
+)  # noqa
 CSP_CHILD_SRC = ("'self'",)  # noqa
 CSP_WORKER_SRC = ("'self'", "'unsafe-inline'", 'https:', 'blob:')  # noqa
 CSP_OBJECT_SRC = ("'none'",)  # noqa
@@ -1062,6 +1068,7 @@ CSP_SCRIPT_SRC = (
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
     'https://browser.sentry-cdn.com',
+    'https://cdn.botframework.com',
     'https:',
 )
 CSP_STYLE_SRC = (
@@ -1076,7 +1083,7 @@ CSP_FONT_SRC = (
     'https://web-modules-de-uk1.niceincontact.com',
 )  # noqa
 CSP_IMG_SRC = ("'self'", "data:", "https:")  # noqa
-CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:')
+CSP_FRAME_SRC = ("'self'", 'https://www.google.com', 'https:', 'https://directline.botframework.com')  # noqa
 CSP_FRAME_ANCESTORS = ("'self'",)  # noqa
 CSP_UPGRADE_INSECURE_REQUESTS = env.csp_upgrade_insecure_requests
 CSP_BLOCK_ALL_MIXED_CONTENT = True
@@ -1118,6 +1125,7 @@ FEATURE_USE_BGS_TEMPLATES = env.feature_use_bgs_templates
 FEATURE_BGS_CHAT = env.feature_bgs_chat
 COPILOT_EMBED_SRC = env.copilot_embed_src
 DIRECT_LINE_URL = env.direct_line_url
+WEBCHAT_AGENT_URL = env.webchat_agent_url
 
 # Allows us to fool the bgs middleware in testing.
 OVERRIDE_BGS_REDIRECT = env.override_bgs_redirect
