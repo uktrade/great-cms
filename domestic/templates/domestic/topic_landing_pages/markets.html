@@ -127,7 +127,7 @@
                                                 <a href="{{ services_urls.exopps }}" class="link">Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>
                                             </p>
                                             <p>
-                                                <a href="/support/export-support/" class="govuk-link">Access our expert guidance, tools and services 24/7 using our online export support</a>
+                                                <a href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}" class="govuk-link">Access our expert guidance, tools and services 24/7 using our online export support</a>
                                             </p>
                                         {% endif %}
                                     {% elif selected_sectors and not selected_regions and not selected_trading_blocs %}
