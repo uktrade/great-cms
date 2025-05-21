@@ -40,11 +40,11 @@ class BaseSettings(PydanticBaseSettings):
     base_url: str
     wagtailadmin_base_url: str
 
-    sentry_browser_traces_sample_rate: float = 1.0
+    sentry_browser_traces_sample_rate: float = 0.01
     sentry_dsn: str = ''
     sentry_environment: str = 'dev'
     sentry_enable_tracing: bool = False
-    sentry_traces_sample_rate: float = 1.0
+    sentry_traces_sample_rate: float = 0.01
 
     secure_hsts_seconds: int = 16070400
 
