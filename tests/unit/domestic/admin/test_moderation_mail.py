@@ -6,6 +6,8 @@ from wagtail.admin.mail import Notifier
 from wagtail.models import GroupApprovalTask, Revision, Task, TaskState, WorkflowState
 
 from core.models import MicrositePage
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from domestic.admin.mail import ModerationTaskStateSubmissionEmailNotifier
 from domestic.models import CountryGuidePage
 
@@ -226,6 +228,6 @@ def test_moderation_email_invoked_with_country_guide_page_and_emails_not_sent(
 @mock.patch('domestic.admin.mail.send_campaign_moderation_notification')
 def test_moderation_email_send_email(mock_send_campaign_moderation_notification, settings):
     ModerationTaskStateSubmissionEmailNotifier().send_email(
-        'joe.bloggs@gmail.com', settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID, 'Joe Bloggs'
+        'joe.bloggs@gmail.com', get_template_id(TemplateTagsEnum.CAMPAIGN_MODERATORS_EMAIL), 'Joe Bloggs'
     )
     assert mock_send_campaign_moderation_notification.call_count == 1

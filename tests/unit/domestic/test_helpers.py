@@ -4,6 +4,8 @@ import pytest
 from directory_forms_api_client import actions
 
 from core.models import DetailPage
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from domestic import helpers
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -141,7 +143,7 @@ def test_get_last_completed_lesson_id(mock_get_lesson_completed, user, lesson_co
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_campaign_moderation_notification_without_full_name(mock_action_class, settings):
-    template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
+    template_id = get_template_id(TemplateTagsEnum.CAMPAIGN_MODERATORS_EMAIL)
     email = settings.MODERATION_EMAIL_DIST_LIST
     helpers.send_campaign_moderation_notification(email=email, template_id=template_id)
 
@@ -158,7 +160,7 @@ def test_send_campaign_moderation_notification_without_full_name(mock_action_cla
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 def test_send_campaign_moderation_notification_with_full_name(mock_action_class, settings):
-    template_id = settings.CAMPAIGN_MODERATORS_EMAIL_TEMPLATE_ID
+    template_id = get_template_id(TemplateTagsEnum.CAMPAIGN_MODERATORS_EMAIL)
     email = settings.MODERATION_EMAIL_DIST_LIST
     full_name = 'Joe Bloggs'
     helpers.send_campaign_moderation_notification(email=email, template_id=template_id, full_name=full_name)

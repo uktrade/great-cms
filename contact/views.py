@@ -17,6 +17,8 @@ from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.cms_slugs import (
     DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
@@ -211,7 +213,7 @@ class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFo
     template_name = 'domestic/contact/step-enquiries.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_ENQUIRIES_AGENT),
         agent_email=settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -866,7 +868,7 @@ class EventsFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, Ba
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-events-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_EVENTS_AGENT),
         agent_email=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -879,7 +881,7 @@ class DefenceAndSecurityOrganisationFormView(
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-dso-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_DSO_AGENT),
         agent_email=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
     )
