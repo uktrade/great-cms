@@ -49,7 +49,7 @@ class Command(BaseCommand):
             total_urls_exceed_limit = 0
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
                 if len(row) < 2:
-                    self.stdout(self.style.WARNING(f"Skipping row: {row}"))
+                    self.stdout(self.style.WARNING(f'Skipping row: {row}'))
                     continue
 
                 old_path = row.get('Current URL').strip()
