@@ -9,8 +9,6 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
-from core.constants import TemplateTagsEnum
-from core.helpers import get_template_id
 from core.helpers import get_sender_ip_address, international_url
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
@@ -53,7 +51,7 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             response = form.save(
                 form_url=self.request.path,
                 email_address=settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS,
-                template_id=get_template_id(TemplateTagsEnum.CONTACT_INDUSTRY_AGENT),
+                template_id=settings.CONTACT_INDUSTRY_AGENT_TEMPLATE_ID,
                 sender=sender,
                 spam_control=spam_control,
             )
@@ -261,8 +259,13 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
 
     def get_success_url(self):
-        start_url = f'/{international_url(self.request)}/site-help/success/'
-        success_url = start_url + '?next=' + f'/{international_url(self.request)}/buy-from-the-uk'
+        success_url = (
+            reverse(
+                'international_buy_from_the_uk:find-a-supplier-contact',
+                kwargs={'company_number': self.kwargs['company_number']},
+            )
+            + '?success=true'
+        )
         return success_url
 
     def send_email(self, form):
@@ -311,6 +314,7 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
+            continue_url=company_profile_url,
             company=self.company,
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
             recaptcha_domain=settings.RECAPTCHA_DOMAIN,
