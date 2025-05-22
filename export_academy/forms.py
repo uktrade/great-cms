@@ -1,5 +1,6 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.core.exceptions import ValidationError
+from django.utils.html import mark_safe
 from django.forms import (
     CheckboxInput,
     DateTimeField,
@@ -15,12 +16,17 @@ from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact import constants, widgets as contact_widgets
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_uk_phone_number, is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputShowHide
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
+TERMS_LABEL = mark_safe(
+    'I have read and agree to the '
+    f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a> .'
+)
 
 
 class ChoiceSubmitButtonWidget(ChoiceWidget):
@@ -333,7 +339,7 @@ class SignUpForm(forms.Form):
 
         if request and helpers.is_bgs_site_from_request(request):
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS_LABEL,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )
