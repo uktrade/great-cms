@@ -728,7 +728,7 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
 
     def send_welcome_notification(self, email, form_url):
         action = actions.GovNotifyEmailAction(
-            template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.ENROLMENT_WELCOME),
             email_address=email,
             form_url=form_url,
         )

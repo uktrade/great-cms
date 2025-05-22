@@ -1082,7 +1082,7 @@ def test_verification_page_success(
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.ENROLMENT_WELCOME),
         email_address='test@example.com',  # /PS-IGNORE
         form_url='/export-academy/signup/verification',
     )
