@@ -1,6 +1,5 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.core.exceptions import ValidationError
-from django.utils.html import mark_safe
 from django.forms import (
     CheckboxInput,
     DateTimeField,
@@ -10,6 +9,7 @@ from django.forms import (
 )
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
+from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
@@ -24,8 +24,7 @@ from export_academy.widgets import GreatRadioSelectWithOtherText, PasswordInputS
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
 TERMS_LABEL = mark_safe(
-    'I have read and agree to the '
-    f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a> .'
+    'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a> .'
 )
 
 

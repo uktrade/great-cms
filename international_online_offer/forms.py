@@ -29,8 +29,7 @@ from international_online_offer.services import (
 )
 
 TERMS_LABEL = mark_safe(
-    'I have read and agree to the '
-    f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a>.'
+    'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a>.'
 )
 BLANK_COUNTRY_CHOICE = [('', '')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
