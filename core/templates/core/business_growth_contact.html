@@ -122,3 +122,14 @@
         </div>
     </div>
 {% endblock content %}
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        const errorGroup = document.querySelector('.govuk-form-group--error');
+        if (errorGroup) {
+            errorGroup.setAttribute('role', 'alert');
+            errorGroup.setAttribute('tabindex', '-1');
+            errorGroup.focus();
+        }
+    </script>
+{% endblock %}
