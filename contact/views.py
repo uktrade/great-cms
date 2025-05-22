@@ -676,40 +676,6 @@ class DomesticExportSupportFormStep10View(TemplateView):  # /PS-IGNORE
     template_name = 'domestic/contact/export-support/feedback-confirmation.html'
 
 
-class InternationalFormView(
-    core_mixins.PrepopulateFormMixin,
-    PrepopulateInternationalFormMixin,
-    BaseNotifyFormView,
-):
-    form_class = contact_forms.InternationalContactForm
-    template_name = 'domestic/contact/international/step.html'
-    success_url = reverse_lazy('contact:contact-us-international-success')
-    notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
-        agent_email=settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
-    )
-
-    def get_context_data(self, **kwargs):
-        bespoke_breadcrumbs = [
-            {
-                'title': 'Contact us',
-                'url': reverse(
-                    'contact:contact-us-routing-form',
-                    kwargs={'step': 'location'},
-                ),
-            },
-        ]
-        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
-
-
-class InternationalSuccessView(
-    # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
-    BaseSuccessView,
-):
-    template_name = 'domestic/contact/submit-success-international.html'
-
-
 class EcommerceSupportFormPageView(BaseNotifyFormView):
     template_name = 'domestic/contact/request-export-support-form.html'
     form_class = contact_forms.ExportSupportForm
