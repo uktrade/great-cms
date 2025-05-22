@@ -277,6 +277,12 @@ def domestic_header(request):
                     'text': 'Selling overseas from the UK',
                     'overviewText': 'Start exporting',
                     'children': [
+                        *([{
+                            'href': '/chat',
+                            'text': 'Ask a question',
+                            'isCurrent': '/chat' in request.path,
+                        }] if settings.FEATURE_BGS_CHAT else []),
+
                         {
                             'href': '/export-from-uk/markets/',
                             'text': 'Market guides',
