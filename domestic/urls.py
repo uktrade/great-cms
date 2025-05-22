@@ -61,7 +61,7 @@ urlpatterns = [
         name='uk-export-contact',
     ),
     path(
-        'Well',
+        'uk-export-contact-form-success/',
         skip_ga360(domestic.views.ukef.SuccessPageView.as_view()),
         name='uk-export-contact-success',
     ),
@@ -95,7 +95,6 @@ urlpatterns = [
         name='campaigns',
     ),
 ]
-
 
 if settings.FEATURE_BGS_CHAT:
     urlpatterns += [path('chat/', domestic.views.chat.bgs_chat_embed, name='bgs-chat-embed')]
