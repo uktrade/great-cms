@@ -1811,6 +1811,7 @@ class Microsite(Page):
     parent_page_types = [
         'domestic.DomesticHomePage',
         'domestic.GreatDomesticHomePage',
+        'domestic_growth.DomesticGrowthHomePage',
     ]
 
     subpage_types = ['core.MicrositePage']
