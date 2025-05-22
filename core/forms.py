@@ -4,7 +4,6 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import (
     BooleanField,
     CharField,
-    CheckboxInput,
     CheckboxSelectMultiple,
     ChoiceField,
     HiddenInput,
@@ -24,6 +23,7 @@ from core.cms_slugs import (
     TERMS_URL,
 )
 from core.validators import is_valid_email_address
+from great_design_system import forms as ds_forms
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -227,7 +227,7 @@ class GuidedJourneyStep3Form(forms.Form):
 
 
 class ContactForm(forms.Form):
-    how_we_can_help = forms.CharField(
+    how_we_can_help = ds_forms.CharField(
         label='What can we help with you with?',
         max_length=1000,
         required=True,
@@ -235,34 +235,34 @@ class ContactForm(forms.Form):
             'required': ('Enter information on what you want help with'),
             'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
         },
-        widget=Textarea(
+        widget=ds_forms.Textarea(
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 7,
             }
         ),
     )
-    full_name = forms.CharField(
+    full_name = ds_forms.CharField(
         label='Your name',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=ds_forms.TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter your name',
         },
     )
-    email = forms.CharField(
+    email = ds_forms.CharField(
         label='Your email address',
         max_length=255,
         required=True,
         validators=[is_valid_email_address],
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=ds_forms.TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter your email address',
         },
     )
 
-    terms_agreed = forms.BooleanField(
+    terms_agreed = ds_forms.BooleanField(
         label='I have read and agree to the terms and conditions.',
         error_messages={'required': 'Tick the box to accept the terms and conditions'},
-        widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
+        widget=ds_forms.CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
