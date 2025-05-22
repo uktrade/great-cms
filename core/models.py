@@ -1011,8 +1011,12 @@ class DetailPage(settings.FEATURE_DEA_V2 and CMSGenericPageAnonymous or CMSGener
     )
 
     def get_steps(self):
+        # Get Topics
         topics = CuratedListPage.objects.live()
-        return [{'text': page.title, 'url': page.url} for page in topics]
+
+        # Filter only by domain specific results - this remove bgs duplicates.
+        domain = urlparse(self.url).netloc
+        return [{'text': page.title, 'url': page.url} for page in topics if domain in page.url]
 
     def get_lesson_category_name(self):
         parent_page = self.get_parent()
