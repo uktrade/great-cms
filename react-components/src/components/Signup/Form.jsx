@@ -76,7 +76,12 @@ const Form = ({
     {isBgsSite === true && (
       <Checkbox
         id="terms_and_conditions"
-        label="I have read and agree to the terms and conditions"
+        label= {
+          <>
+          I have read and agree to the{' '}
+          <a href="/terms-and-conditions/">terms and conditions</a>.
+          </>
+        }
         checked={termsAndConditions}
         onChange={handleTermsAndConditionsChange}
         errors={errors.terms_and_conditions || []}
