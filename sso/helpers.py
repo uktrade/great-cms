@@ -87,7 +87,7 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
 
 def send_welcome_notification(email, form_url):
     action = actions.GovNotifyEmailAction(
-        template_id=settings.ENROLMENT_WELCOME_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.ENROLMENT_WELCOME),
         email_address=email,
         form_url=form_url,
     )

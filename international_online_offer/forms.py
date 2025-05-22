@@ -17,6 +17,7 @@ from wagtail.admin.forms import WagtailAdminPageForm
 
 from contact import widgets as contact_widgets
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_email_address, is_valid_international_phone_number
 from directory_constants.choices import COUNTRY_CHOICES
 from great_design_system import forms as gds_forms
@@ -27,7 +28,9 @@ from international_online_offer.services import (
     get_dbt_sectors,
 )
 
-TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
+TERMS_LABEL = mark_safe(
+    'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and conditions</a>.'
+)
 BLANK_COUNTRY_CHOICE = [('', '')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
 
@@ -392,7 +395,7 @@ class SignUpForm(forms.Form):
         super().__init__(*args, **kwargs)
         if request and helpers.is_bgs_site_from_request(request):
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS_LABEL,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )

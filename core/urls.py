@@ -165,14 +165,24 @@ urlpatterns = [
         name='microsites',
     ),
     re_path(
-        r'^(?:export-from-uk/)?campaign-site/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        r'^campaign-site/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='campaign-site',
     ),
     re_path(
-        r'^(?:export-from-uk/)?campaign-site/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        r'^campaign-site/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
         skip_ga360(MicrositeView.as_view()),
         name='campaign-site',
+    ),
+    re_path(
+        r'^campaign/.*/(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        skip_ga360(MicrositeView.as_view()),
+        name='campaign',
+    ),
+    re_path(
+        r'^campaign/*(?P<page_slug>[-a-zA-Z0-9_]+)/$',
+        skip_ga360(MicrositeView.as_view()),
+        name='campaign',
     ),
     path('api/signed-url/', views.SignedURLView.as_view(), name='signed-url'),
     # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
