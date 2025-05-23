@@ -12,6 +12,11 @@
     &:focus {
         outline: none;
     }
+
+    * {
+        outline: none !important;
+        border: none !important;
+    }
 }
 
 .webchat__keyboard-help__box {
@@ -96,10 +101,6 @@
 .webchat__icon-button__shade,
 .webchat__stacked-layout__status {
     display: none !important;
-}
-
-.webchat__basic-transcript__activity-body {
-    padding: 0 !important;
 }
 
 .webchat__stacked-layout {
@@ -253,5 +254,53 @@
     66% {
         box-shadow: 16px 0 rgba(80,90,95,0.13),-16px 0;
         background: rgba(80,90,95,0.13);
+    }
+}
+
+.webchat__suggested-actions {
+    margin-top: -20px !important;
+    margin-bottom: 25px !important;
+
+
+    @include govuk-media-query($from: tablet) {
+        margin-top: -30px !important;
+    }
+    
+    *,
+    *:focus {
+        outline: none !important;
+        border: none !important;
+    }
+
+    .react-film__filmstrip__item {
+        padding-left: 0 !important;
+    }
+
+    .webchat__suggested-actions__item-box {
+        padding: 0 !important;
+    }
+
+    .webchat__suggested-action {
+        border: 1px solid #BCBCBC !important;
+        padding: 10px 15px !important;
+        border-radius: 10px !important;    
+        color: #222 !important;
+        font-family: "Noto Regular", Arial, Helvetica, Verdana !important;   
+        font-size: 16px !important;
+        margin: 1px !important;
+        margin-right: 10px !important;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #EEF2F6 !important;
+        }
+
+        &:focus, 
+        &--focus-visible {
+            outline: 1px solid #222 !important;
+            color: #222 !important;
+            background-color: #fd0 !important;
+            border: 1px solid #222 !important;
+        }
     }
 }
