@@ -17,6 +17,13 @@
 {% endblock %}
 {% block content %}
     <div class="great-container">
+        {% if request.GET.success %}
+            <div class="govuk-grid-row" id="complete_contact_form_message">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-6">
+                    {% include 'investment_support_directory/includes/contact_success.html' with back_url=back_url %}
+                </div>
+            </div>
+        {% else %}
         <div class="govuk-grid-row govuk-!-margin-top-8">
             <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
         </div>
@@ -185,6 +192,7 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block body_js %}
