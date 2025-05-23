@@ -9,7 +9,8 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
-from core.helpers import get_sender_ip_address, international_url
+from core.constants import TemplateTagsEnum
+from core.helpers import get_sender_ip_address, international_url, get_template_id
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
 from international_buy_from_the_uk.services import (
@@ -276,7 +277,7 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
         spam_control = helpers.SpamControl(contents=[form.cleaned_data['subject'], form.cleaned_data['body']])
         response = form.save(
-            template_id=settings.CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CONTACT_FIND_SUPPLIER_OR_SPECIALIST_COMPANY),
             email_address=self.company['email_address'],
             form_url=self.request.path,
             sender=sender,

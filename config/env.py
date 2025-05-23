@@ -152,7 +152,6 @@ class BaseSettings(PydanticBaseSettings):
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
     contact_exporting_agent_subject: str = 'A form was submitted on great.gov.uk'
     contact_exporting_user_reply_to_email_id: str = 'ac1b973d-5b49-4d0d-a197-865fd25b4a97'
-    contact_international_agent_notify_template_id: str = ('8bd422e0-3ec4-4b05-9de8-9cf039d258a9',)
     contact_international_agent_email_address: str
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
     contact_industry_agent_email_address: str = None
@@ -161,6 +160,7 @@ class BaseSettings(PydanticBaseSettings):
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
     contact_industry_user_reply_to_id: str = None
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'  # /PS-IGNORE
+    bgs_contact_fas_company_notify_template_id: str = '46bef106-06da-4e89-a992-1035e6c837e5'  # /PS-IGNORE
     enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'  # /PS-IGNORE
 
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
