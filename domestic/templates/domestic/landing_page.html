@@ -188,6 +188,37 @@
     {% if page.slice_columns|length == 3 %}
         {% include 'components/great/three_card_section.html' with title=page.slice_title columns=page.slice_columns %}
     {% endif %}
+    {% if features.FEATURE_BGS_CHAT %}
+        <div class="great-ds-container">
+            <div class="great-ds-cta-banner great-ds-cta-banner--bg-white great-ds-cta-banner--chat-border govuk-!-padding-bottom-0">
+                <div class="great-ds-container govuk-!-padding-top-7 govuk-!-padding-bottom-7">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="great-ds-cta-banner__content">
+                                <div class="govuk-!-margin-bottom-3 govuk-!-margin-top-3">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="73" height="79" viewBox="0 0 73 79" fill="none">
+                                        <path d="M71.4998 47.2715L57.5182 41.1224C54.1368 39.6394 51.4438 36.9161 49.9725 33.5163L43.8722 19.4229C43.399 18.3301 41.8588 18.3301 41.3856 19.4229L35.2853 33.5163C33.814 36.9248 31.1124 39.6394 27.7396 41.1224L13.7408 47.2802C12.6566 47.7572 12.6566 49.301 13.7408 49.778L27.9805 56.1266C31.3533 57.627 34.0377 60.3589 35.4918 63.7761L41.3942 77.6007C41.8588 78.7021 43.4076 78.7021 43.8808 77.6007L49.9725 63.5332C51.4438 60.1248 54.1454 57.4102 57.5182 55.9271L71.4998 49.778C72.584 49.301 72.584 47.7485 71.4998 47.2715ZM15.2637 38.0956L18.1202 31.4955C18.8085 29.8997 20.0733 28.6248 21.6565 27.931L28.2128 25.0516C28.7204 24.8261 28.7204 24.0975 28.2128 23.8807L21.6565 21.0013C20.0733 20.3075 18.8085 19.0326 18.1202 17.4368L15.2637 10.828C15.04 10.3163 14.3172 10.3163 14.1021 10.828L11.2456 17.4368C10.5572 19.0326 9.29245 20.3075 7.7093 21.0013L1.1444 23.8894C0.636762 24.1149 0.636762 24.8347 1.1444 25.0602L7.82116 28.035C9.4043 28.7375 10.6605 30.0211 11.3402 31.6169L14.1107 38.0956C14.3344 38.6073 15.0572 38.616 15.2723 38.0956H15.2637ZM27.8342 8.12207L31.3791 9.70053C32.2223 10.0735 32.8848 10.7586 33.2462 11.5999L34.7175 15.043C34.8379 15.3206 35.2165 15.3206 35.337 15.043L36.8513 11.5392C37.2212 10.6892 37.8924 10.0128 38.727 9.6485L42.203 8.12207C42.4697 8.00065 42.4697 7.61904 42.203 7.49762L38.727 5.97119C37.8838 5.59825 37.2126 4.92177 36.8513 4.0805L35.337 0.576645C35.2165 0.307785 34.8379 0.307785 34.7175 0.576645L33.2032 4.0805C32.8332 4.93044 32.1621 5.60693 31.3275 5.97119L27.8428 7.50629C27.5761 7.62771 27.5761 8.00932 27.8428 8.13074H27.8342V8.12207Z" fill="url(#paint0_linear_575_88699)"/>
+                                        <defs>
+                                            <linearGradient id="paint0_linear_575_88699" x1="71.4318" y1="78.4267" x2="1.46859" y2="78.4267" gradientUnits="userSpaceOnUse">
+                                                <stop offset="0.120192" stop-color="#8CE2D0"/>
+                                                <stop offset="0.663462" stop-color="#0545D6"/>
+                                                <stop offset="1" stop-color="#59CBE8"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <h2 class="great-ds-cta-banner-heading">Ask a question</h2>
+                                <p class="great-ds-cta-banner-leading-text">Get help with your export queries.</p>
+                                <div class="great-ds-cta-banner__action-link-container">
+                                    {% include "_action-link.html" with linkText='Open the AI assistant' linkHref='/chat' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     {% if features.FEATURE_HOMEPAGE_REDESIGN_V1 %}
         <section class="great great-bg-white govuk-!-padding-top-0 govuk-!-padding-bottom-0">
             <div class="great-container">
