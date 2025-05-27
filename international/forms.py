@@ -53,11 +53,11 @@ class ContactForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
-            TERMS = mark_safe(
+            terms_label = mark_safe(
                 'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
             )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label=TERMS,
+                label=terms_label,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )

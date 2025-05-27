@@ -130,11 +130,11 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
         if request and helpers.is_bgs_site_from_request(request):
-            TERMS_LABEL = mark_safe(
+            terms_label = mark_safe(
                 'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
             )
             self.fields['terms_agreed'] = BooleanField(
-                label=TERMS_LABEL,
+                label=terms_label,
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
@@ -207,12 +207,12 @@ class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
         if request and helpers.is_bgs_site_from_request(request):
-            TERMS = mark_safe(
+            terms_label = mark_safe(
                 'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
             )
             self.fields['terms'] = forms.BooleanField(
                 required=True,
-                label=TERMS,
+                label=terms_label,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )
