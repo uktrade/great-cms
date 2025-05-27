@@ -1,7 +1,9 @@
 from django import template
 import ast
+import logging
 
 register = template.Library()
+logger = logging.getLogger(__name__)
 
 
 @register.filter
@@ -32,9 +34,7 @@ def get_trade_association_tags(ta, sector):
             if ta.get('regions'):
                 tags.append({'text': ta['regions'], 'type': 'location'})
     except Exception as e:
-        print(f"Error in get_trade_association_tags: {e}")
-        print(f"ta: {ta}")
-        print(f"sector: {sector}")
+        logger.error('Error in get_trade_association_tags: %s, ta: %s, sector: %s', e, ta, sector)
     return tags
 
 
