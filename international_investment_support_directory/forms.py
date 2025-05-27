@@ -10,9 +10,11 @@ from django.forms import (
     Textarea,
     TextInput,
 )
+from django.utils.safestring import mark_safe
 from great_components import forms
 
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_email_address
 from directory_constants import choices
 from international_online_offer.core.choices import COMPANY_LOCATION_CHOICES
@@ -164,8 +166,11 @@ class FindASpecialistContactForm(GovNotifyEmailActionMixin, forms.Form):
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
         if request and helpers.is_bgs_site_from_request(request):
+            terms_label = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=terms_label,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )

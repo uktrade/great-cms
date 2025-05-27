@@ -10,10 +10,9 @@ from requests.models import Response
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
-from core.constants import TemplateTagsEnum
-from core.helpers import get_template_id
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
-from core.constants import CONSENT_EMAIL
+from core.constants import CONSENT_EMAIL, TemplateTagsEnum
+from core.helpers import get_template_id
 from core.tests.helpers import create_response
 
 pytestmark = pytest.mark.django_db

@@ -1,9 +1,9 @@
 from django.conf import settings
 from wagtail.models import TaskState
 
-from domestic.helpers import send_campaign_moderation_notification
 from core.constants import TemplateTagsEnum
 from core.helpers import get_template_id
+from domestic.helpers import send_campaign_moderation_notification
 
 
 class ModerationTaskStateEmailNotifier:
