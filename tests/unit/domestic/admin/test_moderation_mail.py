@@ -5,9 +5,9 @@ import pytest
 from wagtail.admin.mail import Notifier
 from wagtail.models import GroupApprovalTask, Revision, Task, TaskState, WorkflowState
 
-from core.models import MicrositePage
 from core.constants import TemplateTagsEnum
 from core.helpers import get_template_id
+from core.models import MicrositePage
 from domestic.admin.mail import ModerationTaskStateSubmissionEmailNotifier
 from domestic.models import CountryGuidePage
 

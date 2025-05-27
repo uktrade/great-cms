@@ -12,9 +12,11 @@ from django.forms import (
     Textarea,
     TextInput,
 )
+from django.utils.safestring import mark_safe
 from great_components import forms
 
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_email_address
 from directory_constants.choices import INDUSTRIES
 from international_buy_from_the_uk.core.choices import (
@@ -128,8 +130,11 @@ class ContactForm(GovNotifyEmailActionMixin, forms.Form):
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
         if request and helpers.is_bgs_site_from_request(request):
+            terms_label = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=terms_label,
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
@@ -202,9 +207,12 @@ class FindASupplierContactForm(GovNotifyEmailActionMixin, forms.Form):
         self.sector_choices = get_parent_sectors_as_choices(sector_data_json)
         self.fields['sector'].choices = (('', ''),) + self.sector_choices
         if request and helpers.is_bgs_site_from_request(request):
+            terms_label = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms'] = forms.BooleanField(
                 required=True,
-                label='I have read and agree to the terms and conditions.',
+                label=terms_label,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )

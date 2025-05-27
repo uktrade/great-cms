@@ -17,13 +17,13 @@ from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
-from core.constants import TemplateTagsEnum
-from core.helpers import get_template_id
 from core.cms_slugs import (
     DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
 )
+from core.constants import TemplateTagsEnum
 from core.datastructures import NotifySettings
+from core.helpers import get_template_id
 from directory_constants.choices import COUNTRY_CHOICES
 
 

@@ -10,7 +10,7 @@ from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
 from core.constants import TemplateTagsEnum
-from core.helpers import get_sender_ip_address, international_url, get_template_id
+from core.helpers import get_sender_ip_address, get_template_id, international_url
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
 from international_buy_from_the_uk.services import (

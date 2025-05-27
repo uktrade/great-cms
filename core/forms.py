@@ -80,8 +80,11 @@ class ConsentFieldMixin(forms.Form):
     def __init__(self, *args, request=None, **kwargs):
         super().__init__(*args, **kwargs)
         if request and helpers.is_bgs_site_from_request(request):
+            terms_label = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=terms_label,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
         else:
@@ -261,8 +264,12 @@ class ContactForm(forms.Form):
         },
     )
 
+    terms_label = mark_safe(
+        'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+    )
+
     terms_agreed = ds_forms.BooleanField(
-        label='I have read and agree to the terms and conditions.',
+        label=terms_label,
         error_messages={'required': 'Tick the box to accept the terms and conditions'},
         widget=ds_forms.CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
