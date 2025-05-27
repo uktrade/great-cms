@@ -294,9 +294,9 @@ def domestic_header(request):
                             'isCurrent': '/learn/categories/' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/services/',
+                            'href': '/export-from-uk/resources/',
                             'text': 'Export resources',
-                            'isCurrent': '/services/' in request.path,
+                            'isCurrent': '/resources/' in request.path,
                         },
                         {
                             'href': '/dashboard/',
@@ -581,7 +581,7 @@ def footer_bgs(request):
                         'text': 'Learn to export',
                         'title': 'Learn to export',
                     },
-                    {'href': '/export-from-uk/services', 'text': 'Export resources', 'title': 'Export resources'},
+                    {'href': '/export-from-uk/resources', 'text': 'Export resources', 'title': 'Export resources'},
                 ],
                 [
                     {

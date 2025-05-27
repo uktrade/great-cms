@@ -128,6 +128,7 @@ class BaseSettings(PydanticBaseSettings):
     confirm_verification_code_template_id: str = 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
     bgs_confirm_verification_code_template_id: str = '7ea2e34d-3903-4a73-8f90-a63e33c0ba44'  # /PS-IGNORE
     enrolment_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
+    bgs_enrolment_welcome_template_id: str = '679b0e2c-71c4-4ab8-82ae-ee725eb3d532'  # /PS-IGNORE
     eyb_enrolment_welcome_template_id: str = '651ea9b4-af61-4cd6-a969-6e305ffa133a'  # /PS-IGNORE
     bgs_eyb_enrolment_welcome_template_id: str = '768abbf5-8175-442e-a4f7-859359e10fec'  # /PS-IGNORE
     contactus_enquries_confirmation_template_id: str = '68030d40-4574-4aa1-b3ff-941320929964'
@@ -151,7 +152,6 @@ class BaseSettings(PydanticBaseSettings):
     contact_exporting_user_notify_template_id: str = '5abd7372-a92d-4351-bccb-b9a38d353e75'
     contact_exporting_agent_subject: str = 'A form was submitted on great.gov.uk'
     contact_exporting_user_reply_to_email_id: str = 'ac1b973d-5b49-4d0d-a197-865fd25b4a97'
-    contact_international_agent_notify_template_id: str = ('8bd422e0-3ec4-4b05-9de8-9cf039d258a9',)
     contact_international_agent_email_address: str
     contact_international_user_notify_template_id: str = 'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
     contact_industry_agent_email_address: str = None
@@ -160,10 +160,10 @@ class BaseSettings(PydanticBaseSettings):
     contact_industry_user_template_id: str = '6a97f783-d246-42ca-be53-26faf3b08e32'
     contact_industry_user_reply_to_id: str = None
     contact_fas_company_notify_template_id: str = 'bb88aa79-595a-44fc-9ed3-cf8a6cbd6306'  # /PS-IGNORE
+    bgs_contact_fas_company_notify_template_id: str = '46bef106-06da-4e89-a992-1035e6c837e5'  # /PS-IGNORE
     enquries_contactus_template_id: str = '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'  # /PS-IGNORE
 
     subscribe_to_fta_updates_notify_template_id: str = 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'  # /PS-IGNORE
-    gov_notify_welcome_template_id: str = '0a4ae7a9-7f67-4f5d-a536-54df2dee42df'  # /PS-IGNORE
     gov_notify_already_registered_template_id: str = '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'  # /PS-IGNORE
     bgs_gov_notify_already_registered_template_id: str = 'ef7e03fc-700d-4e1e-a0f6-3cc0df779e5e'  # /PS-IGNORE
     gov_notify_new_member_registered_template_id: str = '439a8415-52d8-4975-b230-15cd34305bb5'  # /PS-IGNORE

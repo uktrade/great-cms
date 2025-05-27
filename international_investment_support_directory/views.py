@@ -9,10 +9,9 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
-from config import settings
-from core.constants import HCSatStage
+from core.constants import HCSatStage, TemplateTagsEnum
 from core.forms import HCSATForm
-from core.helpers import get_sender_ip_address, international_url
+from core.helpers import get_sender_ip_address, international_url, get_template_id
 from core.mixins import HCSATMixin
 from international_buy_from_the_uk.services import get_case_study, get_company_profile
 from international_investment.core.helpers import get_location_display
@@ -251,7 +250,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
         )
         spam_control = helpers.SpamControl(contents=[form.cleaned_data['subject'], form.cleaned_data['body']])
         response = form.save(
-            template_id=settings.CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CONTACT_FIND_SUPPLIER_OR_SPECIALIST_COMPANY),
             email_address=self.company['email_address'],
             form_url=self.request.path,
             sender=sender,
