@@ -16,7 +16,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models.base import ModelState
 from wagtail.blocks.field_block import CharBlock, RichTextBlock
-from wagtail.blocks.list_block import ListBlock
+from wagtail.blocks.list_block import ListBlock, ListValue
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.blocks.struct_block import StructBlock, StructValue
 from wagtail.embeds.blocks import EmbedValue
@@ -37,6 +37,7 @@ from core.blocks import (
     SupportTopicCardBlock,
 )
 from core.models import UKEACTA, AltTextImage, GreatMedia, RelatedContentCTA
+from domestic_growth.models import DomesticGrowthContent
 
 
 class Command(BaseCommand):
@@ -224,6 +225,18 @@ class Command(BaseCommand):
 
         return block_updated, block
 
+    def process_listvalue_block(self, page_title, block, dry_run):
+        block_updated = False
+        for item in block:
+            if isinstance(item, DomesticGrowthContent):
+                continue  # as DomesticGrowthContent is a Snippet handled by update_snippets Management command
+            else:
+                frameinfo = getframeinfo(currentframe())
+                self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
+                self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
+                sys.exit(-1)
+        return block_updated, block
+
     def process_structblock_block(self, page_title, block, dry_run):  # noqa C901
         block_updated = False
         for field_name, field_value in block.value.items():
@@ -268,6 +281,11 @@ class Command(BaseCommand):
                 updated, new_value = self.process_structvalue_block(page_title, field_name, field_value, dry_run)
                 if updated:
                     block.value[field_name] = new_value
+                    self.report_page_needs_updating(page_title, field_name, field_value)
+                    block_updated = True
+            elif isinstance(field_value, ListValue):
+                updated, new_value = self.process_listvalue_block(page_title, field_name, field_value, dry_run)
+                if updated:
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             else:
@@ -483,7 +501,7 @@ class Command(BaseCommand):
                     sys.exit(-1)
             cnt += 1
 
-            return block_updated, block
+        return block_updated, block
 
     def process_supporttopiccardblock_block(self, page_title, block):
         block_updated = False
