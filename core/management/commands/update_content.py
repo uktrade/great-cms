@@ -283,7 +283,7 @@ class Command(BaseCommand):
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
             elif isinstance(field_value, ListValue):
-                updated, new_value = self.process_listvalue_block(page_title, field_name, field_value, dry_run)
+                updated, new_value = self.process_listvalue_block(page_title, field_value, dry_run)
                 if updated:
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
