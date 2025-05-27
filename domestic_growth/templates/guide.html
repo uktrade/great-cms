@@ -176,7 +176,7 @@
                                     {% with card_attributes=forloop.counter|gt:3|create_card_attributes %}
                                         {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                             {% with tags=ta|get_trade_association_tags:sector %}
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".svg" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".png" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
                                             {% endwith %}
                                         {% endwith %}
                                     {% endwith %}
@@ -188,7 +188,7 @@
                                     {% with card_attributes=forloop.counter|gt:3|create_card_attributes %}
                                         {% with card_meta_data=ta.url|get_url_favicon_and_domain %}
                                             {% with tags=ta|get_trade_association_tags:sector %}
-                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".svg" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
+                                                {% include "_card.html" with href=ta.url type="unmounted" title=ta.name description=ta.description id=ta.id metaDataIconPath="/static/icons/favicons/"|add:card_meta_data.filename|add:".png" classes="great-ds-card--full" metadataText=card_meta_data.domain tag="h4" tags=tags cardAttributes=card_attributes %}
                                             {% endwith %}
                                         {% endwith %}
                                     {% endwith %}
