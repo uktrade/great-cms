@@ -8,6 +8,7 @@ from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.forms import ConsentFieldMixin
 from core.models import IndustryTag
 from directory_constants import choices
@@ -141,8 +142,11 @@ class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
+            TERMS = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
         else:
@@ -461,8 +465,11 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
+            TERMS = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
         else:

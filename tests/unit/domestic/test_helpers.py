@@ -3,9 +3,9 @@ from unittest import mock
 import pytest
 from directory_forms_api_client import actions
 
-from core.models import DetailPage
 from core.constants import TemplateTagsEnum
 from core.helpers import get_template_id
+from core.models import DetailPage
 from domestic import helpers
 from tests.unit.core.factories import (
     CuratedListPageFactory,

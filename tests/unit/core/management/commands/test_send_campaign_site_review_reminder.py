@@ -7,9 +7,9 @@ from directory_forms_api_client import actions
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
-from core.models import MicrositePage
 from core.constants import TemplateTagsEnum
 from core.helpers import get_template_id
+from core.models import MicrositePage
 from tests.unit.core.factories import MicrositeFactory, MicrositePageFactory
 
 User = get_user_model()

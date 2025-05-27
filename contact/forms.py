@@ -14,12 +14,14 @@ from django.forms import (
     ValidationError,
     widgets as django_widgets,
 )
+from django.utils.safestring import mark_safe
 from great_components import forms
 
 import regex
 from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements
 from core import helpers
+from core.cms_slugs import TERMS_URL
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
@@ -408,8 +410,11 @@ class DomesticExportSupportStep7Form(forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
+            TERMS = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
                 widget=CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
             )
@@ -592,8 +597,11 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
+            TERMS = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
         else:
@@ -917,8 +925,11 @@ class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
         super().__init__(*args, **kwargs)
 
         if request and helpers.is_bgs_site_from_request(request):
+            TERMS = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+            )
             self.fields['terms_agreed'] = forms.BooleanField(
-                label='I have read and agree to the terms and conditions.',
+                label=TERMS,
                 error_messages={'required': 'Tick the box to accept the terms and conditions'},
             )
         else:
