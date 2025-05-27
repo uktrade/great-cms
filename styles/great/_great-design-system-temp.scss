@@ -1355,3 +1355,39 @@ section.bgs-guide-hero {
     box-shadow: inset 0 0 0 2px !important;
   }
 }
+
+.homepage-notification-banner {
+  max-width: 80ch;
+}
+
+.great-ds-cta-banner--chat-border {
+  background-image: linear-gradient(270deg, var(--Primitive-Brand-Great-Light-Green, #8CE2D0) 12.98%, var(--Primitive-Brand-Great-Vibrant-Blue, #0545D6) 66.11%, var(--Primitive-Brand-Great-Light-Blue, #59CBE8) 99.01%);
+  background-size: 100% 3px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  padding-bottom: 30px;
+}
+
+.great-ds-header-bgs__menu-list-children-item:has(.great-ds-header-bgs__menu-list-children-link[href="/chat"]) {
+  position: relative;
+  padding-left: 40px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='33' height='36' viewBox='0 0 33 36' fill='none'%3E%3Cpath d='M32.5246 21.9472L26.2329 19.1801C24.7113 18.5127 23.4994 17.2872 22.8373 15.7573L20.0922 9.41528C19.8792 8.92353 19.1862 8.92353 18.9732 9.41528L16.2281 15.7573C15.566 17.2911 14.3503 18.5127 12.8325 19.1801L6.53305 21.9511C6.0452 22.1657 6.0452 22.8604 6.53305 23.0751L12.9409 25.932C14.4587 26.6071 15.6667 27.8365 16.321 29.3742L18.9771 35.5953C19.1862 36.091 19.8831 36.091 20.0961 35.5953L22.8373 29.2649C23.4994 27.7311 24.7152 26.5096 26.2329 25.8422L32.5246 23.0751C33.0125 22.8604 33.0125 22.1618 32.5246 21.9472ZM7.21836 17.818L8.50381 14.848C8.81355 14.1299 9.38271 13.5562 10.0951 13.2439L13.0455 11.9482C13.2739 11.8467 13.2739 11.5189 13.0455 11.4213L10.0951 10.1256C9.38271 9.81337 8.81355 9.23966 8.50381 8.52154L7.21836 5.54761C7.11769 5.31734 6.79246 5.31734 6.69566 5.54761L5.41022 8.52154C5.10047 9.23966 4.53131 9.81337 3.81889 10.1256L0.864688 11.4252C0.63625 11.5267 0.63625 11.8506 0.864688 11.9521L3.86923 13.2908C4.58164 13.6069 5.14693 14.1845 5.45281 14.9026L6.69953 17.818C6.8002 18.0483 7.12544 18.0522 7.22223 17.818H7.21836ZM12.8751 4.32993L14.4703 5.04024C14.8497 5.20806 15.1479 5.51638 15.3105 5.89495L15.9726 7.44437C16.0268 7.56926 16.1971 7.56926 16.2513 7.44437L16.9328 5.86763C17.0993 5.48516 17.4013 5.18074 17.7768 5.01682L19.3411 4.32993C19.4611 4.27529 19.4611 4.10357 19.3411 4.04893L17.7768 3.36203C17.3974 3.19421 17.0954 2.8898 16.9328 2.51122L16.2513 0.93449C16.1971 0.813503 16.0268 0.813503 15.9726 0.93449L15.2911 2.51122C15.1246 2.8937 14.8226 3.19812 14.4471 3.36203L12.879 4.05283C12.7589 4.10747 12.7589 4.27919 12.879 4.33383H12.8751V4.32993Z' fill='url(%23paint0_linear_575_104848)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_575_104848' x1='32.494' y1='35.967' x2='1.01057' y2='35.967' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.120192' stop-color='%238CE2D0'/%3E%3Cstop offset='0.663462' stop-color='%230545D6'/%3E%3Cstop offset='1' stop-color='%2359CBE8'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 33px 36px;
+    width: 33px;
+    height: 36px;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    &::before {
+      top: -10px;
+    }
+  }
+}

@@ -38,8 +38,8 @@ from core.constants import (
     TEMPLATE_TAGS,
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
+    TemplateTagsEnum,
 )
-from core.constants import TemplateTagsEnum
 from core.models import HCSAT, CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client

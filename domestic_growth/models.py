@@ -1,6 +1,6 @@
+import json
 from secrets import token_urlsafe
 from urllib.parse import urlencode
-import json
 
 from directory_forms_api_client import actions
 from django.db import models
@@ -27,11 +27,11 @@ from domestic_growth.forms import EmailGuideForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_change_sector_link,
+    get_data_layer_triage_data,
     get_events,
     get_guide_url,
     get_trade_association_results,
     get_trade_associations_file,
-    get_data_layer_triage_data,
     get_triage_data_with_sectors,
     get_triage_uuid_from_url_token,
     get_welcome_event,

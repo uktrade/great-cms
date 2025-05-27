@@ -63,6 +63,10 @@ app.conf.beat_schedule = {
         'task': 'international_online_offer.tasks.email_eyb_users_with_incomplete_triage',
         'schedule': crontab(minute=0, hour=12),
     },
+    'domestic_growth_move_incomplete_triage_data_from_cache_to_db': {
+        'task': 'domestic_growth.tasks.move_incomplete_triage_data_from_cache_to_db',
+        'schedule': crontab(minute=55, hour=23),
+    },
 }
 
 if settings.FEATURE_REDIS_USE_SSL:
