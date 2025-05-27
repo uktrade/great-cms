@@ -21,19 +21,20 @@ def gt(value, arg):
 
 
 @register.filter
-def get_trade_association_tags(ta, sector_str):
+def get_trade_association_tags(ta, sector):
     tags = []
     try:
-        sector = ast.literal_eval(str(sector_str))
         if isinstance(ta, dict):
-            if ta.get('type') == 'sub_sector' and sector.get('sub_sector'):
-                tags.append({'text': sector['sub_sector'], 'type': 'sector'})
-            elif ta.get('type') == 'sector' and sector.get('sector'):
-                tags.append({'text': sector['sector'], 'type': 'sector'})
+            if ta.get('type') == 'sub_sector':
+                tags.append({'text': sector, 'type': 'sector'})
+            elif ta.get('type') == 'sector':
+                tags.append({'text': sector, 'type': 'sector'})
             if ta.get('regions'):
                 tags.append({'text': ta['regions'], 'type': 'location'})
-    except (ValueError, SyntaxError):
-        pass
+    except Exception as e:
+        print(f"Error in get_trade_association_tags: {e}")
+        print(f"ta: {ta}")
+        print(f"sector: {sector}")
     return tags
 
 
