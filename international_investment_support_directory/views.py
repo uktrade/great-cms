@@ -11,7 +11,7 @@ from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from core.constants import HCSatStage, TemplateTagsEnum
 from core.forms import HCSATForm
-from core.helpers import get_sender_ip_address, international_url, get_template_id
+from core.helpers import get_sender_ip_address, get_template_id, international_url
 from core.mixins import HCSATMixin
 from international_buy_from_the_uk.services import get_case_study, get_company_profile
 from international_investment.core.helpers import get_location_display

@@ -6,7 +6,11 @@
 {% block content %}
     {% block hero %}
         {% image page.hero_image original as rendition %}
-        {% include '_hero.html' with pngImagePath=rendition.url heading="Services" classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white"%}
+        {% if current_website_name and current_website_name == 'business.gov.uk' %}
+            {% include '_hero.html' with pngImagePath=rendition.url heading="Resources" classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white"%}
+        {% else %}
+            {% include '_hero.html' with pngImagePath=rendition.url heading="Services" classes="great-ds-hero--large-image-cropping great-ds-hero--bg-white"%}
+        {% endif %}
     {% endblock %}
     {% block intro_section %}{% endblock %}
     {% block child_pages %}
