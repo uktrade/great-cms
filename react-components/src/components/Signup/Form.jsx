@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
 import { Input } from '@src/components/Form/Input'
+import { Checkbox } from '@src/components/Form/Checkbox'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
 const SHOW_SOCIAL_LOGIN = false
@@ -10,6 +11,7 @@ const SHOW_SOCIAL_LOGIN = false
 const Form = ({
   handleSubmit,
   showTitle,
+  isBgsSite,
   disabled,
   email,
   handleEmailChange,
@@ -20,6 +22,8 @@ const Form = ({
   googleLoginUrl,
   phoneNumber,
   handlePhoneNumber,
+  termsAndConditions,
+  handleTermsAndConditionsChange,
 }) => (
   <form
     onSubmit={(event) => {
@@ -35,7 +39,7 @@ const Form = ({
       </h1>
     )}
 
-
+    
     <Input
       label="Email address"
       id="email"
@@ -69,10 +73,34 @@ const Form = ({
       errors={errors.password || []}
       isPasswordShowHide={true}
     />
+    {isBgsSite === true && (
+      <Checkbox
+        id="terms_and_conditions"
+        label= {
+          <>
+          I have read and agree to the{' '}
+          <a href="/terms-and-conditions/">terms and conditions</a>.
+          </>
+        }
+        checked={termsAndConditions}
+        onChange={handleTermsAndConditionsChange}
+        errors={errors.terms_and_conditions || []}
+        disabled={disabled}
+      />
+    )}
     <p className="signup__conditions">
-      By signing up, you agree to our{' '}
-      <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
-      <a href="/privacy/">privacy notice</a>
+      {isBgsSite === true ? (
+        <>
+          Read our{' '}
+          <a href="/privacy/">privacy notice</a> to understand how we use your personal information.
+        </>
+      ) : (
+        <>
+          By signing up, you agree to our{' '}
+          <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
+          <a href="/privacy/">privacy notice</a>.
+        </>
+      )}
     </p>
     <button
       type="submit"
@@ -113,6 +141,7 @@ Form.propTypes = {
     email: PropTypes.arrayOf(PropTypes.string),
     password: PropTypes.arrayOf(PropTypes.string),
     mobile_phone_number: PropTypes.arrayOf(PropTypes.string),
+    terms_and_conditions: PropTypes.arrayOf(PropTypes.string),
   }),
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -124,6 +153,8 @@ Form.propTypes = {
   linkedinLoginUrl: PropTypes.string.isRequired,
   googleLoginUrl: PropTypes.string.isRequired,
   showTitle: PropTypes.bool,
+  termsAndConditions: PropTypes.bool.isRequired,
+  handleTermsAndConditionsChange: PropTypes.func.isRequired,
 }
 
 Form.defaultProps = {
@@ -133,6 +164,7 @@ Form.defaultProps = {
   password: '',
   email: '',
   phoneNumber: null,
+  termsAndConditions: false,
 }
 
 export default Form

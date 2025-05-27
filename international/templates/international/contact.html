@@ -111,14 +111,38 @@
                 </div>
             </div>
             <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-4">
-                    <p class="govuk-body">
-                        By sending us your enquiry, you agree to our
-                        <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
-                        <a href='/privacy' target="_blank">privacy notice</a>.
-                    </p>
-                    {% include '_button.html' with text='Send' %}
-                </div>
+                    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-3 govuk-!-margin-bottom-4">
+                        {% if bgs_site%}
+                        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+                            <div class="govuk-grid-column-full">
+                                <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+                                    {% for error in form.terms_agreed.errors %}
+                                        <p class="govuk-error-message" role="alert">
+                                        <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                        <div class="govuk-checkboxes__item">
+                                        {{ form.terms_agreed }}
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="id_terms_agreed">
+                                            {{ form.terms_agreed.label }}
+                                        </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
+                        {% else %}
+                            <p class="govuk-body">
+                                By sending us your enquiry, you agree to our
+                                <a href='/terms-and-conditions' target="_blank">terms and conditions</a> and
+                                <a href='/privacy' target="_blank">privacy notice</a>.
+                            </p>
+                        {% endif %}
+                        {% include '_button.html' with text='Send' %}
+                    </div>
             </div>
         </form>
     </div>

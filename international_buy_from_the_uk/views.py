@@ -9,7 +9,8 @@ from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
-from core.helpers import get_sender_ip_address, international_url
+from core.constants import TemplateTagsEnum
+from core.helpers import get_sender_ip_address, international_url, get_template_id
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
 from international_buy_from_the_uk.services import (
@@ -84,6 +85,11 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
         )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 # Find a supplier
@@ -254,8 +260,13 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
 
     def get_success_url(self):
-        start_url = f'/{international_url(self.request)}/site-help/success/'
-        success_url = start_url + '?next=' + f'/{international_url(self.request)}/buy-from-the-uk'
+        success_url = (
+            reverse(
+                'international_buy_from_the_uk:find-a-supplier-contact',
+                kwargs={'company_number': self.kwargs['company_number']},
+            )
+            + '?success=true'
+        )
         return success_url
 
     def send_email(self, form):
@@ -266,7 +277,7 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
         spam_control = helpers.SpamControl(contents=[form.cleaned_data['subject'], form.cleaned_data['body']])
         response = form.save(
-            template_id=settings.CONTACT_FAS_COMPANY_NOTIFY_TEMPLATE_ID,
+            template_id=get_template_id(TemplateTagsEnum.CONTACT_FIND_SUPPLIER_OR_SPECIALIST_COMPANY),
             email_address=self.company['email_address'],
             form_url=self.request.path,
             sender=sender,
@@ -304,7 +315,13 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
+            continue_url=company_profile_url,
             company=self.company,
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
             recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs

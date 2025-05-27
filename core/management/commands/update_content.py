@@ -16,7 +16,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models.base import ModelState
 from wagtail.blocks.field_block import CharBlock, RichTextBlock
-from wagtail.blocks.list_block import ListBlock
+from wagtail.blocks.list_block import ListBlock, ListValue
 from wagtail.blocks.stream_block import StreamBlock, StreamValue
 from wagtail.blocks.struct_block import StructBlock, StructValue
 from wagtail.embeds.blocks import EmbedValue
@@ -37,6 +37,7 @@ from core.blocks import (
     SupportTopicCardBlock,
 )
 from core.models import UKEACTA, AltTextImage, GreatMedia, RelatedContentCTA
+from domestic_growth.models import DomesticGrowthContent
 
 
 class Command(BaseCommand):
@@ -44,14 +45,18 @@ class Command(BaseCommand):
 
     CALLABLES = types.FunctionType, types.MethodType
 
-    strings_to_replace = {
-        'https://www.great.gov.uk': 'https://www.hotfix.great.uktrade.digital',
-        'www.great.gov.uk': 'www.hotfix.great.uktrade.digital',
-    }
+    string_to_replace = 'great.gov.uk'
+    replacement_string = ''
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--hostname', type=str, required=True, help='Site hostname (e.g., www.dev.bgs.uktrade.digital)'
+        )
+        parser.add_argument(
+            '--replacement',
+            type=str,
+            required=True,
+            help='String to replace with replacement i.e <stringtoreplace>:<replacement>',
         )
         parser.add_argument(
             '--dry_run',
@@ -59,6 +64,9 @@ class Command(BaseCommand):
             default=False,
             help='Show summary output only, do not update data',
         )
+
+    def report_unhandeled_content_type(self, lineno, type):
+        self.stdout.write(self.style.WARNING(f'LINE NUMBER {lineno} - Unhandled Block Type: {type}'))
 
     def report_page_needs_updating(self, page_title, field_name, field_value):
         self.stdout.write(self.style.WARNING(f'FIELD NEEDS UPDATING - <page>:<field_name> - {page_title}:{field_name}'))
@@ -74,11 +82,19 @@ class Command(BaseCommand):
         if self.string_contains_html(original_value):
             updated, new_source = self.replace_richtextbox(page_title, original_value)
             return updated, new_source
-
-        for item in self.strings_to_replace:
-            if item in original_value:
-                value = original_value.replace(item, self.strings_to_replace[item])
-                updated = True
+        else:
+            positions = [i for i in range(len(value)) if value.startswith(self.string_to_replace, i)]
+            if positions:
+                for pos in positions:
+                    start = pos - len('event.')
+                    if value[start:pos] != 'event.':
+                        if value[pos : pos + len(self.string_to_replace)] == self.string_to_replace:  # noqa E203
+                            value = (
+                                value[:pos]
+                                + self.replacement_string
+                                + value[pos + len(self.string_to_replace) :]  # noqa E203
+                            )
+                            updated = True
 
         if updated:
             self.report_page_needs_updating(page_title, field, original_value)
@@ -90,13 +106,11 @@ class Command(BaseCommand):
         updated = False
         soup = BeautifulSoup(source, 'html.parser')
 
-        for value in self.strings_to_replace:
-            findall = soup.find_all(text=re.compile(value))
-            for text in findall:
-                self.report_page_needs_updating(page_title, 'text', source)
-                fixed_link = text.replace(value, self.strings_to_replace[value])
-                text.replace_with(fixed_link)
-                updated = True
+        findall = soup.find_all(text=re.compile(self.string_to_replace))
+        for text in findall:
+            fixed_link = text.replace(self.string_to_replace, self.replacement_string)
+            text.replace_with(fixed_link)
+            updated = True
 
         return updated, str(soup)
 
@@ -105,11 +119,9 @@ class Command(BaseCommand):
         soup = BeautifulSoup(source, 'html.parser')
         a_tags = soup.find_all('a', href=True)
         for tag in a_tags:
-            for value in self.strings_to_replace:
-                if value in tag['href']:
-                    self.report_page_needs_updating(page_title, 'text', source)
-                    tag['href'] = tag['href'].replace(value, self.strings_to_replace[value])
-                    updated = True
+            if self.string_to_replace in tag['href']:
+                tag['href'] = tag['href'].replace(self.string_to_replace, self.replacement_string)
+                updated = True
         return updated, str(soup)
 
     def process_string_field(self, page_title, field, value, dry_run):
@@ -148,9 +160,7 @@ class Command(BaseCommand):
                 block_updated = True
         else:
             frameinfo = getframeinfo(currentframe())
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-            self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
-            sys.exit(-1)
+            self.report_unhandeled_content_type(frameinfo.lineno, type(block))
 
         return block_updated, new_block
 
@@ -210,10 +220,20 @@ class Command(BaseCommand):
                     continue
                 else:
                     frameinfo = getframeinfo(currentframe())
-                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                    self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(block)}'))
-                    sys.exit(-1)
+                    self.report_unhandeled_content_type(frameinfo.lineno, type(block))
+                    continue
 
+        return block_updated, block
+
+    def process_listvalue_block(self, page_title, block, dry_run):
+        block_updated = False
+        for item in block:
+            if isinstance(item, DomesticGrowthContent):
+                continue  # as DomesticGrowthContent is a Snippet handled by update_snippets Management command
+            else:
+                frameinfo = getframeinfo(currentframe())
+                self.report_unhandeled_content_type(frameinfo.lineno, type(item))
+                continue
         return block_updated, block
 
     def process_structblock_block(self, page_title, block, dry_run):  # noqa C901
@@ -262,11 +282,15 @@ class Command(BaseCommand):
                     block.value[field_name] = new_value
                     self.report_page_needs_updating(page_title, field_name, field_value)
                     block_updated = True
+            elif isinstance(field_value, ListValue):
+                updated, new_value = self.process_listvalue_block(page_title, field_value, dry_run)
+                if updated:
+                    self.report_page_needs_updating(page_title, field_name, field_value)
+                    block_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                self.stdout.write(self.style.WARNING(f'Unhandled Block Type: {type(field_value)}'))
-                sys.exit(-1)
+                self.report_unhandeled_content_type(frameinfo.lineno, type(field_value))
+                continue
         return block_updated, block
 
     def create_original_vales(self, items):
@@ -449,9 +473,9 @@ class Command(BaseCommand):
                             block_updated = True
                     else:
                         frameinfo = getframeinfo(currentframe())
-                        self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                        self.stdout.write(self.style.WARNING(f'Unhandled Data Block Cell Type: {type(cell)}'))
-                        sys.exit(-1)
+                        self.report_unhandeled_content_type(frameinfo.lineno, type(cell))
+                        cell_cnt += 1
+                        continue
                 cell_cnt += 1
             row_cnt += 1
 
@@ -470,12 +494,12 @@ class Command(BaseCommand):
                     continue
                 else:
                     frameinfo = getframeinfo(currentframe())
-                    self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                    self.stdout.write(self.style.WARNING(f'Unhandled List Item Type: {type(item)}'))
-                    sys.exit(-1)
+                    self.report_unhandeled_content_type(frameinfo.lineno, type(item))
+                    cnt += 1
+                    continue
             cnt += 1
 
-            return block_updated, block
+        return block_updated, block
 
     def process_supporttopiccardblock_block(self, page_title, block):
         block_updated = False
@@ -511,9 +535,8 @@ class Command(BaseCommand):
                     block_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(field_value)}'))
-                sys.exit(-1)
+                self.report_unhandeled_content_type(frameinfo.lineno, type(field_value))
+                continue
 
         if block_updated:
             block.value = original_values
@@ -591,9 +614,7 @@ class Command(BaseCommand):
             pass
         else:
             frameinfo = getframeinfo(currentframe())
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-            self.stdout.write(self.style.WARNING(f'Unhandled Block type: {type(block.block)}'))
-            sys.exit(-1)
+            self.report_unhandeled_content_type(frameinfo.lineno, type(block.block))
         return block_updated, new_block
 
     def process_streamvalue_field(self, page_title, value, dry_run):
@@ -642,9 +663,8 @@ class Command(BaseCommand):
                     value_updated = True
             else:
                 frameinfo = getframeinfo(currentframe())
-                self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                self.stdout.write(self.style.WARNING(f'Unhandled List Field type: {type(item)}'))
-                sys.exit(-1)
+                self.report_unhandeled_content_type(frameinfo.lineno, type(item))
+                continue
         return value_updated, value
 
     def process_streamchild_field(self, page_title, block, dry_run):  # noqa C901
@@ -673,11 +693,8 @@ class Command(BaseCommand):
                             block_updated = True
                     else:
                         frameinfo = getframeinfo(currentframe())
-                        self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-                        self.stdout.write(
-                            self.style.WARNING(f'Unhandled StreamChild field type: {type(child.value[field_name],)}')
-                        )
-                        sys.exit(-1)
+                        self.report_unhandeled_content_type(frameinfo.lineno, type(child.value[field_name]))
+                        continue
 
             return block_updated, block
 
@@ -709,9 +726,7 @@ class Command(BaseCommand):
             updated, value = self.process_list_field(page.title, field, value)
         else:
             frameinfo = getframeinfo(currentframe())
-            self.stdout.write(self.style.WARNING(f'LINE NUMBER {frameinfo.lineno}'))
-            self.stdout.write(self.style.WARNING(f'Unhandled Field type: {type(value)}'))
-            sys.exit(-1)
+            self.report_unhandeled_content_type(frameinfo.lineno, type(value))
 
         return updated, value
 
@@ -759,6 +774,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):  # noqa: C901
         hostname = options['hostname']
         dry_run = options['dry_run']
+        replacement = options['replacement']
+
+        self.string_to_replace = replacement.split(':')[0]
+        self.replacement_string = replacement.split(':')[1]
 
         try:
             site = Site.objects.get(hostname=hostname)

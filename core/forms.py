@@ -17,12 +17,13 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from core import constants, models
+from core import constants, helpers, models
 from core.cms_slugs import (
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
     TERMS_URL,
 )
 from core.validators import is_valid_email_address
+from great_design_system import forms as ds_forms
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -76,22 +77,26 @@ class CompaniesHouseSearchForm(forms.Form):
 
 
 class ConsentFieldMixin(forms.Form):
-    contact_consent = forms.MultipleChoiceField(
-        # label is set in init to avoid circular dependency
-        widget=forms.CheckboxSelectInlineLabelMultiple(
-            attrs={'id': 'checkbox-multiple'},
-            use_nice_ids=True,
-        ),
-        choices=constants.CONSENT_CHOICES,
-        required=False,
-    )
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, request=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['contact_consent'].label = render_to_string(
-            'core/includes/contact-consent.html',
-            {'privacy_url': PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE},
-        )
+        if request and helpers.is_bgs_site_from_request(request):
+            self.fields['terms_agreed'] = forms.BooleanField(
+                label='I have read and agree to the terms and conditions.',
+                error_messages={'required': 'Tick the box to accept the terms and conditions'},
+            )
+        else:
+            self.fields['contact_consent'] = forms.MultipleChoiceField(
+                widget=forms.CheckboxSelectInlineLabelMultiple(
+                    attrs={'id': 'checkbox-multiple'},
+                    use_nice_ids=True,
+                ),
+                choices=constants.CONSENT_CHOICES,
+                required=False,
+            )
+            self.fields['contact_consent'].label = render_to_string(
+                'core/includes/contact-consent.html',
+                {'privacy_url': PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE},
+            )
 
     @staticmethod
     def move_to_end(fields, name):
@@ -102,9 +107,12 @@ class ConsentFieldMixin(forms.Form):
         # move terms agreed and captcha to the back
         field_order = field_order or list(self.fields.keys())
         field_order = field_order[:]
-        self.move_to_end(fields=field_order, name='contact_consent')
+        if 'contact_consent' in field_order:
+            self.move_to_end(fields=field_order, name='contact_consent')
         if 'captcha' in field_order:
             self.move_to_end(fields=field_order, name='captcha')
+        if 'terms_agreed' in field_order:
+            self.move_to_end(fields=field_order, name='terms_agreed')
         return super().order_fields(field_order)
 
 
@@ -219,7 +227,7 @@ class GuidedJourneyStep3Form(forms.Form):
 
 
 class ContactForm(forms.Form):
-    how_we_can_help = forms.CharField(
+    how_we_can_help = ds_forms.CharField(
         label='What can we help with you with?',
         max_length=1000,
         required=True,
@@ -227,28 +235,34 @@ class ContactForm(forms.Form):
             'required': ('Enter information on what you want help with'),
             'max_length': ('Information on what you want help with must be no more than 1,000 characters'),
         },
-        widget=Textarea(
+        widget=ds_forms.Textarea(
             attrs={
                 'class': 'govuk-textarea govuk-js-character-count great-font-main',
                 'rows': 7,
             }
         ),
     )
-    full_name = forms.CharField(
+    full_name = ds_forms.CharField(
         label='Your name',
         required=True,
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=ds_forms.TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter your name',
         },
     )
-    email = forms.CharField(
+    email = ds_forms.CharField(
         label='Your email address',
         max_length=255,
         required=True,
         validators=[is_valid_email_address],
-        widget=TextInput(attrs={'class': 'govuk-input'}),
+        widget=ds_forms.TextInput(attrs={'class': 'govuk-input'}),
         error_messages={
             'required': 'Enter your email address',
         },
+    )
+
+    terms_agreed = ds_forms.BooleanField(
+        label='I have read and agree to the terms and conditions.',
+        error_messages={'required': 'Tick the box to accept the terms and conditions'},
+        widget=ds_forms.CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )

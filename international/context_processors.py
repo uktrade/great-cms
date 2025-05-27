@@ -42,6 +42,7 @@ def international_header(request):
     )
     international_url = f'/{international_base_url}/'
     invest_url = f'{international_url}investment/'
+    invest_support_url = f'{international_url}investment-support-directory/'
     expand_url = f'{international_url}expand-your-business-in-the-uk/'
     buy_url = f'{international_url}buy-from-the-uk/'
 
@@ -97,10 +98,11 @@ def international_header(request):
         'buy_from_the_uk_url': buy_url,
         'buy_from_the_uk_contact_url': f'{buy_url}contact/',
         'investment_url': invest_url,
-        'expend_your_business_in_the_uk_url': expand_url,
-        'expend_your_business_in_the_uk_login_url': f'{expand_url}login/',
-        'expend_your_business_in_the_uk_guide_url': f'{expand_url}guide/',
-        'expend_your_business_in_the_uk_business_cluster_url': f'{expand_url}business-cluster-information/?area=K03000001',  # noqa:E501
+        'investment_support_url': invest_support_url,
+        'expand_your_business_in_the_uk_url': expand_url,
+        'expand_your_business_in_the_uk_login_url': f'{expand_url}login/',
+        'expand_your_business_in_the_uk_guide_url': f'{expand_url}guide/',
+        'expand_your_business_in_the_uk_business_cluster_url': f'{expand_url}business-cluster-information/?area=K03000001',  # noqa:E501
         'international_header_context': {
             'header_classes': '',
             'isInternational': True,

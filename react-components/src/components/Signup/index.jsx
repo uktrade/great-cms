@@ -36,10 +36,13 @@ export const Signup = (props) => {
           handlePasswordChange={props.setPassword}
           password={props.password}
           phoneNumber={props.phoneNumber}
+          isBgsSite={props.isBgsSite}
           handlePhoneNumber={props.setPhoneNumber}
           linkedinLoginUrl={props.linkedinLoginUrl}
           googleLoginUrl={props.googleLoginUrl}
           handleSubmit={props.handleStepCredentialsSubmit}
+          termsAndConditions={props.termsAndConditions}
+          handleTermsAndConditionsChange={props.setTermsAndConditions}
         />
       )
     }

@@ -518,7 +518,7 @@
                 <p>
                     Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.
                 </p>
-                <a class="button primary-button" href="/support/export-support/">Find answers</a>
+                <a class="button primary-button" href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}">Find answers</a>
             </div>
         </div>
     </div>

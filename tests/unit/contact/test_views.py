@@ -10,6 +10,8 @@ from requests.models import Response
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
@@ -104,7 +106,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-enquiries'),
             reverse('contact:contact-us-domestic-success'),
             views.DomesticEnquiriesFormView,
-            settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_ENQUIRIES_AGENT),
             settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
         ),
@@ -112,7 +114,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-events-form'),
             reverse('contact:contact-us-events-success'),
             views.EventsFormView,
-            settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_EVENTS_AGENT),
             settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         ),
@@ -120,7 +122,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             reverse('contact:contact-us-dso-form'),
             reverse('contact:contact-us-dso-success'),
             views.DefenceAndSecurityOrganisationFormView,
-            settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            get_template_id(TemplateTagsEnum.CONTACT_DSO_AGENT),
             settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
@@ -392,10 +394,11 @@ def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
 @mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
 @mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
 def test_ecommerce_export_form_notify_success(
-    mock_save, mock_form_session, client, valid_request_export_support_form_data
+    mock_save, mock_form_session, client, valid_request_export_support_form_data, mock_site
 ):
     url = reverse('contact:ecommerce-export-support-form')
-    response = client.post(url, valid_request_export_support_form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(url, valid_request_export_support_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('contact:ecommerce-export-support-success')
@@ -848,6 +851,10 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
         email = django.forms.EmailField()
         save = mock.Mock()
 
+        def __init__(self, *args, **kwargs):
+            kwargs.pop('request', None)
+            super().__init__(*args, **kwargs)
+
     with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
         response = client.post(
             reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'}  # /PS-IGNORE
@@ -1035,12 +1042,13 @@ def test_domestic_export_support_form_pages(
     redirect_url,
     error_messages,
     client,
+    mock_site,
 ):
-    #   Redirect fails when any of the fields in the form are missing
     invalid_form_data = form_data.copy()
     for key in form_data:
         invalid_form_data.pop(key)
-        response = client.post(page_url, invalid_form_data)
+        with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+            response = client.post(page_url, invalid_form_data)
         assert response.status_code == 200
         assert error_messages[key] in str(response.rendered_content)
         assert '<meta name="robots" content="noindex">' in str(response.rendered_content)
@@ -1048,7 +1056,8 @@ def test_domestic_export_support_form_pages(
         invalid_form_data = form_data.copy()
 
     #   Redirect succeeds with valid data
-    response = client.post(page_url, form_data)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
 

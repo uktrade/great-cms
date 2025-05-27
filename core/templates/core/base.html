@@ -55,6 +55,12 @@
             {% include "core/includes/seo_meta.html" %}
         {% endif %}
     {% endwith %}
+    {% block head_google_tag_manager %}
+        {% if current_website_name and current_website_name == 'business.gov.uk' %}
+            {% if UTM_COOKIE_DOMAIN %}<meta id="utmCookieDomain" value="{{ UTM_COOKIE_DOMAIN }}" />{% endif %}
+            {% include 'components/google_tag_manager_head.html' %}
+        {% endif %}
+    {% endblock %}
     <meta name="intranet:environment" content="{{ APP_ENVIRONMENT }}">
     <meta name="intranet:sentry:dsn"
           content="{{ SENTRY_DSN|default_if_none:'' }}">

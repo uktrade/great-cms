@@ -44,7 +44,9 @@
     {% endfor %}
     <div class="govuk-!-margin-bottom-7 govuk-!-padding-6 govuk-!-padding-top-7 great-border-left-blue">
         <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Before you go...</h2>
+       
         {% for field in form.visible_fields %}
+        {% if field.name != 'terms_agreed' %}
             {% if field.name == 'find_out_about' %}
                 <div class="govuk-form-group govuk-!-margin-bottom-0 {% if field.errors %}govuk-form-group--error{% endif %}">
                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' optional=True %}
@@ -54,14 +56,38 @@
                     {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
                 </div>
             {% endif %}
+        {% endif %}
         {% endfor %}
     </div>
-    <h3 class="govuk-heading-xs govuk-!-margin-bottom-2">How we use your information</h3>
-    <p class="govuk-body-s govuk-!-margin-bottom-7">
-        The Department for Business and Trade will use the information provided in this form to respond to your enquiry.
-        You can read about how we protect your data in our <a href="/privacy/privacy-notice-contact-form/"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="govuk-link">privacy notice</a>.
-    </p>
+    {% if bgs_site%}
+    <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+        {% for error in form.terms_agreed.errors %}
+            <p class="govuk-error-message" role="alert">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+            </p>
+        {% endfor %}
+    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+        <div class="govuk-checkboxes__item">
+            {{ form.terms_agreed }}
+            <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">
+                {{form.terms_agreed.label}}
+            </label>
+        </div>
+    </div>
+    </div>    
+    <p class="govuk-body govuk-!-margin-top-2">
+        Read our
+        <a class="govuk-link" href="/privacy/">privacy notice</a> to understand how we use your personal information.
+        </p>
+    {% else %}
+        <h3 class="govuk-heading-xs govuk-!-margin-bottom-2">How we use your information</h3>
+        <p class="govuk-body-s govuk-!-margin-bottom-7">
+            The Department for Business and Trade will use the information provided in this form to respond to your enquiry.
+            You can read about how we protect your data in our <a href="/privacy/privacy-notice-contact-form/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="govuk-link">privacy notice</a>.
+        </p>
+    {% endif %}
+    
 {% endblock %}

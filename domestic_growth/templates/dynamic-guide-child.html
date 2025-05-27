@@ -1,4 +1,5 @@
 {% extends 'includes/base.html' %}
+{% load replace_hyphens from component_tags %}
 {% block head_title %}
     {% if email_guide_form.errors %}Error: {% endif %}
     {{ page.get_parent.hero_title }}: Exporting - Business.gov.uk
@@ -95,7 +96,7 @@
                         
                         {% if page.page_a_body_sections %}
                             {% for section in page.page_a_body_sections %}
-                                <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo bgs-section-logo--exporting{% endif %}"
+                                <div {% if section.value.title %}data-title="{{ section.value.title | slugify | replace_hyphens }}"{% endif %} class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo bgs-section-logo--exporting{% endif %}"
                                 style="{% if section.value.logo %}background-image: url('/static/icons/{{ section.value.logo }}');{% endif %}{% if section.value.border_color %}border-top-color: {{ section.value.border_color }} !important;{% endif %}">
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}
@@ -155,7 +156,7 @@
                             {% for section in page.page_b_body_sections %}
                             {% if section.value.logo or section.value.border_color %}
                             {% endif %}
-                                <div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo bgs-section-logo--exporting{% endif %}" 
+                                <div {% if section.value.title %}data-title="{{ section.value.title | slugify | replace_hyphens }}"{% endif %} class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3 bgs-box-shadow{% if section.value.logo %} bgs-section-logo bgs-section-logo--exporting{% endif %}" 
                                 style="{% if section.value.logo %}background-image: url('/static/icons/{{ section.value.logo }}');{% endif %}{% if section.value.border_color %}border-top-color: {{ section.value.border_color }} !important;{% endif %}">
                                     <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                                         {% if section.value.title %}

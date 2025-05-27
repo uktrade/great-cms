@@ -75,11 +75,33 @@
                         </div>
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-                                <p class="govuk-body">
-                                    By signing up, you agree to our
-                                    <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
-                                    <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
-                                </p>
+                                {% if bgs_site %}
+                                <div class="{% if form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+                                    {% for error in form.terms_agreed.errors %}
+                                        <p class="govuk-error-message" role="alert">
+                                            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                        <div class="govuk-checkboxes__item">
+                                            {{ form.terms_agreed }}
+                                            <label class="govuk-label govuk-checkboxes__label" for="id_terms_agreed">
+                                                {{form.terms_agreed.label}}
+                                            </label>
+                                        </div>
+                                    </div>    
+                                </div>
+                                    <p class="govuk-body govuk-!-margin-top-2">
+                                    Read our
+                                    <a class="govuk-link" href="/privacy/">privacy notice</a> to understand how we use your personal information.
+                                    </p>
+                                {% else %}
+                                    <p class="govuk-body">
+                                        By signing up, you agree to our
+                                        <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
+                                        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="govuk-grid-row govuk-!-margin-top-4">

@@ -17,15 +17,15 @@
         </div>
     {% endblock %}
 {% endif %}
-{% comment %} {% block css_layout_class %}
-    govuk-main-wrapper
+{% block css_layout_class %}
+    great-ds-bg-white
     {{ block.super }}
-{% endblock %} {% endcomment %}
+{% endblock %}
 {% block content %}
-    <div class="great-container govuk-!-padding-bottom-6">
+    <div class="great-ds-container govuk-!-padding-bottom-6">
         <div class="govuk-grid-row" id="complete_contact_form_message">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl govuk-!-margin-top-4">Thank you for contacting {{ site }}</h1>
+                <h1 class="govuk-heading-xl govuk-!-margin-top-4">Thank you for contacting Business.gov.uk</h1>
                 <p class="govuk-body">We have received your message and will get back to you as soon as possible.</p>
                 {% include '_action-link.html' with linkText='Go back to the home page' linkHref=back_url %}
             </div>
@@ -35,7 +35,7 @@
 {% block body_inline_feedback %}
     {% if not csat_complete %}
         <section id="hcsat_section"
-                 class="clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+                 class="govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
             <div class="container">
                 <div class="great-container">
                     <!-- djlint:off T027-->
@@ -46,7 +46,7 @@
         </section>
     {% endif %}
     <section id="inline-feedback-section"
-             class="clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-0 great-inline-feedback__container">
+             class="govuk-!-margin-top-0 great-inline-feedback__container">
         {{ block.super }}
     </section>
 {% endblock %}

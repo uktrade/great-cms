@@ -113,6 +113,7 @@ def feature_flags(request):
     retval['features']['FEATURE_GREAT_MIGRATION_BANNER'] = settings.FEATURE_GREAT_MIGRATION_BANNER
 
     retval['features']['FEATURE_DOMESTIC_GROWTH'] = settings.FEATURE_DOMESTIC_GROWTH
+    retval['features']['FEATURE_BGS_CHAT'] = settings.FEATURE_BGS_CHAT
 
     return retval
 
@@ -293,12 +294,12 @@ def domestic_header(request):
                             'isCurrent': '/learn/categories/' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/services/',
+                            'href': '/export-from-uk/resources/',
                             'text': 'Export resources',
-                            'isCurrent': '/services/' in request.path,
+                            'isCurrent': '/resources/' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/dashboard/',
+                            'href': '/dashboard/',
                             'text': 'Export dashboard',
                             'requiresAuth': True,
                             'isCurrent': '/compare-countries' in request.path,
@@ -310,13 +311,13 @@ def domestic_header(request):
                             'isCurrent': '/compare-countries' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/export-plan/',
+                            'href': '/export-plan/',
                             'text': 'Make an export plan',
                             'requiresAuth': True,
                             'isCurrent': '/export-plan' in request.path,
                         },
                         {
-                            'href': '/export-from-uk/profile/',
+                            'href': '/profile/',
                             'text': 'Export account',
                             'requiresAuth': True,
                             'isCurrent': '/profile' in request.path,
@@ -580,7 +581,7 @@ def footer_bgs(request):
                         'text': 'Learn to export',
                         'title': 'Learn to export',
                     },
-                    {'href': '/export-from-uk/services', 'text': 'Export resources', 'title': 'Export resources'},
+                    {'href': '/export-from-uk/resources', 'text': 'Export resources', 'title': 'Export resources'},
                 ],
                 [
                     {
@@ -623,7 +624,7 @@ def footer_bgs(request):
                 [
                     {'href': '/support/', 'text': 'About this website', 'title': 'About this website'},
                     {
-                        'href': '/help-using-this-website/',
+                        'href': '/get-help/',
                         'text': 'Help using this website',
                         'title': 'Help using this website',
                     },
@@ -688,3 +689,11 @@ def current_website_name(request):
             website_name = 'business.gov.uk'
 
     return {'current_website_name': website_name}
+
+
+def bgs_chat_vars(request):
+    return {'COPILOT_EMBED_SRC': settings.COPILOT_EMBED_SRC}
+
+
+def webchat_vars(request):
+    return {'WEBCHAT_AGENT_URL': settings.WEBCHAT_AGENT_URL}

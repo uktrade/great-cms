@@ -17,6 +17,8 @@ from rest_framework.generics import GenericAPIView
 
 from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
+from core.constants import TemplateTagsEnum
+from core.helpers import get_template_id
 from core.cms_slugs import (
     DIGITAL_ENTRY_POINT_TRIAGE_HOMEPAGE,
     PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
@@ -200,13 +202,18 @@ class DomesticFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, 
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class DomesticEnquiriesFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = contact_forms.DomesticEnquiriesForm
     template_name = 'domestic/contact/step-enquiries.html'
     success_url = reverse_lazy('contact:contact-us-domestic-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_ENQUIRIES_AGENT),
         agent_email=settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -575,6 +582,11 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
         self.submit_enquiry(form)
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep8Form
@@ -664,40 +676,6 @@ class DomesticExportSupportFormStep10View(TemplateView):  # /PS-IGNORE
     template_name = 'domestic/contact/export-support/feedback-confirmation.html'
 
 
-class InternationalFormView(
-    core_mixins.PrepopulateFormMixin,
-    PrepopulateInternationalFormMixin,
-    BaseNotifyFormView,
-):
-    form_class = contact_forms.InternationalContactForm
-    template_name = 'domestic/contact/international/step.html'
-    success_url = reverse_lazy('contact:contact-us-international-success')
-    notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
-        agent_email=settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
-    )
-
-    def get_context_data(self, **kwargs):
-        bespoke_breadcrumbs = [
-            {
-                'title': 'Contact us',
-                'url': reverse(
-                    'contact:contact-us-routing-form',
-                    kwargs={'step': 'location'},
-                ),
-            },
-        ]
-        return super().get_context_data(bespoke_breadcrumbs=bespoke_breadcrumbs, **kwargs)
-
-
-class InternationalSuccessView(
-    # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
-    BaseSuccessView,
-):
-    template_name = 'domestic/contact/submit-success-international.html'
-
-
 class EcommerceSupportFormPageView(BaseNotifyFormView):
     template_name = 'domestic/contact/request-export-support-form.html'
     form_class = contact_forms.ExportSupportForm
@@ -707,6 +685,11 @@ class EcommerceSupportFormPageView(BaseNotifyFormView):
         agent_email=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
     )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 class ExportSupportSuccessPageView(TemplateView):
@@ -851,7 +834,7 @@ class EventsFormView(WizardBespokeBreadcrumbMixin, PrepopulateShortFormMixin, Ba
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-events-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_EVENTS_AGENT),
         agent_email=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -864,7 +847,7 @@ class DefenceAndSecurityOrganisationFormView(
     template_name = 'domestic/contact/step.html'
     success_url = reverse_lazy('contact:contact-us-dso-success')
     notify_settings = NotifySettings(
-        agent_template=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_template=get_template_id(TemplateTagsEnum.CONTACT_DSO_AGENT),
         agent_email=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
     )
@@ -999,6 +982,11 @@ class FTASubscribeFormView(
     notify_settings = NotifySettings(
         user_template=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
     )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(

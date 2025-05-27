@@ -73,7 +73,7 @@ def test_send_welcome_notification(mock_action_class, settings):
 
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.ENROLMENT_WELCOME_TEMPLATE_ID,
+        template_id=get_template_id(TemplateTagsEnum.ENROLMENT_WELCOME),
         email_address='jim@example.com',  # /PS-IGNORE
         form_url='foo',
     )

@@ -97,12 +97,14 @@ def test_business_growth_triage_success_urls(
     assert response.url[: response.url.find('?')] == redirect_url
 
 
+@mock.patch('domestic_growth.helpers.cache')
 @pytest.mark.django_db
-def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors):
+def test_start_a_business_triage_with_session_key_available(mock_cache, mock_get_dbt_sectors):
     mock_session_key = '12345'
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
     factory = RequestFactory()
+    cache_key = f'bgs:StartingABusinessTriage:{mock_session_key}'
 
     # first step in triage
     req = factory.post(
@@ -116,7 +118,15 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     postcode_response = StartingABusinessLocationFormView.as_view()(req)
 
-    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    mock_cache.set.assert_called_with(cache_key, {'postcode': postcode}, None)
+
+    # mock cache return value used by view of last question on triage to populate db
+    mock_cache.get.return_value = {
+        'triage_uuid': mock_session_key,
+        'postcode': postcode,
+        'sector_id': sector_id,
+        'dont_know_sector': False,
+    }
 
     # follow redirect to sector entry
     req = factory.post(
@@ -130,16 +140,30 @@ def test_start_a_business_triage_with_session_key_available(mock_get_dbt_sectors
 
     sector_response = StartingABusinessSectorFormView.as_view()(req)  # NOQA:F841
 
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {'triage_uuid': mock_session_key, 'postcode': postcode, 'sector_id': sector_id, 'dont_know_sector': False},
+        None,
+    )
+
     assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
+    # set is called once for each question
+    assert mock_cache.set.call_count == 2
+
+    # get is called once for each question and to get data to populate db
+    assert mock_cache.get.call_count == 3
+
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
     starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
 
 
+@mock.patch('domestic_growth.helpers.cache')
 @mock.patch('domestic_growth.views.uuid4', return_value=UUID('810ae8ba-19b5-4ebc-9797-7e60aad01818'))  # /PS-IGNORE
 @pytest.mark.django_db
-def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_sectors, client):
+def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_cache, mock_get_dbt_sectors, client):
     """
     No session key occurs when a user does not accept cookies, private-browsing mode etc.
     """
@@ -147,6 +171,7 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
     mock_uuid4_val = str(mock_uuid4._mock_return_value)
+    cache_key = f'bgs:StartingABusinessTriage:{mock_uuid4_val}'
 
     # first step in triage
     postcode_response = client.post(
@@ -157,7 +182,11 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
     )
 
     assert fern.decrypt(postcode_response.url[postcode_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
-    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+
+    mock_cache.set.assert_called_with(cache_key, {'postcode': postcode}, None)
+
+    # mock cache return value used by view of last question on triage to populate db
+    mock_cache.get.return_value = {'postcode': postcode, 'sector_id': sector_id, 'dont_know_sector': False}
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -168,15 +197,26 @@ def test_start_a_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_se
     )
 
     assert fern.decrypt(sector_response.url[sector_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
-    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+    mock_cache.set.assert_called_with(
+        cache_key, {'postcode': postcode, 'sector_id': sector_id, 'dont_know_sector': False}, None
+    )
 
+    # set is called once for each question
+    assert mock_cache.set.call_count == 2
+
+    # get is called once for each question and to get data to populate db
+    assert mock_cache.get.call_count == 3
+
+    assert StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4_val).count() == 1
     starting_a_business_triage_obj = StartingABusinessTriage.objects.filter(triage_uuid=mock_uuid4_val).first()
+
     assert starting_a_business_triage_obj.postcode == postcode
     assert starting_a_business_triage_obj.sector_id == sector_id
 
 
+@mock.patch('domestic_growth.helpers.cache')
 @pytest.mark.django_db
-def test_existing_business_triage_with_session_key_available(mock_get_dbt_sectors):
+def test_existing_business_triage_with_session_key_available(mock_cache, mock_get_dbt_sectors):
     mock_session_key = '12345'
     postcode = 'SW1A 1AA'  # /PS-IGNORE
     sector_id = 'SL0003'
@@ -184,6 +224,7 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     turnover = '5M_TO_10M'
     currently_export = 'NO'
     factory = RequestFactory()
+    cache_key = f'bgs:ExistingBusinessTriage:{mock_session_key}'
 
     # first step in triage
     req = factory.post(
@@ -197,7 +238,8 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     postcode_response = ExistingBusinessLocationFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    mock_cache.set.assert_called_with(cache_key, {'postcode': postcode}, None)
+    mock_cache.get.return_value = {'postcode': postcode}
 
     # follow redirect to sector entry
     req = factory.post(
@@ -210,7 +252,10 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     sector_response = ExistingBusinessSectorFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    mock_cache.set.assert_called_with(
+        cache_key, {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False}, None
+    )
+    mock_cache.get.return_value = {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False}
 
     # follow redirect to when set up entry
     req = factory.post(
@@ -223,7 +268,17 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     when_set_up_response = ExistingBusinessWhenSetupFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False, 'when_set_up': when_set_up},
+        None,
+    )
+    mock_cache.get.return_value = {
+        'postcode': postcode,
+        'sector_id': sector_id,
+        'cant_find_sector': False,
+        'when_set_up': when_set_up,
+    }
 
     # follow redirect to when turnover entry
     req = factory.post(
@@ -236,7 +291,25 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     turnover_response = ExistingBusinessTurnoverFormView.as_view()(req)
 
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {
+            'postcode': postcode,
+            'sector_id': sector_id,
+            'cant_find_sector': False,
+            'when_set_up': when_set_up,
+            'turnover': turnover,
+        },
+        None,
+    )
+    mock_cache.get.return_value = {
+        'postcode': postcode,
+        'sector_id': sector_id,
+        'cant_find_sector': False,
+        'when_set_up': when_set_up,
+        'turnover': turnover,
+        'currently_export': False,
+    }
 
     # follow redirect to when currently export entry
     req = factory.post(
@@ -249,6 +322,19 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     req.session.session_key = mock_session_key
     ExistingBusinessCurrentlyExportFormView.as_view()(req)
 
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {
+            'postcode': postcode,
+            'sector_id': sector_id,
+            'cant_find_sector': False,
+            'when_set_up': when_set_up,
+            'turnover': turnover,
+            'currently_export': False,
+        },
+        None,
+    )
+
     assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).count() == 1
 
     existing_business_triage_obj = ExistingBusinessTriage.objects.filter(triage_uuid=mock_session_key).first()
@@ -260,9 +346,10 @@ def test_existing_business_triage_with_session_key_available(mock_get_dbt_sector
     assert existing_business_triage_obj.currently_export is False
 
 
+@mock.patch('domestic_growth.helpers.cache')
 @mock.patch('domestic_growth.views.uuid4', return_value=UUID('810ae8ba-19b5-4ebc-9797-7e60aad01818'))  # /PS-IGNORE
 @pytest.mark.django_db
-def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_sectors, client):
+def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_cache, mock_get_dbt_sectors, client):
     """
     No session key occurs when a user does not accept cookies, private-browsing mode etc.
     """
@@ -273,6 +360,7 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     when_set_up = LESS_THAN_3_YEARS_AGO
     turnover = '5M_TO_10M'
     currently_export = 'NO'
+    cache_key = f'bgs:ExistingBusinessTriage:{mock_uuid4_val}'
 
     # first step in triage
     postcode_response = client.post(
@@ -283,7 +371,9 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     )
 
     assert fern.decrypt(postcode_response.url[postcode_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+
+    mock_cache.set.assert_called_with(cache_key, {'postcode': postcode}, None)
+    mock_cache.get.return_value = {'postcode': postcode}
 
     # follow redirect to sector entry
     sector_response = client.post(
@@ -294,7 +384,10 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     )
 
     assert fern.decrypt(sector_response.url[sector_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+    mock_cache.set.assert_called_with(
+        cache_key, {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False}, None
+    )
+    mock_cache.get.return_value = {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False}
 
     # follow redirect to when set up entry
     when_set_up_response = client.post(
@@ -307,7 +400,18 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     assert (
         fern.decrypt(when_set_up_response.url[when_set_up_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
     )
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {'postcode': postcode, 'sector_id': sector_id, 'cant_find_sector': False, 'when_set_up': when_set_up},
+        None,
+    )
+    mock_cache.get.return_value = {
+        'postcode': postcode,
+        'sector_id': sector_id,
+        'cant_find_sector': False,
+        'when_set_up': when_set_up,
+    }
 
     # follow redirect to when turnover entry
     turnover_response = client.post(
@@ -318,7 +422,26 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     )
 
     assert fern.decrypt(turnover_response.url[turnover_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
-    assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
+
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {
+            'postcode': postcode,
+            'sector_id': sector_id,
+            'cant_find_sector': False,
+            'when_set_up': when_set_up,
+            'turnover': turnover,
+        },
+        None,
+    )
+    mock_cache.get.return_value = {
+        'postcode': postcode,
+        'sector_id': sector_id,
+        'cant_find_sector': False,
+        'when_set_up': when_set_up,
+        'turnover': turnover,
+        'currently_export': False,
+    }
 
     # follow redirect to when currently export entry
     export_response = client.post(
@@ -329,6 +452,19 @@ def test_existing_business_triage_with_no_session_key(mock_uuid4, mock_get_dbt_s
     )
 
     assert fern.decrypt(export_response.url[export_response.url.find('triage_uuid=') + 12 :]) == mock_uuid4_val
+    mock_cache.set.assert_called_with(
+        cache_key,
+        {
+            'postcode': postcode,
+            'sector_id': sector_id,
+            'cant_find_sector': False,
+            'when_set_up': when_set_up,
+            'turnover': turnover,
+            'currently_export': False,
+        },
+        None,
+    )
+
     assert ExistingBusinessTriage.objects.filter(triage_uuid=mock_uuid4._mock_return_value).count() == 1
 
     existing_business_triage_obj = ExistingBusinessTriage.objects.filter(
@@ -446,7 +582,7 @@ def test_triage_form_init(
 
     factory = RequestFactory()
 
-    req = factory.get(f'{form_url}?triage_uuid={Fern().encrypt(triage_uuid)}')
+    req = factory.get(f'{form_url}?triage_uuid={Fern().encrypt(triage_uuid)}&edit=true')
     view = form_view.as_view()(req)
     assert view.context_data['form'].initial[form_field_name] == form_field_value
 

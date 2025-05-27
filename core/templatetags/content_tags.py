@@ -423,6 +423,17 @@ def handle_external_links(html_content, request):
 
 
 def is_external_link(url, current_domain):
+
+    internal_domains = [
+        'great.gov.uk',
+        'www.great.gov.uk',
+        'business.gov.uk',
+        'www.business.gov.uk',
+        'hotfix.bgs.uktrade.digital',
+        'www.hotfix.bgs.uktrade.digital',
+        'hotfix.great.uktrade.digital',
+        'www.hotfix.great.uktrade.digital',
+    ]
     # Parse the URL
     parsed_url = urlparse(url)
 
@@ -430,8 +441,24 @@ def is_external_link(url, current_domain):
     if not parsed_url.scheme:
         return False
 
-    # Check if the URL is not on the current domain
-    return parsed_url.netloc != current_domain
+    # Check if the URL is not on the current domain and not in internal_domains
+    parsed_netloc = parsed_url.netloc
+    is_external = True if parsed_netloc != current_domain and parsed_netloc not in internal_domains else False
+
+    return is_external
+
+
+@register.simple_tag()
+def create_internal_link_from_href(url, request):
+    """
+    Handy tag that strips the domain from a href that is deemed 'internal'
+    """
+    if url:
+        url_parts = url.split('/')
+        if not is_external_link(url, request.get_host()):
+            if 'http' in url_parts[0]:
+                return f'/{"/".join(url_parts[3:])}'
+    return url
 
 
 @register.filter(name='remove_bold_from_headings')

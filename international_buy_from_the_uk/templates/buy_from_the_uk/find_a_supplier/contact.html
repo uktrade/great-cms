@@ -17,6 +17,13 @@
 {% endblock %}
 {% block content %}
     <div class="great-container">
+        {% if request.GET.success %}
+            <div class="govuk-grid-row" id="complete_contact_form_message">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-6">
+                    {% include 'investment_support_directory/includes/contact_success.html' with back_url=back_url %}
+                </div>
+            </div>
+        {% else %}
         <div class="govuk-grid-row govuk-!-margin-top-8">
             <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
         </div>
@@ -136,9 +143,16 @@
                                     <div class="govuk-checkboxes__item">
                                         {{ form.terms }}
                                         <label class="govuk-label govuk-checkboxes__label" for="id_terms">
+                                            {% if bgs_site%}
+                                            <p class="govuk-body">
+                                                I have read and agree to the terms and conditions and I understand that:
+                                            </p>
+                                            {% else %}
                                             <p class="govuk-body">
                                                 I agree to the <a class="govuk-link" href="/terms-and-conditions/" target="_blank">{% if current_website_name %}{{ current_website_name }}{% else %}great.gov.uk{% endif %} terms and conditions</a> and I understand that:
                                             </p>
+                                            {% endif%}
+                                            
                                             <ul class="govuk-list govuk-list--bullet">
                                                 <li>
                                                     the Department for Business and Trade (DBT) is not endorsing the character, ability, goods or services of members of the directory
@@ -165,6 +179,12 @@
                             </div>
                         </div>
                     </div>
+                    {% if bgs_site%}
+                    <p class="govuk-body">
+                        Read our
+                        <a class="govuk-link" href="/privacy/">privacy notice</a> to understand how we use your personal information.
+                    </p>
+                    {% endif %}
                     <div class="govuk-grid-row govuk-!-margin-top-4">
                         <div class="govuk-grid-column-full">{% include "_button.html" with text='Send message' %}</div>
                     </div>
@@ -172,6 +192,7 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block body_js %}

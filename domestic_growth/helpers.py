@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import sentry_sdk
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.base import Model
 from django.forms.models import model_to_dict
@@ -73,11 +74,8 @@ def get_triage_data_with_sectors(request: HttpRequest) -> dict:
 
 
 def get_triage_data(model: Model, triage_uuid: str) -> Model:
-    try:
-        return model.objects.get(triage_uuid=triage_uuid)
-    except (AttributeError, model.DoesNotExist) as e:
-        sentry_sdk.capture_exception(e)
-        return None
+    triage_record = model.objects.filter(triage_uuid=triage_uuid)
+    return triage_record[0] if triage_record else None
 
 
 def get_triage_uuid(request: HttpRequest) -> str:
@@ -107,6 +105,14 @@ def is_sector_triage_question_incomplete(triage_data: Model) -> bool:
         return getattr(triage_data, 'sector_id') is None and not (getattr(triage_data, 'cant_find_sector', False))
 
     return False
+
+
+def has_triage_been_activated(request: HttpRequest) -> bool:
+    triage_uuid = get_triage_uuid(request)
+    triage_model = get_triage_model(request)
+    triage_data = get_triage_data(triage_model, triage_uuid)
+
+    return True if triage_data else False
 
 
 def get_triage_drop_off_point(request: HttpRequest) -> str:  # NOQA: C901
@@ -261,11 +267,11 @@ def get_change_answers_link(request: HttpRequest) -> str:
         triage_start_url = reverse('domestic_growth:domestic-growth-existing-location')
 
     if request.GET.get('triage_uuid'):
-        return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}"
+        return triage_start_url + f"?triage_uuid={request.GET.get('triage_uuid')}&edit=true"
     elif request.META.get('triage_uuid'):
-        return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}"
+        return triage_start_url + f"?triage_uuid={request.META.get('triage_uuid')}&edit=true"
 
-    return triage_start_url
+    return triage_start_url + '?edit=true'
 
 
 def get_change_sector_link(request: HttpRequest) -> str:
@@ -332,3 +338,46 @@ def guide_link_valid(request: HttpRequest) -> bool:
     if record:
         return timezone.now() <= (record.created + timedelta(days=BGS_GUIDE_SHARE_LINK_TTL_DAYS))
     return False
+
+
+def persist_to_cache(key: str, data: dict):
+    """
+    Stores data in default cache. Timeout of 'None' is used so that triage data remains until either
+    it is persisted in the db (at the end of a completed triage) or stored in the db via scheduled
+    management command (in the event of a partially completed triage). On successful completion of
+    either of these events the triage data is deleted from the cache.
+    """
+    existing_data = cache.get(key, {})
+    cache.set(key, {**existing_data, **data}, None)
+
+
+def persist_to_db(key: str, model: Model, triage_uuid: str):
+    """
+    Extracts data for a given key from the cache and saves in the database table defined by the model
+    parameter
+    """
+    triage_data = cache.get(key)
+
+    if triage_data:
+        model.objects.update_or_create(triage_uuid=triage_uuid, defaults=triage_data)
+
+
+def get_data_layer_triage_data(triage_data, local_support_data):
+    data = {
+        'event': 'BGSTriageData',
+        'type': 'Growing a Business' if triage_data.get('when_set_up', False) else 'Starting a Business',
+        'userInfo': {},
+    }
+
+    if local_support_data and local_support_data.get('postcode_data', {}).get('region'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('region')
+    elif local_support_data and local_support_data.get('postcode_data', {}).get('country'):
+        data['userInfo']['region'] = local_support_data.get('postcode_data', {}).get('country')
+
+    fields = ['sector', 'when_set_up', 'turnover', 'currently_export']
+
+    for field in fields:
+        if triage_data.get(field, False):
+            data['userInfo'][field] = triage_data[field]
+
+    return data

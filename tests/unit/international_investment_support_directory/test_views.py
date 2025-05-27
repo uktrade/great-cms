@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 from django.urls import reverse
 
@@ -19,9 +21,10 @@ def test_investment_support_directory_company_profile_view(mock_get_company, cli
 
 
 @pytest.mark.django_db
-def test_investment_support_directory_company_contact_view(mock_get_company, client):
+def test_investment_support_directory_company_contact_view(mock_get_company, client, mock_site):
     url = reverse('international_investment_support_directory:specialist-contact', args={123})
-    response = client.get(url)
+    with mock.patch('wagtail.models.Site.find_for_request', return_value=mock_site):
+        response = client.get(url)
     assert response.status_code == 200
 
 
