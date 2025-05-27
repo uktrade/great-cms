@@ -117,5 +117,3 @@ WAGTAILTRANSFER_SECRET_KEY_UAT=debug
 WAGTAILTRANSFER_BASE_URL_STAGING=http://example.com/admin/wagtail-transfer
 WAGTAILTRANSFER_SECRET_KEY_STAGING=debug
 WAGTAILDOCS_SERVE_METHOD=direct
-
-WEBCHAT_AGENT_URL=https://e5371eeaff65eb3ba46159283461d5.a9.environment.api.powerplatform.com/powervirtualagents/botsbyschema/cr889_bgsAiAgentNonProduction/directline/token?api-version=2022-03-01-preview

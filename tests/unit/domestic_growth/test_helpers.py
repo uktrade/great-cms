@@ -21,8 +21,8 @@ from domestic_growth.constants import (
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_change_sector_link,
-    get_filtered_trade_associations,
     get_data_layer_triage_data,
+    get_filtered_trade_associations,
     get_trade_association_results,
     get_triage_data_with_sectors,
     get_triage_drop_off_point,
