@@ -612,7 +612,7 @@ class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            progress_button_text='Save and continue',
+            progress_button_text='Save Changes' if self.request.GET.get('next') else 'Save and continue',
         )
 
     def get_initial(self):
