@@ -1,10 +1,22 @@
+{% load bgs_tags %}
+{% load wagtailcore_tags %}
+{% wagtail_site as current_site %}
+{% is_bgs_site current_site.root_url as bgs_site %}
 <nav aria-label="Topics Menu" class="great govuk-!-padding-top-3 govuk-!-padding-bottom-6 great-border-top-thick">
     <ul class="govuk-!-margin-0">
         <h2 class="govuk-heading-s">{{title}}</h3>
         {% for step in steps %}
-        <li class="govuk-!-static-padding-bottom-4 great-step-item fa great-display-flex {%if step.url == current_step_url %}current-step{%endif%} {%if forloop.last%}govuk-!-padding-bottom-0{%endif%}">
-            <a class="govuk-link" href="{{step.url}}">{{step.text}}</a>
-        </li>
+          {% is_bgs_site step.url as bgs_link %}
+          {% if bgs_site and bgs_link %}  
+                <li class="govuk-!-static-padding-bottom-4 great-step-item fa great-display-flex {%if step.url == current_step_url %}current-step{%endif%} {%if forloop.last%}govuk-!-padding-bottom-0{%endif%}">
+                    <a class="govuk-link" href="{{step.url}}">{{step.text}}</a>
+                </li>
+          {% endif %}
+          {% if not bgs_site and not bgs_link %}       
+                <li class="govuk-!-static-padding-bottom-4 great-step-item fa great-display-flex {%if step.url == current_step_url %}current-step{%endif%} {%if forloop.last%}govuk-!-padding-bottom-0{%endif%}">
+                    <a class="govuk-link" href="{{step.url}}">{{step.text}}</a>
+                </li>
+           {% endif %}     
         {% endfor %}
     </ul>
 </nav>
