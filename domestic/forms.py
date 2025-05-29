@@ -324,10 +324,7 @@ class MarketAccessAboutForm(forms.Form):
 
     business_type = forms.ChoiceField(
         label='Business type',
-        widget=forms.RadioSelect(
-            attrs={'id': 'checkbox-single'},
-            use_nice_ids=True,
-        ),
+        widget=forms.RadioSelect(),
         choices=((choice, choice) for choice in CATEGORY_CHOICES),
         error_messages={'required': 'Tell us your business type'},
     )

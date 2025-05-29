@@ -6,7 +6,7 @@ from django.test import override_settings
     'previous_url,migrated_url',
     (
         ('/international/site-help/', '/get-help/'),
-        ('/international/site-help/success/', '/get-help/success/'),
+        ('/international/site-help/success/', '/get-help/sent/'),
         ('/investment-support-directory/', '/international/investment-support-directory/'),
         ('/international/trade/search/', '/international/buy-from-uk/find-a-supplier/'),
         ('/international/trade/', '/international/buy-from-uk/'),
