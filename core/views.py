@@ -987,8 +987,8 @@ class GuidedJourneyStep4View(GuidedJourneyMixin, TemplateView):
                 market_guide = get_market_widget_data_helper(market)
             elif sector:
                 trade_barrier_count = helpers.get_trade_barrier_count(None, sector)
-
-            categories = helpers.mapped_categories(form_data)
+            is_bgs_site = helpers.is_bgs_site(self.request.build_absolute_uri())
+            categories = helpers.mapped_categories(form_data, is_bgs_site)
 
             action = actions.SaveOnlyInDatabaseAction(
                 full_name='Anonymous user',
