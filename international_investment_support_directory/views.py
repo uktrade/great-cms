@@ -230,7 +230,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
                 if hcsat:
                     hcsat.stage = HCSatStage.COMPLETED.value
                     hcsat.save()
-                return HttpResponseRedirect(self.get_success_url(request))
+                return HttpResponseRedirect(self.get_success_url())
 
             form = form_class(post_data)
 
