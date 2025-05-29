@@ -16,6 +16,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--site_hostname', type=str, required=True, help='Site hostname (e.g., Great.gov.uk)')
+        parser.add_argument('--redirect-file-name', type=str, help='redirect-map.csv', default='redirect-map.csv')
         parser.add_argument(
             '--dry_run',
             action=argparse.BooleanOptionalAction,
@@ -36,13 +37,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         dry_run = options['dry_run']
         site_hostname = options['site_hostname']
+        redirect_file_name = options['redirect_file_name']
 
         self.site = Site.objects.get(hostname=site_hostname)
 
         self.stdout.write(self.style.SUCCESS('Updating Redirects'))
 
         with open(
-            settings.ROOT_DIR / 'core/fixtures/redirect-map.csv',
+            settings.ROOT_DIR / f'core/fixtures/{redirect_file_name}',
             'r',
             encoding='utf-8',
         ) as f:
