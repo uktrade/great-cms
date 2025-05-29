@@ -859,10 +859,10 @@ def hcsat_get_initial(model, csat_id):
         return {'satisfaction': ''}
 
 
-def mapped_categories(form_data,is_bgs_site):
+def mapped_categories(form_data, is_bgs_site):
     if is_bgs_site:
         categories = EXPORT_SUPPORT_CATEGORIES_BGS
-    else:    
+    else:
         categories = EXPORT_SUPPORT_CATEGORIES
     market = form_data.get('market')
     is_goods = form_data.get('exporter_type') == 'goods'
