@@ -151,12 +151,12 @@ class Command(BaseCommand):
         if isinstance(block, StreamValue):
             updated, new_block = self.process_streamvalue_field(page_title, field_name, block, dry_run)
             if updated:
-                self.report_page_needs_updating(page_title, block.block_type, block.value)
+                self.report_page_needs_updating(page_title, field_name, block)
                 block_updated = True
         elif isinstance(block, StreamValue.StreamChild):
             updated, new_block = self.process_streamchild_field(page_title, field_name, block, dry_run)
             if updated:
-                self.report_page_needs_updating(page_title, block.block_type, block.value)
+                self.report_page_needs_updating(page_title, field_name, block)
                 block_updated = True
         else:
             frameinfo = getframeinfo(currentframe())
