@@ -316,7 +316,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
             company=self.company,
-            continue_url=f'/{international_url(self.request)}/investment-support-directory/',
+            continue_url=company_profile_url,
         )
 
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)

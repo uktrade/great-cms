@@ -33,7 +33,7 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         return back_url
 
     def get_success_url(self):
-        success_url = f'/{international_url(self.request)}/site-help/success/'
+        success_url = f'/{international_url(self.request)}/site-help/?success=true'
         if self.request.GET.get('next'):
             success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
         return success_url
@@ -80,37 +80,3 @@ class ContactView(WagtailCacheMixin, GA360Mixin, FormView):  # /PS-IGNORE
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
-
-
-# TODO delete when BGS goes live 2nd June 2025, we have redirects away from this to get-help
-class ContactSuccessView(WagtailCacheMixin, GA360Mixin, TemplateView):  # /PS-IGNORE
-    template_name = 'international/contact_success.html'
-    subject = 'Great.gov.uk International contact form success'
-    cache_control = 'no-cache'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Contact',
-            business_unit='Great.gov.uk International',
-            site_section='contact',
-        )
-
-    def get_success_url(self):
-        success_url = f'/{international_url(self.request)}/site-help/success/'
-        if self.request.GET.get('next'):
-            success_url = success_url + '?next=' + check_url_host_is_safelisted(self.request)
-        return success_url
-
-    def get_back_url(self):
-        back_url = '/international/'
-        if self.request.GET.get('next'):
-            back_url = check_url_host_is_safelisted(self.request)
-        return back_url
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(
-            **kwargs,
-            back_url=self.get_back_url(),
-        )
-        return context

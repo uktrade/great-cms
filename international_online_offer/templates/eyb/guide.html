@@ -17,9 +17,6 @@
 {% block head_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == expand_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
-        {% include './includes/govuk/phase_banner.html' with hide_border=True %}
-    </div>
     {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 {% block css_layout_class %}light-blue-background{% endblock %}

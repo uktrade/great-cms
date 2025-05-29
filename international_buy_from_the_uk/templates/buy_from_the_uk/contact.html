@@ -17,7 +17,7 @@
         {% if request.GET.success %}
             <div class="govuk-grid-row" id="complete_contact_form_message">
                 <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-6">
-                    {% include 'investment_support_directory/includes/contact_success.html' with back_url=back_url %}
+                    {% include 'international/includes/contact_success.html' with continue_url=continue_url %}
                 </div>
             </div>
         {% else %}
