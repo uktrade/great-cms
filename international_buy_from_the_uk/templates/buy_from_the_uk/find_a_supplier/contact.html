@@ -216,6 +216,8 @@
 
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
     <script type="text/javascript">
         const onSubmitContact = () => {
@@ -306,6 +308,21 @@
                     setSectorSelectValue(selectedRow);
                 }
             }
+        });
+    </script>
+    <script>
+        var csat_form = document.getElementById("hcsat_section")
+        var inline_feedback = document.getElementById("inline_feedback_section")
+        const csat_complete_key = 'find_a_supplier_csat_complete'
+        // allow hcsat feedback to be given once, after which show 'Is this page useful?'
+        if (sessionStorage.getItem(csat_complete_key)==='true') {
+            csat_form.classList.add('great-hidden')
+            inline_feedback.classList.remove('great-hidden')
+        } else {
+            inline_feedback.classList.add('great-hidden')
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form', csat_complete_key);
         });
     </script>
 {% endblock %}
