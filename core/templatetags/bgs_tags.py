@@ -9,7 +9,6 @@ register = template.Library()
 
 @register.simple_tag
 def is_bgs_site(root_url):
-    sentry_sdk.capture_message(f'ROOT_URL: {root_url}')
     return bgs_site(root_url)
 
 
