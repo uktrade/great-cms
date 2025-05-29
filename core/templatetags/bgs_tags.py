@@ -17,5 +17,4 @@ def is_bgs_host(request_host):
     """
     Template filter to check if the given host is a BGS site
     """
-    sentry_sdk.capture_message(f'REQUEST_HOSNAME: {request_host}')
     return settings.BGS_SITE in request_host
