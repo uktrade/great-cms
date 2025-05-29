@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--site_hostname', type=str, required=True, help='Site hostname (e.g., Great.gov.uk)')
         parser.add_argument(
-            '--redirect-file-name', type=str, help='Site hostname (e.g., Great.gov.uk)', default='redirect-map.csv'
+            '--redirect-file-name', type=str, help='redirect-map.csv', default='redirect-map.csv'
         )
         parser.add_argument(
             '--dry_run',
