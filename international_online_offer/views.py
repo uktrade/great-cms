@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 
-from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -1423,54 +1422,6 @@ class EditYourAnswersView(GA360Mixin, TemplateView):  # /PS-IGNORE
             contact_details_card=contact_details_card,
             contact_details_rows=contact_details_rows,
         )
-
-
-class FeedbackView(GA360Mixin, FormView):  # /PS-IGNORE
-    form_class = forms.FeedbackForm
-    template_name = 'eyb/feedback.html'
-    subject = 'EYB Feedback form'
-
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='Feedback',
-            business_unit='ExpandYourBusiness',
-            site_section='feedback',
-        )
-
-    def get_back_url(self):
-        back_url = f'/{international_url(self.request)}/expand-your-business-in-the-uk/guide/'
-        if self.request.GET.get('next'):
-            back_url = check_url_host_is_safelisted(self.request)
-        return back_url
-
-    def get_success_url(self):
-        success_url = reverse_lazy('international_online_offer:feedback') + '?success=true'
-        if self.request.GET.get('next'):
-            success_url = success_url + '&next=' + check_url_host_is_safelisted(self.request)
-        return success_url
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs, back_url=self.get_back_url())
-
-    def submit_feedback(self, form):
-        cleaned_data = form.cleaned_data
-        if self.request.GET.get('next'):
-            cleaned_data['from_url'] = check_url_host_is_safelisted(self.request)
-
-        action = actions.SaveOnlyInDatabaseAction(
-            full_name='EYB User',
-            subject=self.subject,
-            email_address='anonymous-user@expand-your-business.trade.gov.uk',  # /PS-IGNORE
-            form_url=self.request.get_full_path(),
-        )
-
-        response = action.save(cleaned_data)
-        response.raise_for_status()
-
-    def form_valid(self, form):
-        self.submit_feedback(form)
-        return super().form_valid(form)
 
 
 class TradeAssociationsView(GA360Mixin, TemplateView, EYBHCSAT):  # /PS-IGNORE

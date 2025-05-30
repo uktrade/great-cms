@@ -14,6 +14,13 @@
 {% endblock %}
 {% block content %}
     <div class="great-container">
+        {% if request.GET.success %}
+            <div class="govuk-grid-row" id="complete_contact_form_message">
+                <div class="govuk-grid-column-two-thirds govuk-!-padding-bottom-6">
+                    {% include 'international/includes/contact_success.html' with continue_url=continue_url %}
+                </div>
+            </div>
+        {% else %}
         <div class="govuk-grid-row govuk-!-margin-top-8">
             <div class="govuk-grid-column-two-thirds">{% include 'eyb/includes/error_summary.html' %}</div>
         </div>
@@ -199,13 +206,31 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
+{% endblock %}
+{% block feedback_reporter %}
+    {% if not csat_complete and request.GET.success %}
+        <section id="hcsat_section"
+                 class="great-bg-white clearfix govuk-!-margin-top-0 govuk-!-padding-bottom-6 great-inline-feedback__container">
+            <div class="container">
+                <div class="great-container ">
+                    <!-- djlint:off T027-->
+                    {% include 'core/includes/hcsat.html' with hcsat_form=hcsat_form hcsat_stage=hcsat_form_stage leading_text="To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete." %}
+                    <!-- djlint:on -->
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {{ block.super }}
 {% endblock %}
 {% block body_js %}
     {{ block.super }}
     <script type="text/javascript"
             src="{% static 'javascript/accessible-autocomplete.v3.01.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/countries.js' %}"></script>
+    <script src="{% static 'javascript/govuk.js' %}"></script>
+    <script src="{% static 'javascript/hcsat-feedback-form.js' %}"></script>
     <script type="text/javascript">
         const onSubmitContact = () => {
             if (!document.getElementById('js-industry-select').value) {
@@ -295,6 +320,21 @@
                     setSectorSelectValue(selectedRow);
                 }
             }
+        });
+    </script>
+    <script>
+        var csat_form = document.getElementById("hcsat_section")
+        var inline_feedback = document.getElementById("inline_feedback_section")
+        const csat_complete_key = 'buy_from_the_uk_csat_complete'
+        // allow hcsat feedback to be given once, after which show 'Is this page useful?'
+        if (sessionStorage.getItem(csat_complete_key)==='true') {
+            csat_form.classList.add('great-hidden')
+            inline_feedback.classList.remove('great-hidden')
+        } else {
+            inline_feedback.classList.add('great-hidden')
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new CsatFormHandler('csat-form', csat_complete_key);
         });
     </script>
 {% endblock %}
