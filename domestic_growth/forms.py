@@ -184,7 +184,7 @@ class EmailGuideForm(forms.Form):
     )
 
     terms_label = mark_safe(
-                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+        'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
     )
     terms_agreed = forms.BooleanField(
         label=terms_label,
