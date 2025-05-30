@@ -135,14 +135,16 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email, 'terms_agreed' :terms_agreed})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
 
             mock_gov_uk_notify_action.assert_called_once_with(
                 email_address=test_email,
-                
                 template_id=DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID,
                 form_url='http://testserver/test-email-guide?url_token=urltokensafestring',
             )
@@ -182,7 +184,10 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email,'terms_agreed' :terms_agreed})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -240,7 +245,10 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
             encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email, 'terms_agreed' :terms_agreed})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK

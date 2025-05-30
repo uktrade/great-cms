@@ -140,14 +140,26 @@ from domestic_growth.forms import (
             {'currently_export': 'Select if you currently export your products or services overseas'},
         ),
         (EmailGuideForm, {'email': 'test@example.com', 'terms_agreed': True}, True, {}),  # /PS-IGNORE
-        (EmailGuideForm, {}, False, {'email': 'Enter an email address', 'terms_agreed': 'Tick the box to accept the terms and conditions'}),
-        (EmailGuideForm, {'email': 'test@example.com'}, False, {'terms_agreed': 'Tick the box to accept the terms and conditions'}),
+        (
+            EmailGuideForm,
+            {},
+            False,
+            {'email': 'Enter an email address', 'terms_agreed': 'Tick the box to accept the terms and conditions'},
+        ),
+        (
+            EmailGuideForm,
+            {'email': 'test@example.com'},
+            False,
+            {'terms_agreed': 'Tick the box to accept the terms and conditions'},
+        ),
         (
             EmailGuideForm,
             {'email': 'example.com'},
             False,
-            {'email': 'Enter an email address in the correct format, like name@example.com',
-             'terms_agreed': 'Tick the box to accept the terms and conditions'},  # /PS-IGNORE
+            {
+                'email': 'Enter an email address in the correct format, like name@example.com',
+                'terms_agreed': 'Tick the box to accept the terms and conditions',
+            },  # /PS-IGNORE
         ),
     ),
 )
