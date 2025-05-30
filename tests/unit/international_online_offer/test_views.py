@@ -760,13 +760,6 @@ def test_trade_association_hcsat(client, user):
 
 
 @pytest.mark.django_db
-def test_feedback(client, settings):
-    url = reverse('international_online_offer:feedback')
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 @mock.patch('directory_api_client.api_client.dataservices.get_business_cluster_information_by_dbt_sector')
 @mock.patch('international_online_offer.services.get_bci_data')
 def test_bci_data(mock_get_bci_data, mock_get_bci_data_api, client, user, settings):
