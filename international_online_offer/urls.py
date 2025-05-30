@@ -84,11 +84,6 @@ urlpatterns = [
         name='change-your-answers',
     ),
     path(
-        'feedback/',
-        views.FeedbackView.as_view(),
-        name='feedback',
-    ),
-    path(
         'trade-associations/',
         login_required(views.TradeAssociationsView.as_view(), login_url=SIGNUP_URL),
         name='trade-associations',

@@ -8,7 +8,6 @@ from django.forms import (
     MultipleChoiceField,
     PasswordInput,
     Select,
-    Textarea,
     TextInput,
 )
 from django.utils.html import mark_safe
@@ -416,19 +415,6 @@ class LocationSelectForm(forms.Form):
         label='Select a location',
         choices=choices.REGION_CHOICES,
         widget=Select(attrs={'class': 'govuk-select', 'onchange': 'refreshSelectedLocation()'}),
-    )
-
-
-class FeedbackForm(forms.Form):
-    feedback_text = CharField(
-        label='How could we improve this service?',
-        help_text="Don't include any personal information, like your name or email address.",
-        max_length=1000,
-        required=True,
-        error_messages={
-            'required': 'You must enter information on how we could improve this service',
-        },
-        widget=Textarea(attrs={'class': 'govuk-textarea govuk-js-character-count', 'rows': 7}),
     )
 
 

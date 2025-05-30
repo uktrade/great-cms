@@ -86,8 +86,8 @@ class Command(BaseCommand):
             positions = [i for i in range(len(value)) if value.startswith(self.string_to_replace, i)]
             if positions:
                 for pos in positions:
-                    start = pos - len('event.')
-                    if value[start:pos] != 'event.':
+                    start = pos - len('events.')
+                    if value[start:pos] != 'events.':
                         if value[pos : pos + len(self.string_to_replace)] == self.string_to_replace:  # noqa E203
                             value = (
                                 value[:pos]
@@ -151,12 +151,12 @@ class Command(BaseCommand):
         if isinstance(block, StreamValue):
             updated, new_block = self.process_streamvalue_field(page_title, field_name, block, dry_run)
             if updated:
-                self.report_page_needs_updating(page_title, block.block_type, block.value)
+                self.report_page_needs_updating(page_title, field_name, block)
                 block_updated = True
         elif isinstance(block, StreamValue.StreamChild):
             updated, new_block = self.process_streamchild_field(page_title, field_name, block, dry_run)
             if updated:
-                self.report_page_needs_updating(page_title, block.block_type, block.value)
+                self.report_page_needs_updating(page_title, field_name, block)
                 block_updated = True
         else:
             frameinfo = getframeinfo(currentframe())
