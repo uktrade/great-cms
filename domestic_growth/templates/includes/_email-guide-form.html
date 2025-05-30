@@ -24,7 +24,30 @@
                 <fieldset>
                     <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_email_field_description">, edit text email to save and share these pages</div>
                     <div class="govuk-visually-hidden" aria-hidden="true" id="email_guide_form_button_description">, save and share these pages</div>
-                    <div class="great-ds-form-group govuk-!-margin-bottom-4">{{ email_guide_form }}</div>
+                    <div class="{% if email_guide_form.email.errors %} govuk-form-group--error{% endif %}">
+                        {% for error in email_guide_form.email.errors %}
+                            <p class="govuk-error-message" role="alert">
+                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                            </p>
+                        {% endfor %}
+
+                    <div class="great-ds-form-group govuk-!-margin-bottom-4">{{ email_guide_form.email}}</div>
+                    </div>
+                    <div class="{% if email_guide_form.terms_agreed.errors %} govuk-form-group--error{% endif %}">
+                        {% for error in email_guide_form.terms_agreed.errors %}
+                            <p class="govuk-error-message" role="alert">
+                                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+                            </p>
+                        {% endfor %}
+                        <div class="govuk-checkboxes"  data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                    {{ email_guide_form.terms_agreed }}
+                                <label class="govuk-label govuk-checkboxes__label"
+                                    for="id_terms_agreed">{{ email_guide_form.terms_agreed.label }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Read our <a href="/privacy/" target="_blank" rel="noopener noreferrer">privacy policy</a> to understand how we use your personal information.</p>
                     {% include "_button.html" with text="Email link" attributes="aria-describedby='email_guide_form_button_description' data-title='bgs_email_guide'" %}
                 </fieldset>
             </form>

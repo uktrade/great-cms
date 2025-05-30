@@ -1,4 +1,6 @@
+from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_uk_postcode_and_within_uk
+from django.utils.html import mark_safe
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
@@ -179,6 +181,15 @@ class EmailGuideForm(forms.Form):
         error_messages={
             'required': 'Enter an email address',
         },
+    )
+
+    terms_label = mark_safe(
+                'I have read and agree to the ' f'<a href="{TERMS_URL}" target="_blank">terms and ' 'conditions</a>.'
+    )
+    terms_agreed = forms.BooleanField(
+        label=terms_label,
+        error_messages={'required': 'Tick the box to accept the terms and conditions'},
+        widget=forms.CheckboxInput(attrs={'class': 'govuk-checkboxes__input'}),
     )
 
     def clean(self):
