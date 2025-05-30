@@ -645,6 +645,7 @@ class GeoLocationRedirector:
             x_forwarded_for = self.request.META['HTTP_X_FORWARDED_FOR']
             client_ip = x_forwarded_for.split(',')[-3].strip()
             response = GeoIP2().country(client_ip)
+            sentry_sdk.capture_message(f'ClientIP: {client_ip} and GeoIPLookup {response}')
             return response['country_code']
         except (KeyError, IndexError, GeoIP2Exception, GeoIP2Error) as e:
             sentry_sdk.capture_exception(e)
@@ -655,6 +656,7 @@ class GeoLocationRedirector:
 
     @property
     def should_redirect(self):
+        sentry_sdk.capture_message(f'self.request.COOKIES: {self.request.COOKIES} and self.request.GET {self.request.GET}')
         return (
             self.COOKIE_NAME not in self.request.COOKIES  # noqa: W503
             and self.LANGUAGE_PARAM not in self.request.GET  # noqa: W503
@@ -673,6 +675,7 @@ class GeoLocationRedirector:
 
         """
         if is_bgs_domain(self.request):
+            sentry_sdk.capture_message(f'BGS Domain check is True. returning {settings.BGS_INTERNATIONAL_URL}')
             return settings.BGS_INTERNATIONAL_URL
         return settings.GREAT_INTERNATIONAL_URL
 
