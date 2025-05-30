@@ -128,13 +128,17 @@ class DomesticGrowthGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
+            terms_agreed = True
             test_triage_uuid = '12345'
             mock_token_urlsafe.return_value = 'urltokensafestring'
             encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
 
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -173,13 +177,17 @@ class DomesticGrowthChildGuidePageTests(SetUpLocaleMixin, WagtailPageTests):
 
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
+            terms_agreed = True
             test_triage_uuid = '12345'
             mock_token_urlsafe.return_value = 'urltokensafestring'
             encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
 
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
@@ -230,13 +238,17 @@ class DomesticGrowthDynamicChildGuidePageTests(SetUpLocaleMixin, WagtailPageTest
 
             factory = RequestFactory()
             test_email = 'test@example.com'  # /PS-IGNORE
+            terms_agreed = True
             test_triage_uuid = '12345'
             mock_token_urlsafe.return_value = 'urltokensafestring'
 
             encrypted_test_triage_uuid = Fern().encrypt(test_triage_uuid)
             ExistingBusinessTriage.objects.create(triage_uuid=test_triage_uuid)
 
-            req = factory.post(f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}', {'email': test_email})
+            req = factory.post(
+                f'/test-email-guide?triage_uuid={encrypted_test_triage_uuid}',
+                {'email': test_email, 'terms_agreed': terms_agreed},
+            )
             response = page.serve(req)
 
             assert response.status_code is status.HTTP_200_OK
