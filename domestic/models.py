@@ -1,6 +1,7 @@
 from itertools import chain
 from urllib.parse import unquote_plus
 
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -457,7 +458,9 @@ class GreatDomesticHomePage(
     def serve(self, request, *args, **kwargs):
         redirector = helpers.GeoLocationRedirector(request)
         if redirector.should_redirect:
+            sentry_sdk.capture_message('Demestic model redirecting to international')
             return redirector.get_response()
+        sentry_sdk.capture_message(f'should_redirect is: {redirector.should_redirect}')
         return super().serve(request, *args, **kwargs)
 
     def _get_industry_tag_usage_counts(self, sector_tag):

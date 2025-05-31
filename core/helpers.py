@@ -656,7 +656,9 @@ class GeoLocationRedirector:
 
     @property
     def should_redirect(self):
-        sentry_sdk.capture_message(f'self.request.COOKIES: {self.request.COOKIES} and self.request.GET {self.request.GET}')
+        sentry_sdk.capture_message(
+            f'self.request.COOKIES: {self.request.COOKIES} and self.request.GET {self.request.GET}'
+        )
         return (
             self.COOKIE_NAME not in self.request.COOKIES  # noqa: W503
             and self.LANGUAGE_PARAM not in self.request.GET  # noqa: W503
@@ -683,6 +685,7 @@ class GeoLocationRedirector:
         params = self.request.GET.dict()
         params[self.LANGUAGE_PARAM] = self.country_language
         url = '/{url}/?{querystring}'.format(url=self.get_redirect_url, querystring=urllib.parse.urlencode(params))
+        sentry_sdk.capture_message(f'Redirect server {url}')
         response = redirect(url)
         response.set_cookie(
             key=self.COOKIE_NAME,
