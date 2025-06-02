@@ -39,22 +39,6 @@ def test_signup(client, settings, mock_site):
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize(
-    'form_data',
-    (({'feedback_text': 'Some example feedback', 'next': 'http://www.somerefererurl.com'}),),
-)
-@mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
-@pytest.mark.django_db
-def test_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
-    url = reverse('international_online_offer:feedback') + '?next=' + form_data['next']
-    response = client.post(
-        url,
-        form_data,
-    )
-    assert mock_save_only_in_database_action.call_count == 1
-    assert response.status_code == 302
-
-
 @pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
@@ -773,13 +757,6 @@ def test_trade_association_hcsat(client, user):
         trade_association_view.get_service_csat_heading(trade_association_view.hcsat_service_name)
         == 'Overall, how would you rate your experience\n         with the Expand your business service today?'
     )
-
-
-@pytest.mark.django_db
-def test_feedback(client, settings):
-    url = reverse('international_online_offer:feedback')
-    response = client.get(url)
-    assert response.status_code == 200
 
 
 @pytest.mark.django_db

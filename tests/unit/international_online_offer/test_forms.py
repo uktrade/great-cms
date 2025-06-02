@@ -12,7 +12,6 @@ from international_online_offer.forms import (
     BusinessSectorForm,
     CompanyDetailsForm,
     ContactDetailsForm,
-    FeedbackForm,
     FindYourCompanyForm,
     HiringForm,
     IntentForm,
@@ -337,19 +336,3 @@ def test_know_setup_location_form_validation(form_data, is_valid):
 def test_when_want_setup_form_validation(form_data, is_valid):
     form = WhenDoYouWantToSetupForm(form_data)
     assert form.is_valid() == is_valid
-
-
-@pytest.mark.parametrize(
-    'form_data,is_valid',
-    (
-        ({'feedback_text': 'Some improvements please'}, True),
-        ({'feedback_text': ''}, False),
-    ),
-)
-@pytest.mark.django_db
-def test_feedback_form_validation(form_data, is_valid):
-    data = form_data
-    form = FeedbackForm(data)
-    assert form.is_valid() == is_valid
-    if not is_valid:
-        assert form.errors['feedback_text'][0] == 'You must enter information on how we could improve this service'
