@@ -17,7 +17,7 @@ from tests.unit.core.factories import (
 
 @pytest.mark.django_db
 @mock.patch('sso.helpers.get_lesson_completed')
-def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
+def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale, rf):
     clp_correct_config = CuratedListPageFactory.create()
 
     topic_2 = TopicPageFactory(title='correct config topic one', parent=clp_correct_config)
@@ -89,8 +89,10 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
         ],
     }
 
+    request = mock.Mock(uri='https://localhost/test')
+    context = {'request': request}
     mock_user = mock.Mock()
-    assert helpers.get_lesson_completion_status(mock_user) == expected
+    assert helpers.get_lesson_completion_status(mock_user, context=context) == expected
 
 
 @pytest.mark.parametrize(
