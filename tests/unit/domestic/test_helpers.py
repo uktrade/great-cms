@@ -89,7 +89,7 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale, rf):
         ],
     }
 
-    request = mock.Mock(uri='https://localhost/test')
+    request = rf.get('http://localhost/test')
     context = {'request': request}
     mock_user = mock.Mock()
     assert helpers.get_lesson_completion_status(mock_user, context=context) == expected
