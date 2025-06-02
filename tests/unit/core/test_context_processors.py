@@ -49,6 +49,13 @@ def test_analytics_vars(client):
 
 
 @pytest.mark.django_db
+def test_google_verification_vars(client):
+    url = reverse('core:signup')
+    response = client.get(url)
+    assert 'GOOGLE_VERIFICATION_CODE' in response.context
+
+
+@pytest.mark.django_db
 def test_cookie_management_vars(client):
     url = reverse('core:signup')
     response = client.get(url)
