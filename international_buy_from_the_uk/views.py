@@ -4,9 +4,11 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from wagtailcache.cache import nocache_page
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
 
 from config import settings
@@ -26,6 +28,7 @@ from international_online_offer.core.region_sector_helpers import get_sectors_as
 from international_online_offer.services import get_dbt_sectors
 
 
+@method_decorator(nocache_page, name='get')
 class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.ContactForm
     template_name = 'buy_from_the_uk/contact.html'
@@ -319,6 +322,7 @@ class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  # /
         )
 
 
+@method_decorator(nocache_page, name='get')
 class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASupplierContactForm
     template_name = 'buy_from_the_uk/find_a_supplier/contact.html'
