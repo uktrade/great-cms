@@ -3,6 +3,7 @@ from collections import defaultdict
 from directory_forms_api_client import actions
 from django.conf import settings
 
+from core.helpers import is_bgs_domain, is_bgs_url
 from core.models import CuratedListPage, DetailPage, SectorAndMarketCard
 from domestic import models as domestic_models
 from sso import helpers as sso_helpers
@@ -40,7 +41,7 @@ def module_has_lesson_configured_in_topic(module_page: CuratedListPage, lesson_p
     return False
 
 
-def get_lesson_completion_status(user, context={}):
+def get_lesson_completion_status(user, context):  # noqa C901
     """Gets all lesson pages (DetailPages) and uses the parental tree to get a list
     of modules (CuratedListPages), with some grouping of DetailPages by their parent
     TopicPage (which itself is a child of CuratedListPage)
@@ -76,34 +77,37 @@ def get_lesson_completion_status(user, context={}):
 
     page_map = {}
 
+    request = context['request']
+
     # TODO: refactor further to simplify
     for detail_page in DetailPage.objects.live():
         module_page = get_ancestor(detail_page, CuratedListPage)
         if module_page:
-            page_map[module_page.id] = page_map.get(module_page.id) or {
-                'total_pages': 0,
-                'completion_count': 0,
-                'page': module_page,
-                'completed_lesson_pages': defaultdict(set),
-            }
+            if (is_bgs_domain(request) and is_bgs_url()) or (not is_bgs_domain(request) and not is_bgs_url()):
+                page_map[module_page.id] = page_map.get(module_page.id) or {
+                    'total_pages': 0,
+                    'completion_count': 0,
+                    'page': module_page,
+                    'completed_lesson_pages': defaultdict(set),
+                }
 
-            # Only proceeed with `detail_page` if it is CURRENTLY
-            # configured in a topic for this module
-            if not module_has_lesson_configured_in_topic(
-                module_page=module_page.specific, lesson_page=detail_page.specific
-            ):
-                continue
+                # Only proceeed with `detail_page` if it is CURRENTLY
+                # configured in a topic for this module
+                if not module_has_lesson_configured_in_topic(
+                    module_page=module_page.specific, lesson_page=detail_page.specific
+                ):
+                    continue
 
-            page_map[module_page.id]['total_pages'] += 1
+                page_map[module_page.id]['total_pages'] += 1
 
-            if detail_page.id in completed:
-                topic_id_as_key = detail_page.get_parent().id
-                page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(detail_page.id)
-                page_map[module_page.id]['completion_count'] += 1
-                # Take care: this next var means 'lessons have been attempted',
-                # not 'lessons are _currently_ in progress', because it doesn't
-                # allow for someone having completed them all
-                lessons_in_progress = True
+                if detail_page.id in completed:
+                    topic_id_as_key = detail_page.get_parent().id
+                    page_map[module_page.id]['completed_lesson_pages'][topic_id_as_key].add(detail_page.id)
+                    page_map[module_page.id]['completion_count'] += 1
+                    # Take care: this next var means 'lessons have been attempted',
+                    # not 'lessons are _currently_ in progress', because it doesn't
+                    # allow for someone having completed them all
+                    lessons_in_progress = True
 
     module_pages = list(page_map.values())
     module_pages.sort(key=lesson_comparator, reverse=True)

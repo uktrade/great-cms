@@ -568,7 +568,7 @@ class ListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericPageAnon
                     if next_module:
                         context['next_lesson'] = get_first_lesson(next_module)
 
-            completion_status = get_lesson_completion_status(request.user)
+            completion_status = get_lesson_completion_status(request.user, context)
             context['high_level_completion_progress'] = get_high_level_completion_progress(
                 completion_status=completion_status,
             )
@@ -712,7 +712,7 @@ class CuratedListPage(WagtailCacheMixin, settings.FEATURE_DEA_V2 and CMSGenericP
 
         if request.user.is_authenticated:
             # get this once, so we don't waste the network call to get the data twice
-            completion_status = get_lesson_completion_status(request.user)
+            completion_status = get_lesson_completion_status(request.user, context)
             context['module_completion_progress'] = get_module_completion_progress(
                 completion_status=completion_status,
                 module_page=self,

@@ -618,6 +618,17 @@ def is_bgs_domain(request):
     return False
 
 
+def is_bgs_url(url):
+    if any(
+        [
+            'business' in url,
+            '.bgs.' in url,
+        ]
+    ):
+        return True
+    return False
+
+
 def international_url(request):
     if is_bgs_domain(request):
         return settings.BGS_INTERNATIONAL_URL
