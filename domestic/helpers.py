@@ -83,8 +83,11 @@ def get_lesson_completion_status(user, context):  # noqa C901
     for detail_page in DetailPage.objects.live():
         module_page = get_ancestor(detail_page, CuratedListPage)
         if module_page:
-            if (is_bgs_domain(request) and is_bgs_url(module_page.page.get_url)) or (
-                not is_bgs_domain(request) and not is_bgs_url(module_page.page.get_url)
+            if (
+                is_bgs_domain(request)
+                and is_bgs_url(module_page.specific.url_path)
+                or not is_bgs_domain(request)
+                and not is_bgs_url(module_page.specific.url_path)
             ):
                 page_map[module_page.id] = page_map.get(module_page.id) or {
                     'total_pages': 0,
