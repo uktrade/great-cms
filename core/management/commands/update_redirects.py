@@ -6,16 +6,12 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 from wagtail.contrib.redirects.models import Redirect
-from wagtail.models import Site
 
 
 class Command(BaseCommand):
     help = 'Updates Redirects for BGS go-live'
 
-    site_str = 'Great.gov.uk'
-
     def add_arguments(self, parser):
-        parser.add_argument('--site_hostname', type=str, required=True, help='Site hostname (e.g., Great.gov.uk)')
         parser.add_argument('--redirect-file-name', type=str, help='redirect-map.csv', default='redirect-map.csv')
         parser.add_argument(
             '--dry_run',
@@ -36,10 +32,9 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         dry_run = options['dry_run']
-        site_hostname = options['site_hostname']
         redirect_file_name = options['redirect_file_name']
 
-        self.site = Site.objects.get(hostname=site_hostname)
+        self.site = None  # site=None applies redirect to all sites
 
         self.stdout.write(self.style.SUCCESS('Updating Redirects'))
 
