@@ -6,7 +6,6 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 from wagtail.contrib.redirects.models import Redirect
-from wagtail.models import Site
 
 
 class Command(BaseCommand):
@@ -35,7 +34,7 @@ class Command(BaseCommand):
         dry_run = options['dry_run']
         redirect_file_name = options['redirect_file_name']
 
-        self.site = None # site=None applies redirect to all sites
+        self.site = None  # site=None applies redirect to all sites
 
         self.stdout.write(self.style.SUCCESS('Updating Redirects'))
 
