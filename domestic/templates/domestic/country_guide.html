@@ -9,6 +9,7 @@
     {% if page.stats.market_trends %}<script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>{% endif %}
 {% endblock %}
 {% block content %}
+    {% is_bgs_site current_site.root_url as bgs_site %}
     {% if not image_url %}
         {% image page.hero_image original as rendition %}
     {% endif %}
@@ -156,7 +157,11 @@
                     {% if page.is_eu_country and features.FEATURE_SHOW_EU_CTA %}
                         {% static 'icons/guidance.svg' as cta_icon %}
                         <div class="column-quarter-l">
-                            {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% if bgs_site %}
+                                {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% else %}
+                                {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>
@@ -518,7 +523,8 @@
                 <p>
                     Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.
                 </p>
-                <a class="button primary-button" href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}">Find answers</a>
+                <a class="button primary-button"
+                   href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}">Find answers</a>
             </div>
         </div>
     </div>
