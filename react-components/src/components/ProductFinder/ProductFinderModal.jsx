@@ -328,7 +328,7 @@ export default function ProductFinderModal(props) {
           )}
           {!showingInteraction && sectionProductDetails(known)}
           <section className="m-h-s body-s">
-            Product classification data API provided by 3CE.
+            Product classification powered by Avalara.
           </section>
         </div>
       )
