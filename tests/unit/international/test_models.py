@@ -1,8 +1,8 @@
 from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import GreatDomesticHomePage
-from international.models import GreatInternationalHomePage
 from domestic_growth.models import DomesticGrowthHomePage
+from international.models import GreatInternationalHomePage
 
 
 class GreatInternationalHomePageTests(WagtailPageTests):

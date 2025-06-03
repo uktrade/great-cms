@@ -2,6 +2,7 @@ import directory_healthcheck.views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path, reverse_lazy
+from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 
@@ -270,6 +271,15 @@ if settings.FEATURE_DOMESTIC_GROWTH:
             'get-help/sent/',
             skip_ga360(views.ContactSuccessView.as_view()),
             name='business-contact-sent',
+        ),
+    ]
+
+if settings.GOOGLE_VERIFICATION_CODE:
+    urlpatterns += [
+        path(
+            f'google{settings.GOOGLE_VERIFICATION_CODE}.html/',
+            TemplateView.as_view(template_name='core/google.html'),
+            name='google-verification',
         ),
     ]
 

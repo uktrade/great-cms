@@ -45,6 +45,12 @@ def analytics_vars(request):
     }
 
 
+def google_verification_vars(request):
+    return {
+        'GOOGLE_VERIFICATION_CODE': settings.GOOGLE_VERIFICATION_CODE,
+    }
+
+
 def sentry_vars(request):
     return {
         'APP_ENVIRONMENT': settings.APP_ENVIRONMENT,
