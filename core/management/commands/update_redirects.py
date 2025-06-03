@@ -25,9 +25,8 @@ class Command(BaseCommand):
         redirect.redirect_link = redirect_path
 
     def create_redirect(self, old_path, redirect_path):
-        # site=None applies redirect to all sites
         redirect = Redirect.objects.create(
-            old_path=old_path, is_permanent=True, redirect_link=redirect_path, site=None
+            old_path=old_path, is_permanent=True, redirect_link=redirect_path, site=self.site
         )
         return redirect
 
@@ -35,6 +34,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         dry_run = options['dry_run']
         redirect_file_name = options['redirect_file_name']
+
+        self.site = None # site=None applies redirect to all sites
 
         self.stdout.write(self.style.SUCCESS('Updating Redirects'))
 
