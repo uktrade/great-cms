@@ -22,11 +22,10 @@ class Command(BaseCommand):
 
     def update_redirect(self, redirect, redirect_path):
         redirect.redirect_link = redirect_path
+        redirect.save()
 
     def create_redirect(self, old_path, redirect_path):
-        redirect = Redirect.objects.create(
-            old_path=old_path, is_permanent=True, redirect_link=redirect_path, site=self.site
-        )
+        redirect = Redirect.add_redirect(old_path, redirect_to=redirect_path)
         return redirect
 
     @transaction.atomic
@@ -44,6 +43,8 @@ class Command(BaseCommand):
             encoding='utf-8',
         ) as f:
             total_urls_exceed_limit = 0
+            updated_count = 0
+            created_count = 0
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
                 if len(row) < 2:
                     self.stdout(self.style.WARNING(f'Skipping row: {row}'))
@@ -59,13 +60,16 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.WARNING(f'Redirect redirect_link too long - {redirect_path}'))
                     total_urls_exceed_limit += 1
                     continue
-                redirect = Redirect.objects.filter(old_path=old_path, site=self.site).first()
-                if redirect:
-                    self.update_redirect(redirect, redirect_path)
-                else:
-                    redirect = self.create_redirect(old_path, redirect_path)
+                normalised_old_path = Redirect.normalise_path(old_path)
+                redirect = Redirect.objects.filter(old_path=normalised_old_path, site=self.site).first()
                 if redirect and not dry_run:
-                    redirect.save()
+                    self.update_redirect(redirect, redirect_path)
+                    updated_count += 1
+                elif not dry_run:
+                    redirect = self.create_redirect(old_path, redirect_path)
+                    created_count += 1
 
             self.stdout.write(self.style.SUCCESS(f'total_urls_exceed_limit: {total_urls_exceed_limit}'))
-            self.stdout.write(self.style.SUCCESS('Redirect Data Updated'))
+            self.stdout.write(
+                self.style.SUCCESS(f'Redirect Data Updated: Created {created_count}, Updated {updated_count}')
+            )
