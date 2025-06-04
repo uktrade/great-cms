@@ -609,10 +609,21 @@ class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
         return next_url
 
     def get_context_data(self, **kwargs):
+        triage_data = None
+        knows_where_to_setup = None
+        if self.request.user.is_authenticated:
+            triage_data = get_triage_data_for_user(self.request)
+            if triage_data and triage_data.location_none is not None:
+                knows_where_to_setup = not triage_data.location_none
+
+        progress_text = 'Save and continue'
+        if knows_where_to_setup is True:
+            progress_text ='Save changes'
+
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            progress_button_text='Save Changes' if self.request.GET.get('next') else 'Save and continue',
+            progress_button_text=progress_text,
         )
 
     def get_initial(self):
@@ -680,7 +691,7 @@ class WhenDoYouWantToSetupView(GA360Mixin, FormView):  # /PS-IGNORE
         return super().get_context_data(
             **kwargs,
             back_url=self.get_back_url(),
-            progress_button_text='Save changes' if self.request.GET.get('next') else 'Save and continue',
+            progress_button_text='Save and continue' if self.request.GET.get('next') else 'Save changes',
         )
 
     def get_initial(self):
