@@ -1,6 +1,7 @@
+from django.utils.html import mark_safe
+
 from core.cms_slugs import TERMS_URL
 from core.validators import is_valid_uk_postcode_and_within_uk
-from django.utils.html import mark_safe
 from domestic_growth.choices import (
     EXISTING_BUSINESS_TURNOVER_CHOICES,
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,

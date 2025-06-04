@@ -8,8 +8,8 @@ from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from wagtailcache.cache import nocache_page
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from wagtailcache.cache import nocache_page
 
 from config import settings
 from core.constants import HCSatStage, TemplateTagsEnum

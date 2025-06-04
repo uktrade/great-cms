@@ -206,6 +206,7 @@ TEMPLATES = [
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
+                'core.context_processors.google_verification_vars',
                 'core.context_processors.sentry_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
@@ -626,6 +627,8 @@ BGS_GOOGLE_TAG_MANAGER_ID = env.bgs_google_tag_manager_id
 GOOGLE_TAG_MANAGER_ENV = env.google_tag_manager_env
 UTM_COOKIE_DOMAIN = env.utm_cookie_domain
 GA360_BUSINESS_UNIT = 'GreatMagna'
+
+GOOGLE_VERIFICATION_CODE = env.google_verification_code
 
 GA4_API_URL = env.ga4_api_url
 GA4_API_SECRET = env.ga4_api_secret
