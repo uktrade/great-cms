@@ -618,7 +618,7 @@ class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
 
         progress_text = 'Save and continue'
         if knows_where_to_setup is True:
-            progress_text ='Save changes'
+            progress_text = 'Save changes'
 
         return super().get_context_data(
             **kwargs,
