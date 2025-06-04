@@ -12,7 +12,7 @@ class Command(BaseCommand):
     help = 'Uploads SEO information to Wagtail articles'
 
     def add_arguments(self, parser):
-        parser.add_argument('--source', type=str, required=True, help='Source wagtail page (e.g., /bau-homepage-new)')
+        parser.add_argument('--source', type=str, required=True, help='Source hostname (e.g., www.business.gov.uk)')
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -26,12 +26,12 @@ class Command(BaseCommand):
         ) as f:
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
                 # Construct URL path
-                url_path = urlparse(row.get('URL')).path
+                url_path = urlparse(row.get('New business.gov.uk destination URL')).path
                 full_url_path = source_hostname + url_path
 
                 # Get metadata
-                seo_title = row.get('Title')
-                search_description = row.get('Description')
+                seo_title = row.get('Meta Title')
+                search_description = row.get('Meta Description')
 
                 page = Page.objects.live().filter(url_path=full_url_path, locale__language_code='en-gb').first()
                 if page:
