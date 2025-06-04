@@ -31,6 +31,7 @@ from domestic_growth.constants import (
     INTERNAL_BUSINESS_DOMAIN,
     INTERNAL_GREAT_DOMAIN,
     REGION_IMAGES,
+    BGS_DOMAIN_SUBSTRINGS,
 )
 
 logger = logging.getLogger(__name__)
@@ -615,9 +616,15 @@ def val_to_int(val: Union[float, int, str]) -> int:
 
 
 @register.filter
-def get_category_page_breadcrumbs(page):
+def get_category_page_breadcrumbs(page, full_page_url):
+    export_support_landing_url = '/support/export-support/'
+
+    for domain in BGS_DOMAIN_SUBSTRINGS:
+        if domain in full_page_url:
+            export_support_landing_url = '/export-from-uk/support-topics/'
+
     return [
-        {'url': '/support/export-support/', 'title': 'Export Support'},
+        {'url': export_support_landing_url, 'title': 'Export Support'},
     ]
 
 
@@ -629,8 +636,14 @@ def get_sub_category_page_breadcrumbs(page, full_page_url):
     if len(full_page_url) == 2:
         parent_category_url += '?' + full_page_url[1]
 
+    export_support_landing_url = '/support/export-support/'
+
+    for domain in BGS_DOMAIN_SUBSTRINGS:
+        if domain in full_page_url:
+            export_support_landing_url = '/export-from-uk/support-topics/'
+
     return [
-        {'url': '/support/export-support/', 'title': 'Export Support'},
+        {'url': export_support_landing_url, 'title': 'Export Support'},
         {'url': parent_category_url, 'title': page.get_parent().specific.page_title},
     ]
 
