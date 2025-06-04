@@ -655,6 +655,11 @@ class KnowSetupLocationView(GA360Mixin, FormView):  # /PS-IGNORE
                     },
                 )
         calculate_and_store_is_high_value(self.request)
+
+        if user_knows_where_they_want_to_setup:
+            self.success_url = reverse_lazy('location')
+        else:
+            self.success_url = reverse_lazy('when-want-setup')
         return super().form_valid(form)
 
 
