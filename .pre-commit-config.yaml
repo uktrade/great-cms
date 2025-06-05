@@ -34,7 +34,7 @@ repos:
           - id: detect-private-key
           - id: detect-aws-credentials
             args: ["--allow-missing-credentials"]
-    - repo: https://github.com/uktrade/pii-secret-check-hooks
+    - repo: git@github.com:uktrade/pii-secret-check-hooks
       rev: 0.0.0.36
       hooks:
           - id: pii_secret_filename
