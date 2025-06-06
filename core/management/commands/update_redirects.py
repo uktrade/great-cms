@@ -14,6 +14,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--redirect-file-name', type=str, help='redirect-map.csv', default='redirect-map.csv')
         parser.add_argument(
+            '--redirect-to-domain',
+            type=str,
+            help='redirect to domain - do not include trailing slash',
+            default='https://www.business.gov.uk',
+        )
+        parser.add_argument(
             '--dry_run',
             action=argparse.BooleanOptionalAction,
             default=False,
@@ -22,17 +28,17 @@ class Command(BaseCommand):
 
     def update_redirect(self, redirect, redirect_path):
         redirect.redirect_link = redirect_path
+        redirect.save()
 
     def create_redirect(self, old_path, redirect_path):
-        redirect = Redirect.objects.create(
-            old_path=old_path, is_permanent=True, redirect_link=redirect_path, site=self.site
-        )
+        redirect = Redirect.add_redirect(old_path, redirect_to=redirect_path)
         return redirect
 
     @transaction.atomic
     def handle(self, *args, **options):
         dry_run = options['dry_run']
         redirect_file_name = options['redirect_file_name']
+        redirect_to_domain = options['redirect_to_domain']
 
         self.site = None  # site=None applies redirect to all sites
 
@@ -44,6 +50,8 @@ class Command(BaseCommand):
             encoding='utf-8',
         ) as f:
             total_urls_exceed_limit = 0
+            updated_count = 0
+            created_count = 0
             for row in csv.DictReader(StringIO(f.read()), delimiter=','):
                 if len(row) < 2:
                     self.stdout(self.style.WARNING(f'Skipping row: {row}'))
@@ -51,21 +59,28 @@ class Command(BaseCommand):
 
                 old_path = row.get('Current URL').strip()
                 redirect_path = row.get('New URL').strip()
+                redirect_path = Redirect.normalise_path(redirect_path)
+                redirect_url = f'{redirect_to_domain}{redirect_path}'
+
                 if len(old_path) > 255:
                     self.stdout.write(self.style.WARNING(f'Redirect old_path too long - {old_path}'))
                     total_urls_exceed_limit += 1
                     continue
-                if len(redirect_path) > 255:
+                if len(redirect_url) > 255:
                     self.stdout.write(self.style.WARNING(f'Redirect redirect_link too long - {redirect_path}'))
                     total_urls_exceed_limit += 1
                     continue
-                redirect = Redirect.objects.filter(old_path=old_path, site=self.site).first()
-                if redirect:
-                    self.update_redirect(redirect, redirect_path)
-                else:
-                    redirect = self.create_redirect(old_path, redirect_path)
+
+                normalised_old_path = Redirect.normalise_path(old_path)
+                redirect = Redirect.objects.filter(old_path=normalised_old_path, site=self.site).first()
                 if redirect and not dry_run:
-                    redirect.save()
+                    self.update_redirect(redirect, redirect_url)
+                    updated_count += 1
+                elif not dry_run:
+                    redirect = self.create_redirect(old_path, redirect_url)
+                    created_count += 1
 
             self.stdout.write(self.style.SUCCESS(f'total_urls_exceed_limit: {total_urls_exceed_limit}'))
-            self.stdout.write(self.style.SUCCESS('Redirect Data Updated'))
+            self.stdout.write(
+                self.style.SUCCESS(f'Redirect Data Updated: Created {created_count}, Updated {updated_count}')
+            )

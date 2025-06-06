@@ -53,7 +53,7 @@
             {% endif %}
 
             <div class="govuk-!-margin-top-2">
-                <a href="{{ market.get_full_url }}" class="govuk-link great-ds-link" target="_blank">
+                <a href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/markets/{{ market.slug }}{% else %}{{ market.get_full_url }}{% endif %}" class="govuk-link great-ds-link" target="_blank">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 
                     <span>Read more about {{ market_name }}</span>
                 </a>
