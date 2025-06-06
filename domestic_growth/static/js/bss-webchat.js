@@ -44,7 +44,8 @@
   }
 
   if (bss_webchat_text && show_bss_webchat()) {
-    bss_webchat_text.innerText = 'Connect to an adviser by clicking the Business Support Service button'
+    bss_webchat_text.innerText =
+      'Connect to an adviser by selecting the Business Support Service button'
     load_bss_webchat()
 
     setTimeout(() => {
