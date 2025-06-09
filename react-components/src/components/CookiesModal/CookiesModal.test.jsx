@@ -18,7 +18,7 @@ describe('CookiesModal', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => true)
     const { queryByText } = render(<CookiesModal {...defaultProps} />)
 
-    expect(queryByText('Cookies on great.gov.uk')).toBeNull()
+    expect(queryByText('Cookies on business.gov.uk')).toBeNull()
   })
 
   it('handles accept all click', async () => {
@@ -27,7 +27,7 @@ describe('CookiesModal', () => {
       <CookiesModal {...defaultProps} />
     )
 
-    expect(getByText('Cookies on great.gov.uk')).toBeTruthy()
+    expect(getByText('Cookies on business.gov.uk')).toBeTruthy()
 
     getByText('Accept additional cookies').click()
 
@@ -37,7 +37,7 @@ describe('CookiesModal', () => {
       expect(window.dataLayer[1].event).toEqual('gtm.dom')
 
       expect(CookiesManager.acceptAllCookiesAndShowSuccess).toHaveBeenCalled()
-      expect(queryByText('Cookies on great.gov.uk')).toBeNull()
+      expect(queryByText('Cookies on business.gov.uk')).toBeNull()
     })
   })
 
@@ -45,13 +45,13 @@ describe('CookiesModal', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => null)
     const { getByText, queryByText } = render(<CookiesModal {...defaultProps} />)
 
-    expect(getByText('Cookies on great.gov.uk')).toBeTruthy()
+    expect(getByText('Cookies on business.gov.uk')).toBeTruthy()
 
     getByText('Reject additional cookies').click()
 
     await waitFor(() => {
       expect(CookiesManager.rejectAllCookiesAndShowSuccess).toHaveBeenCalled()
-      expect(queryByText('Cookies on great.gov.uk')).toBeNull()
+      expect(queryByText('Cookies on business.gov.uk')).toBeNull()
     })
   })
 
