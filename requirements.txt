@@ -214,7 +214,9 @@ django-requestlogs==0.8.3
 django-staff-sso-client==4.3.0
     # via -r requirements.in
 django-storages[boto3]==1.13.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-storages
 django-taggit==6.1.0
     # via wagtail
 django-timezone-field==7.1
@@ -264,6 +266,8 @@ googleapis-common-protos==1.70.0
     #   opentelemetry-exporter-otlp-proto-http
 great-components==2.7.2
     # via -r requirements.in
+greenlet==3.2.3
+    # via sqlalchemy
 grpcio==1.71.0
     # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==23.0.0
@@ -500,7 +504,7 @@ reportlab==4.4.0
     # via
     #   svglib
     #   xhtml2pdf
-requests==2.32.3
+requests==2.32.4
     # via
     #   dbt-copilot-python
     #   directory-api-client
@@ -656,7 +660,9 @@ webencodings==0.5.1
 whitenoise==6.6.0
     # via -r requirements.in
 willow[heif]==1.10.0
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
 wrapt==1.17.2
     # via
     #   ddtrace
