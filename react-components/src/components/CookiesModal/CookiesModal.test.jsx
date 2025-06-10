@@ -18,7 +18,7 @@ describe('CookiesModal', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => true)
     const { queryByText } = render(<CookiesModal {...defaultProps} />)
 
-    expect(queryByText('Cookies on business.gov.uk')).toBeNull()
+    expect(queryByText('Cookies on Business.gov.uk')).toBeNull()
   })
 
   it('handles accept all click', async () => {
@@ -27,7 +27,7 @@ describe('CookiesModal', () => {
       <CookiesModal {...defaultProps} />
     )
 
-    expect(getByText('Cookies on business.gov.uk')).toBeTruthy()
+    expect(getByText('Cookies on Business.gov.uk')).toBeTruthy()
 
     getByText('Accept additional cookies').click()
 
@@ -37,21 +37,23 @@ describe('CookiesModal', () => {
       expect(window.dataLayer[1].event).toEqual('gtm.dom')
 
       expect(CookiesManager.acceptAllCookiesAndShowSuccess).toHaveBeenCalled()
-      expect(queryByText('Cookies on business.gov.uk')).toBeNull()
+      expect(queryByText('Cookies on Business.gov.uk')).toBeNull()
     })
   })
 
   it('handles reject all click', async () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => null)
-    const { getByText, queryByText } = render(<CookiesModal {...defaultProps} />)
+    const { getByText, queryByText } = render(
+      <CookiesModal {...defaultProps} />
+    )
 
-    expect(getByText('Cookies on business.gov.uk')).toBeTruthy()
+    expect(getByText('Cookies on Business.gov.uk')).toBeTruthy()
 
     getByText('Reject additional cookies').click()
 
     await waitFor(() => {
       expect(CookiesManager.rejectAllCookiesAndShowSuccess).toHaveBeenCalled()
-      expect(queryByText('Cookies on business.gov.uk')).toBeNull()
+      expect(queryByText('Cookies on Business.gov.uk')).toBeNull()
     })
   })
 
@@ -59,9 +61,9 @@ describe('CookiesModal', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => null)
     const { getByText } = render(<CookiesModal {...defaultProps} />)
 
-    expect(
-      getByText('View cookies').getAttribute('href')
-    ).toEqual(defaultProps.preferencesUrl)
+    expect(getByText('View cookies').getAttribute('href')).toEqual(
+      defaultProps.preferencesUrl
+    )
   })
 
   // describe.each([
@@ -98,5 +100,4 @@ describe('CookiesModal', () => {
   //   const { getByText } = render(<CookiesModal {...defaultProps} lang = {'bi'}/>)
   //   expect(document.body.textContent).toContain('Tell us whether you accept cookies');
   // })
-
 })

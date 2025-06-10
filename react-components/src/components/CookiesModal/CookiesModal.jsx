@@ -43,12 +43,12 @@ export function CookiesModal(props) {
 
   // here we are ignoring the locale part of a language short code
   // as they are not currently implemented in the .json file of translations
-  let lang = props.lang ? props.lang.substring(0,2) : 'en'
+  let lang = props.lang ? props.lang.substring(0, 2) : 'en'
 
   // in the normal flow there should never be an invalid language code
   // because django will fallback to site default. including below to
   // ensure cookie modal is self-contained
-  if (! Object.keys(translations).includes(lang)){
+  if (!Object.keys(translations).includes(lang)) {
     lang = 'en'
   }
 
@@ -60,34 +60,32 @@ export function CookiesModal(props) {
   }, [])
 
   return (
-    <Modal isOpen={isOpen} contentLabel="Cookies on business.gov.uk">
-      <div className='great'>
+    <Modal isOpen={isOpen} contentLabel="Cookies on Business.gov.uk">
+      <div className="great">
         <h2 aria-hidden="true" className={`govuk-heading-m`}>
-          {translations[lang]["Cookies on business.gov.uk"]}
+          {translations[lang]['Cookies on Business.gov.uk']}
         </h2>
       </div>
-      <p className={`${styles.synopsis}`}>
-        {translations[lang]["We use"]}{' '}
-      </p>
+      <p className={`${styles.synopsis}`}>{translations[lang]['We use']} </p>
       <div className={`${styles.buttonContainer} great great-overflow-visible`}>
-      <button
+        <button
           className={`${styles.greatButton} govuk-button`}
           onClick={handleAcceptAllCookies}
         >
-          {translations[lang]["Accept additional cookies"]}
+          {translations[lang]['Accept additional cookies']}
         </button>
         <button
           className={`${styles.greatButton} govuk-button`}
           onClick={handleRejectAllCookies}
         >
-          {translations[lang]["Reject additional cookies"]}
+          {translations[lang]['Reject additional cookies']}
         </button>
         <div className={`${styles.cookieLink}`}>
           <a
             className={`govuk-link govuk-!-margin-bottom-1`}
             href={props.preferencesUrl + window.location.search}
           >
-            {translations[lang]["View cookies"]}
+            {translations[lang]['View cookies']}
           </a>
         </div>
       </div>
