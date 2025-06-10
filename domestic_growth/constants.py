@@ -10,6 +10,7 @@ DYNAMIC_SNIPPET_NAMES = (
     ('BGS_15_001', 'Scottish Enterprise'),
     ('BGS_15_002', 'Highlands & Islands Enterprise'),
     ('BGS_15_003', 'South of Scotland Enterprise'),
+    ('BGS_AI_001', 'AI Summary'),
 )
 
 DYNAMIC_CHILD_PAGE_CHOICES = [

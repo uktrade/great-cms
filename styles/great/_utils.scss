@@ -454,6 +454,10 @@
   background-color: #8ce2d0;
 }
 
+.great-text-link-blue {
+  color: $color-gov-link !important;
+}
+
 .great-text-dark-blue {
   color: $great-dark-blue !important;
 }
@@ -998,7 +1002,7 @@ img.richtext-image {
 }
 
 .great-inline {
-  display: inline;
+  display: inline !important;
 }
 
 .great-circle-image {

@@ -5,7 +5,9 @@
     {% if content.content_id|is_a_dynamic_snippet %}
         {% for snippet_id, snippet_name in dynamic_snippet_names %}
             {% if content.content_id == snippet_id %}
-                {% if snippet_name == 'Scottish Enterprise' and local_support_data %}
+                {% if snippet_name == 'AI Summary' %}
+                    {% include "includes/dynamic-snippets/_summary-snippet.html" with content=content %}
+                {% elif snippet_name == 'Scottish Enterprise' and local_support_data %}
                     {% if local_support_data.postcode_data.admin_district in scottish_enterprise_admin_districts %}
                         {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
                     {% endif %}

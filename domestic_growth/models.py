@@ -453,6 +453,12 @@ class DomesticGrowthChildGuidePage(
 
         triage_data = get_triage_data_with_sectors(request)
 
+        for section in self.body_sections:
+            # AI Snippet will always be in a section on it's own, if present on page then run summariser logic
+            if section.value['content'][0].content_id == 'BGS_AI_001':
+                ai_section = 'test '
+                context['summariser_content'] = ai_section*100
+
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
         sector = triage_data['sector']

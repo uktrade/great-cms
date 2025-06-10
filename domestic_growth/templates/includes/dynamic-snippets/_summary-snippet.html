@@ -1,0 +1,12 @@
+<div class="govuk-!-margin-bottom-6 great-ds-bg-white great-ds-border-top-blue-3">
+    <div class="great-ds-border-bottom-light-grey-2 govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
+        {{ summariser_content }}
+    </div>
+    <div class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
+        <div class='great-align-items-center great-display-flex'>
+            <span class='govuk-!-margin-right-5'> Was this AI generated info helpful? </span> 
+            {% include "_button.html" with text="Yes" classes="great-ds-button--secondary govuk-!-margin-bottom-0"  %}
+            {% include "_button.html" with text="No" classes="great-ds-button--secondary govuk-!-margin-bottom-0"  %}
+        </div>
+    </div>
+</div>
