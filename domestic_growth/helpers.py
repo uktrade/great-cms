@@ -381,3 +381,11 @@ def get_data_layer_triage_data(triage_data, local_support_data):
             data['userInfo'][field] = triage_data[field]
 
     return data
+
+
+def is_ai_summary_section(body_sections):
+    for section in body_sections:
+        # AI Snippet will always be in a section on it's own, if present on page then run summariser logic
+        if section.value['content'][0].content_id == 'BGS_AI_001':
+            return True
+    return False
