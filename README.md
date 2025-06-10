@@ -12,7 +12,7 @@
 
 ## Development
 
-### Installing.
+### Installing
 
     $ git clone https://github.com/uktrade/great-cms
     $ cd great-cms
