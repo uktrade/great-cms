@@ -60,10 +60,10 @@ export function CookiesModal(props) {
   }, [])
 
   return (
-    <Modal isOpen={isOpen} contentLabel="Cookies on great.gov.uk">
+    <Modal isOpen={isOpen} contentLabel="Cookies on business.gov.uk">
       <div className='great'>
         <h2 aria-hidden="true" className={`govuk-heading-m`}>
-          {translations[lang]["Cookies on great.gov.uk"]}
+          {translations[lang]["Cookies on business.gov.uk"]}
         </h2>
       </div>
       <p className={`${styles.synopsis}`}>

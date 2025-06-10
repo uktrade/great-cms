@@ -2,9 +2,9 @@
     <ul class="govuk-!-margin-0">
         <h2 class="govuk-heading-s">{{title}}</h3>
         {% for step in steps %}
-        <li class="govuk-!-static-padding-bottom-4 great-step-item fa great-display-flex {%if step.url == current_step_url %}current-step{%endif%} {%if forloop.last%}govuk-!-padding-bottom-0{%endif%}">
-            <a class="govuk-link" href="{{step.url}}">{{step.text}}</a>
-        </li>
+            <li class="govuk-!-static-padding-bottom-4 great-step-item fa great-display-flex {%if step.url == current_step_url %}current-step{%endif%} {%if forloop.last%}govuk-!-padding-bottom-0{%endif%}">
+                <a class="govuk-link" href="{{step.url}}">{{step.text}}</a>
+            </li> 
         {% endfor %}
     </ul>
 </nav>

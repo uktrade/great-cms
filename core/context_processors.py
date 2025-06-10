@@ -6,7 +6,7 @@ from django.utils import translation
 from django.utils.translation import get_language_bidi, gettext as _
 
 from core import cms_slugs
-from core.helpers import international_url
+from core.helpers import international_url, is_bgs_domain
 from directory_constants import choices, urls
 from domestic_growth.constants import EXISTING_TRIAGE_URL, PRE_START_TRIAGE_URL
 
@@ -42,6 +42,12 @@ def analytics_vars(request):
         'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
         'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
         'UTM_COOKIE_DOMAIN': settings.UTM_COOKIE_DOMAIN,
+    }
+
+
+def google_verification_vars(request):
+    return {
+        'GOOGLE_VERIFICATION_CODE': settings.GOOGLE_VERIFICATION_CODE,
     }
 
 
@@ -465,6 +471,15 @@ def domestic_footer(request):
 
 
 def international_footer(request):
+    if is_bgs_domain(request):
+        help_path = '/get-help/'
+    else:
+        help_path = '/site-help/'
+
+    help_using_this_site_url = (
+        f'/{international_url(request)}{help_path}?next={request.build_absolute_uri(request.path)}'
+    )
+
     return {
         'international_footer_context': {
             'is_international': True,
@@ -472,8 +487,7 @@ def international_footer(request):
             'logo_link_href': 'https://www.gov.uk/',
             'footer_links': [
                 {
-                    'href': f'/{international_url(request)}/site-help/?next='
-                    + request.build_absolute_uri(request.path),
+                    'href': help_using_this_site_url,
                     'title': 'Help using this site',
                     'text': 'Help using this site',
                 },

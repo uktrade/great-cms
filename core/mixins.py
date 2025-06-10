@@ -293,6 +293,7 @@ class HCSATMixin:
             'eyb': 'with the Expand your business service',
             'investment_ops': 'with the Investment Opportunities service',
             'isd': 'with the Investment Support Directory service',
+            'buy_from_the_uk': 'with the Buy from the UK service',
         }
         return f"""Overall, how would you rate your experience
          {service_name_to_readable_name_map[hcsat_service_name]} today?"""

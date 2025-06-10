@@ -1,16 +1,21 @@
 from directory_forms_api_client import helpers
 from django.core.paginator import EmptyPage, Paginator
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from wagtailcache.cache import nocache_page
 
 from config import settings
-from core.constants import TemplateTagsEnum
+from core.constants import HCSatStage, TemplateTagsEnum
+from core.forms import HCSATForm
 from core.helpers import get_sender_ip_address, get_template_id, international_url
+from core.mixins import HCSATMixin
 from international_buy_from_the_uk import forms
 from international_buy_from_the_uk.core.helpers import get_url
 from international_buy_from_the_uk.services import (
@@ -23,9 +28,12 @@ from international_online_offer.core.region_sector_helpers import get_sectors_as
 from international_online_offer.services import get_dbt_sectors
 
 
-class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
+@method_decorator(nocache_page, name='get')
+class ContactView(GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.ContactForm
     template_name = 'buy_from_the_uk/contact.html'
+    hcsat_form = HCSATForm
+    hcsat_service_name = 'buy_from_the_uk'
 
     def __init__(self):
         super().__init__()
@@ -36,9 +44,36 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
         )
 
     def get_success_url(self):
-        start_url = f'/{international_url(self.request)}/site-help/success/'
-        success_url = start_url + '?next=' + f'/{international_url(self.request)}/buy-from-the-uk'
+        success_url = reverse('international_buy_from_the_uk:contact') + '?success=true'
         return success_url
+
+    def post(self, request, *args, **kwargs):
+        if 'email_address' in request.POST:
+            # contact form
+            return super().post(request)
+        else:
+            # hcsat form
+            form_class = self.hcsat_form
+            hcsat = self.get_hcsat(request, self.hcsat_service_name)
+            post_data = request.POST
+            if 'cancelButton' in post_data:
+                """
+                Redirect user if 'cancelButton' is found in the POST data
+                """
+                if hcsat:
+                    hcsat.stage = HCSatStage.COMPLETED.value
+                    hcsat.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+            form = form_class(post_data)
+
+            if form.is_valid():
+                if hcsat:
+                    form = form_class(post_data, instance=hcsat)
+                    form.is_valid()
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
 
     def send_agent_email(self, form):
         agent_email = settings.CONTACT_INDUSTRY_AGENT_EMAIL_ADDRESS
@@ -68,23 +103,64 @@ class ContactView(GA360Mixin, FormView):  # /PS-IGNORE
         response.raise_for_status()
 
     def form_valid(self, form):
-        form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
-        self.send_agent_email(form)
-        self.send_user_email(form)
-        return super().form_valid(form)
+        if type(form) is HCSATForm:
+            js_enabled = False
+            hcsat = form.save(commit=False)
+
+            # js version handles form progression in js file, so keep on 0 for reloads
+            if 'js_enabled' in self.request.get_full_path():
+                hcsat.stage = HCSatStage.NOT_STARTED.value
+                js_enabled = True
+
+            # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating  # noqa: E501
+            hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
+
+            # Apply data specific to this service
+            hcsat.URL = f'/{international_url(self.request)}/buy-from-the-uk/contact'
+            hcsat.user_journey = 'BUY_FROM_THE_UK_CONTACT'
+            hcsat.session_key = self.request.session.session_key
+            hcsat.service_name = 'buy_from_the_uk'
+
+            hcsat.save(js_enabled=js_enabled)
+
+            self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+            if 'js_enabled' in self.request.get_full_path():
+                return JsonResponse({'pk': hcsat.pk})
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
+            self.send_agent_email(form)
+            self.send_user_email(form)
+            return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
         autocomplete_sector_data = get_sectors_as_string(dbt_sectors)
+        buy_from_the_uk_url = f'/{international_url(self.request)}/buy-from-the-uk/'
         breadcrumbs = [
             {'name': 'Home', 'url': f'/{international_url(self.request)}/'},
-            {'name': 'Buy from the UK', 'url': f'/{international_url(self.request)}/buy-from-the-uk/'},
+            {'name': 'Buy from the UK', 'url': buy_from_the_uk_url},
         ]
-        return super().get_context_data(
+
+        context = super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
+            continue_url=buy_from_the_uk_url,
         )
+
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        return context
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -246,10 +322,13 @@ class FindASupplierCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  # /
         )
 
 
-class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /PS-IGNORE
+@method_decorator(nocache_page, name='get')
+class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASupplierContactForm
     template_name = 'buy_from_the_uk/find_a_supplier/contact.html'
+    hcsat_form = HCSATForm
     company_email_address = None
+    hcsat_service_name = 'find_a_supplier'
 
     def __init__(self):
         super().__init__()
@@ -269,6 +348,34 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         )
         return success_url
 
+    def post(self, request, *args, **kwargs):
+        if 'email_address' in request.POST:
+            # contact form
+            return super().post(request)
+        else:
+            # hcsat form
+            form_class = self.hcsat_form
+            hcsat = self.get_hcsat(request, self.hcsat_service_name)
+            post_data = request.POST
+            if 'cancelButton' in post_data:
+                """
+                Redirect user if 'cancelButton' is found in the POST data
+                """
+                if hcsat:
+                    hcsat.stage = HCSatStage.COMPLETED.value
+                    hcsat.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+            form = form_class(post_data)
+
+            if form.is_valid():
+                if hcsat:
+                    form = form_class(post_data, instance=hcsat)
+                    form.is_valid()
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+
     def send_email(self, form):
         sender = helpers.Sender(
             email_address=form.cleaned_data['email_address'],
@@ -286,9 +393,35 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
         response.raise_for_status()
 
     def form_valid(self, form):
-        form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
-        self.send_email(form)
-        return super().form_valid(form)
+        if type(form) is HCSATForm:
+            js_enabled = False
+            hcsat = form.save(commit=False)
+
+            # js version handles form progression in js file, so keep on 0 for reloads
+            if 'js_enabled' in self.request.get_full_path():
+                hcsat.stage = HCSatStage.NOT_STARTED.value
+                js_enabled = True
+
+            # if in second part of form (satisfaction=None) or not given in first part, persist existing satisfaction rating  # noqa: E501
+            hcsat = self.persist_existing_satisfaction(self.request, self.hcsat_service_name, hcsat)
+
+            # Apply data specific to this service
+            hcsat.URL = f'/{international_url(self.request)}/buy-from-the-uk/find-a-supplier'
+            hcsat.user_journey = 'FIND_A_SUPPLIER_CONTACT'
+            hcsat.session_key = self.request.session.session_key
+            hcsat.service_name = 'find_a_supplier'
+
+            hcsat.save(js_enabled=js_enabled)
+
+            self.request.session[f'{self.hcsat_service_name}_hcsat_id'] = hcsat.id
+
+            if 'js_enabled' in self.request.get_full_path():
+                return JsonResponse({'pk': hcsat.pk})
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            form.cleaned_data['country'] = get_location_display(form.cleaned_data['country'])
+            self.send_email(form)
+            return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         dbt_sectors = get_dbt_sectors()
@@ -311,7 +444,8 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             {'name': 'Find a UK supplier', 'url': find_a_supplier_url},
             {'name': self.company['name'], 'url': company_profile_url},
         ]
-        return super().get_context_data(
+
+        context = super().get_context_data(
             **kwargs,
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
@@ -320,6 +454,18 @@ class FindASupplierContactView(CompanyProfileMixin, GA360Mixin, FormView):  # /P
             public_key=settings.RECAPTCHA_PUBLIC_KEY,
             recaptcha_domain=settings.RECAPTCHA_DOMAIN,
         )
+
+        context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)
+        if 'form' in kwargs:  # pass back errors from form_invalid
+            context['hcsat_form'] = kwargs['form']
+
+        return context
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        if 'js_enabled' in self.request.get_full_path():
+            return JsonResponse(form.errors, status=400)
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

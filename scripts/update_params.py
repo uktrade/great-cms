@@ -14,13 +14,13 @@ def update_params(file_name):
         for param in data:
             name = param['Name']
             value = param['Value']
-            type = param['Type']
+            _type = param['Type']
             overwrite = param['Overwrite']
             if overwrite:
                 over_str = '--overwrite'
             else:
                 over_str = '--no-overwrite'
-            cmd = f'aws ssm put-parameter --name "{name}" --type {type} --value "{value}" {over_str}'
+            cmd = f'aws ssm put-parameter --name "{name}" --type {_type} --value "{value}" {over_str}'
             ret = os.system(cmd)
             print(ret)  # noqa T201
 

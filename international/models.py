@@ -11,6 +11,7 @@ class GreatInternationalHomePage(cms_panels.GreatInternationalHomePagePanels, Ba
 
     parent_page_types = [
         'domestic.GreatDomesticHomePage',
+        'domestic_growth.DomesticGrowthHomePage',
     ]
 
     template = 'international/index.html'

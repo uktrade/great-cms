@@ -4,10 +4,12 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from great_components.mixins import GA360Mixin  # /PS-IGNORE
+from wagtailcache.cache import nocache_page
 
 from core.constants import HCSatStage, TemplateTagsEnum
 from core.forms import HCSATForm
@@ -189,6 +191,7 @@ class FindASpecialistCaseStudyView(CaseStudyMixin, GA360Mixin, TemplateView):  #
         )
 
 
+@method_decorator(nocache_page, name='get')
 class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, FormView):  # /PS-IGNORE
     form_class = forms.FindASpecialistContactForm
     hcsat_form = HCSATForm
@@ -230,7 +233,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
                 if hcsat:
                     hcsat.stage = HCSatStage.COMPLETED.value
                     hcsat.save()
-                return HttpResponseRedirect(self.get_success_url(request))
+                return HttpResponseRedirect(self.get_success_url())
 
             form = form_class(post_data)
 
@@ -316,7 +319,7 @@ class FindASpecialistContactView(CompanyProfileMixin, GA360Mixin, HCSATMixin, Fo
             autocomplete_sector_data=autocomplete_sector_data,
             breadcrumbs=breadcrumbs,
             company=self.company,
-            continue_url=f'/{international_url(self.request)}/investment-support-directory/',
+            continue_url=company_profile_url,
         )
 
         context = self.set_csat_and_stage(self.request, context, self.hcsat_service_name, form=self.hcsat_form)

@@ -35,6 +35,7 @@ from wagtail.models import Site
 
 from core.constants import (
     EXPORT_SUPPORT_CATEGORIES,
+    EXPORT_SUPPORT_CATEGORIES_BGS,
     TEMPLATE_TAGS,
     TRADE_BARRIERS_BY_MARKET,
     TRADE_BARRIERS_BY_SECTOR,
@@ -858,8 +859,11 @@ def hcsat_get_initial(model, csat_id):
         return {'satisfaction': ''}
 
 
-def mapped_categories(form_data):
-    categories = EXPORT_SUPPORT_CATEGORIES
+def mapped_categories(form_data, is_bgs_site):
+    if is_bgs_site:
+        categories = EXPORT_SUPPORT_CATEGORIES_BGS
+    else:
+        categories = EXPORT_SUPPORT_CATEGORIES
     market = form_data.get('market')
     is_goods = form_data.get('exporter_type') == 'goods'
     is_service = form_data.get('exporter_type') == 'service'
@@ -957,7 +961,6 @@ def send_hcsat_feedback(data: HCSAT) -> None:
 
 
 def is_bgs_site(root_url: str) -> bool:
-    sentry_sdk.capture_message(f'BGS_SITE: {settings.BGS_SITE} match root_url: {root_url}')
     return settings.BGS_SITE in root_url
 
 

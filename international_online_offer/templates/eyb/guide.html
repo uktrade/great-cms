@@ -17,9 +17,6 @@
 {% block head_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block meta_title %}Welcome to your UK expansion guide {{page_title_meta}} {{ block.super }}{% endblock %}
 {% block breadcrumb_region %}
-    <div class="{% if request.path == expand_your_business_in_the_uk_guide_url %}light-blue-background{% endif %}">
-        {% include './includes/govuk/phase_banner.html' with hide_border=True %}
-    </div>
     {% include 'international/includes/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 {% block css_layout_class %}light-blue-background{% endblock %}
@@ -79,9 +76,7 @@
                 {% capture tile_content %}
                 {% include './includes/dynamic-guide/market_data.html' with market_data_location_select_form=market_data_location_select_form market_data=bci_data %}
                 {% endcapture %}
-
                 {% include '_tile.html' with caption=triage_data.sector title="Market data" size="l" content=tile_content actionLinkText='Compare data across UK nations and regions' actionLinkHref=expand_your_business_in_the_uk_business_cluster_url %}
-            
                 {% if locations|length > 0 %}
                 {% capture tile_content %}
                 {% for location in locations|slice:':2' %}
@@ -166,7 +161,6 @@
             </div>
             <div class="govuk-grid-column-one-third">
                 {% include '_tile.html' with title="Find a consultant" description="Hire UK experts in finance, law, tax and other specialist areas." size="m" icon="/static/svg/icon-consultant.svg" actionLinkText="Search our business directory" actionLinkHref=investment_support_url isSimple="true" %}
-                
                 {% for section in right_panel_sections %}
                 {% capture tile_content %}
                 <ul class="link-list">

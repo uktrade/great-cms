@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load wagtailimages_tags %}
+{% load bgs_tags %}
 {% load component_tags wagtailcore_tags wagtailimages_tags content_tags %}
 {% block css_layout_class %}country-guide-page{% endblock %}
 {% block head_js %}
@@ -9,6 +10,7 @@
     {% if page.stats.market_trends %}<script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>{% endif %}
 {% endblock %}
 {% block content %}
+    {% is_bgs_site current_site.root_url as bgs_site %}
     {% if not image_url %}
         {% image page.hero_image original as rendition %}
     {% endif %}
@@ -106,7 +108,7 @@
                                     <p>
                                         Read the latest sector report from China - including business consulting and accounting, banking and asset management, and the latest trends in fintech.
                                     </p>
-                                    <a href="/markets/china/financial-professional-services-in-china/"
+                                    <a href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk{% endif %}/markets/china/financial-professional-services-in-china/"
                                        class="button primary-button"
                                        target="_blank">Read more</a>
                                 </div>
@@ -119,7 +121,7 @@
                                     <p>
                                         Read about the latest consumer trends, the retail landscape, and what buyers are looking for in the food and drink sector in Germany.
                                     </p>
-                                    <a href="/markets/germany/food-and-drink-in-germany/"
+                                    <a href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk{% endif %}/markets/germany/food-and-drink-in-germany/"
                                        class="button primary-button"
                                        target="_blank">Read more</a>
                                 </div>
@@ -130,7 +132,7 @@
                                 <div class="great govuk-!-padding-6 great-bg-light-blue">
                                     <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Sector Spotlight - Food and Drink</h2>
                                     <p>Read the latest industry news, key developments, trends and regulations in the food and drink sector in the USA.</p>
-                                    <a href="/markets/united-states/food-and-drink-in-usa/"
+                                    <a href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk{% endif %}/markets/united-states/food-and-drink-in-usa/"
                                        class="button primary-button"
                                        target="_blank">Read more</a>
                                 </div>
@@ -156,7 +158,11 @@
                     {% if page.is_eu_country and features.FEATURE_SHOW_EU_CTA %}
                         {% static 'icons/guidance.svg' as cta_icon %}
                         <div class="column-quarter-l">
-                            {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% if bgs_site %}
+                                {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% else %}
+                                {% include 'components/great/card.html' with heading_class="great-card__link--heading--18" heading_level="h3" tag_container_inner_class="article-page-cta-container-inner-container" container_class="great article-page-cta-container-title-container" classes="great-card--cta great-card--cta-with-content great-card--cta-with-border govuk-!-padding-0 govuk-!-margin-bottom-8" title="How to pay VAT when exporting to the EU" content="Understand the VAT requirements when exporting goods and services to EU countries." content_tag="p" url="/campaign-site/vat-in-eu/" show_title_link=True tag="Exporting advice" tag_icon=cta_icon %}
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>
@@ -518,7 +524,8 @@
                 <p>
                     Get instant help from our online services and how-to articles or contact our Export Support Service to access our wider network of support.
                 </p>
-                <a class="button primary-button" href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}">Find answers</a>
+                <a class="button primary-button"
+                   href="{% if current_website_name and current_website_name == 'business.gov.uk' %}/export-from-uk/support-topics/{% else %}/support/export-support/{% endif %}">Find answers</a>
             </div>
         </div>
     </div>

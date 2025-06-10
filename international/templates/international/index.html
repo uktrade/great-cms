@@ -6,7 +6,7 @@
 {% block css_layout_class %}
 {% endblock css_layout_class %}
 {% block content %}
-    {% include './components/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
+    {% include './includes/landing_hero.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle %}
     {% if page.dep_cards %}
         <section class="light-blue-background">
             <div class="great-container">

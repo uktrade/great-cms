@@ -1291,6 +1291,26 @@ META_LABELS = (
     ('service_gov', 'Service on GOV.UK'),
 )
 
+EXPORT_SUPPORT_CATEGORIES_BGS = (
+    ('/export-from-uk/support-topics/market-selection', 'Market selection'),
+    (
+        '/export-from-uk/support-topics/routes-to-market-and-operating-overseas',
+        'Routes to market and operating overseas',
+    ),
+    (
+        '/export-from-uk/support-topics/funding-and-financial-considerations',
+        'Funding and financial considerations',
+    ),
+    (
+        '/export-from-uk/support-topics/trade-restrictions-regulations-and-licensing',
+        'Trade restrictions, regulations and licensing',
+    ),
+    ('/export-from-uk/support-topics/logistics', 'Logistics'),
+    ('/export-from-uk/support-topics/customs-taxes-and-declarations', 'Customs, taxes and declarations'),
+    ('/export-from-uk/support-topics/travelling-for-work', 'Travelling for work'),
+    ('/export-from-uk/support-topics/managing-business-risk-and-corruption', 'Managing business risk and corruption'),
+)
+
 EXPORT_SUPPORT_CATEGORIES = (
     ('/support/market-selection', 'Market selection'),
     ('/support/routes-to-market-and-operating-overseas', 'Routes to market and operating overseas'),
