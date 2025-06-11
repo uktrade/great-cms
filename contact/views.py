@@ -358,7 +358,10 @@ class DomesticExportSupportFormStep3View(contact_mixins.ExportSupportFormMixin, 
 
     def get_context_data(self, **kwargs):
         form_data = {}
-        business_type = self.request.POST.get('business_type')
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        business_type = form_data.get('business_type')
         url_map = {
             'other': 'contact:export-support-step-2b',
             'soletrader': 'contact:export-support-step-2c',
