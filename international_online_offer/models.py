@@ -20,10 +20,7 @@ from core.helpers import international_url
 from core.mixins import HCSATNonFormPageMixin
 from core.models import CMSGenericPage, TimeStampedModel
 from domestic.models import BaseContentPage
-from international_investment.models import (
-    InvestmentIndexPage,
-    InvestmentOpportunityArticlePage,
-)
+from international_investment.models import InvestmentOpportunityArticlePage
 from international_online_offer import services
 from international_online_offer.core import (
     choices,
@@ -497,13 +494,10 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
-        all_articles = (
-            EYBArticlePage.objects.live()
-            .filter(
-                Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
-                | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
-                | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
-            )
+        all_articles = EYBArticlePage.objects.live().filter(
+            Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
+            | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
+            | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
         )
 
         if triage_data and triage_data.sector:
@@ -516,29 +510,21 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             """
             user_sector_no_commas = triage_data.sector.replace(',', '')
 
-            sector_articles = (
-                EYBArticlePage.objects.live()
-                .filter(tags__name__iexact=user_sector_no_commas)
-            )
+            sector_articles = EYBArticlePage.objects.live().filter(tags__name__iexact=user_sector_no_commas)
 
-            dbt_sector_articles = (
-                EYBArticlePage.objects.live()
-                .filter(dbt_sectors__contains=[triage_data.sector])
-            )
+            dbt_sector_articles = EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
 
             all_articles = all_articles.union(sector_articles).union(dbt_sector_articles)
 
         # Get first three investment opportunities A-Z by sector
-        investment_opportunities = (
-            InvestmentOpportunityArticlePage.objects.live()
-            .filter(dbt_sectors__contains=[triage_data.sector])[:3]
-        )
+        investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(
+            dbt_sectors__contains=[triage_data.sector]
+        )[:3]
 
         # Get first three trade events A-Z by sector
-        trade_events = (
-            IOOTradeShowPage.objects.live()
-            .filter(tags__name__iexact=triage_data.sector.replace(',', ''))[:3]
-        )
+        trade_events = IOOTradeShowPage.objects.live().filter(tags__name__iexact=triage_data.sector.replace(',', ''))[
+            :3
+        ]
 
         # Try getting trade associations by exact sector match or in mapped list of sectors
         trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
