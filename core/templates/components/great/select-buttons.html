@@ -1,0 +1,6 @@
+<div class='{{buttons_container_classes}}'>
+    {% for choice in choices %}
+        <input name='{{name}}' id='{{name}}-{{choice.1}}' type='radio' class='great-hidden great-radio-button' text='{{choice.1}}' value = '{{ choice.1 }}'>
+        <label id='{{name}}-{{choice.1}}-label' name='{{name}}' for='{{name}}-{{choice.1}}' class='great-ds-button great-ds-button--secondary govuk-!-margin-right-2'>{{choice.1}}</label>
+    {% endfor %}
+</div>

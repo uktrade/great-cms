@@ -2,11 +2,11 @@
     <div class="great-ds-border-bottom-light-grey-2 govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
         {{ summary_content }}
     </div>
-    <div class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
-        <div class='great-align-items-center great-display-flex'>
-            <span class='govuk-!-margin-right-5'> Was this AI generated info helpful? </span> 
-            {% include "_button.html" with text="Yes" classes="great-ds-button--secondary govuk-!-margin-bottom-0"  %}
-            {% include "_button.html" with text="No" classes="great-ds-button--secondary govuk-!-margin-bottom-0"  %}
-        </div>
+    <div id='summariser_feedback_form' class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{feedback_form}}
+            {% include "_button.html" with type='submit' id='feedback_submit' text="Submit" classes="great-ds-button--secondary"  %}
+        </form>
     </div>
 </div>

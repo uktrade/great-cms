@@ -7,6 +7,7 @@ from domestic_growth.choices import (
     EXISTING_BUSINESS_WHEN_SET_UP_CHOICES,
 )
 from great_design_system import forms
+from domestic_growth.widgets import SelectOneButton
 from international_online_offer.core import region_sector_helpers
 from international_online_offer.services import get_dbt_sectors
 from regex import EMAIL_ADDRESS_REGEX
@@ -198,3 +199,26 @@ class EmailGuideForm(forms.Form):
 
         if email and not EMAIL_ADDRESS_REGEX.match(email):
             self.add_error('email', 'Enter an email address in the correct format, like name@example.com')  # /PS-IGNORE
+
+
+class SummariserFeedbackForm(forms.Form):
+    was_useful = forms.ChoiceField(
+        container_css_classes='great-display-flex great-align-items-center',
+        label='Was this AI generated info helpful?',
+        choices=(('YES', 'Yes'), ('NO', 'No')),
+        widget=SelectOneButton(buttons_container_classes='govuk-!-margin-left-5', name='was_useful'),
+    )
+    feedback_text = forms.CharField(
+        label='Thank you. In your own words tell us why you made that choice.',
+        container_css_classes='govuk-!-margin-top-5',
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'govuk-textarea great-font-main',
+                'rows': 6,
+                'id': '',
+                'name': '',
+                'aria-describedby': '',
+            }
+        ),
+    )

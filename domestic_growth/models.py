@@ -5,6 +5,9 @@ from urllib.parse import urlencode
 from directory_forms_api_client import actions
 from django.db import models
 from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.template.response import TemplateResponse
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks.field_block import RichTextBlock
@@ -23,7 +26,7 @@ from core.fern import Fern
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
-from domestic_growth.forms import EmailGuideForm
+from domestic_growth.forms import EmailGuideForm, SummariserFeedbackForm
 from domestic_growth.helpers import (
     get_change_answers_link,
     get_change_sector_link,
@@ -448,6 +451,31 @@ class DomesticGrowthChildGuidePage(
         blank=True,
     )
 
+    def get_success_url(self, request):
+        return request.get_full_path()
+
+    def post(self, request, *args, **kwargs):
+        form_class = SummariserFeedbackForm
+
+        post_data = request.POST
+
+        form = form_class(post_data)
+
+        # TODO Send to directory-forms-api, error on text input? 
+        return TemplateResponse(
+            request,
+            self.get_template(request, *args, **kwargs),
+            self.get_context(request, *args, **kwargs),  # For non-js, add feedback_completed context + show success msg
+        )  # pass through feedback_given?
+        return self.form_valid(form, request)
+
+    @method_decorator(csrf_protect, name='post')
+    def serve(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            return self.post(request)
+
+        return super().serve(request, **kwargs)
+
     def get_context(self, request):  # noqa: C901
         context = super(DomesticGrowthChildGuidePage, self).get_context(request)
 
@@ -455,7 +483,9 @@ class DomesticGrowthChildGuidePage(
 
         if helpers.is_ai_summary_section(self.body_sections):
             ai_section = 'test '
+            context['is_summariser_section'] = True
             context['summary_content'] = ai_section * 100
+            context['feedback_form'] = SummariserFeedbackForm
 
         # all triages contain sector and postcode
         postcode = triage_data['postcode']
