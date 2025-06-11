@@ -460,13 +460,22 @@ class DomesticGrowthChildGuidePage(
         post_data = request.POST
 
         form = form_class(post_data)
+        action = actions.SaveOnlyInDatabaseAction(
+            full_name='Anonymous user',
+            subject='AI Summariser Feedback',
+            email_address='anonymous-user@test.com',  # /PS-IGNORE
+            form_url=request.get_full_path(),
+        )
+        post_dict = post_data.dict()
+        post_dict['triage_uuid'] = helpers.get_triage_uuid(request)
 
-        # TODO Send to directory-forms-api, error on text input? 
+        response = action.save(post_dict)
+        # TODO error on text length
         return TemplateResponse(
             request,
             self.get_template(request, *args, **kwargs),
             self.get_context(request, *args, **kwargs),  # For non-js, add feedback_completed context + show success msg
-        )  # pass through feedback_given?
+        ) 
         return self.form_valid(form, request)
 
     @method_decorator(csrf_protect, name='post')
@@ -482,6 +491,9 @@ class DomesticGrowthChildGuidePage(
         triage_data = get_triage_data_with_sectors(request)
 
         if helpers.is_ai_summary_section(self.body_sections):
+
+            
+
             ai_section = 'test '
             context['is_summariser_section'] = True
             context['summary_content'] = ai_section * 100
