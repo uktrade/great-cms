@@ -92,7 +92,6 @@
 .figures {
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
 
 	&__list {
 		display: flex;
@@ -208,7 +207,7 @@
 	@media (min-width: sizes.$donknowhowtonameit-size) {
 		grid-template:
 			" icon  .    title  title title"
-			" icon  .    .      .     ." 5px
+			" icon  .    .      .     ." 0px
 			" icon  .    figure .     explanation"
 			/ 60px  10px auto   30px  auto;
 	}

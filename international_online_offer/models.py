@@ -134,7 +134,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 {
                     'title': trade_event.tradeshow_title,
                     'location': '',
-                    'icon': 'svg/icon-event.svg',
+                    'icon': '/static/svg/icon-event.svg',
                     'url': trade_event.tradeshow_link,
                     'description': trade_event.specific.tradeshow_subheading,
                     'website': trade_event.tradeshow_link,
@@ -160,7 +160,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 0,
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-find-property.svg',
+                    'icon': '/static/svg/icon-find-property.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 },
@@ -182,7 +182,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             base_cards.append(
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-distribution.svg',
+                    'icon': '/static/svg/icon-distribution.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 }
@@ -194,7 +194,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
                 0,
                 {
                     'title': intent_article.title,
-                    'icon': 'svg/icon-staff.svg',
+                    'icon': '/static/svg/icon-staff.svg',
                     'url': intent_article.url,
                     'description': intent_article.article_teaser,
                 },
@@ -379,25 +379,25 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
             **context,
             'essential_topics': [
                 {
-                    'icon_path': 'svg/icon-planning.svg',
+                    'icon_path': '/static/svg/icon-planning.svg',
                     'text': 'UK business registration',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/set-up-and-register-your-business',
                 },
                 {
-                    'icon_path': 'svg/icon-ukvisa.svg',
+                    'icon_path': '/static/svg/icon-ukvisa.svg',
                     'text': 'Checking if you need visas',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-apply-for-a-visa',
                 },
                 {
-                    'icon_path': 'svg/icon-bank.svg',
+                    'icon_path': '/static/svg/icon-bank.svg',
                     'text': 'Business bank accounts',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/guide/'
                     'detailed-guides/how-to-choose-and-set-up-a-uk-bank-account/',
                 },
                 {
-                    'icon_path': 'svg/icon-tax.svg',
+                    'icon_path': '/static/svg/icon-tax.svg',
                     'text': 'UK taxes',
                     'url': f'/{international_url(request)}/expand-your-business-in-the-uk/'
                     'guide/detailed-guides/how-to-register-for-tax-and-claim-tax-allowances',
@@ -499,14 +499,11 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
         all_articles = (
             EYBArticlePage.objects.live()
-            .descendant_of(self)
             .filter(
                 Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
                 | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
                 | Q(tags__name=filter_tags.FIND_BUSINESS_PROPERTY)
             )
-            .order_by('article_title')
-            .distinct('article_title')
         )
 
         if triage_data and triage_data.sector:
@@ -521,43 +518,26 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
 
             sector_articles = (
                 EYBArticlePage.objects.live()
-                .descendant_of(self)
                 .filter(tags__name__iexact=user_sector_no_commas)
-                .order_by('article_title')
-                .distinct('article_title')
             )
 
             dbt_sector_articles = (
                 EYBArticlePage.objects.live()
-                .descendant_of(self)
                 .filter(dbt_sectors__contains=[triage_data.sector])
-                .order_by('article_title')
-                .distinct('article_title')
             )
 
             all_articles = all_articles.union(sector_articles).union(dbt_sector_articles)
 
         # Get first three investment opportunities A-Z by sector
-        # Get the international home page (assumed to be self's parent)
-        international_home = self.get_parent().get_parent()
-        # Get the investment home page (a child of international_home of type InvestmentIndexPage)
-        investment_home = international_home.get_children().type(InvestmentIndexPage).live().first()
-
         investment_opportunities = (
             InvestmentOpportunityArticlePage.objects.live()
-            .descendant_of(investment_home)
-            .filter(dbt_sectors__contains=[triage_data.sector])
-            .order_by('article_title')
-            .distinct('article_title')[:3]
+            .filter(dbt_sectors__contains=[triage_data.sector])[:3]
         )
 
         # Get first three trade events A-Z by sector
         trade_events = (
             IOOTradeShowPage.objects.live()
-            .descendant_of(self)
-            .filter(tags__name__iexact=triage_data.sector.replace(',', ''))
-            .order_by('tradeshow_title')
-            .distinct('tradeshow_title')[:3]
+            .filter(tags__name__iexact=triage_data.sector.replace(',', ''))[:3]
         )
 
         # Try getting trade associations by exact sector match or in mapped list of sectors
