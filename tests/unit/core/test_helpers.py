@@ -206,7 +206,7 @@ def test_geolocation__integrated(rf, ip_address, language, settings):
 
     assert redirector.should_redirect is True
     url, querysrtring = redirector.get_response().url.split('?')
-    assert url == '/international/'
+    assert url == '/invest-in-uk/'
     assert 'lang=' + language in querysrtring
     assert 'a=b' in querysrtring
 
