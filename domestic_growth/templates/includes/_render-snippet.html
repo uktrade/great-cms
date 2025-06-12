@@ -67,6 +67,18 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+        {% if content.region and local_support_data %}
+            {% with business_region_name=local_support_data.postcode_data|get_region_name snippet_region=content.region %}
+                {% if business_region_name == snippet_region %}
+                    {% include "includes/_modified-card.html" with locationTagText=business_region_name classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+                {% endif %}
+            {% endwith %}
+        {% elif content.sector and sector %}
+            {% if content.sector == sector %}
+                {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+            {% endif %}
+        {% else %}
+            {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
+        {% endif %}    
     {% endif %}
 {% endwith %}
