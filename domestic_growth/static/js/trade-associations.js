@@ -20,7 +20,7 @@
           }
 
           if (index <= 4) {
-            el.classList = ''
+            el.classList = 'great-ds-card great-ds-card--full great-ds-card--unmounted'
             el.dataset.hiddenTa = 'false'
 
             if (sessionStorage) {
@@ -42,7 +42,7 @@
 
     show_ta_trigger.addEventListener('click', (e) => {
       document.querySelectorAll('[data-hidden-ta="false"]').forEach((el) => {
-        el.classList = 'govuk-!-display-none'
+        el.classList = 'great-ds-card great-ds-card--full great-ds-card--unmounted govuk-!-display-none'
         el.dataset.hiddenTa = 'true'
 
         if (sessionStorage) {
