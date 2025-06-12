@@ -25,7 +25,6 @@ from wagtail.models import Page
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailcache.cache import WagtailCacheMixin
-import sentry_sdk
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import (
@@ -457,7 +456,6 @@ class GreatDomesticHomePage(
 
     def serve(self, request, *args, **kwargs):
         redirector = helpers.GeoLocationRedirector(request)
-        sentry_sdk.capture_message(f'CALLED redirector: {redirector.should_redirect}')
         if redirector.should_redirect:
             return redirector.get_response()
         return super().serve(request, *args, **kwargs)

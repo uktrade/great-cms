@@ -20,6 +20,7 @@ from wagtailseo.models import SeoMixin
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
 from core.fern import Fern
+from core.helpers import GeoLocationRedirector
 from core.models import TimeStampedModel
 from domestic_growth import choices, cms_panels, constants, helpers
 from domestic_growth.blocks import DomesticGrowthCardBlock
@@ -217,6 +218,12 @@ class DomesticGrowthHomePage(SeoMixin, cms_panels.DomesticGrowthHomePagePanels, 
     feedback_link_url = models.TextField(
         null=True,
     )
+
+    def serve(self, request, *args, **kwargs):
+        redirector = GeoLocationRedirector(request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().serve(request, *args, **kwargs)
 
     def get_context(self, request):
         context = super(DomesticGrowthHomePage, self).get_context(request)

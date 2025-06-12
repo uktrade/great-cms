@@ -1,9 +1,12 @@
+from unittest import mock
 from unittest.mock import patch
 
+import pytest
 from django.test.client import RequestFactory
 from elasticsearch.exceptions import TransportError
 from rest_framework import status
 from wagtail.test.utils import WagtailPageTests
+from wagtail_factories import SiteFactory
 
 from config.settings import DOMESTIC_GROWTH_EMAIL_GUIDE_TEMPLATE_ID
 from core.fern import Fern
@@ -295,3 +298,58 @@ class DomesticGrowthCardTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(snippet.description, 'Test description')
         self.assertEqual(snippet.url, 'www.url.com')
         self.assertEqual(snippet.meta_text, 'Test meta text')
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'ip,expected_target_lang',
+    (
+        ('221.194.47.204, 127.0.0.1, 127.0.0.2', 'zh-hans'),
+        ('144.76.204.44, 127.0.0.1, 127.0.0.2', 'de'),
+        ('195.12.50.155, 127.0.0.1, 127.0.0.2', 'es'),
+        ('110.50.243.6, 127.0.0.1, 127.0.0.2', 'ja'),
+        ('86.144.101.167, 127.0.0.1, 127.0.0.2', None),
+    ),
+)
+@mock.patch(('domestic_growth.helpers.get_dbt_news_articles'))
+def test_domestic_growth_homepage_geo_redirect__integration(
+    mock_get_dbt_news_articles,
+    root_page,
+    client,
+    ip,
+    expected_target_lang,
+):
+    mock_get_dbt_news_articles.return_value = []
+    homepage = DomesticGrowthHomePageFactory(
+        parent=root_page,
+        slug='root',
+        hero_title='Test title',
+        hero_intro='Test intro',
+        case_study_title='Test case study',
+        case_study_intro='Test case study intro',
+        case_study_link_text='Test case study link text',
+        case_study_link_url='Test case study link url',
+        guidance_title='Test guidance title',
+        news_title='Test news title',
+        news_link_text='Test link text',
+        news_link_url='Test link url',
+        news_link_text_extra='Test news link text extra',
+        news_link_url_extra='Test news link url extra',
+        feedback_title='Test feedback title',
+        feedback_description='Test feedback description',
+        feedback_link_text='Test feedback link text',
+        feedback_link_url='Test feedback link url',
+    )
+
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    response = client.get(homepage.url, HTTP_X_FORWARDED_FOR=ip)
+
+    if expected_target_lang is not None:
+        assert response.status_code == 302
+        assert response.headers['Location'] == f'/invest-in-uk/?lang={expected_target_lang}'
+    else:
+        assert response.status_code == 200
