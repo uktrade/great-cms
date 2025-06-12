@@ -1,42 +1,54 @@
 {% load get_url_favicon_and_domain get_is_internal_url from content_tags %}
 
 {% with card_meta_data=content.url|get_url_favicon_and_domain is_internal_url=content.url|get_is_internal_url %}
-<div class="great-ds-card great-ds-card--no-border {% if classes %} {{ classes }}{% endif %}{% if type %} great-ds-card--{{ type }}{% endif %} {% if content.show_image %}great-ds-card--image-to-side{% endif %}" {% if href %}role="article"{% endif %}>
+<div class="great-ds-card {% if classes %} {{ classes }}{% endif %}{% if type %} great-ds-card--{{ type }}{% endif %}" {% if href %}role="article"{% endif %}>
     <div class="great-ds-card__inner">
-        {% if href %}
-            <a href="{{ href }}" class="great-ds-card__link" {% if title %}aria-labelledby="card-title-{{ id }}"{% endif %} {% if attributes %}{% for key, value in attributes.items %}{{ key }}="{{ value }}" {% endfor %}{% endif %}>
-        {% endif %}
         {% if content.show_image %}
-            <div class="great-ds-card__media" role="img">
+            <div class="great-ds-card__media great-ds-card__media--thumbnail" role="img">
                 <img src="/static/images/{{ content.content_id }}.png" alt="" aria-hidden="true" class="great-ds-card__image">
             </div>
         {% endif %}
 
         {% if date and month %}
             <div class="great-ds-card__date">
-                <div>
-                    <span>{{ date }}</span>
-                    <span>{{ month }}</span>
-                </div>
+                <span class="great-ds-card__date-day">{{ date }}</span>
+                <span class="great-ds-card__date-month">{{ month }}</span>
             </div>
         {% endif %}
 
         <div class="great-ds-card__content">
+            {% if href %}
+                <a href="{{ href }}" class="great-ds-card__link" {% if title %}aria-labelledby="card-title-{{ id }}"{% endif %} {% if attributes %}{% for key, value in attributes.items %}{{ key }}="{{ value }}" {% endfor %}{% endif %}>
+            {% endif %}
             {% if title %}
                 <div class="great-ds-card__title-wrapper">
-                    {% if type == "elevated" or completedTag == "true" %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow="true"  %}
-                    {% else %}
-                        {% include "_title-arrow.html" with text=title size=titleSize id="card-title-"|add:id tag="h4" hideArrow=hideArrow  %}
-                    {% endif %} 
+                    <{% if tag %}{{ tag }}{% else %}h3{% endif %} class="great-ds-card__title{% if titleSize %} great-ds-card__title--{{ titleSize }}{% endif %}"{% if id %} id="card-title-{{ id }}"{% endif %}>
+                        {{ title }}
+                    </{% if tag %}{{ tag }}{% else %}h3{% endif %}>
                     {% if completedTag == "true" %}
                         {% include "_tag.html" with text="Completed" type="success"  %}
                     {% endif %}
                 </div>
+                {% if introText %}
+                    <div class="great-ds-card__subtext">
+                        {% if locationIcon %}
+                            <svg aria-hidden="true" class="great-ds-card__location-icon" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_6499_22747)">
+                                    <path d="M8.15357 18.1362C2.96429 10.7295 2 9.97017 2 7.24934C2 3.52314 5.07143 0.5 8.85714 0.5C12.6429 0.5 15.7143 3.52314 15.7143 7.24934C15.7143 9.97017 14.75 10.7295 9.56071 18.1362C9.22143 18.6213 8.49286 18.6213 8.15 18.1362H8.15357ZM8.85714 10.0616C10.4357 10.0616 11.7143 8.80309 11.7143 7.24934C11.7143 5.69559 10.4357 4.43712 8.85714 4.43712C7.27857 4.43712 6 5.69559 6 7.24934C6 8.80309 7.27857 10.0616 8.85714 10.0616Z" fill="black"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_6499_22747">
+                                        <rect width="18" height="18" fill="white" transform="translate(0 0.5)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        {% endif %}
+                        {{ introText }}
+                    </div>
+                {% endif %}
             {% endif %} 
-
-            {% if introText %}
-                <div class="great-ds-card__metadata-text govuk-!-margin-bottom-2">{{ introText }}</div>
+            {% if href %}
+                </a>
             {% endif %}
 
             {% if description %}
@@ -49,10 +61,19 @@
                 <span class="great-ds-card__metadata-text">{{ card_meta_data.domain }}</span>
             </div>
             {% endif %}
+
+            {% if sub_sector and sub_sector in content.sub_sector %}
+                {% include "includes/_sector-tag.html" with text=sub_sector %}
+            {% elif sector and sector in content.sector %}
+                {% include "includes/_sector-tag.html" with text=sector %}
+            {% endif %}
+
+            {% if region_name %}
+                {% include "includes/_location-tag.html" with text=region_name %}
+            {% elif locationTagText %}
+                {% include "includes/_location-tag.html" with text=locationTagText %}
+            {% endif %}        
         </div>
-        {% if href %}
-            </a>
-        {% endif %}
     </div>
 </div>
 {% endwith %}

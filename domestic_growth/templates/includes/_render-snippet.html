@@ -7,7 +7,7 @@
             {% if content.content_id == snippet_id %}
                 {% if snippet_name == 'Scottish Enterprise' and local_support_data %}
                     {% if local_support_data.postcode_data.admin_district in scottish_enterprise_admin_districts %}
-                        {% include "includes/dynamic-snippets/_scottish-snippet.html" with content=content %}
+                        {% include "includes/dynamic-snippets/_scott ish-snippet.html" with content=content %}
                     {% endif %}
                 {% elif snippet_name == 'Highlands & Islands Enterprise' and local_support_data %}
                     {% if local_support_data.postcode_data.admin_district in highlands_and_islands_admin_districts %}
@@ -67,8 +67,6 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        <div class="great-ds-border-bottom-light-grey-1 govuk-!-padding-bottom-2 govuk-!-margin-bottom-2">
-            {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
-        </div>
+        {% include "includes/_modified-card.html" with classes="great-ds-card--full" type="unmounted" title=content.title href=content.url description=content.description|safe id=content.content_id metadataIconType=card_meta_data.filename metadataText=card_meta_data.domain metaDataIconPath="/static/icons/favicons/" %}
     {% endif %}
 {% endwith %}
