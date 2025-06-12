@@ -176,7 +176,7 @@ class PreventCaptchaRevalidationMixin:
         return super().render_done(*args, **kwargs)
 
     def get_form(self, step=None, *args, **kwargs):
-        form = super().get_form(step=step, *args, **kwargs)
+        form = super().get_form(step=step, data=None, files=None)
         if step == self.steps.last and self.should_ignore_captcha:
             del form.fields['captcha']
         return form
