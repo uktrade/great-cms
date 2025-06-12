@@ -85,7 +85,7 @@
     "react-html-parser": "^2.0.2",
     "react-modal": "3.11.2",
     "react-redux": "^7.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^7.5.2",
     "react-slick": "^0.25.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
