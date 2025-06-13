@@ -7,6 +7,7 @@ from django.db import models
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.http import JsonResponse
 from django.template.response import TemplateResponse
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -451,32 +452,59 @@ class DomesticGrowthChildGuidePage(
         blank=True,
     )
 
-    def get_success_url(self, request):
-        return request.get_full_path()
-
-    def post(self, request, *args, **kwargs):
-        form_class = SummariserFeedbackForm
-
-        post_data = request.POST
-
-        form = form_class(post_data)
+    def form_valid(self, request, js_enabled):
         action = actions.SaveOnlyInDatabaseAction(
             full_name='Anonymous user',
             subject='AI Summariser Feedback',
             email_address='anonymous-user@test.com',  # /PS-IGNORE
             form_url=request.get_full_path(),
         )
-        post_dict = post_data.dict()
-        post_dict['triage_uuid'] = helpers.get_triage_uuid(request)
+        post_data = request.POST.dict()
+        post_data['triage_uuid'] = helpers.get_triage_uuid(request)
 
-        response = action.save(post_dict)
-        # TODO error on text length
-        return TemplateResponse(
-            request,
-            self.get_template(request, *args, **kwargs),
-            self.get_context(request, *args, **kwargs),  # For non-js, add feedback_completed context + show success msg
-        ) 
-        return self.form_valid(form, request)
+        response = action.save(post_data)
+
+        if js_enabled:
+            return JsonResponse(status=200, data={})
+        else:
+            completed_context = self.get_context(request)
+            completed_context['feedback_submitted'] = True
+            return TemplateResponse(
+                request,
+                self.get_template(request),
+                completed_context,
+            )
+
+    """
+    def form_invalid(self, form, request, post_data):
+        if 'js_enabled' in post_data.keys():
+            return JsonResponse(form.errors, status=400)
+        else:
+            error_context = self.get_context(request)
+            error_context['errors'] = form.errors
+            return TemplateResponse(
+                request,
+                self.get_template(request),
+                error_context,  # For non-js, add feedback_completed context + show success msg
+            )
+    """
+
+    def post(self, request, *args, **kwargs):
+        form_class = SummariserFeedbackForm
+
+        post_data = request.POST
+        js_enabled = False
+
+        if 'js_enabled' in post_data.dict().keys():
+            js_enabled = post_data.dict().pop('js_enabled')
+
+        form = form_class(post_data)
+
+        # For some reason always false with uninformative error description, maybe due to custom radio widget?
+        #  if form.is_valid():
+        return self.form_valid(request, js_enabled)
+        #  else:
+        #    return self.form_invalid(form, request, post_data)
 
     @method_decorator(csrf_protect, name='post')
     def serve(self, request, *args, **kwargs):
@@ -491,9 +519,6 @@ class DomesticGrowthChildGuidePage(
         triage_data = get_triage_data_with_sectors(request)
 
         if helpers.is_ai_summary_section(self.body_sections):
-
-            
-
             ai_section = 'test '
             context['is_summariser_section'] = True
             context['summary_content'] = ai_section * 100

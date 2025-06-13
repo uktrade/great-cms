@@ -2,11 +2,15 @@
     <div class="great-ds-border-bottom-light-grey-2 govuk-!-padding-top-3 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6 bgs-section-body">
         {{ summary_content }}
     </div>
-    <div id='summariser_feedback_form' class="govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
-        <form action="" method="POST">
+    <div id='summariser_feedback_form_container' class="{% if feedback_submitted %}great-hidden{% endif %} govuk-!-padding-top-6 govuk-!-padding-right-6 govuk-!-padding-bottom-6 govuk-!-padding-left-6">
+        <form id='summary_feedback_form' action="" method="POST">
             {% csrf_token %}
             {{feedback_form}}
             {% include "_button.html" with type='submit' id='feedback_submit' text="Submit" classes="great-ds-button--secondary"  %}
         </form>
+    </div>
+    <div id ='feedback_success_container' class='bgs-summariser-feedback-success {% if not feedback_submitted %}great-hidden{% endif %} govuk-!-padding-6 great-align-items-center'>
+        <span role="img" class="fa fa-check-circle govuk-!-margin-right-2"></span>
+        <h2 class="govuk-fieldset__legend govuk-!-margin-bottom-0">Thanks for your feedback</h2>
     </div>
 </div>

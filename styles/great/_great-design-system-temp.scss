@@ -1392,7 +1392,15 @@ section.bgs-guide-hero {
   }
 }
 
-.great-radio-button:checked + label {
+.great-radio-buttons:checked + label {
   background-color: $great-design-system-govuk-blue !important;
   color: $great-design-system-white !important;
+}
+
+.bgs-summariser-feedback-success {
+  display: flex;
+  .fa-check-circle {
+    font-size: 28px;
+    color: #00703c;
+  }
 }
