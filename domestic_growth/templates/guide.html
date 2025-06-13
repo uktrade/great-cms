@@ -76,7 +76,7 @@
                     {% if page.body_intro %}<p class="govuk-caption-l govuk-!-margin-bottom-6">{{ page.body_intro }}</p>{% endif %}
                     {% if local_support_data %}
                         {% with country=local_support_data.postcode_data.country|lower region_bg_class=local_support_data.postcode_data|get_region_bg_class %}
-                            <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
+                            <div class="great-ds-bg-white bgs-full-width-until-tablet great-ds-border-top-blue-3 govuk-!-margin-bottom-6 govuk-!-margin-top-9 bgs-box-shadow">
                                 <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2 {% if region_bg_class %}bgs-section-logo bgs-section-logo--regions {{ region_bg_class }}{% endif %}">
                                     {% if country == 'england' %}
                                         {% if page.primary_regional_support_title_england %}
@@ -116,14 +116,14 @@
                             </div>
                         {% endwith %}
                         {% if local_support_data.chambers_of_commerce|length > 0 %}
-                            <div class="great-ds-bg-white govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub" data-title="chamber-commerce">
+                            <div class="great-ds-bg-white bgs-full-width-until-tablet govuk-!-padding-6 govuk-!-margin-bottom-6 bgs-box-shadow bgs-growth-hub" data-title="chamber-commerce">
                                 {% with local_support_data.chambers_of_commerce|first as nearest_chamber_of_commerce %}
                                     <h3 class="govuk-heading-m govuk-!-margin-bottom-6 great-ds-max-width-70">{{ nearest_chamber_of_commerce.name }}</h3>
                                     <img src="/static/images/coc-{{ nearest_chamber_of_commerce.digest }}.png"
                                          alt=""
                                          aria-hidden="true" />
                                     {% if page.chamber_of_commerce_intro %}
-                                        <p class="govuk-body great-ds-max-width-70">{{ page.chamber_of_commerce_intro }}</p>
+                                        <p class="govuk-body great-ds-max-width-70-from-tablet">{{ page.chamber_of_commerce_intro }}</p>
                                     {% endif %}
                                     <address class="great-ds-address">
                                         {% if nearest_chamber_of_commerce.contacts.website and nearest_chamber_of_commerce.contacts.website_label %}
@@ -158,7 +158,7 @@
                         {% endif %}
                     {% endif %}
                     
-                    <div class="great-ds-bg-white great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow"
+                    <div class="great-ds-bg-white bgs-full-width-until-tablet great-ds-border-top-blue-3 govuk-!-margin-bottom-9 bgs-box-shadow"
                             id="trade-associations" data-title="trade-associations">
                         <div class="govuk-!-padding-6 great-ds-border-bottom-light-grey-2">
                             {% if page.trade_associations_title %}

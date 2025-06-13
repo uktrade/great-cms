@@ -794,6 +794,11 @@ section.bgs-guide-hero {
   background: url(/static/images/send-mail-graphic.svg);
   background-repeat: no-repeat;
   background-position: 95% 20px;
+
+  @include govuk-media-query($until: desktop) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 15px;
+  }
 }
 
 .bgs-box-shadow {
@@ -897,6 +902,12 @@ section.bgs-guide-hero {
   max-width: 70%;
 }
 
+.great-ds-max-width-70-from-tablet {
+  @include govuk-media-query($from: tablet) {
+    max-width: 70%;
+  }
+}
+
 .great-ds-modified-tag {
   &.great-ds-modified-tag--location,
   &.great-ds-modified-tag--sector {
@@ -917,7 +928,7 @@ section.bgs-guide-hero {
   }
 }
 
-[data-hidden-ta="true"] {
+[data-hidden-ta='true'] {
   display: none !important;
 }
 
@@ -1199,12 +1210,8 @@ section.bgs-guide-hero {
   gap: 10px;
 
   svg {
-    display: none;
-
-    @include govuk-media-query($from: tablet) {
-      display: block;
-      margin: 3px;
-    }
+    display: block;
+    margin: 3px;
   }
 }
 
@@ -1240,14 +1247,21 @@ section.bgs-guide-hero {
 }
 
 .great-ds-cta-banner--chat-border {
-  background-image: linear-gradient(270deg, var(--Primitive-Brand-Great-Light-Green, #8CE2D0) 12.98%, var(--Primitive-Brand-Great-Vibrant-Blue, #0545D6) 66.11%, var(--Primitive-Brand-Great-Light-Blue, #59CBE8) 99.01%);
+  background-image: linear-gradient(
+    270deg,
+    var(--Primitive-Brand-Great-Light-Green, #8ce2d0) 12.98%,
+    var(--Primitive-Brand-Great-Vibrant-Blue, #0545d6) 66.11%,
+    var(--Primitive-Brand-Great-Light-Blue, #59cbe8) 99.01%
+  );
   background-size: 100% 3px;
   background-position: bottom;
   background-repeat: no-repeat;
   padding-bottom: 30px;
 }
 
-.great-ds-header-bgs__menu-list-children-item:has(.great-ds-header-bgs__menu-list-children-link[href="/chat"]) {
+.great-ds-header-bgs__menu-list-children-item:has(
+    .great-ds-header-bgs__menu-list-children-link[href='/chat']
+  ) {
   position: relative;
   padding-left: 40px;
 
@@ -1268,5 +1282,12 @@ section.bgs-guide-hero {
     &::before {
       top: -10px;
     }
+  }
+}
+
+.bgs-full-width-until-tablet {
+  @include govuk-media-query($until: tablet) {
+    margin-left: -15px;
+    margin-right: -15px;
   }
 }
