@@ -494,6 +494,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
 
         # Get any EYB articles that have been tagged with any of the filter tags setup by content team
+
         all_articles = EYBArticlePage.objects.live().filter(
             Q(tags__name=filter_tags.FINANCE_AND_SUPPORT)
             | Q(tags__name=filter_tags.FIND_EXPERT_TALENT)
@@ -501,20 +502,9 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         )
 
         if triage_data and triage_data.sector:
-            """
-            Surface articles that have been tagged with the user's sector.
-            I.e. each article needs two tags to display, for example, 'Food and drink'.
-            Wagtail doesn't allow commas in tags and we need to match the sector
-            'Agriculture, horticulture, fisheries and pets' i.e. below will match the tag
-            'Agriculture horticulture fisheries and pets'
-            """
-            user_sector_no_commas = triage_data.sector.replace(',', '')
-
-            sector_articles = EYBArticlePage.objects.live().filter(tags__name__iexact=user_sector_no_commas)
-
-            dbt_sector_articles = EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
-
-            all_articles = all_articles.union(sector_articles).union(dbt_sector_articles)
+            # Surface articles that have been tagged with the user's sector.
+            sector_articles = EYBArticlePage.objects.live().filter(dbt_sectors__contains=[triage_data.sector])
+            all_articles = all_articles.union(sector_articles)
 
         # Get first three investment opportunities A-Z by sector
         investment_opportunities = InvestmentOpportunityArticlePage.objects.live().filter(
@@ -522,6 +512,7 @@ class EYBGuidePage(WagtailCacheMixin, BaseContentPage, EYBHCSAT):
         )[:3]
 
         # Get first three trade events A-Z by sector
+        # TODO update IOOTradeShowPage model to use DBT sectors so we can surface using them instead of tags
         trade_events = IOOTradeShowPage.objects.live().filter(tags__name__iexact=triage_data.sector.replace(',', ''))[
             :3
         ]
