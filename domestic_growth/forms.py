@@ -203,10 +203,10 @@ class EmailGuideForm(forms.Form):
 
 class SummariserFeedbackForm(forms.Form):
     was_useful = forms.ChoiceField(
-        container_css_classes='great-display-flex great-align-items-center',
+        container_css_classes='great-display-flex great-align-items-center-desktop-only great-flex-column-until-tablet',
         label='Was this AI generated info helpful?',
         choices=(('YES', 'Yes'), ('NO', 'No')),
-        widget=SelectOneButton(buttons_container_classes='govuk-!-margin-left-5', name='was_useful'),
+        widget=SelectOneButton(buttons_container_classes='great-from-tablet-margin-left-25', name='was_useful'),
     )
     feedback_text = forms.CharField(
         label='Thank you. In your own words tell us why you made that choice.',

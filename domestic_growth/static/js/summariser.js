@@ -40,7 +40,7 @@
                 });
 
                 if (response.status==200) {
-                    showSuccessMessage()  
+                    showSuccessMessage()
                 }
             } catch (error) {
                 const errors = await response.json();

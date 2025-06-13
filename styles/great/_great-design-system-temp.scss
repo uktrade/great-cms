@@ -1404,3 +1404,12 @@ section.bgs-guide-hero {
     color: #00703c;
   }
 }
+
+.bgs-summariser-header {
+  display: block;
+  gap: 10px;
+  @include govuk-media-query($from: tablet) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
