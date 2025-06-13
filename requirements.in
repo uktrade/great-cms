@@ -59,7 +59,7 @@ iso3166==1.0.1
 sphinx==7.3.7
 readtime==1.1.1
 cryptography==43.0.1
-pillow==10.3.0
+pillow #==10.3.0
 factory-boy==3.3.0
 dateparser==0.7.2
 xhtml2pdf==0.2.16
@@ -83,10 +83,15 @@ pandas==1.5.3
 numpy>=1.26.0,<2.0.0
 SQLAlchemy==1.4.49
 dj-database-url==2.2.0
-pydantic==2.7.3
+pydantic #==2.7.3
 pydantic-settings==2.3.1
 certifi==2024.7.4
 python-bidi==0.4.2
 elasticsearch==7.13.4
 ddtrace==3.4.1
 django-requestlogs==0.8.3
+
+
+# test
+uvicorn==0.34.3
+uvicorn-worker==0.3.0
