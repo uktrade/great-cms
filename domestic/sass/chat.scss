@@ -8,15 +8,6 @@
 
 .webchat__basic-transcript {
     min-height: 270px !important;
-
-    &:focus {
-        outline: none;
-    }
-
-    * {
-        outline: none !important;
-        border: none !important;
-    }
 }
 
 .webchat__keyboard-help__box {
